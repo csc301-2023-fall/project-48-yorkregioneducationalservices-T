@@ -16,7 +16,7 @@ Keep this section very brief.
  * Provide a breakdown or detail for each feature.
  * This section will be used to assess the value of the features built
 ​
-## Instructions
+## Instructions To Be Determined
  * Clear instructions for how to use the application from the end-user's perspective
  * How do you access it? For example: Are accounts pre-created or does a user register? Where do you start? etc. 
  * Provide clear steps for using each feature described in the previous section.
