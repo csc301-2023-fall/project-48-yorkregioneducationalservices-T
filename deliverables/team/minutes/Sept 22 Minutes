@@ -1,0 +1,45 @@
+Meeting notes
+
+Important information from Celina
+* Director? kevin.lin@upluseducation.ca
+* More detailed proposal  https://docs.google.com/document/d/1ovBgUUeFQQ9j0n1acZZgfpnM-3ZPyVhy0FzsLivMkME/edit
+* Student info: Name, Grade, Gender, Friend Preference (if they want to be in the same class as their friend or sibling OR can't be in the same class as other people), Camp type (STEAM, Outdoor, French), and age range.
+* https://docs.google.com/document/d/1-HwKucBfPGFc3gfGmKY6nyKY-Gx0nR4HhvM4DpTUgvc/edit?usp=sharing
+* Priority: Friend preference, grade, camp type, gender
+   * Must be able to separate students and put friends to gether along with generating camps by camp type and gender. 
+
+
+Workflow 
+Student registration happens on monday.com then the director uploads the information on a csv and the floor plans too. 
+
+
+This project won’t have any dev support after it is finished being developed so it has to be stable and robust with good test and error handling.
+All internal staff have access to it with organizers who block out rooms.
+* 100 volunteers can be using it at a time. 
+* Login system because we are storing private information. 
+   * Has to be secure. 
+* Block out means that you put a dot on the room for a timeframe. 
+Have a schedule for each class so that the camp counselors are able to
+
+
+We need an upload floor plan button.
+Maybe let’s add a landing page.
+
+
+Click to indicate which room is what and to also be able to book the room?
+
+
+We want to be able to delete the data once the summer camp is finished. 
+
+
+Counselors might be moving to a different school so a nice to have if they could transfer their information easily but this is not a must. 
+
+
+Be able to modify the student information on the web app as well as be able to add counselors manually and add roles to them. 
+
+
+There can be multiple groups per camp. And each has their own schedule. 
+
+
+(ewan)Definitely think the image thing for the floorplan is pretty redundant… 
+They did specifically ask for it though? I think its for the user’s clarity
