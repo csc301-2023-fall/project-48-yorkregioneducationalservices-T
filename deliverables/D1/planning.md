@@ -98,13 +98,11 @@ List each team member and:
 
 #### Q8: How will you work as a team?
 
-Describe meetings (and other events) you are planning to have. 
- * When and where? Recurring or ad hoc? In-person or online?
- * What's the purpose of each meeting?
- * Other events could be coding sessions, code reviews, quick weekly sync meeting online, etc.
- * You should have 2 meetings with your project partner (if you have one) before D1 is due. Describe them here:
-   * You must keep track of meeting minutes and add them to your repo under "documents/minutes" folder
-   * You must have a regular meeting schedule established for the rest of the term.  
+Our team plans to hold two recurring meetings a week, one including our partner and one with just the team. The team meetings occur at 8:10PM online on Thursday evenings (before our tutorial time slot), and run until 9:15PM. These meetings are a chance for team members to share what they’ve completed over the past week, as well as outline upcoming tasks and goals that they’re working towards. These meetings are also crucial in the divide of both short term and long term workload. Our meetings with our partner are currently scheduled for 5:30PM-6:30PM on Friday afternoons. During this hour, we plan to ask questions we’ve gathered over the week concerning the partner-side of the project, as well as share our progress with the partner as to show we are on track. 
+In addition to these conversational meetings, we plan to hold weekly/biweekly coding sessions, where available group members will meet in a study room and work on their respective tasks together. We plan for these sessions to not necessarily include the entire group; if a given section of the codebase has multiple people working in conjunction on it, these group members could organize a code session for them to share ideas and collaborate.
+In our first meeting with our partner, Celina initially went over the project proposal with us to smooth out any queries we had regarding their needs. She outlined what aspects of camp scheduling is already set up by their organization, i.e. student registration, camp set up, etc. We then showcased our initial MVP prototype and got feedback. Then, we went over questions we had regarding functionality of the project. These questions helped fill in the gaps we had with our initial prototype(see the minutes for specific questions).
+In our second meeting with our partner, we began by sharing our updated prototype and confirming our updated user stories which were built off of the partner’s proposal. The partner was pleased with our prototype and user stories, and provided us with some new information for the director, which eliminated some use cases. We followed that with a Q&A of questions we had compiled over the last week. We also added our partner to our GitHub, created a group chat with our main contact for smaller questions, and received a logo set/colour pallet for the project.
+
   
 #### Q9: How will you organize your team?
 We will make use of the industry standard Jira Software, leveraging all its tools. 
