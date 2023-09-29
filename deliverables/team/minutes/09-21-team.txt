@@ -1,0 +1,47 @@
+2023/09/21 Thursday Team Meeting
+Went through D1 instructions carefully and came up with a todo list.
+
+=============================
+Sep. 23 Meeting TODO List
+-----------------------------
+- Everyone join team group on Quercus (in "People -> Team Project" and corresponding team number 48).
+- Team decides the role of each member (Frontend/Backend, Product Manager, Development Manager).
+- Create team repository on Github. https://classroom.github.com/a/cjnth6E4
+Enter 48-York-Region-Educational-Services-[T/M] where T for Thursday.
+- Team decides future team meeting time and place.
+
+=============================
+Contact with Partner TODO List
+-----------------------------
+- Product manager contacts the partner to discuss:
+	- Meeting time and place (ideally 2 meeting before SEP. 29).
+	- Give them the group repository link.
+- Ideally we first come up with a simple demo before the first meeting based on the project proposal.
+- First meeting in discussing how the product is expected.
+- Team discuss the program structure, and make mockup.
+- Second meeting to present the proposal.
+- Change mockup based on the partner's opinion.
+
+=============================
+Deliverable 1 TODO List (DUE SEP. 29)
+-----------------------------
+- Github:
+	- create "readme.md" in main directory (do structuring, maybe not detail).
+	- create "/deliverables/team/" directory.
+		- add "Team-[Team NO.]-[Team Name].csv" (member number, utorid, student name, github_id, enroll_status, roles).
+		- add "minutes/" directory to store meeting records.
+		- add "Stakeholders.txt" to store: 1. partner contact; 2. TA contact.
+
+- Planning.md: included in D1 directory. Complete answering and maybe erasing the prompts.
+- First mockup: either by hand or electronically. Include some user stories.
+
+- Submission: 
+	- check handout rubric before submission.
+	- tag a version of the repo as "deliverable 1" release. See how to do so: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
+	- (one person) submit the link to the release on Quercus.
+
+
+
+
+
+- 
