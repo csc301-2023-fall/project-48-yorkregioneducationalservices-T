@@ -18,12 +18,15 @@
    For example: This is not the time or the place to talk about which programming language and/or framework you are planning to use.
  * **Feel free (and very much encouraged) to include useful diagrams, mock-ups and/or links**.
 
+The product is a web application that generates summer camp schedules for students using an inputted floor plan and user data. We are working on this with York Region Education Services, through one part-time and one full-time employee. The problem they presented us with was that last summer they had a hard time creating a schedule for their summer camp and matching said schedule to each room. Our website aims to simplify this process by automatically generating a schedule through individually inputted users or a mass import. This schedule will include breaks for students. We will allow the user to modify their room or swap students Users can choose a floorplan associated with each campus. The schedule will be determined based on the student’s ages, then friendships, and students will be placed in groups of 15-20. There are also specialty rooms like the computer room that each group wants to use once a week preferably 2-3 times. This schedule will be displayed on our website for easy access. Our website will also have a login system as only camp counselors and coordinators are meant to have access. This will include an administrator, where the person who creates the camp is an administrator and administrators can make anyone else an administrator. We have a Figma file as a useful diagram.
 
 #### Q2: Who are your target users?
 
   > Short (1 - 2 min' read max)
  * Be specific (e.g. a 'a third-year university student studying Computer Science' and not 'a student')
  * **Feel free to use personas. You can create your personas as part of this Markdown file, or add a link to an external site (for example, [Xtensio](https://xtensio.com/user-persona/)).**
+
+The target users of our product are camp counselors and camp coordinators at YRES who need to make a schedule for their summer camp. They will be the ones that are responsible for inputting all the user data and generating the schedule. They will also use our product to make any modifications around rooms or student groups as they see fit. They will be able to view said schedule on our website. The indirect users are the students aged 5 to 12 attending said summer camp. They want a schedule that is based on their age and friendships. 
 
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
@@ -35,6 +38,8 @@
     * Provide users with more accurate and/or informative data (what kind of data? Why is it useful to them?)
     * Does this application exist in another form? If so, how does your differ and provide value to the users?
     * How does this align with your partner's organization's values/mission/mandate?
+
+Our product will greatly simplify the process of creating a schedule and make said schedule widely available for all target users. Our users will save time during the creation of their summer camp schedule because they don’t need to try and sort through the data manually and assign each student to a group based on various factors (which they currently do). The schedule generation will be accomplished instantly with our program. Modification is also easy and quick and most importantly so is the distribution which they currently have to do through email or messaging. Instead of having to re-send a newly modified schedule, they can discover any new changes on our website. Our schedule should also be more accurate than human schedule modification and creation. We will ensure all friendships are accounted for and ages are matched appropriately without any conflicts for rooms. Sought-after rooms will also be distributed fairly. Our product should align with our partner’s goal of creating fun and educational summer camps by improving the communication, accuracy, and speed of scheduling.
 
 #### Q4: What are the user stories that make up the Minumum Viable Product (MVP)?
 
