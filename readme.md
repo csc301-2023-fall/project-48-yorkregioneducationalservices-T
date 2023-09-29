@@ -1,7 +1,5 @@
-# YOUR PRODUCT/TEAM NAME
-​
-> _Note:_ This document is intended to be relatively short. Be concise and precise. Assume the reader has no prior knowledge of your application and is non-technical. 
-​
+# YRES Scheduler 
+​​
 ## Partner Intro
  * Include the names, emails, titles, primary or secondary point of contact at the partner organization
  * Provide a short description about the partner organization. (2-4 lines)
