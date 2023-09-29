@@ -107,15 +107,19 @@ Describe meetings (and other events) you are planning to have.
    * You must have a regular meeting schedule established for the rest of the term.  
   
 #### Q9: How will you organize your team?
+We will make use of the industry standard Jira Software, leveraging all its tools. 
 
-List/describe the artifacts you will produce in order to organize your team.       
+It will allow us:
+* Have our related tickets/issues in an “Epic” 
+* Have a general timeline and schedule of the project using the “Timeline”
+* Determine the status of the work throughout the process using the “Kanban Board”
+* Allow team members to freely choose their next preferred ticket based on their dev role
+* Have ticket requirements
+* Prioritize tasks 
+* We will also produce meeting minutes and store them in the GitHub
 
- * Artifacts can be To-Do lists, Task boards, schedule(s), meeting minutes, etc.
- * We want to understand:
-   * How do you keep track of what needs to get done? (You must grant your TA and partner access to systems you use to manage work)
-   * **How do you prioritize tasks?**
-   * How do tasks get assigned to team members?
-   * How do you determine the status of work from inception to completion?
+<img src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/693e8b3f-47e8-4932-9645-91948ecebc43" width="600"/>
+
 
 #### Q10: What are the rules regarding how your team works?
 
