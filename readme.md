@@ -43,7 +43,13 @@ Describe your Git/GitHub workflow. Essentially, we want to understand how your t
 ​
  ## Licenses 
 ​
- Keep this section as brief as possible. You may read this [Github article](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/licensing-a-repository) for a start.
-​
- * What type of license will you apply to your codebase? And why?
- * What affect does it have on the development and use of your codebase?
+Why the MIT license?
+* Simplicity: It's clear, allows virtually unrestricted use, and our partners were okay with it.
+* Popularity: Many open-source projects use it, thus it is widely recognized and understood. 
+* No Copyleft: Flexible for various uses as someone that takes this project, makes modifications, and distributes their modified version aren’t required to be open-sourced.
+
+Impacts on the codebase + development:
+* Freedom: Anyone can use, modify, or distribute the code, including for commercial purposes.
+* No Warranty: The software is provided "as-is".
+* Attribution: Users must include the original MIT license text when using the code.
+* Openness: While encouraging contributions, the license doesn't ensure all modifications remain open-source.
