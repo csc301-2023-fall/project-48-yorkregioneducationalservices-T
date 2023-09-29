@@ -1,0 +1,21 @@
+2023/09/28 Thursday Team Meeting
+============================
+Summary:
+----------------------------
+Today we decide on language, DB, and divide work for D1 submission. After the meeting tomorrow we should be ready to submit.
+
+============================
+Decisions:
+----------------------------
+- Work needed (mockup, planning, readme) in D1 is divided among everyone. They must be done before end of tomorrow (23:59 on Sep 30). If there are questions, we will bring them up in the partner meeting.
+- Our project will use Javascript for programming and PostgreSQL for database.
+- Team roles are formally decided, as written in team.csv. Peifeng will be the one to write all future meeting minutes.
+
+============================
+TODO:
+----------------------------
+- Complete all questions in planning.md and readme.md. All questions are assigned to team members.
+- Complete the mockup. Include some descriptions of user stories in the mockup.
+- "Intellectual Property Confidentiality Agreement" problem is pending till we get the answer from our partner tomorrow.
+- Prepare some more detailed questions to bring to the meeting tomorrow. They will be the basis of the next meeting minutes.
+- Check that everything to submit is ready in meeting tomorrow (after the partner meeting).
