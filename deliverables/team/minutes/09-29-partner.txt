@@ -1,0 +1,41 @@
+2023/09/29 Friday Partner & Group Meeting
+============================
+Summary:
+----------------------------
+We presented prototype and tech stack to the partners, confirmed user story.
+
+============================
+Decisions:
+----------------------------
+- Account registration needs consideration.
+- Future fast communication will be through Discord.
+
+============================
+Q&A:
+----------------------------
+Q1: Copyright?
+A: Can share code online with MIT liscence.
+Q2: Maintaining documentation?
+A: No specific requirements.
+Q3: Production server?
+A: Pending.
+
+Prepared Questions:
+- 1. How many course managers will there be? Since no others should have access to this tool, what kind of registration and safety measure is needed?
+A: One major admin that can decide who can edit the data.
+- 2. Is one classroom (not shared space) just for one camp to use all the time?
+A: Yes.
+- 3. Should this app include functionality to assign students and counselors to camps?
+A: Yes.
+- 4. How many classes can a staff teach in 1 day? Do they have a maximum/minimum work hour limit during a day (or all days during the camp)?
+A: Staffs work at one campus for 8 hours everyday.
+- Question from last time:
+	- Based on what information of students/counselors/staffs should the app assign them to camps?
+A: Now, no factors about counselors and staffs need to be considered. Student
+	- Can a staff commute and teach classes at multiple campuses in 1 day?
+A:No.
+
+============================
+TODO:
+----------------------------
+- Submit D1.
