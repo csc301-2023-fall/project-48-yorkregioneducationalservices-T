@@ -1,4 +1,4 @@
-# YOUR PRODUCT/TEAM NAME
+# YRES Scheduling Platform
 > _Note:_ This document will evolve throughout your project. You commit regularly to this file while working on the project (especially edits/additions/deletions to the _Highlights_ section). 
  > **This document will serve as a master plan between your team, your partner and your TA.**
 
@@ -43,7 +43,8 @@ Our product will greatly simplify the process of creating a schedule and make sa
 
 #### Q4: What are the user stories that make up the Minumum Viable Product (MVP)?
 
-* As a user, I want to register an administrator account so that I can interact with the platform with a private user session. This account can be assigned to camps from which the user can manage scheduling, input data etc. Acceptance Criteria: Given the inputted email address is not already registered and a valid password is provided, an administrator account will be registered and stored persistently. The user can log into this account given they provide the same email address and password combination that was submitted upon registration.
+* As a user, I want to register an administrator account so that I can interact with the platform with a private user session. This account can be assigned to camps from which the user can manage scheduling, input data etc.
+Acceptance Criteria: Given the inputted email address is not already registered and a valid password is provided, an administrator account will be registered and stored persistently. The user can log into this account given they provide the same email address and password combination that was submitted upon registration.
 
 * As a user, I can upload a floor plan in order to create a basis for scheduling camps in a given location.
 Acceptance Criteria:  Given the user is logged in and is uploading a floor plan of the proper file type, when the user attempts to upload the floor plan, ensure the floor plan is added to the list of available floor plans which can be scheduled on.
@@ -53,18 +54,24 @@ Acceptance Criteria:  Given the user is logged in and has inputted all sufficien
 
 * As a user, I can use the generated class lists to generate a weekly camp schedule for a specific floor plan. This camp schedule should tell me which class should be in which room, and the time slot in which they are scheduled there.
 Acceptance Criteria:  Given the user is logged in and the floor plan has been uploaded, when the user attempts to generate a schedule, they should be shown a timetable of classes and their respective locations.
+
 * As a user, I can input counselor and student names/gender/ages/group data in order to add them to the camp. 
 Acceptance Criteria: Given the user is logged in, and student/counselor fields are filled in properly, when the user adds the counselor/student, then the student/counsellor will be added to the database.
-* As a user, I can receive automatically generated class lists of two counselors and 20 students.
 
+* As a user, I can receive automatically generated class lists of two counselors and 20 students.
 
 #### Q5: Have you decided on how you will build it? Share what you know now or tell us the options you are considering.
 
-> Short (1-2 min' read max)
- * What is the technology stack? Specify languages, frameworks, libraries, PaaS products or tools to be used or being considered. 
- * How will you deploy the application?
- * Describe the architecture - what are the high level components or patterns you will use? Diagrams are useful here. 
- * Will you be using third party applications or APIs? If so, what are they?
+We will be building the YRES scheduling web application on a [Node.JS 18.8](https://nodejs.org/en) software stack. The backend logic will be managed by a single [RESTful API](https://restfulapi.net) which will be implemented using the [Express.JS framework](https://expressjs.com). We will use a [PostgreSQL 15.4](https://www.postgresql.org/about/news/postgresql-15-released-2526/) database server to handle persistent storage. We are considering the use of [Elasticsearch](https://www.elastic.co) to handle search operations, although we will focus on achieving the MVP using only DB requests due to paid licensing concerns.
+
+The frontend will be handled in an independent RESTful API which will be implemented using the Express.JS framework. The user interface will be designed using [React.JS](https://react.dev), while the frontend API will function as a web server to render and serve client-side resources. The frontend API will query the backend API to incorporate relevant data into the rendered pages. Some backend API requests may be made directly from the client-side javascript (via [AJAX](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX) requests).
+
+![Higher-level Design Diagram (N.B. More detail will be provided for the next deliverable)](./hld_draft.png)
+> *Higher-level Design Diagram (N.B. More detailed architecture schematic will be provided for D2)*
+
+The database server, frontend API and the backend API will be containerized using [Docker](https://www.docker.com). These containers will then be orchestrated using [Docker networks](https://docs.docker.com/network/) for ease of deployment. This is important as we may not have access to a production environment during the early stages of development and we wish to ensure the software is supported across common environments/operating systems.
+
+We will pursue a “CLEAN service-based” architecture for both the frontend and backend APIs. This will differ slightly from the standard [CLEAN architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) learned in CSC207 by dividing the application business rules by service-based modules rather than use cases. Each service-based module will group functions implementing the logic for related requests (e.g. an “Account Service” that implements use cases for login, logout, register etc). This, we believe, will reduce duplication of code and will streamline the development of the project by allowing developers to focus on implementing independent services. The forward dependency rule will be adhered to via dependency inversion where necessary. Each service will consist of a router module, a controller module (acting as both controller and presenter) and a service use cases module, belonging to the respective hierarchal layers in the CLEAN architecture. 
 
 ----
 ## Intellectual Property Confidentiality Agreement 
