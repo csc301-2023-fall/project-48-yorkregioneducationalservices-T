@@ -1,4 +1,4 @@
-# YRES Scheduling Platform
+# YRES Scheduler
 
 ## Product Details
  
