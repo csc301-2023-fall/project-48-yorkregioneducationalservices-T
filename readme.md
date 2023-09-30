@@ -31,7 +31,7 @@ They can search in the table to find the interested profile, then edit through a
  * Briefly describe instructions for setting up and running the application. You should address this part like how one would expect a README doc of real-world deployed application would be.
  * You can see this [example](https://github.com/alichtman/shallow-backup#readme) to get started.
  
- ## Deployment and Github Workflow
+ ## Deployment and Github Workflow (To Be Determined)
 ​
 Describe your Git/GitHub workflow. Essentially, we want to understand how your team members share codebase, avoid conflicts and deploys the application.
 ​
