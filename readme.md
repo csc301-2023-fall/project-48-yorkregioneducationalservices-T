@@ -1,5 +1,7 @@
 # YRES Scheduler 
-​​
+
+​​<img width="500" alt="Screenshot 2023-09-29 at 9 43 11 PM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/5f692ff7-e83c-44dc-9ed7-4ba49f608887">
+
 ## Partner Intro
  * Include the names, emails, titles, primary or secondary point of contact at the partner organization
  * Provide a short description about the partner organization. (2-4 lines)
