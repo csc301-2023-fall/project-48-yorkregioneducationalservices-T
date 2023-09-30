@@ -102,29 +102,19 @@ Do a team-building activity in-person or online. This can be playing an online g
 
 #### Q7: What are the roles & responsibilities on the team?
 
-Describe the different roles on the team and the responsibilities associated with each role. 
- * Roles should reflect the structure of your team and be appropriate for your project. One person may have multiple roles.  
- * Add role(s) to your Team-[Team_Number]-[Team_Name].csv file on the main folder.
- * At least one person must be identified as the dedicated partner liaison. They need to have great organization and communication skills.
- * Everyone must contribute to code. Students who don't contribute to code enough will receive a lower mark at the end of the term.
+Max Xu: Max is working as a frontend developer They volunteered for the role due to their previous experience working with frontend technologies and being interested in learning more.
 
-List each team member and:
- * A description of their role(s) and responsibilities including the components they'll work on and non-software related work
- * Why did you choose them to take that role? Specify if they are interested in learning that part, experienced in it, or any other reasons. Do no make things up. This part is not graded but may be reviewed later.
+Ewan Jordan: Ewan is working as a frontend developer, as well as the product manager/partner liaison. They are responsible for maintaining communication with the partner and keeping track of minutes during meetings as product manager. They volunteered for the role of product manager due to their strong organization and communication skills and as frontend developer due to their previous experience working with frontend technologies and being interested in learning more.
 
-Max Xu: Max is working as a frontend developer along with Gabriel and Ewan. They are responsible for developing software for user-facing elements of the application. They volunteered for the role due to their previous experience working with frontend technologies and being interested in learning more.
+Gabriel Anover: Gabriel is working as a frontend developer. They volunteered for the role due to their previous experience working with frontend technologies in a professional setting and being interested in learning more.
 
-Ewan Jordan: Ewan is working as a frontend developer along with Gabriel and Max, as well as the project manager/partner liaison. They are responsible for developing software for user-facing elements of the application as frontend developer, and for maintaining communication with the partner and keeping track of minutes during meetings as project manager. They volunteered for the role of project manager due to their strong organization and communication skills and as frontend developer due to their previous experience working with frontend technologies and being interested in learning more.
+Peifeng Zhang: Peifeng is working as a backend developer. They volunteered for the role due to their previous experience working with backend technologies and being interested in learning more.
 
-Gabriel Anover: Gabriel is working as a frontend developer along with Max and Ewan. They are responsible for developing software for user-facing elements of the application. They volunteered for the role due to their previous experience working with frontend technologies in a professional setting and being interested in learning more.
+Marc Grigoriu: Marc is working as a backend developer. They volunteered for the role due to their previous experience working with backend technologies and being interested in learning more.
 
-Peifeng Zhang: Peifeng is working as a backend developer along with Harvey, Eric, and Marc. They are responsible for developing software for the server side of the application. They volunteered for the role due to their previous experience working with backend technologies and being interested in learning more.
+Eric Karpovits: Eric is working as a backend developer, as well as team lead. They are additionally responsible for developing software interacting with databases as backend developer, and are responsible for creating agendas for team/partner meetings and watching over progress on the project. They volunteered for the role of team lead and as backend developer due to their previous experience working with backend technologies in a professional setting and being interested in learning more.
 
-Marc Grigoriu: Marc is working as a backend developer along with Harvey, Eric, and Peifeng. They are responsible for developing software for the server side of the application. They volunteered for the role due to their previous experience working with backend technologies and being interested in learning more.
-
-Eric Karpovits: Eric is working as a backend developer along with Harvey, Marc, and Peifeng, as well as team lead. They are responsible for developing software for the server side of the application (including working with databases) as backend developer, and are responsible for creating agendas for team/partner meetings and watching over progress on the project. They volunteered for the role of team lead and as backend developer due to their previous experience working with backend technologies in a professional setting and being interested in learning more.
-
-Harvey Donnelly: Harvey is working as a backend developer along with Marc, Eric, and Peifeng, as well as development manager. They are responsible for developing software for the server side of the application as backend developer, and are responsible for making decisions regarding the structure of the project and making sure software being written works as intended. They volunteered for the role of development manager due to their work experience and their knowledge of how projects like these are structured, and as backend developer due to their previous experience working with backend technologies in a professional setting and being interested in learning more.
+Harvey Donnelly: Harvey is working as a backend developer, as well as development manager. As development manager, they are responsible for making decisions regarding the structure of the project and making sure software being written works as intended. They volunteered for the role of development manager due to their work experience and their knowledge of how projects like these are structured, and as backend developer due to their previous experience working with backend technologies in a professional setting and being interested in learning more.
 
 #### Q8: How will you work as a team?
 
