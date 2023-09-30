@@ -54,8 +54,8 @@ We will be building the YRES scheduling web application on a [Node.JS 18.8](http
 
 The frontend will be handled in an independent RESTful API which will be implemented using the Express.JS framework. The user interface will be designed using [React.JS](https://react.dev), while the frontend API will function as a web server to render and serve client-side resources. The frontend API will query the backend API to incorporate relevant data into the rendered pages. Some backend API requests may be made directly from the client-side javascript (via [AJAX](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX) requests).
 
-![Higher-level Design Diagram (N.B. More detail will be provided for the next deliverable)](./img/hld_draft.png)
-> *Higher-level Design Diagram (N.B. More detail will be provided for the next deliverable)*
+![Higher-level Design Diagram (N.B. More detail will be provided for the next deliverable)](./hld_draft.png)
+> *Higher-level Design Diagram (N.B. More detailed architecture schematic will be provided for D2)*
 
 The database server, frontend API and the backend API will be containerized using [Docker](https://www.docker.com). These containers will then be orchestrated using [Docker networks](https://docs.docker.com/network/) for ease of deployment. This is important as we may not have access to a production environment during the early stages of development and we wish to ensure the software is supported across common environments/operating systems.
 
