@@ -3,8 +3,14 @@
 ​​<img width="500" alt="Screenshot 2023-09-29 at 9 43 11 PM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/5f692ff7-e83c-44dc-9ed7-4ba49f608887">
 
 ## Partner Intro
- * Include the names, emails, titles, primary or secondary point of contact at the partner organization
- * Provide a short description about the partner organization. (2-4 lines)
+Partner Contact Information:
+Hugo Quan: Web Developer co-op, primary point of contact
+hugo.quan@upluseducation.ca
+
+Celina Yueh: Web Developer co-op, secondary point of contact
+celina.yueh@upluseducation.ca
+
+York Region Educational Services (YRES) is a non-profit organization based in Ontario focused on providing education to people of all ages. They offer classes in several programs such as English and French, and STEAM. YRES also hosts summer camp programs for children ages 5-12.
 
 ## Description about the project
 Keep this section very brief.
