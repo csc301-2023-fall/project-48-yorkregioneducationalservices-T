@@ -46,8 +46,6 @@ Our product will greatly simplify the process of creating a schedule and make sa
 * As a user, I want to register an administrator account so that I can interact with the platform with a private user session. This account can be assigned to camps from which the user can manage scheduling, input data etc.
 Acceptance Criteria: Given the inputted email address is not already registered and a valid password is provided, an administrator account will be registered and stored persistently. The user can log into this account given they provide the same email address and password combination that was submitted upon registration.
 
-* As a user, I want to register an administrator account so that I can interact with the platform with a private user session. This account can be assigned to camps from which the user can manage scheduling, input data etc. Acceptance Criteria: Given the inputted email address is not already registered and a valid password is provided, an administrator account will be registered and stored persistently. The user can log into this account given they provide the same email address and password combination that was submitted upon registration.
-
 * As a user, I can upload a floor plan in order to create a basis for scheduling camps in a given location.
 Acceptance Criteria:  Given the user is logged in and is uploading a floor plan of the proper file type, when the user attempts to upload the floor plan, ensure the floor plan is added to the list of available floor plans which can be scheduled on.
 
