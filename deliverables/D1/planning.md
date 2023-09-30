@@ -50,11 +50,16 @@ Our product will greatly simplify the process of creating a schedule and make sa
 
 #### Q5: Have you decided on how you will build it? Share what you know now or tell us the options you are considering.
 
-> Short (1-2 min' read max)
- * What is the technology stack? Specify languages, frameworks, libraries, PaaS products or tools to be used or being considered. 
- * How will you deploy the application?
- * Describe the architecture - what are the high level components or patterns you will use? Diagrams are useful here. 
- * Will you be using third party applications or APIs? If so, what are they?
+We will be building the YRES scheduling web application on a [Node.JS 18.8](https://nodejs.org/en) software stack. The backend logic will be managed by a single [RESTful API](https://restfulapi.net) which will be implemented using the [Express.JS framework](https://expressjs.com). We will use a [PostgreSQL 15.4](https://www.postgresql.org/about/news/postgresql-15-released-2526/) database server to handle persistent storage. We are considering the use of [Elasticsearch](https://www.elastic.co) to handle search operations, although we will focus on achieving the MVP using only DB requests due to paid licensing concerns.
+
+The frontend will be handled in an independent RESTful API which will be implemented using the Express.JS framework. The user interface will be designed using [React.JS](https://react.dev), while the frontend API will function as a web server to render and serve client-side resources. The frontend API will query the backend API to incorporate relevant data into the rendered pages. Some backend API requests may be made directly from the client-side javascript (via [AJAX](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX) requests).
+
+![Higher-level Design Diagram (N.B. More detail will be provided for the next deliverable)](./img/hld_draft.png)
+> *Higher-level Design Diagram (N.B. More detail will be provided for the next deliverable)*
+
+The database server, frontend API and the backend API will be containerized using [Docker](https://www.docker.com). These containers will then be orchestrated using [Docker networks](https://docs.docker.com/network/) for ease of deployment. This is important as we may not have access to a production environment during the early stages of development and we wish to ensure the software is supported across common environments/operating systems.
+
+We will pursue a “CLEAN service-based” architecture for both the frontend and backend APIs. This will differ slightly from the standard [CLEAN architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) learned in CSC207 by dividing the application business rules by service-based modules rather than use cases. Each service-based module will group functions implementing the logic for related requests (e.g. an “Account Service” that implements use cases for login, logout, register etc). This, we believe, will reduce duplication of code and will streamline the development of the project by allowing developers to focus on implementing independent services. The forward dependency rule will be adhered to via dependency inversion where necessary. Each service will consist of a router module, a controller module (acting as both controller and presenter) and a service use cases module, belonging to the respective hierarchal layers in the CLEAN architecture. 
 
 ----
 ## Intellectual Property Confidentiality Agreement 
