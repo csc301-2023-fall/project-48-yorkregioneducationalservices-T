@@ -112,6 +112,19 @@ List each team member and:
  * A description of their role(s) and responsibilities including the components they'll work on and non-software related work
  * Why did you choose them to take that role? Specify if they are interested in learning that part, experienced in it, or any other reasons. Do no make things up. This part is not graded but may be reviewed later.
 
+Max Xu: Max is working as a frontend developer along with Gabriel and Ewan. They are responsible for developing software for user-facing elements of the application. They volunteered for the role due to their previous experience working with frontend technologies and being interested in learning more.
+
+Ewan Jordan: Ewan is working as a frontend developer along with Gabriel and Max, as well as the project manager/partner liaison. They are responsible for developing software for user-facing elements of the application as frontend developer, and for maintaining communication with the partner and keeping track of minutes during meetings as project manager. They volunteered for the role of project manager due to their strong organization and communication skills and as frontend developer due to their previous experience working with frontend technologies and being interested in learning more.
+
+Gabriel Anover: Gabriel is working as a frontend developer along with Max and Ewan. They are responsible for developing software for user-facing elements of the application. They volunteered for the role due to their previous experience working with frontend technologies in a professional setting and being interested in learning more.
+
+Peifeng Zhang: Peifeng is working as a backend developer along with Harvey, Eric, and Marc. They are responsible for developing software for the server side of the application. They volunteered for the role due to their previous experience working with backend technologies and being interested in learning more.
+
+Marc Grigoriu: Marc is working as a backend developer along with Harvey, Eric, and Peifeng. They are responsible for developing software for the server side of the application. They volunteered for the role due to their previous experience working with backend technologies and being interested in learning more.
+
+Eric Karpovits: Eric is working as a backend developer along with Harvey, Marc, and Peifeng, as well as team lead. They are responsible for developing software for the server side of the application (including working with databases) as backend developer, and are responsible for creating agendas for team/partner meetings and watching over progress on the project. They volunteered for the role of team lead and as backend developer due to their previous experience working with backend technologies in a professional setting and being interested in learning more.
+
+Harvey Donnelly: Harvey is working as a backend developer along with Marc, Eric, and Peifeng, as well as development manager. They are responsible for developing software for the server side of the application as backend developer, and are responsible for making decisions regarding the structure of the project and making sure software being written works as intended. They volunteered for the role of development manager due to their work experience and their knowledge of how projects like these are structured, and as backend developer due to their previous experience working with backend technologies in a professional setting and being interested in learning more.
 
 #### Q8: How will you work as a team?
 
@@ -148,4 +161,11 @@ It will allow us:
  
 **Collaboration: (Share your responses to Q8 & Q9 from A1)**
  * How are people held accountable for attending meetings, completing action items? Is there a moderator or process?
- * How will you address the issue if one person doesn't contribute or is not responsive? 
+ * How will you address the issue if one person doesn't contribute or is not responsive?
+
+Communications:
+Communication between team members will be held mainly through a Discord server where members can communicate with each other at any time, on top of weekly scheduled group meetings held on Google Meet and the Zoom sessions held during the tutorial section on thursdays. Meetings on Google Meet will be held on Thursday afternoons starting at 8:10 PM. Additionally, communication is maintained by the product manager with our partner through email, as well as through weekly scheduled meetings held on fridays through Zoom from 5:30 PM - 6:30 PM.
+
+Collaboration:
+Members of the team are expected to attend weekly meetings scheduled ahead of time and complete action items as they are assigned, or to at least give the rest of them team a warning if there is an issue that inhibits their ability to do so. There is no moderator in particular, however if someone is unable to join a meeting then the minutes would be shared with them online in order to catch them up. If the situation arises where someone is becoming unresponsive online and/or not contributing to the project, the rest of the team would try to communicate with them directly to find out what the issue is and if they could use some assistance re-engaging with the development process.
+
