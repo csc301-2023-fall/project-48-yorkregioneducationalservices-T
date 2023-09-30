@@ -43,10 +43,20 @@ Our product will greatly simplify the process of creating a schedule and make sa
 
 #### Q4: What are the user stories that make up the Minumum Viable Product (MVP)?
 
- * At least 5 user stories concerning the main features of the application - note that this can broken down further
- * You must follow proper user story format (as taught in lecture) ```As a <user of the app>, I want to <do something in the app> in order to <accomplish some goal>```
- * User stories must contain acceptance criteria. Examples of user stories with different formats can be found here: https://www.justinmind.com/blog/user-story-examples/. **It is important that you provide a link to an artifact containing your user stories**.
- * If you have a partner, these must be reviewed and accepted by them. You need to include the evidence of partner approval (e.g., screenshot from email) or at least communication to the partner (e.g., email you sent)
+* As a user, I want to register an administrator account so that I can interact with the platform with a private user session. This account can be assigned to camps from which the user can manage scheduling, input data etc. Acceptance Criteria: Given the inputted email address is not already registered and a valid password is provided, an administrator account will be registered and stored persistently. The user can log into this account given they provide the same email address and password combination that was submitted upon registration.
+
+* As a user, I can upload a floor plan in order to create a basis for scheduling camps in a given location.
+Acceptance Criteria:  Given the user is logged in and is uploading a floor plan of the proper file type, when the user attempts to upload the floor plan, ensure the floor plan is added to the list of available floor plans which can be scheduled on.
+
+* As a user, I can block out certain rooms at certain times to schedule events for my camp.
+Acceptance Criteria:  Given the user is logged in and has inputted all sufficient information for the scheduled event, when the user blocks out a given room, ensure this room can no longer be scheduled at the given time period by other users.
+
+* As a user, I can use the generated class lists to generate a weekly camp schedule for a specific floor plan. This camp schedule should tell me which class should be in which room, and the time slot in which they are scheduled there.
+Acceptance Criteria:  Given the user is logged in and the floor plan has been uploaded, when the user attempts to generate a schedule, they should be shown a timetable of classes and their respective locations.
+* As a user, I can input counselor and student names/gender/ages/group data in order to add them to the camp. 
+Acceptance Criteria: Given the user is logged in, and student/counselor fields are filled in properly, when the user adds the counselor/student, then the student/counsellor will be added to the database.
+* As a user, I can receive automatically generated class lists of two counselors and 20 students.
+
 
 #### Q5: Have you decided on how you will build it? Share what you know now or tell us the options you are considering.
 
