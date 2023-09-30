@@ -94,11 +94,28 @@ Briefly describe which option you have agreed to.
 
 #### Q6: Have you met with your team?
 
-Do a team-building activity in-person or online. This can be playing an online game, meeting for bubble tea, lunch, or any other activity you all enjoy.
-* Get to know each other on a more personal level.
-* Provide a few sentences on what you did and share a picture or other evidence of your team building activity.
-* Share at least three fun facts from members of you team (total not 3 for each member).
+Our team has met up online. Since we were unable to schedule an in person meeting and because Gabriel runs a weekly game of Dungeons and Dragons, we decided to all meet online to play D&D. With Gabriel assuming the role of Dungeon Master (lead narrator), using the characters we created, we went on an adventure where we had to rescue a goblin from a camp of imperial soldiers. We managed to rescue it, although it did turn into an evil God after.
 
+<figure>
+  <img src="./team-photo.png" alt="Group Photo" width="30%"/>
+  <figcaption>
+    <em>Meeting up</em>
+  </figcaption>
+</figure>
+
+<figure>
+  <img src="./team-game.png" alt="Team Building Activity" width="30%"/>
+  <figcaption>
+    <em>Playing the game</em>
+  </figcaption>
+</figure>
+
+Through the shared experience of the game, we were able to bond and learn more about each other. Some fun facts we learned about each other were:
+- Harvey plays for a senior hurling team in Toronto called Clann na nGael (hurling is an irish field sport)
+- Ewan makes chill beats to study/relax to
+- Peifeng likes to play piano, draw, and play video games
+
+We eventually all hope to meet each other in person.
 
 #### Q7: What are the roles & responsibilities on the team?
 
