@@ -125,14 +125,6 @@ It will allow us:
 
 #### Q10: What are the rules regarding how your team works?
 
-**Communications:**
- * What is the expected frequency? What methods/channels will be used? 
- * If you have a partner project, what is your process for communicating with your partner?
- 
-**Collaboration: (Share your responses to Q8 & Q9 from A1)**
- * How are people held accountable for attending meetings, completing action items? Is there a moderator or process?
- * How will you address the issue if one person doesn't contribute or is not responsive?
-
 Communications:
 Communication between team members will be held mainly through a Discord server where members can communicate with each other at any time, on top of weekly scheduled group meetings held on Google Meet and the Zoom sessions held during the tutorial section on thursdays. Meetings on Google Meet will be held on Thursday afternoons starting at 8:10 PM. Additionally, communication is maintained by the product manager with our partner through email, as well as through weekly scheduled meetings held on fridays through Zoom from 5:30 PM - 6:30 PM.
 
