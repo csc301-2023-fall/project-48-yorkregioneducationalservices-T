@@ -13,10 +13,6 @@ celina.yueh@upluseducation.ca
 York Region Educational Services (YRES) is a non-profit organization based in Ontario focused on providing education to people of all ages. They offer classes in several programs such as English and French, and STEAM. YRES also hosts summer camp programs for children ages 5-12.
 
 ## Description about the project
-Keep this section very brief.
- * Provide a high-level description of your application and it's value from an end-user's perspective
- * What is the problem you're trying to solve? Is there any context required to understand **why** the application solves this problem?
-
 The product is a web application that generates student summer camp schedules using an inputted floor plan and user data. The value is the simplification of the scheduling process, the accuracy afforded, and the ease of distribution for the schedule. This solves the problem of the course coordinators having to manually create schedules accounting for various factors and the distributing of the schedules.
 ​
 ## Key Features (More to be added)
