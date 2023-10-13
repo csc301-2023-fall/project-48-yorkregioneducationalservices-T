@@ -1,0 +1,17 @@
+2023/10/12 Thursday Team Meeting
+============================
+Summary:
+----------------------------
+Discuss several confusions in scheduling workflow, some details need discussion with the partner. 
+
+The general workflow is as following:
+1. Input all relations (students, counselors, staffs, classes)
+2. Input all campuses and their floor plans (i.e. classrooms)
+3. Give a start date and end date (If all camp lasts 1 week, the schedule can just say Day 1, Day 2, etc.)
+4. The algorithm should then come up with all the schedule based on information above with a click.
+5. Finally, the user can select specific schedule of a camp or classroom.
+
+============================
+TODO:
+----------------------------
+Finish up with deployments for D2.

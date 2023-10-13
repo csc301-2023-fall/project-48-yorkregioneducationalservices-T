@@ -1,0 +1,15 @@
+2023/10/05 Thursday Team Meeting
+============================
+Summary:
+----------------------------
+Discussed sub-team and work division. Discussed confusions about D2.
+============================
+Decisions:
+----------------------------
+- Sub-team division is done: frontend, database, scheduling algorithm.
+- All sub-teams work around the scheduling user story. 
+============================
+TODO:
+----------------------------
+- Basic program structures outline will be done in weekend.
+- The exact deployment requirement needs more clarification.
