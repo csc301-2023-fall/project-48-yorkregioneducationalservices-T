@@ -28,12 +28,12 @@ They can search in the table to find the interested profile, then edit through a
  * Schedule generation: Users can generate schedules based on camp division, staff, and campus information. A campus will hold many camps in a week. On each day, they will take classes from morning to afternoon. Each class is assigned two staffs as instructors. The generated schedule has all class arrangements of the campus.
  * Schedule exportation: Users can filter the generated schedule for each camp or each classroom. Then they can export the filtered or non-filtered schedule into .csv to make slight modifications, or print it as .pdf.
 ​
-## Instructions (To Be Determined)
- * Clear instructions for how to use the application from the end-user's perspective
- * How do you access it? For example: Are accounts pre-created or does a user register? Where do you start? etc. 
- * Provide clear steps for using each feature described in the previous section.
- * This section is critical to testing your application and must be done carefully and thoughtfully.
- 
+## Instructions (More to be added)
+ * The user lands at the sing up page before they can access the app, where they input a username and password to create an account. If they already have a page, they need to input a valid username-password pair to access the app.
+ * Once in the app, they can insert data relating to students and counselors (format unspecified). They can also remove and/or update and/or read data that has been inputted previously.
+ * On another page, they can input a floor plan for a building on the camp and place dots on the map corresponding to different rooms, which have a room type and a unique room number. This data can also be read, updated, and deleted in the same way as the other entities.
+ * On another page, the user can ask to generate a schedule, which will return as a downloadable file (format unspecified) where students are grouped according to their specifications (i.e. pairs of students to keep apart/together, etc.) in groups of approximately 20 and between 1 and 2 counselors.
+
  ## Development requirements (To Be Determined)
  * What are the technical requirements for a developer to set up on their machine or server (e.g. OS, libraries, etc.)?
  * Briefly describe instructions for setting up and running the application. You should address this part like how one would expect a README doc of real-world deployed application would be.
