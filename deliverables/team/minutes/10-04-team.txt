@@ -1,0 +1,25 @@
+2023/10/04 Wednesday Team Meeting
+=============================
+Deliverable 2 TODO List (DUE Oct. 16)
+-----------------------------
+- Submission includes:
+1. D2 Report: a report (< 4 pages) submitted in MAIN repo in directory D2, with name "deliverable-2", containing: 
+	-1. a paragraph about the problem & partner and a paragraph about existing software/infrastructure (none); 
+	-2. 1-4 paragraphs about project division and reason (expects a software architecture diagram); 
+	-3. a paragraph discussing sub-team responsibilities.
+
+2. "deliverable-2-sub-team-X":
+	-1. a summary (<= 600 words) of decisions and options considered for components the sub-tean works on;
+	-2. a paragraph about individual contribution explaining who did what;
+	-3. instructions for TA to use the application.
+
+3. the application (each sub-team has one simple user story, but doesn't have to be fully functional.).
+-----------------------------
+- How to submit:
+	- On Quercus "people" tab, divide 3 sub-teams (<team-NO>.<subteam-NO>).
+	- On Github, create/join repository, (<team-NO>.<subteam-NO>-<member1-utorid>-<member2-utorid>)
+	- Merge everything into the main branch of the repo in the classroom to submit.
+
+
+
+We are responsible of working on the backend server program. For D2, we first decided on an efficient structure that will make the backend APIs managable and make the future integration with frontend and database easy. All user requests will be parsed by the frontend into appropriate service calls with parameters in JSON form. This prevents direct code-level intervention between frontend and backend. Similarly between server and database, the data will be parsed by a database API for transmission. We built a running server with several routers, controllers, and services. Since we didn't yet have access to frontend and database, these routers, controllers, and services are an example such that future implementations can adapt not only their form, but also part of their code. We also wrote all entities that will support future functionalities and connection with the database. We also added tests for entities and the scheduling service, which will also be templates for testing later.
