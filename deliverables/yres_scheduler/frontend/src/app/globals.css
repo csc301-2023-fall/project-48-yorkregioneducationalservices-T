@@ -1,0 +1,70 @@
+#menu-layout {
+  display: flex;
+  flex-flow: column;
+  min-height: 100vh;
+}
+
+#nav-header {
+    flex: 0 1 auto;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: large;
+    border-bottom: 2px solid;
+    border-bottom-style: none;
+    box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+    display: flex;
+    background-color: #3D96AB;
+    padding-bottom: 0;
+  }
+.nav-link{
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.nav-link.active {
+    color: #fff !important;
+    background: #91c3d3 !important;
+}
+
+#app-content {
+  flex: 1 1 auto;
+}
+
+#footer {
+  flex: 0 1 5vh;
+  background-color: #3D96AB;
+  justify-content: center;
+  display: flex;
+}
+
+
+.btn-CSV {
+    text-align: right;
+    background-color: white;
+    color: black;
+}
+#welcome {
+    color: white;
+  }
+
+.floorplan-canvas {
+  width: 50vw;
+  padding-left: 5px;
+}
+
+.floorplan-canvas .display {
+  overflow: auto;
+  height: 80vh;
+}
+
+#schedules {
+  display: flex;
+  gap: 12px;
+}
+
+.right-btn {
+  float: right
+}
