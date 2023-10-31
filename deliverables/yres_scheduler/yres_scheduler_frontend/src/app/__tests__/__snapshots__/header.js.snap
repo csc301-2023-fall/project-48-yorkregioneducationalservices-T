@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders properly 1`] = `
+<nav
+  className="navbar navbar-expand-lg navbar-light"
+  id="nav-header"
+>
+  <div
+    className="container"
+  >
+    <a
+      className="navbar-brand"
+      href="#home"
+      id="welcome"
+    >
+      Welcome, User
+    </a>
+    <button
+      aria-controls="basic-navbar-nav"
+      aria-label="Toggle navigation"
+      className="navbar-toggler collapsed"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        className="navbar-toggler-icon"
+      />
+    </button>
+    <div
+      aria-expanded={null}
+      className="navbar-collapse collapse"
+      id="basic-navbar-nav"
+    >
+      <div
+        className="ms-auto navbar-nav nav-tabs"
+        onKeyDown={[Function]}
+      >
+        <a
+          className="nav-link"
+          data-rr-ui-event-key="#home"
+          disabled={false}
+          href="#home"
+          onClick={[Function]}
+        >
+          Profiles
+        </a>
+        <a
+          className="nav-link"
+          data-rr-ui-event-key="#flooplan"
+          disabled={false}
+          href="#flooplan"
+          onClick={[Function]}
+        >
+          FloorPlan
+        </a>
+        <a
+          className="nav-link"
+          data-rr-ui-event-key="#schedules"
+          disabled={false}
+          href="#schedules"
+          onClick={[Function]}
+        >
+          View Schedules
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+`;
