@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Group 48.3 (database) webpage</title>
+    </head>
+    <body>
+        <h1>YRES Summer Camp Schedule Planner</h1>
+
+        <div id="row" style="display:flex;">
+            <div id="left-col" style="flex:50%;">
+                <!-- Inserts start here -->
+                <h2> Insertions: </h2>
+                <h3>Enter the details of a new user for the app.</h3>
+                <form id="user-input">
+                    <div>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    
+                    <div>
+                        <label for="password">Password:</label>
+                        <input type="text" id="password" name="password" required>
+                    </div>            
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-user" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the details of a student.</h3>
+                <form id="student-input">
+                    <div>
+                        <label for="first-name">First name:</label>
+                        <input type="text" id="first-name" name="first_name" required>
+                    </div>
+                    
+                    <div>
+                        <label for="last-name">Last name:</label>
+                        <input type="text" id="last-name" name="last_name" required>
+                    </div>
+        
+                    <div>
+                        <label for="SID">Student Number:</label>
+                        <input type="number" id="SID" name="SID" required>
+                    </div>
+                    
+                    <div>
+                        <label for="grade">Academic grade:</label>
+                        <input type="number" id="grade" name="grade" required>
+                    </div>
+                    
+                    <div>
+                        <p>Gender:</p>
+                        <input type="radio" id="male" name="gender" value="male" required>
+                        <label for="male">Male</label>
+        
+                        <input type="radio" id="female" name="gender" value="female" required>
+                        <label for="female">Female</label>
+        
+                        <input type="radio" id="other" name="gender" value="other" required>
+                        <label for="other">Other</label>
+                    </div>            
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-student" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the details of any preferences for students to be apart/together (the students must have already both been inputted).</h3>
+                <h3>The first student number must be larger than the second.</h3>
+                <form id="student-preference">
+                    <div>
+                        <label for="first-pref-SID">First Student Number:</label>
+                        <input type="number" id="first-pref-SID" name="first_pref_SID" required>
+                    </div>
+        
+                    <div>
+                        <label for="second-pref-SID">Second Student Number:</label>
+                        <input type="number" id="second-pref-SID" name="second_pref_SID" required>
+                    </div>
+        
+                    <div>
+                        <p>Should they stay apart or together?:</p>
+                        <input type="radio" id="apart" value='true' name="relationship" required>
+                        <label for="apart">Apart</label>
+        
+                        <input type="radio" id="together" value='false' name="relationship" required>
+                        <label for="together">Together</label>
+                    </div>      
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-preference" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the details of a room.</h3>
+                <form id="room-input">
+                    <div>
+                        <label for="room-num">Room Number:</label>
+                        <input type="number" id="room-num" name="room_num" required>
+                    </div>  
+                    
+                    <div>
+                        <p>Room Type:</p>
+                        <input type="radio" id="classroom" name="room_type" value="classroom" required>
+                        <label for="classroom">Classroom</label>
+        
+                        <input type="radio" id="library" name="room_type" value="library" required>
+                        <label for="library">Library</label>
+        
+                        <input type="radio" id="gym" name="room_type" value="gym" required>
+                        <label for="gym">Gymnasium</label>
+        
+                        <input type="radio" id="outside" name="room_type" value="outside" required>
+                        <label for="outside">Outside</label>
+        
+                        <input type="radio" id="computer" name="room_type" value="compLab" required>
+                        <label for="computer">Computer Room</label>
+                    </div>        
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-room" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the details of a camp counselor.</h3>
+                <form id="counselor-input">
+                    <div>
+                        <label for="counselor-firstname">First Name:</label>
+                        <input type="text" id="counselor-firstname" name="counselor_firstname" required>
+                    </div>     
+
+                    <div>
+                        <label for="counselor-lastname">Last Name:</label>
+                        <input type="text" id="counselor-lastname" name="counselor_lastname" required>
+                    </div>   
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-counselor" value="Submit" required>
+                    </div>
+                </form>
+
+                <!-- Updates start here -->
+                <h2> Updates: </h2>
+                <h3>Enter the username of an existing user and the password to change it too.</h3>
+                <form id="user-update">
+                    <div>
+                        <label for="usernameUpdate">Username:</label>
+                        <input type="text" id="usernameUpdate" name="usernameUpdate" required>
+                    </div>
+                    
+                    <div>
+                        <label for="passwordUpdate"> Password:</label>
+                        <input type="text" id="passwordUpdate" name="passwordUpdate" required>
+                    </div>            
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-userUpdate" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the SID of an existing student and their new details.</h3>
+                <form id="student-update">
+                    <div>
+                        <label for="SID-update">Student Number:</label>
+                        <input type="number" id="SID-update" name="SID_update" required>
+                    </div>
+
+                    <div>
+                        <label for="first-name-update">First name:</label>
+                        <input type="text" id="first-name-update" name="first_name_update" required>
+                    </div>
+                    
+                    <div>
+                        <label for="last-name-update">Last name:</label>
+                        <input type="text" id="last-name-update" name="last_name_update" required>
+                    </div>
+        
+                    <div>
+                        <label for="gradeUpdate">Academic grade:</label>
+                        <input type="number" id="gradeUpdate" name="gradeUpdate" required>
+                    </div>
+                    
+                    <div>
+                        <p>Gender:</p>
+                        <input type="radio" id="maleUpdate" name="genderUpdate" value="male" required>
+                        <label for="maleUpdate">Male</label>
+        
+                        <input type="radio" id="femaleUpdate" name="genderUpdate" value="female" required>
+                        <label for="femaleUpdate">Female</label>
+        
+                        <input type="radio" id="otherUpdate" name="genderUpdate" value="other" required>
+                        <label for="otherUpdate">Other</label>
+                    </div>            
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-student-update" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the two SIDs of students with a preference already set, and the new way they should be placed.</h3>
+                <h3>The first student number must be larger than the second.</h3>
+                <form id="student-preference-update">
+                    <div>
+                        <label for="first-pref-SID-update">First Student Number:</label>
+                        <input type="number" id="first-pref-SID-update" name="first_pref_SID_update" required>
+                    </div>
+        
+                    <div>
+                        <label for="second-pref-SID-update">Second Student Number:</label>
+                        <input type="number" id="second-pref-SID-update" name="second_pref_SID_update" required>
+                    </div>
+        
+                    <div>
+                        <p>Should they stay apart or together?:</p>
+                        <input type="radio" id="apartUpdate" value='true' name="relationshipUpdate" required>
+                        <label for="apartUpdate">Apart</label>
+        
+                        <input type="radio" id="togetherUpdate" value='false' name="relationshipUpdate" required>
+                        <label for="togetherUpdate">Together</label>
+                    </div>      
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-preference-update" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the number of an already inputted room, and the new details going forward for it.</h3>
+                <form id="room-update">
+                    <div>
+                        <label for="room-num-update">Room Number:</label>
+                        <input type="number" id="room-num-update" name="room_num_update" required>
+                    </div>  
+                    
+                    <div>
+                        <p>Room Type:</p>
+                        <input type="radio" id="classroomUpdate" name="room_type_update" value="classroom" required>
+                        <label for="classroomUpdate">Classroom</label>
+        
+                        <input type="radio" id="libraryUpdate" name="room_type_update" value="library" required>
+                        <label for="libraryUpdate">Library</label>
+        
+                        <input type="radio" id="gymUpdate" name="room_type_update" value="gym" required>
+                        <label for="gymUpdate">Gymnasium</label>
+        
+                        <input type="radio" id="outsideUpdate" name="room_type_update" value="outside" required>
+                        <label for="outsideUpdate">Outside</label>
+        
+                        <input type="radio" id="computerUpdate" name="room_type_update" value="compLab" required>
+                        <label for="computerUpdate">Computer Room</label>
+                    </div>        
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-room-update" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the CID of an already inputted counselor (check inputted counselors if not sure), and their new details.</h3>
+                <form id="counselor-update">
+                    <div>
+                        <label for="CID-update">Counselor Number:</label>
+                        <input type="number" id="CID-update" name="CID_update" required>
+                    </div>
+
+                    <div>
+                        <label for="counselor-firstname-update">First Name:</label>
+                        <input type="text" id="counselor-firstname-update" name="counselor_firstname_update" required>
+                    </div>     
+
+                    <div>
+                        <label for="counselor-lastname-update">Last Name:</label>
+                        <input type="text" id="counselor-lastname-update" name="counselor_lastname_update" required>
+                    </div>   
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-counselor-update" value="Submit" required>
+                    </div>
+                </form>
+
+                <!-- Deletes start here -->
+                <h2> Deletions: </h2>
+                <h3>Enter the username of a user to be deleted.</h3>
+                <form id="user-delete">
+                    <div>
+                        <label for="usernameDelete">Username:</label>
+                        <input type="text" id="usernameDelete" name="usernameDelete" required>
+                    </div>           
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-user-delete" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the SID of a student to be deleted.</h3>
+                <form id="student-delete">
+                    <div>
+                        <label for="SID-Delete">Student Number:</label>
+                        <input type="number" id="SID-Delete" name="SID_Delete" required>
+                    </div>          
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-student-delete" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the SIDs of two students whose relative placement placement should be deleted.</h3>
+                <h3>The first student number must be larger than the second.</h3>
+                <form id="student-preference-delete">
+                    <div>
+                        <label for="first-pref-SID-delete">First Student Number:</label>
+                        <input type="number" id="first-pref-SID-delete" name="first_pref_SID_delete" required>
+                    </div>
+        
+                    <div>
+                        <label for="second-pref-SID-delete">Second Student Number:</label>
+                        <input type="number" id="second-pref-SID-delete" name="second_pref_SID_delete" required>
+                    </div>    
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-preference-delete" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the number of a room to be deleted.</h3>
+                <form id="room-delete">
+                    <div>
+                        <label for="room-num-delete">Room Number:</label>
+                        <input type="number" id="room-num-delete" name="room_num_delete" required>
+                    </div>         
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-room-delete" value="Submit" required>
+                    </div>
+                </form>
+        
+                <h3>Enter the CID of a camp counselor to be deleted (check inputted counselors if not sure of value).</h3>
+                <form id="counselor-delete">
+                    <div>
+                        <label for="CID-delete">Counselor Number:</label>
+                        <input type="number" id="CID-delete" name="CID_delete" required>
+                    </div> 
+                    
+                    <div>
+                        <input type="submit" id="submit-btn-counselor-delete" value="Submit" required>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Selects start here -->
+            <div id="right-col" style="max-width:50%; flex:50%;">
+                <h2> Selections: </h2>
+                <form id="GetUsers">
+                    <div>
+                        <input type="submit" id="get-users" value="Get users" required>
+                    </div>
+                </form>
+
+                <form id="GetStudents">
+                    <div>
+                        <input type="submit" id="get-students" value="Get students" required>
+                    </div>
+                </form>
+
+                <form id="GetPreferences">
+                    <div>
+                        <input type="submit" id="get-preferences" value="Get preferences" required>
+                    </div>
+                </form>
+
+                <form id="GetRooms">
+                    <div>
+                        <input type="submit" id="get-rooms" value="Get rooms" required>
+                    </div>
+                </form>
+
+                <form id="GetCounselors">
+                    <div>
+                        <input type="submit" id="get-counselors" value="Get counselors" required>
+                    </div>
+                </form>
+
+                <p id="returnedData" style="max-width:100%;"></p>
+            </div>
+        </div>
+        
+        <script src="summer_camp_data.js"></script>
+    </body>
+</html>
