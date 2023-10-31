@@ -33,16 +33,14 @@ function Sidebar({data, show, onHide}) {
     </div>
   
     return (
-      <>  
-        <Offcanvas show={show} onHide={onHide} placement='end' scroll={true} backdrop={'static'}>
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>{"Description of Class " + classNum + ":"}</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            {info}
-          </Offcanvas.Body>
-        </Offcanvas>
-      </>
+      <Offcanvas show={show} onHide={onHide} placement='end' scroll={true} backdrop={'static'}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>{"Description of Class " + classNum + ":"}</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          {info}
+        </Offcanvas.Body>
+      </Offcanvas>
     );
   }
 
