@@ -4,7 +4,7 @@
   min-height: 100vh;
 }
 
-#nav-header {
+.nav-header {
     flex: 0 1 auto;
     align-items: center;
     margin-bottom: 1rem;
@@ -38,6 +38,10 @@
   background-color: #3D96AB;
   justify-content: center;
   display: flex;
+}
+
+.login-header {
+  min-height: 12vh;
 }
 
 

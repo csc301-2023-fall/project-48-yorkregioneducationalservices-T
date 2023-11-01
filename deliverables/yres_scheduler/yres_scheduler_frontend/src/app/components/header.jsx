@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function Header() {
     return (
-        <Navbar expand="lg" id="nav-header">
+        <Navbar expand="lg" className="nav-header">
           <Container>
             <Navbar.Brand href="profiles" id="welcome">Welcome, User</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
