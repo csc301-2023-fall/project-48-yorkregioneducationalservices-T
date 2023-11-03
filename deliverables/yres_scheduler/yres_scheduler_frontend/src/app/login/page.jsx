@@ -1,18 +1,30 @@
-import * as React from 'react';
+'use client'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-export default function Login() {
-    return (
-        <Form>
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            We`&apos;`ll never share your email with anyone else.
-          </Form.Text>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      );
+// Login page body
+function Login() {
+  return (
+    <div>
+      <div id='login-message' className='center-align'>
+          This is a YRES Internal Tool<br/>
+          Login to proceed
+      </div>
+      <Form id='login-form'>
+        <Form.Group className="mb-3" controlId="username">
+            <Form.Label>Username</Form.Label>
+            <Form.Control type="text" placeholder="Username" />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="password">
+            <Form.Label>Password</Form.Label>
+            <Form.Control type="password" placeholder="Password" />
+        </Form.Group>
+        <Button variant="primary" type="submit" href='/schedules'>
+            Login
+        </Button>
+      </Form>
+    </div>
+  );
 }
+
+export default Login;

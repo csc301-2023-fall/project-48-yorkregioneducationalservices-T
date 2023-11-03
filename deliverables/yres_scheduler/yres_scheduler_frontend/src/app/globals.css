@@ -1,32 +1,8 @@
+/* General App Wide Styles */
 #menu-layout {
   display: flex;
   flex-flow: column;
   min-height: 100vh;
-}
-
-#nav-header {
-    flex: 0 1 auto;
-    align-items: center;
-    margin-bottom: 1rem;
-    font-weight: 500;
-    font-size: large;
-    border-bottom: 2px solid;
-    border-bottom-style: none;
-    box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
-    display: flex;
-    background-color: #3D96AB;
-    padding-bottom: 0;
-  }
-.nav-link{
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-}
-
-.nav-link.active {
-    color: #fff !important;
-    background: #91c3d3 !important;
 }
 
 #app-content {
@@ -40,16 +16,84 @@
   display: flex;
 }
 
+/* Generic Helper Styles */
 
-.btn-CSV {
-    text-align: right;
-    background-color: white;
-    color: black;
+.center-align {
+  display: flex;
+  justify-content: center;
 }
-#welcome {
-    color: white;
-  }
 
+.right-btn {
+  float: right;
+}
+
+/* App Header Styling */
+.nav-header {
+  flex: 0 1 auto;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: large;
+  border-bottom: 12px solid #91c3d3;
+  box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+  display: flex;
+  background-color: #3D96AB;
+  padding-bottom: 0px !important;
+}
+
+.nav-tabs {
+  border-bottom: 0 !important;
+}
+
+.nav-link{
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  border-bottom: 0 !important;
+}
+
+.nav-link.active {
+  color: #fff !important;
+  background: #91c3d3 !important;
+  border: 0 !important;
+}
+
+.header-logo {
+  height: 6vh;
+  padding: 5px;
+  margin-top: 8px;
+  margin-bottom: 5px;
+}
+
+#welcome {
+  color: white;
+}
+
+/* Login Specific Styles */
+#login-header {
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+
+#login-form {
+  min-width: 320px;
+  max-width: 25vw;
+}
+
+#login-message {
+  margin-top: 5vh;
+  font-size: x-large;
+  margin-bottom: 6vh;
+}
+
+.login-title {
+  margin-left: auto; 
+  margin-right: 0;
+  color: white;
+}
+
+/* Floorplan Specific Styles */
 .floorplan-canvas {
   width: 50vw;
   padding-left: 5px;
@@ -60,11 +104,10 @@
   height: 80vh;
 }
 
+/* Schedules Specific Styles */
 #schedules {
   display: flex;
   gap: 12px;
 }
 
-.right-btn {
-  float: right
-}
+/* Profiles Specific Styles */
