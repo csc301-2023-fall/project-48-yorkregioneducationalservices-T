@@ -16,6 +16,11 @@
   display: flex;
 }
 
+#refined-dropdown {
+  border-radius: 0; 
+  border: 1px solid #000000; 
+}
+
 /* Generic Helper Styles */
 
 .center-align {
