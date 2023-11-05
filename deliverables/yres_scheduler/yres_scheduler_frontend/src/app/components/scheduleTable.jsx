@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Sidebar from '../components/sidebar';
 import YresTable from './table'
 import Button from 'react-bootstrap/Button';
-import Refined from './refinedDropDowns'
+import RefinedDropdown from './refinedDropDowns'
 import Alert from './alert'
 /**
  * Helper function to sort rows of a schedule by their time attribute. Preconditions: Schedule uses 24hr time.
@@ -90,7 +90,7 @@ export default function Schedule({ schedule }) {
     }
     return (
         <div>
-            <Refined 
+            <RefinedDropdown 
                 handleSelect={handleSelect}
                 displayText={DisplaySched}
                 groups={groups}

@@ -50,9 +50,6 @@ function FloorPlanCanvas() {
             <DropdownButton id="dropdown-basic-button" title="Select Floor"  variant='secondary'>
                 <Dropdown.Item>Floor 1</Dropdown.Item>
             </DropdownButton>
-
-
-
             <Stage className='display' width={canvasSize.width} height={canvasSize.height} >
                 <Layer>
                     <FloorPlanImage/>
