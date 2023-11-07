@@ -5,19 +5,19 @@ set search_path to summer_camp;
 
 -- A counselors in the summer camp.
 create table Counselor (
-    cID serial primary key,
-    firstName varchar(50) not null,
-    lastName varchar(50) not null,
-    groupID integer
+    counselor_id text primary key,
+    firstname text not null,
+    lastname text not null,
+    campus_id text
 );
 
 -- The students in the summer camp.
 create table Student (
-    sID integer primary key,
-    firstName varchar(50) not null,
-    lastName varchar(50) not null,
-    grade integer not null,
-    genderType varchar(50) not null,
+    student_id text primary key,
+    firstName text not null,
+    lastName text not null,
+    age integer not null,
+    sex text not null,
     groupID integer references Counselor
 );
 
@@ -29,11 +29,11 @@ create table Room (
 
 -- The friend preferences for all the students.
 create table FriendPreference (
-    sID1 integer not null references Student,
-    sID2 integer not null references Student,
+    student_id1 integer not null references Student(student_id),
+    student_id2 integer not null references Student(student_id),
     isApart bool not null,
-    primary key (sID1, sID2),
-    check (sID1 > sID2)
+    primary key (student_id1, student_id2),
+    check (student_id1 > student_id2)
 );
 
 -- The admin username and password 
