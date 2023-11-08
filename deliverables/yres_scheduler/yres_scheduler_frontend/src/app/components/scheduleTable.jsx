@@ -95,7 +95,6 @@ export default function Schedule({ schedule }) {
                 displayText={DisplaySched}
                 groups={groups}
             />
-
             <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
             <SideBarWrapper/>
         </div>
