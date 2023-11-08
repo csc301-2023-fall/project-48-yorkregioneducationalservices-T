@@ -31,7 +31,6 @@
 .nav-header {
   flex: 0 1 auto;
   align-items: center;
-  margin-bottom: 1rem;
   font-weight: 500;
   font-size: large;
   border-bottom: 12px solid #91c3d3;
@@ -106,8 +105,26 @@
 
 /* Schedules Specific Styles */
 #schedules {
+  margin-top: 1rem;
   display: flex;
   gap: 12px;
 }
 
 /* Profiles Specific Styles */
+
+#profiles-header {
+  padding-top: 5px;
+  padding-bottom: 3px;
+  background-color: #dff1f0;
+  display: flex;
+  align-items: center;
+}
+
+#profiles-table {
+  margin-top: 1vh;
+  width: 95vw;
+}
+
+.table-actions {
+  max-height: 1vh;
+}

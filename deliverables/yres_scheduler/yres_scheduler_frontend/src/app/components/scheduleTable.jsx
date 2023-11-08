@@ -100,7 +100,7 @@ export default function Schedule({ schedule }) {
                     })}
                 </DropdownButton.Menu>
             </Dropdown>
-            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
+            <YresTable keyCol={'id'} data={display_data} columns={columns} rowEvents={ rowEvents } />
             <SideBarWrapper/>
         </div>
     );
