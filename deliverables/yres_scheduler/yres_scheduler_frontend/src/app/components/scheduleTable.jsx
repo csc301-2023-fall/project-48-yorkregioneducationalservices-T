@@ -4,6 +4,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useState } from 'react';
 import Sidebar from '../components/sidebar';
 import YresTable from './table'
+import Button from 'react-bootstrap/Button';
+import RefinedDropdown from './refinedDropDowns'
+import Alert from './alert'
 /**
  * Helper function to sort rows of a schedule by their time attribute. Preconditions: Schedule uses 24hr time.
  */
@@ -87,19 +90,12 @@ export default function Schedule({ schedule }) {
     }
     return (
         <div>
-            <Dropdown onSelect={handleSelect}>
-                <Dropdown.Toggle id="dropdown-basic">
-                    {DisplaySched}
-                </Dropdown.Toggle>
+            <RefinedDropdown 
+                handleSelect={handleSelect}
+                displayText={DisplaySched}
+                groups={groups}
+            />
 
-                <DropdownButton.Menu>
-                    {Array.from(groups).map((val) => {
-                        return (
-                            <Dropdown.Item key={val} eventKey={val} >{val}</Dropdown.Item>
-                        )
-                    })}
-                </DropdownButton.Menu>
-            </Dropdown>
             <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
             <SideBarWrapper/>
         </div>
