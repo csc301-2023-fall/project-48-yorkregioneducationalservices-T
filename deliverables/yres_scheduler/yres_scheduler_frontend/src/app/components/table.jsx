@@ -5,19 +5,21 @@ function YresTable(props) {
   const TCols = columns.map((item) => item.dataField);
 
   return (
-    <Table striped bordered hover={!disableHover }>
-      <thead>
-        <tr>
-          {columns.map((item, i) => <th key={i}>{item.text}</th>)}
-        </tr>
-      </thead>
-      <tbody>
-          {data.map((row, rowIndex) => 
-            <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
-                {TCols.map((colName) => <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>)}
-            </tr>)}
-      </tbody>
-    </Table>
+    <div className='table-container'>
+      <Table striped bordered hover={!disableHover }>
+        <thead className='table-header'>
+          <tr>
+            {columns.map((item, i) => <th key={i}>{item.text}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+            {data.map((row, rowIndex) => 
+              <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
+                  {TCols.map((colName) => <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>)}
+              </tr>)}
+        </tbody>
+      </Table>
+    </div>
   );
 }
 
