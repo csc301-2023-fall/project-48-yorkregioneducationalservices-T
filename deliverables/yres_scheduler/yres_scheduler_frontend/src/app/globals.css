@@ -139,10 +139,24 @@
   border-radius: 20px;
   height: 70vh;
   overflow: scroll;
+  clear:both;
 }
 
 .table-header{
   position: sticky;
   top: 0px;
   margin: 0 0 0 0;
+}
+
+.csv-btn {
+  background: black;
+  color: white;
+  text-decoration: none;
+  float: right;
+}
+
+.float-child{
+  width: 50%;
+  height: 10%;
+  float: left;
 }

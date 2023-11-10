@@ -4,6 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useState } from 'react';
 import Sidebar from '../components/sidebar';
 import YresTable from './table'
+import { CSVLink } from "react-csv";
 import Button from 'react-bootstrap/Button';
 import RefinedDropdown from './refinedDropDowns'
 import Alert from './alert'
@@ -40,7 +41,6 @@ export default function Schedule({ schedule }) {
     const display_data = tempSched.map((row, rowIndex) => { 
         return {id: rowIndex, time: row.time, location: row.location, activity: row.name, group: row.classNum }
     });
-    
     /**
      * Handler for dropdown click
      */
@@ -76,6 +76,12 @@ export default function Schedule({ schedule }) {
         },
     };
 
+    const csvData = [
+        ["ID", "Time", "Location", "Activity Name", "Group ID"],
+        ...display_data.map((row, rowIndex) => { 
+            return [rowIndex, row.time, row.location, row.activity, row.group ]
+        })
+      ];
     const SideBarWrapper = () => {
         if (tempSched === undefined || tempSched.length === 0) {
             return <div/>
@@ -89,12 +95,17 @@ export default function Schedule({ schedule }) {
         );
     }
     return (
-        <div>
+        <div>  
             <RefinedDropdown 
                 handleSelect={handleSelect}
                 displayText={DisplaySched}
                 groups={groups}
             />
+            <div className='float-child'>
+            <CSVLink class="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
+                Export to CSV
+            </CSVLink>
+            </div>
             <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
             <SideBarWrapper/>
         </div>
