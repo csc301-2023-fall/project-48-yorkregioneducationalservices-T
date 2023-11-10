@@ -23,6 +23,10 @@
   justify-content: center;
 }
 
+.right-align {
+  margin-left: auto;
+}
+
 .black-border {
   border-radius: 0; 
   border: 1px solid #000000; 
@@ -116,8 +120,8 @@
 }
 
 /* Profiles Specific Styles */
-
 #profiles-header {
+  padding: 2.5%;
   padding-top: 5px;
   padding-bottom: 3px;
   background-color: #dff1f0;
@@ -128,6 +132,11 @@
 #profiles-table {
   margin-top: 1vh;
   width: 95vw;
+}
+
+.action-button{
+  margin-top: -0.5rem;
+  margin-right: 1rem;
 }
 
 .table-actions {
