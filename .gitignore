@@ -1,0 +1,53 @@
+# Node.js
+node_modules/
+
+# Dependency lock files
+package-lock.json
+npm-shrinkwrap.json
+
+# macOS
+.DS_Store
+
+# Editor files
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Environment variables
+.env
+
+# Production build output
+/build/
+/dist/
+
+# IDE settings
+.idea/
+
+# npm error logs
+npm-debug.log*
+
+# Yarn
+yarn-error.log
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
