@@ -47,7 +47,7 @@ function StudentEdit({item, show, setShow, type}) {
         item.friends_ids = friendsValue.split(',')
         item.enemy_ids = enemiesValue.split(',')
         handleClose() //needs to be before setStudentData
-        setStudentData(studentData)
+        //setStudentData(studentData)
     }
   
     return (
