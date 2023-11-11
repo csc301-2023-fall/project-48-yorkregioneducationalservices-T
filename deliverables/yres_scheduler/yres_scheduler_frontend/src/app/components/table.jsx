@@ -1,9 +1,19 @@
 import Table from 'react-bootstrap/Table';
-
+import React from 'react';
 function YresTable(props) {
   const { keyCol, data, columns, rowEvents, disableHover } = props;
   const TCols = columns.map((item) => item.dataField);
 
+  const [hydrated, setHydrated] = React.useState(false);
+	React.useEffect(() => {
+		// This forces a rerender, so the date is rendered
+		// the second time but not the first
+		setHydrated(true);
+	}, []);
+	if (!hydrated) {
+		// Returns null on first render, so the client and server match
+		return null;
+	}
   return (
     <div className='table-container'>
       <Table striped bordered hover={!disableHover }>
@@ -17,8 +27,7 @@ function YresTable(props) {
               <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
               {TCols.map((colName) => {
                   if (Array.isArray(row[colName])) {
-                    let string = row[colName].join(', ');
-                    return <td key={`${row[keyCol]}:${colName}`}>{string}</td>;
+                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName].join(', ')}</td>;
                   } else {
                     return <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>;
                   }
