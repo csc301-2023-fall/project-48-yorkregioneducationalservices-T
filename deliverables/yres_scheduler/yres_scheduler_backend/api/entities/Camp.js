@@ -2,54 +2,32 @@
  * Class representing a summer camp unit.
  */
 module.exports = class Camp {
-    static CAMP_MAX_STUDENT = 25;
-    static CAMP_MAX_COUNSELOR = 2;
     /**
      * Create a new camp object which will then be added to a campus' set of camps.
      * 
-     * @param {number} age_type - A number representing the age range of this camp.
-     * @param {string} campID - The unique ID assigned by <CONTROLLER>. 
+     * @param {string} camp_id - The unique ID assigned by <CONTROLLER>. 
+     * @param {string} name - The name of the camp from frontend user input.
+     * @param {Set} activity_ids - The set of IDs of activities all groups of this camp do.
+     * @param {string} campus_id - The ID of the campus this camp is in.
      */
-    constructor(age_type, campID) {
-        this.age_type = age_type;
-        this.campID = campID;
-        this.students = new Set();
-        this.counselors = new Set();
+    constructor(camp_id, name, activity_ids, campus_id) {
+        this.camp_id = camp_id;
+        this.name = name;
+        this.activity_ids = activity_ids;
+        this.campus_id = campus_id;
     }
+
     /**
-     * @returns number of students in this camp.
+     * @returns number of activities in this camp.
      */
-    numStudents() {
-        return this.students.size;
+    numActivities() {
+        return this.activity_ids.size;
     }
+
     /**
-     * Add a student object to the set (with size < CAMP_MAX_STUDENT).
-     * 
-     * @param {Student} newStudent - a student object to be added.
-     * @returns true if student is added, false if the set is full.
+     * @param {string} newActivityID - The new activity id to be added to this camp.
      */
-    addStudents(newStudent) {
-        if (this.students.size == Camp.CAMP_MAX_STUDENT)
-            return false;
-        this.students.add(newStudent);
-        return true;
-    }
-    /**
-     * @returns number of counselors in this camp.
-     */
-    numCounselors() {
-        return this.counselors.size;
-    }
-    /**
-     * Add a counselor object into the set (with size < CAMP_MAX_COUNSELOR).
-     * 
-     * @param {Counselor} newCounselor - a counselor object to be added.
-     * @returns true if counselor is added, false if the set is full.
-     */
-    addCounselor(newCounselor) {
-        if (this.counselors.size == Camp.CAMP_MAX_COUNSELOR)
-            return false;
-        this.counselors.add(newCounselor);
-        return true;
+    addActivity(newActivityID) {
+        this.activity_ids.add(newActivityID);
     }
 }

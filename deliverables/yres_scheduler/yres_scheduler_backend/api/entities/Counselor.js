@@ -6,40 +6,34 @@ module.exports = class Counselor {
     /**
      * Create a new counselor profile.
      * 
-     * @param {number} cID - The unique ID of this counselor.
+     * @param {string} counselor_id - The unique ID of this counselor.
      * @param {string} lastname
      * @param {string} firstname
-     * @param {number} campusID - The ID of the campus this counselor registers.
+     * @param {string} campus_id - The ID of the campus this counselor registers.
      */
-    constructor (cID, lastname, firstname, campusID) {
-        this.cID = cID;
+    constructor (counselor_id, lastname, firstname, campus_id) {
+        this.counselor_id = counselor_id;
         this.lastname = lastname;
         this.firstname = firstname;
-        this.campusID = campusID;
+        this.campus_id = campus_id;
     }
 
-    
     /**
-     * Dummy database used for testing.
-     */
-    static counselors = [
-        {
-            cID: "co00001",
-            lastname: "Dummy",
-            firstname: "Counselor 1",
-            campusID: "C0001"
-        },
-        {
-            cID: "co00002",
-            lastname: "Dummy",
-            firstname: "Counselor 2",
-            campusID: "C0001"
-        },
-        {
-            cID: "co00004",
-            lastname: "Dummy",
-            firstname: "Counselor 4",
-            campusID: "C0001"
-        }
-    ];
+    * Getters and setters 
+    */
+    get counselor_id() {
+        return this._counselor_id;
+    }
+
+    set counselor_id(newCounselorId) {
+        this._counselor_id = newCounselorId;
+    }
+
+    get campus_id() {
+        return this._campus_id;
+    }
+
+    set campus_id(newCampusId) {
+        this._campus_id = newCampusId;
+    }
 }
