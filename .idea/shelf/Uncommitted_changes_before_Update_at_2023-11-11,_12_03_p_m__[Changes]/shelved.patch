@@ -1,0 +1,33 @@
+Index: deliverables/yres_scheduler/yres_scheduler_frontend/src/app/components/alert.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/deliverables/yres_scheduler/yres_scheduler_frontend/src/app/components/alert.jsx b/deliverables/yres_scheduler/yres_scheduler_frontend/src/app/components/alert.jsx
+new file mode 100644
+--- /dev/null	(date 1699732870664)
++++ b/deliverables/yres_scheduler/yres_scheduler_frontend/src/app/components/alert.jsx	(date 1699732870664)
+@@ -0,0 +1,23 @@
++import * as React from 'react';
++
++function Alert({simpleMessage, complexMessage}) {
++    //complex alert with two messages
++    if(complexMessage){
++        return (
++            <div class="alert alert-danger" role="alert">
++                <h4 class="alert-heading">Error</h4>
++                <p>{complexMessage}</p>
++                <hr />
++                <p class="mb-0">{simpleMessage}</p>
++            </div>
++        );
++    }
++    //simple one line alert
++    return (
++        <div class="alert alert-danger" role="alert">
++            {simpleMessage}
++        </div>
++    );
++  }
++
++export default Alert;

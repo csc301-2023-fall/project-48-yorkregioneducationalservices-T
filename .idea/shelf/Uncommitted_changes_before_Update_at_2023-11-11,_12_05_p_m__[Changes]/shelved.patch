@@ -1,0 +1,102 @@
+Index: deliverables/yres_scheduler/database/summer_camp_schema.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>-- Initalization\ndrop schema if exists summer_camp cascade; \ncreate schema summer_camp;\nset search_path to summer_camp;\n\n\n-- Represents a counselor that teaches in a group \ncreate table Counselor (\n    counselor_id text primary key,      -- The auto generated unique ID\n    firstname text not null,            -- <UI>\n    lastname text not null,             -- <UI>\n    campus_id text                      -- <UI> The ID of the campus this counselor will teach in\n);\n\n\n-- Represents a student that studies in a group \ncreate table Student (\n    student_id text primary key,            -- The auto generated unique ID\n    firstName text not null,                -- <UI>\n    lastName text not null,                 -- <UI>\n    age integer not null,                   -- <UI>\n    sex text not null,                      -- <UI>\n    groupID integer references Counselor \n);\n\n\n-- All the rooms in the summer camp.\ncreate table Room (\n    room_id text primary key,\t\t-- The auto generated unique ID\n    name text not null\t\t        -- <UI> The name of the room\n    activity_ids (set<string>) \t    -- <UI> The IDs of the activities that can take place in this room\n);\n\n\n-- The friend preferences for all the students.\ncreate table FriendPreference (\n    student_id1 integer not null references Student(student_id),    -- The student id of the first friend\n    student_id2 integer not null references Student(student_id),    -- The student id of the second friend \n    isApart bool not null,                                          -- If the students should be apart\n    primary key (student_id1, student_id2),                         -- Primary key \n    check (student_id1 > student_id2)                               -- Make sure they are not duplicates\n);\n\n\n-- Represents an administrator, the only type of user that can access the app\ncreate table LoginInfo (\n    username text primary key,\n    password text not null\n);\n\n\n-- Represents an activity that all groups of a type of camp will be scheduled to do \ncreate table Activity (\n    activity_id text primary key,\t-- The auto generated unique ID\n    name text not null, \t\t-- <UI> The name of the activity\n    duration integer not null,\t\t-- <UI> The number of hours this activity takes\n    type text not null,\t\t-- <UI> The type of the activity (filler / common)\n    num_occurences integer not null,\t-- <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.\n)\n\n\n-- Represents a campus with rooms for camps to take place \ncreate table Campus (\n    campus_id text primary key, \t\t-- The auto generated unique ID\n    name text not null,\t\t-- <UI> The name of the campus\n);\n\n\n-- Represents a camp, i.e. a classification of groups (based on program type and/or student age)\ncreate table Camp (\n    camp_id text primary key \t\t-- The auto generated unique ID\n    name text not null, \t\t-- <UI> The name of the camp\n    activity_ids (set<string>) \t-- The set of IDs of activities all groups of this camp do\n    campus_id text not null, \t\t-- The ID of the campus this camp is in\n);\n\n\n-- Represents a group, i.e. an instance of a camp  Decide if I should be keeping it \nclass Group (\n    group_id text primary key\t\t-- The auto generated unique ID\n    schedule_id text not null \t-- The ID of the schedule of this group\n    student_ids (set<string>) \t-- The IDs of the students that beglong to this group\n    counselor_ids (set<string>) -- The IDs of the counselors that belongs to this group\n    camp_id (string) \t\t-- The ID of the camp this group belongs to\n);\n\n\n-- Represents a block in a schedule, specifying when an activity of a group starts and end in the schedule */\ncreate table Block (\n    block_id text primary key,\t\t-- The auto generated unique ID\n    schedule_id text not null, \t-- The ID of the schedule this block belongs to\n    room_id text not null, \t\t-- The ID of the room this block occupies\n    activity_id text not null, \t-- The ID of the activity of this block\n    start_time time not null,\t-- The start moment of this block\n    end_time time not null \t-- The end moment of this block\n);\n\n\n-- Represents the generated schedule of a group\ncreate table Schedule (\n    schedule_id text primary key,\t-- The auto generated unique ID\n    group_id text -- Figure what to reference\t\t-- The ID of the group this schedule belongs to\n    blocks (set<Block>)\t\t    -- The blocks of this schedule\n    start_time time not null, \t-- The start moment of this schedule\n    end_time time not null \t    -- The end moment of this schedule\n\n);\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/deliverables/yres_scheduler/database/summer_camp_schema.sql b/deliverables/yres_scheduler/database/summer_camp_schema.sql
+--- a/deliverables/yres_scheduler/database/summer_camp_schema.sql	(revision 497063a74f62c4837e3ceeb94392a4994755f9eb)
++++ b/deliverables/yres_scheduler/database/summer_camp_schema.sql	(date 1699732836839)
+@@ -7,12 +7,20 @@
+ -- Represents a counselor that teaches in a group 
+ create table Counselor (
+     counselor_id text primary key,      -- The auto generated unique ID
+-    firstname text not null,            -- <UI>
++    firstname text not null,            -- <UI> 
+     lastname text not null,             -- <UI>
+     campus_id text                      -- <UI> The ID of the campus this counselor will teach in
+ );
+ 
+ 
++-- Represents a group, i.e. an instance of a camp  Decide if I should be keeping it 
++class Group (
++    group_id text primary key,		-- The auto generated unique ID
++    schedule_id text not null,  	-- The ID of the schedule of this group
++    camp_id text not null 		    -- The ID of the camp this group belongs to
++);
++
++
+ -- Represents a student that studies in a group 
+ create table Student (
+     student_id text primary key,            -- The auto generated unique ID
+@@ -20,7 +28,7 @@
+     lastName text not null,                 -- <UI>
+     age integer not null,                   -- <UI>
+     sex text not null,                      -- <UI>
+-    groupID integer references Counselor 
++    groupID integer references Counselor    
+ );
+ 
+ 
+@@ -44,8 +52,8 @@
+ 
+ -- Represents an administrator, the only type of user that can access the app
+ create table LoginInfo (
+-    username text primary key,
+-    password text not null
++    username text primary key,          -- The admin login username
++    password text not null              -- The admin login hash password
+ );
+ 
+ 
+@@ -69,39 +77,27 @@
+ -- Represents a camp, i.e. a classification of groups (based on program type and/or student age)
+ create table Camp (
+     camp_id text primary key 		-- The auto generated unique ID
+-    name text not null, 		-- <UI> The name of the camp
+-    activity_ids (set<string>) 	-- The set of IDs of activities all groups of this camp do
++    name text not null, 		    -- <UI> The name of the camp
++    activity_ids (set<string>) 	    -- The set of IDs of activities all groups of this camp do
+     campus_id text not null, 		-- The ID of the campus this camp is in
+ );
+ 
+ 
+--- Represents a group, i.e. an instance of a camp  Decide if I should be keeping it 
+-class Group (
+-    group_id text primary key		-- The auto generated unique ID
+-    schedule_id text not null 	-- The ID of the schedule of this group
+-    student_ids (set<string>) 	-- The IDs of the students that beglong to this group
+-    counselor_ids (set<string>) -- The IDs of the counselors that belongs to this group
+-    camp_id (string) 		-- The ID of the camp this group belongs to
+-);
+-
+-
+ -- Represents a block in a schedule, specifying when an activity of a group starts and end in the schedule */
+ create table Block (
+     block_id text primary key,		-- The auto generated unique ID
+-    schedule_id text not null, 	-- The ID of the schedule this block belongs to
+-    room_id text not null, 		-- The ID of the room this block occupies
+-    activity_id text not null, 	-- The ID of the activity of this block
+-    start_time time not null,	-- The start moment of this block
+-    end_time time not null 	-- The end moment of this block
++    schedule_id text not null, 	    -- The ID of the schedule this block belongs to
++    room_id text not null, 		    -- The ID of the room this block occupies
++    activity_id text not null, 	    -- The ID of the activity of this block
++    start_time time not null,   	-- The start moment of this block
++    end_time time not null  	    -- The end moment of this block
+ );
+ 
+ 
+ -- Represents the generated schedule of a group
+ create table Schedule (
+     schedule_id text primary key,	-- The auto generated unique ID
+-    group_id text -- Figure what to reference		-- The ID of the group this schedule belongs to
+-    blocks (set<Block>)		    -- The blocks of this schedule
+-    start_time time not null, 	-- The start moment of this schedule
+-    end_time time not null 	    -- The end moment of this schedule
+-
++    group_id text not null,         -- The ID of the group this schedule belongs to
++    start_time time not null, 	    -- The start moment of this schedule
++    end_time time not null 	        -- The end moment of this schedule
+ );
