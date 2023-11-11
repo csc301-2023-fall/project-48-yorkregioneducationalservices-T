@@ -39,7 +39,7 @@ create table Schedule (
 
 -- Represents a group, i.e. an instance of a camp  Decide if I should be keeping it 
 -- Columns:
-    -- camp_camp_group_id : The auto generated unique ID
+    -- camp_group_id : The auto generated unique ID
     -- schedule_id : The ID of the schedule of this group
     -- camp_id : The ID of the camp this group belongs to
 create table CampGroup (
