@@ -18,6 +18,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Debug Directory Contents
+      run: ls -R
+      working-directory: deliverables/yres_scheduler/yres_scheduler_backend
+
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
