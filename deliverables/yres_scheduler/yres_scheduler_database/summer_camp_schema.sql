@@ -39,11 +39,11 @@ create table Schedule (
 
 -- Represents a group, i.e. an instance of a camp  Decide if I should be keeping it 
 -- Columns:
-    -- group_id : The auto generated unique ID
+    -- camp_camp_group_id : The auto generated unique ID
     -- schedule_id : The ID of the schedule of this group
     -- camp_id : The ID of the camp this group belongs to
 create table CampGroup (
-    group_id uuid primary key,		
+    camp_group_id uuid primary key,		
     schedule_id uuid references Schedule,  
     camp_id uuid references Camp 		   
 );
@@ -55,13 +55,13 @@ create table CampGroup (
     -- firstname : <UI> 
     -- lastname : <UI>
     -- campus_id : <UI> The ID of the campus this counselor will teach in
-    -- group_id : The foreign key constraint
+    -- camp_group_id : The foreign key constraint
 create table Counselor (
     counselor_id uuid primary key,
     firstname text not null,
     lastname text not null, 
     campus_id uuid references Campus,  
-    group_id uuid references CampGroup  
+    camp_group_id uuid references CampGroup  
 );
 
 
@@ -72,14 +72,14 @@ create table Counselor (
     -- lastname : <UI>
     -- age : <UI>
     -- sex : <UI>
-    -- group_id : Foreign key constraint
+    -- camp_group_id : Foreign key constraint
 create table Student (
     student_id uuid primary key,           
     firstname text not null,
     lastname text not null,
     age integer not null,
     sex text not null,
-    group_id uuid references CampGroup 
+    camp_group_id uuid references CampGroup 
 );
 
 
