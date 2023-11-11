@@ -42,7 +42,7 @@ create table Schedule (
     -- group_id : The auto generated unique ID
     -- schedule_id : The ID of the schedule of this group
     -- camp_id : The ID of the camp this group belongs to
-create table Groups (
+create table CampGroup (
     group_id uuid primary key,		
     schedule_id uuid references Schedule,  
     camp_id uuid references Camp 		   
@@ -61,7 +61,7 @@ create table Counselor (
     firstname text not null,
     lastname text not null, 
     campus_id uuid references Campus,  
-    group_id uuid references Groups  
+    group_id uuid references CampGroup  
 );
 
 
@@ -79,7 +79,7 @@ create table Student (
     lastname text not null,
     age integer not null,
     sex text not null,
-    group_id uuid references Groups 
+    group_id uuid references CampGroup 
 );
 
 
