@@ -1,6 +1,54 @@
 const Activity = require("../entities/Activity");
 const Camp = require("../entities/Camp");
 
+const {Client} = require('pg')
+
+const client = new Client({
+    host: 'db',
+    user: "summercamp",
+    port: 5432,
+    password: "csc301",
+    database: "summercamp_db"
+});
+
+client.connect();
+
+function getCampById(camp_id) {
+
+    var name;
+    var activity_ids = new Set();
+    var campus_id;
+
+    client.query(`Select * from yres_db.Camp where camp_id = '${camp_id}';`, (err, result)=>{
+        
+        campus_id = result.rows[0].campus_id;
+        name = result.rows[0].name;
+
+        if (err){
+            throw Error(err);
+        }
+    });
+
+    client.query(`Select activity_id from yres_db.Activity where camp_id = '${camp_id}';`, (err, result)=>{
+        for (var i=0; i  < result.length; i++) {
+            activity_ids.add(result.rows[i].activity_id);
+        }
+    });
+
+    return new Camp(
+        camp_id,
+        name,
+        activity_ids,
+        campus_id);
+    
+}
+
+
+
+
+
+
+
 function getCampActivities(camp_id) {
     // For testing error handling of non-existant camp
     if (camp_id != "f307479d-262e-423a-a681-a043c2577b0b") {
