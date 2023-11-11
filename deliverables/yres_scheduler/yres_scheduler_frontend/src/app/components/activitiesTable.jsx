@@ -44,6 +44,10 @@ function ActivitiesTable() {
         dataField: 'actions',
         text: 'Actions'
     }]
+    const rowEvents = {
+        onClick: (_, rowIndex) => {
+        }
+    };
     appendRowActions(activityData);
     return (
         <div id='profiles-table'>

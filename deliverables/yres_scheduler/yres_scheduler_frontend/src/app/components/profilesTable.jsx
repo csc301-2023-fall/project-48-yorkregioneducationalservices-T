@@ -66,11 +66,15 @@ function ProfilesTable({ type, defaultType }) {
         lastname: 'Pinkman',
         campus_id: '12',
     }]);
+    const rowEvents = {
+        onClick: (_, rowIndex) => {
+        }
+    };
     appendRowActions(studentData, type);
     appendRowActions(counselorData, type);
     return (
         <div id='profiles-table'>
-            {type !== defaultType ? <CounselorsTable display_data={counselorData}/> : <StudentsTable display_data={studentData}/>}
+            {type !== defaultType ? <CounselorsTable display_data={counselorData} rowEvents={rowEvents}/> : <StudentsTable display_data={studentData} rowEvents={rowEvents}/>}
         </div>
     )
 }
