@@ -1,7 +1,11 @@
+'use client';
 import * as React from 'react';
+import ActivitiesTable from '../../components/activitiesTable';
 
 function Floorplan() {
-    return (<div>Floorplan - To Be Implemented</div>);
+    return (<div>
+        <ActivitiesTable/>
+    </div>);
 }
 
 export default Floorplan;
