@@ -122,25 +122,38 @@ create table Room (
 
 -- Represents an activity that all groups of a type of camp will be scheduled to do 
 -- Columns:
-    -- 
+    -- activity_id :  The auto generated unique ID
+    -- name :  <UI> The name of the activity
+    -- duration :  <UI> The number of hours this activity takes
+    -- type : <UI> The type of the activity (filler / common)
+    -- num_occurences <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
+    -- camp_id : Foreign Key constraint
+    -- room_id : Foreign Key constraint
 create table Activity (
     activity_id uuid primary key,	
-    name text not null, 		-- <UI> The name of the activity
-    duration integer not null,		-- <UI> The number of hours this activity takes
-    type text not null,		-- <UI> The type of the activity (filler / common)
-    num_occurences integer not null,	-- <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
+    name text not null, 		
+    duration integer not null,
+    type text not null,
+    num_occurences integer not null,
     camp_id uuid references Camp,
     room_id uuid references Room
 );
 
 
 -- Represents a block in a schedule, specifying when an activity of a group starts and end in the schedule */
+-- Columns:
+    -- block_id : The auto generated unique ID
+    -- room_id : The ID of the room this block occupies
+    -- activity_id : The ID of the activity of this block
+    -- start_time : The start moment of this block
+    -- end_time : The end moment of this block
+    -- schedule_id : Foreign key constraint    
 create table Block (
-    block_id uuid primary key,		-- The auto generated unique ID
-    room_id text not null, 		    -- The ID of the room this block occupies
-    activity_id text not null, 	    -- The ID of the activity of this block
-    start_time time not null,   	-- The start moment of this block
-    end_time time not null,  	    -- The end moment of this block
-    schedule_id uuid references Schedule          -- Foreign key constraint    
+    block_id uuid primary key,		
+    room_id uuid not null references Room,
+    activity_id uuid not null references Activity,
+    start_time time not null,
+    end_time time not null,
+    schedule_id uuid references Schedule 
 );
 
