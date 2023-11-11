@@ -4,6 +4,7 @@ import ProfilesTable from "@/app/components/profilesTable";
 import DropdownButton from 'react-bootstrap/Dropdown';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
+import RefinedDropdown from '../../components/refinedDropDowns'
 
 const PROFILE_TYPES = ['Student', 'Counselor']
 
@@ -17,17 +18,14 @@ function Profiles() {
     return (
         <>
             <div id='profiles-header'>
-                <Dropdown onSelect={handleSelectType}>
-                    <Dropdown.Toggle id="dropdown-basic">
-                        {currType}
-                    </Dropdown.Toggle>
-                    <DropdownButton.Menu>
-                        {PROFILE_TYPES.map(
-                            type => <Dropdown.Item key={type} eventKey={type} >{type}</Dropdown.Item>
-                        )}
-                    </DropdownButton.Menu>
-                </Dropdown>
-                <Button variant="primary">Add Profile</Button>
+                <RefinedDropdown 
+                    handleSelect={handleSelectType}
+                    displayText={currType}
+                    groups={PROFILE_TYPES}
+                />
+                <div className='right-align'>
+                    <Button variant="primary">Add Profile</Button>
+                </div>
             </div>
             <div className='center-align'>
                 <ProfilesTable type={currType} defaultType={PROFILE_TYPES[0]}/>

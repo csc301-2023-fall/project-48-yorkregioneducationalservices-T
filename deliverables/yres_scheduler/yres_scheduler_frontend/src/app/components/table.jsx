@@ -15,12 +15,20 @@ function YresTable(props) {
         <tbody>
             {data.map((row, rowIndex) => 
               <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
-                  {TCols.map((colName) => <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>)}
-              </tr>)}
+              {TCols.map((colName) => {
+                  if (Array.isArray(row[colName])) {
+                    let string = row[colName].join(', ');
+                    return <td key={`${row[keyCol]}:${colName}`}>{string}</td>;
+                  } else {
+                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>;
+                  }
+                })}
+              </tr>
+            )};
         </tbody>
       </Table>
     </div>
   );
 }
 
-export default YresTable;
+export default YresTable
