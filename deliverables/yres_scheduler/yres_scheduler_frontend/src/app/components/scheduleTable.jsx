@@ -102,7 +102,7 @@ export default function Schedule({ schedule }) {
                 groups={groups}
             />
             <div className='float-child'>
-            <CSVLink class="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
+            <CSVLink className="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
                 Export to CSV
             </CSVLink>
             </div>
