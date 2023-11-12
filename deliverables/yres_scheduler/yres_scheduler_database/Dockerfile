@@ -1,5 +1,5 @@
 # Use an official base image
-FROM erickarp/postgres:latest
+FROM nginx:latest
 
 # Set the working directory inside the container
 WORKDIR /app

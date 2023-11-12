@@ -1,7 +1,6 @@
 name: Docker CD Database Pipeline
 
 on:
-
   push:
 
     paths:
