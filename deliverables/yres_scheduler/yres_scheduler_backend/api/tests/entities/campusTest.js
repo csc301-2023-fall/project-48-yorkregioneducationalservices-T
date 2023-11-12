@@ -31,3 +31,4 @@ describe('class Campus', function () {
     });
   });
 });
+
