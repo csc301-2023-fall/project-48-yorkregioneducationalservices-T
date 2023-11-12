@@ -10,62 +10,7 @@ import { BsTrash } from 'react-icons/bs';
 import StudentEdit from '../modals/studentEdit';
 import CounselorEdit from '../modals/counselorEdit';
 
-function ProfilesTable({ type, defaultType }) {
-    // Dummy state data. TODO: Replace with GET data api call
-    const [studentData, setStudentData] = useState([{
-        student_id: 0,
-        firstname: 'Tom',
-        lastname: 'Bombadil',
-        age: '12',
-        sex: 'Male',
-        friends_ids: ['1'],
-        enemy_ids: ['2', '3']
-    }, {
-        student_id: 1,
-        firstname: 'Jack',
-        lastname: 'Frost',
-        age: 7,
-        sex: 'Male',
-        friends_ids: ['0'],
-        enemy_ids: []
-    },{
-        student_id: 2,
-        firstname: 'George',
-        lastname: 'Washington',
-        age: 8,
-        sex: 'Male',
-        friends_ids: ['3'],
-        enemy_ids: ['1']
-    }, {
-        student_id: 3,
-        firstname: 'Abraham',
-        lastname: 'Lincoln',
-        age: 7,
-        sex: 'Male',
-        friends_ids: ['2'],
-        enemy_ids: ['1']
-    }]);
-    const [counselorData, setCounselorData] = useState([{
-        counselor_id: 0,
-        firstname: 'Walter',
-        lastname: 'White',
-        campus_id: '11',
-    }, {
-        counselor_id: 1,
-        firstname: 'Hank',
-        lastname: 'Schrader',
-        campus_id: '11',
-    },{
-        counselor_id: 2,
-        firstname: 'Skylar',
-        lastname: 'White',
-        campus_id: '12',
-    }, {
-        counselor_id: 3,
-        firstname: 'Jesse',
-        lastname: 'Pinkman',
-        campus_id: '12',
-    }]);
+function ProfilesTable({ type, defaultType, studentData, setStudentData, counselorData, setCounselorData}) {
     appendRowActions(studentData, type);
     appendRowActions(counselorData, type);
     return (
