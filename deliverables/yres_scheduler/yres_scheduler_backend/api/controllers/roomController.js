@@ -19,5 +19,6 @@ function getAllRooms(req, res) {
 }
 
 module.exports = {
-    getRoom
+    getRoom,
+    getAllRooms
 }

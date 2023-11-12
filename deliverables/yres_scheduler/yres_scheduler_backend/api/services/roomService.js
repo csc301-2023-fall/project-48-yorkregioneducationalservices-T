@@ -21,5 +21,6 @@ function getAllRooms(campus_id) {
 }
 
 module.exports = {
-    getRoom
+    getRoom,
+    getAllRooms
 }
