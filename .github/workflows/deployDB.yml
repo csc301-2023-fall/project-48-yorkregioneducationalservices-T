@@ -22,12 +22,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and Push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: deliverables/yres_scheduler/yres_scheduler_database/docker-compose.yml
-          push: true
-          tags: erickarp/postgres:${{ github.sha }}
+      # - name: Build and Push Docker image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: deliverables/yres_scheduler/yres_scheduler_database/docker-compose.yml
+      #     push: true
+      #     tags: erickarp/postgres:${{ github.sha }}
 
       - name: Deploy to EC2 instance 
         uses: appleboy/ssh-action@master
@@ -37,9 +37,10 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           working-directory: deliverables/yres_scheduler/yres_scheduler_database
           script: |
-            sudo docker stop postgres || true
-            sudo docker rm postgres || true
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
-            sudo docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
+            sudo docker-compose -f deliverables/yres_scheduler/yres_scheduler_database/docker-compose.yml up -d
+            # sudo docker stop postgres || true
+            # sudo docker rm postgres || true
+            # sudo docker pull ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
+            # sudo docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
 
 
