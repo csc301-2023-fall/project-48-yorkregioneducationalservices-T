@@ -21,17 +21,17 @@ function YresTable(props) {
           </tr>
         </thead>
         <tbody>
-            {data.map((row, rowIndex) => 
-              <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
-              {TCols.map((colName) => {
-                  if (Array.isArray(row[colName])) {
-                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName].join(', ')}</td>
-                  } else {
-                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>
-                  }
-                })}
-              </tr>
-            )}
+          {data.map((row, rowIndex) => 
+            <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
+            {TCols.map((colName) => {
+                if (Array.isArray(row[colName])) {
+                  return <td key={`${row[keyCol]}:${colName}`}>{row[colName].join(', ')}</td>
+                } else {
+                  return <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>
+                }
+              })}
+            </tr>
+          )}
         </tbody>
       </Table>
     </div>
