@@ -27,13 +27,13 @@ function YresTable(props) {
               <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
               {TCols.map((colName) => {
                   if (Array.isArray(row[colName])) {
-                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName].join(', ')}</td>;
+                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName].join(', ')}</td>
                   } else {
-                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>;
+                    return <td key={`${row[keyCol]}:${colName}`}>{row[colName]}</td>
                   }
                 })}
               </tr>
-            )};
+            )}
         </tbody>
       </Table>
     </div>
