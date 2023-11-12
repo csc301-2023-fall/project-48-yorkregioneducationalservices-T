@@ -27,13 +27,13 @@ jobs:
         with:
           context: deliverables/yres_scheduler/yres_scheduler_database
           push: true
-          tags: erickarp/postgres:${{ github.sha }}
+          tags: csc301-2023-fall/postgres:${{ github.sha }}
 
       - name: Deploy to EC2 instance 
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST}}
-          username: ${{secrets.EC2_USERNAME }}
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           working-directory: deliverables/yres_scheduler/yres_scheduler_database
           script: |
