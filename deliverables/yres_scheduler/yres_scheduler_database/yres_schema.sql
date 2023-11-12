@@ -157,4 +157,3 @@ create table Block (
     schedule_id uuid references Schedule 
 );
 
-
