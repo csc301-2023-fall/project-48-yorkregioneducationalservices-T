@@ -4,7 +4,7 @@
   "description": "CSC301 group project 48.",
   "main": "server.js",
   "scripts": {
-    "test": "mocha 'api/tests/**/*.js'"
+    "test": "mocha --exit 'api/tests/**/*.js'"
   },
   "author": "Backend team",
   "license": "ISC",
