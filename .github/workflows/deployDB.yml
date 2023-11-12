@@ -32,7 +32,8 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/yres/deliverables/yres_scheduler/yres_scheduler_database
-            docker-compose up -d
+            sudo docker-compose down --volumes || true
+            sudo docker-compose up -d
   # build-test-deploy:
   #   runs-on: ubuntu-latest
 
