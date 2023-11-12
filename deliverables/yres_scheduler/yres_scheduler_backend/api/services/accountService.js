@@ -1,6 +1,6 @@
 
 const db = require('../db/psqlDbPlugin');
-const User = require('../entities/User');
+const User = require('../entities/AdminUser');
 const crypto = require('crypto');
 
 function login(username, password) {

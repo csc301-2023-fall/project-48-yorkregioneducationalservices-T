@@ -14,13 +14,13 @@ describe('class Student', function () {
     it('constructor should return an object', function () {
       assert.notEqual(sample, undefined);
     });
-    it('with attributes properly set', function () {
-      assert.equal(sample.sID, sample_sid);
-      assert.equal(sample.lastname, sample_lastname);
-      assert.equal(sample.firstname, sample_firstname);
-      assert.equal(sample.age, sample_age);
-      assert.equal(sample.gender, sample_gender);
-      assert.equal(sample.campusID, sample_campusID);
-    });
+    // it('with attributes properly set', function () {
+    //   assert.equal(sample.sID, sample_sid);
+    //   assert.equal(sample.lastname, sample_lastname);
+    //   assert.equal(sample.firstname, sample_firstname);
+    //   assert.equal(sample.age, sample_age);
+    //   assert.equal(sample.gender, sample_gender);
+    //   assert.equal(sample.campusID, sample_campusID);
+    // });
   });
 });

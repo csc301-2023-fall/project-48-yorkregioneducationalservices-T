@@ -4,9 +4,9 @@
   "description": "CSC301 group project 48.",
   "main": "server.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "mocha 'api/tests/**/*.js'"
   },
-  "author": "Harvey Donnelly",
+  "author": "Backend team",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
