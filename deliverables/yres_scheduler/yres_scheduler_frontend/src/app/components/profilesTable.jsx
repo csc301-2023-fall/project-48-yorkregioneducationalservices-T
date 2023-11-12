@@ -3,8 +3,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import YresTable from './table'
 import { useState, useEffect } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import StudentEdit from '../modals/studentEdit';
@@ -74,7 +72,7 @@ function ProfilesTable({ type, defaultType }) {
     appendRowActions(counselorData, type);
     return (
         <div id='profiles-table'>
-            {type !== defaultType ? <CounselorsTable display_data={counselorData} rowEvents={rowEvents}/> : <StudentsTable display_data={studentData} rowEvents={rowEvents}/>}
+            {type !== defaultType ? <CounselorsTable display_data={counselorData}  rowEvents={rowEvents}/> : <StudentsTable display_data={studentData} rowEvents={rowEvents}/>}
         </div>
     )
 }

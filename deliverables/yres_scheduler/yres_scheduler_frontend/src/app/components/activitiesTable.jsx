@@ -20,9 +20,9 @@ function ActivitiesTable() {
     // Dummy state data. TODO: Replace with GET data api call
     const [activityData, setActivityData] = useState([{
         activty_id: 0,
-        name: 'Cum Session',
+        name: 'Session',
         duration: 100,
-        type: '12',
+        type: 'filler',
         num_occurences: 5
     }]);
     const columns = [{

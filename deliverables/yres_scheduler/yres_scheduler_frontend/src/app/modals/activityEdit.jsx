@@ -18,7 +18,6 @@ function ActivityEdit({item, show, setShow}) {
     const durationValueChange = (event) => {
         setDurationValue(event.target.value);
     }
-    
     const [typeValue, setTypeValue] = useState(item.type);
     const typeValueChange = (event) => {
         setTypeValue(event.target.value);
@@ -33,7 +32,6 @@ function ActivityEdit({item, show, setShow}) {
         item.type = typeValue
         item.num_occurences = occurencesValue
         handleClose() //needs to be before setStudentData
-        setActivityData(activityData)
     }
   
     return (
@@ -82,9 +80,9 @@ function ActivityEdit({item, show, setShow}) {
                         onChange={typeValueChange} 
                     /> */}
                     <Form.Check value="common" type="radio" label="Common" 
-                    onchange={typeValueChange} checked={typeValue === "common"}/>
+                    onChange={typeValueChange} checked={typeValue === "common"}/>
                     <Form.Check value="filler" type="radio" label="Filler" 
-                    onchange={typeValueChange} checked={typeValue === "filler"}/>
+                    onChange={typeValueChange} checked={typeValue === "filler"}/>
                     </Form.Group>
 
                     <Form.Group
