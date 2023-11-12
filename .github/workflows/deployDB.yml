@@ -39,4 +39,4 @@ jobs:
             sudo docker stop postgres || true
             sudo docker rm postgres || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
-            sudo docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
+            sudo docker run -d --name postgres -p 3001:5432 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}

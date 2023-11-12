@@ -1,5 +1,5 @@
 # Use an official base image
-FROM nginx:latest
+FROM docker/compose:latest
 
 # Set the working directory inside the container
 WORKDIR /app
