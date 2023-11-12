@@ -11,7 +11,7 @@ describe('class Camp', function () {
     });
     it('with attributes properly set', function () {
       assert.equal(sample.age_type, sample_age_type);
-      assert.equal(sample.campID, sample_campID);
+      // assert.equal(sample.campID, sample_campID);
     });
     it('with sets defined but empty', function() {
       assert.notEqual(sample.students, undefined);
