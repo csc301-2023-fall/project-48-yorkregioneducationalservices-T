@@ -32,6 +32,6 @@ jobs:
     - name: Run Node.js Server
       run: |
         node server.js &
-        sleep 5 
-        kill -2 $(jobs -p) 
+          sleep 5  # Allow some time for the server to start
+        kill -2 $(jobs -p)  # Send SIGINT to the background jobs
       working-directory: deliverables/yres_scheduler/yres_scheduler_backend
