@@ -64,22 +64,18 @@ function ProfilesTable({ type, defaultType }) {
         lastname: 'Pinkman',
         campus_id: '12',
     }]);
-    const rowEvents = {
-        onClick: (_, rowIndex) => {
-        }
-    };
     appendRowActions(studentData, type);
     appendRowActions(counselorData, type);
     return (
         <div id='profiles-table'>
-            {type !== defaultType ? <CounselorsTable display_data={counselorData}  rowEvents={rowEvents}/> : <StudentsTable display_data={studentData} rowEvents={rowEvents}/>}
+            {type !== defaultType ? <CounselorsTable display_data={counselorData}/> : <StudentsTable display_data={studentData}/>}
         </div>
     )
 }
 
 /* Table subtypes */
 
-function StudentsTable({ display_data, rowEvents }) {
+function StudentsTable({ display_data}) {
     const columns = [{
         dataField: 'student_id',
         text: 'ID'
@@ -107,11 +103,11 @@ function StudentsTable({ display_data, rowEvents }) {
     }]
 
     return (
-        <YresTable keyCol={'student_id'} data={display_data} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
+        <YresTable keyCol={'student_id'} data={display_data} columns={columns} disableHover={true}/>
     )   
 }
 
-function CounselorsTable({ display_data, rowEvents }) {
+function CounselorsTable({ display_data}) {
     const columns = [{
         dataField: 'counselor_id',
         text: 'ID'
@@ -130,7 +126,7 @@ function CounselorsTable({ display_data, rowEvents }) {
     }]
 
     return (
-        <YresTable keyCol={'counselor_id'} data={display_data} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
+        <YresTable keyCol={'counselor_id'} data={display_data} columns={columns} disableHover={true}/>
     )   
 }
 

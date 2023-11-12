@@ -3,7 +3,9 @@ import React from 'react';
 function YresTable(props) {
   const { keyCol, data, columns, rowEvents, disableHover } = props;
   const TCols = columns.map((item) => item.dataField);
-
+  if (rowEvents === undefined) {
+    rowEvents = { onClick: (_, _) => {} };
+  }
   const [hydrated, setHydrated] = React.useState(false);
 	React.useEffect(() => {
 		setHydrated(true);

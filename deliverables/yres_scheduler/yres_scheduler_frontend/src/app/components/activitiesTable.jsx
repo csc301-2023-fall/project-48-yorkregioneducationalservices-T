@@ -44,14 +44,10 @@ function ActivitiesTable() {
         dataField: 'actions',
         text: 'Actions'
     }]
-    const rowEvents = {
-        onClick: (_, rowIndex) => {
-        }
-    };
     appendRowActions(activityData);
     return (
         <div id='profiles-table'>
-            <YresTable keyCol={'activity_id'} data={activityData} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
+            <YresTable keyCol={'activity_id'} data={activityData} columns={columns} disableHover={true}/>
         </div>
     )
 }
@@ -73,16 +69,16 @@ function appendRowActions(data) {
             Delete
         </Tooltip>
     );
-
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleDelete = () => {
+        /**
+         * Delete logic for activity...
+         */
+    }
     data.forEach(item => {
         //state for modal display
-        const [show, setShow] = useState(false);
-        const handleShow = () => setShow(true);
-        const handleDelete = () => {
-            /**
-             * Delete logic for activity...
-             */
-        }
+
         item.actions = (
             <div className='table-actions'>
                 <OverlayTrigger
@@ -90,9 +86,9 @@ function appendRowActions(data) {
                     delay={{ show: 250, hide: 400 }}
                     overlay={ renderEditTooltip }
                 >
-                    <Button variant="success" onClick={handleShow} className='action-button'>
-                        <FaPencilAlt />
-                    </Button>
+                <Button variant="success" onClick={handleShow} className='action-button'>
+                    <FaPencilAlt />
+                </Button>
                 </OverlayTrigger>
                 <ActivityEdit
                     item={item}
