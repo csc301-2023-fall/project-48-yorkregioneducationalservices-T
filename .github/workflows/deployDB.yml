@@ -37,7 +37,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           working-directory: deliverables/yres_scheduler/yres_scheduler_database
           script: |
-            # docker stop postgres || true
-            # docker rm postgres || true
+            sudo docker stop postgres || true
+            sudo docker rm postgres || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
-            # docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
+            sudo docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
