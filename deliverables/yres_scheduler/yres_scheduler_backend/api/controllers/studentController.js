@@ -1,8 +1,8 @@
-const campService = require('../services/studentService');
+const studentService = require('../services/studentService');
 
 function getStudents(req, res) {
 
-    const student = campService.getStudents();
+    const student = studentService.getStudents();
 
     return {
         student: student

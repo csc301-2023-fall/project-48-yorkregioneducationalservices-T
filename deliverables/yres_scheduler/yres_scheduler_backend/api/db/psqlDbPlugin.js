@@ -2,13 +2,23 @@ const Activity = require("../entities/Activity");
 const Camp = require("../entities/Camp");
 
 const {Client} = require('pg')
+const config = require('config');
+
+
+// TODO add diff connection configs, one for prod and other is dev/test 
+// if ()
+
+
+// TODO Move the connection to a diff file
+
+const db = config.get('db');
 
 const client = new Client({
-    host: 'db',
-    user: "summercamp",
-    port: 5432,
-    password: "csc301",
-    database: "summercamp_db"
+    host: db.HOST,
+    user: db.USER,
+    port: db.PORT,
+    password: db.PASSWORD,
+    database: db.DATABASE
 });
 
 client.connect();
@@ -73,7 +83,7 @@ function existsUser(username) {
 // Student db plugin methods
 function getStudents() {
 
-    const query = 'SELECT * FROM yres_db.Student';
+    const query = 'SELECT * FROM student';
 
     client.query(query, (err, result)=>{
 
@@ -81,8 +91,10 @@ function getStudents() {
             throw Error(err);
         }
 
+
         // Extract rows from the result
         const rows = result.rows;
+        console.log(rows);
 
         // Map the rows to Student objects
         const students = rows.map(row => new Student(
@@ -108,5 +120,6 @@ module.exports = {
     submitSchedule,
     getCampById,
     checkLogin,
-    existsUser
+    existsUser,
+    getStudents
 }
