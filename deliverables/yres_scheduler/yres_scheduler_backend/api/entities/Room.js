@@ -7,11 +7,11 @@ module.exports = class Room {
      * 
      * @param {string} room_id - The unique ID assigned by <CONTROLLER>.
      * @param {string} name - The name of this room given by user input.
-     * @param {Set} activity_ids - The type (use) of this room given by user input.
+     * @param {string} campus_id - The ID of the campus this room belongs to.
      */
-    constructor(room_id, name, activity_ids) {
+    constructor(room_id, name, campus_id) {
         this.room_id = room_id;
         this.name = name;
-        this.activity_ids = activity_ids;
+        this.campus_id = campus_id;
     }
 }
