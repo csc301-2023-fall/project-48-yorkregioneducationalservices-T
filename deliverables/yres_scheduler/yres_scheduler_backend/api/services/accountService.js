@@ -15,7 +15,6 @@ function login(username, password) {
         login_status: true,
         message: "Login successful"
     }
-
 }
 
 function signup(username, password) {
@@ -28,7 +27,7 @@ function signup(username, password) {
     }
     else {
         const userID = crypto.randomUUID();
-        db.newUser(userID, username, password);
+        db.createAdminUser(username, password);
         return {
             signup_status: true,
             userID: userID,
@@ -37,7 +36,7 @@ function signup(username, password) {
     }
 }
 
-function logout(userID) {
+function logout(username) {
     return {
         login_status: false,
         message: "Loggout successful"
