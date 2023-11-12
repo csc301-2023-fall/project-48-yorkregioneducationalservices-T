@@ -25,7 +25,7 @@ jobs:
       - name: Build and Push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: deliverables/yres_scheduler/yres_scheduler_database/
+          context: deliverables/yres_scheduler/yres_scheduler_database
           push: true
           tags: erickarp/postgres:${{ github.sha }}
 
