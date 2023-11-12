@@ -156,6 +156,3 @@ create table Block (
     end_time time not null,
     schedule_id uuid references Schedule 
 );
-
-
-
