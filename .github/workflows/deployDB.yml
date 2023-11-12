@@ -25,7 +25,7 @@ jobs:
       - name: Build and Push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: deliverables/yres_scheduler/yres_scheduler_database
+          context: deliverables/yres_scheduler/yres_scheduler_database/docker-compose.yml
           push: true
           tags: erickarp/postgres:${{ github.sha }}
 
@@ -41,3 +41,5 @@ jobs:
             sudo docker rm postgres || true
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
             sudo docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
+
+
