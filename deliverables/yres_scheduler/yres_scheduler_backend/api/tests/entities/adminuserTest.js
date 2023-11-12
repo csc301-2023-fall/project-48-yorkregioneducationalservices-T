@@ -1,4 +1,4 @@
-const User = require("../../entities/User")
+const User = require("../../entities/adminUser")
 var assert = require('assert');
 
 var sample_username = "username";
