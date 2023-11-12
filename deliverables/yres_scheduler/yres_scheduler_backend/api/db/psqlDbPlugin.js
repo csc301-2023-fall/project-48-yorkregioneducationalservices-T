@@ -1,6 +1,18 @@
 const Activity = require("../entities/Activity");
 const Camp = require("../entities/Camp");
 
+const {Client} = require('pg')
+
+const client = new Client({
+    host: 'db',
+    user: "summercamp",
+    port: 5432,
+    password: "csc301",
+    database: "summercamp_db"
+});
+
+client.connect();
+
 function getCampActivities(camp_id) {
     // For testing error handling of non-existant camp
     if (camp_id != "f307479d-262e-423a-a681-a043c2577b0b") {
@@ -57,6 +69,39 @@ function existsUser(username) {
         return true;
     return false;
 }
+
+// Student db plugin methods
+function getStudents() {
+
+    const query = 'SELECT * FROM yres_db.Student';
+
+    client.query(query, (err, result)=>{
+
+        if (err){
+            throw Error(err);
+        }
+
+        // Extract rows from the result
+        const rows = result.rows;
+
+        // Map the rows to Student objects
+        const students = rows.map(row => new Student(
+        row.student_id,
+        row.lastname,
+        row.firstname,
+        row.age,
+        row.sex,
+        new Set(), 
+        new Set()
+        ));
+
+        return students;
+        
+    });
+
+
+}
+
 
 module.exports = {
     getCampActivities,
