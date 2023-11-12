@@ -11,6 +11,7 @@ describe('class Campus', function () {
     });
     it('with attributes properly set', function () {
       assert.equal(sample.name, sample_name);
+      console.log(sample.campusID, sample_id)
       assert.equal(sample.campusID, sample_id);
     });
     it('with sets defined but empty', function() {
@@ -31,4 +32,3 @@ describe('class Campus', function () {
     });
   });
 });
-
