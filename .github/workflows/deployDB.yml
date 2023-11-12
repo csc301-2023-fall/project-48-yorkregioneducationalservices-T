@@ -32,12 +32,12 @@ jobs:
       - name: Deploy to EC2 instance 
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST}}
+          host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           working-directory: deliverables/yres_scheduler/yres_scheduler_database
           script: |
-            docker stop postgres || true
-            docker rm postgres || true
+            # docker stop postgres || true
+            # docker rm postgres || true
             docker pull ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
-            docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
+            # docker run -d --name postgres -p 3001 ${{ secrets.DOCKER_USERNAME }}/postgres:${{ github.sha }}
