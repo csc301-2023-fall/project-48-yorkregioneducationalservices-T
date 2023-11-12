@@ -1,0 +1,42 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        # cache: 'npm'
+
+    - name: Install Dependencies
+      run: npm ci
+      working-directory: deliverables/yres_scheduler/yres_scheduler_backend
+
+    - name: Run Node.js Server
+      run: |
+        node server.js &
+          sleep 5  # Allow some time for the server to start
+        kill -2 $(jobs -p)  # Send SIGINT to the background jobs
+      working-directory: deliverables/yres_scheduler/yres_scheduler_backend
+
+    - name: Run all the backend tests
+      run: npm test
+      working-directory: deliverables/yres_scheduler/yres_scheduler_backend
+
