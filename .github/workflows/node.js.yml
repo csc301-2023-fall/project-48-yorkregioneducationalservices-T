@@ -35,5 +35,3 @@ jobs:
     - name: Run all the backend tests
       run: npm test
       working-directory: deliverables/yres_scheduler/yres_scheduler_backend
-
-\
