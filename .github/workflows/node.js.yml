@@ -30,7 +30,7 @@ jobs:
       working-directory: deliverables/yres_scheduler/yres_scheduler_backend
 
     - name: Run Node.js Server
-     run: |
+      run: |
         node server.js &
         sleep 5 
         kill -2 $(jobs -p) 
