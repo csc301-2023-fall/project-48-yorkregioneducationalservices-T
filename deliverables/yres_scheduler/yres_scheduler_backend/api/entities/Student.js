@@ -5,49 +5,72 @@ module.exports = class Student {
     /**
      * Create a new student profile.
      * 
-     * @param {string} sID - The unique ID of this student.
+     * @param {string} student_id - The unique ID of this student.
      * @param {string} lastname
      * @param {string} firstname 
      * @param {number} age 
-     * @param {string} gender 
-     * @param {string} campusID - The ID of the campus this student registers.
-     */
-    constructor (sID, lastname, firstname, age, gender, campusID) {
-        this.sID = sID;
+     * @param {string} sex 
+     * @param {Set<string>} friend_ids - A set of student IDs that this student prefers to work with.
+     * @param {Set<string>} enemy_ids - A set of student IDs that this student doesn't want to work with.
+    */
+    constructor(student_id, lastname, firstname, age, sex, friend_ids, enemy_ids) {
+        this._student_id = student_id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.age = age;
-        this.gender = gender;
-        this.campusID = campusID;
+        this.sex = sex;
+        this.friend_ids = friend_ids;
+        this.enemy_ids = enemy_ids;
     }
 
     /**
-    * Dummy database used for testing.
+    * Getters and setters 
     */
-    static students = [
-        {
-            sID: "st00001",
-            lastname: "Dummy",
-            firstname: "Student 1",
-            age: 9,
-            gender: "M",
-            campusID: "CA00001"
-        },
-        {
-            sID: "st00002",
-            lastname: "Dummy",
-            firstname: "Student 2",
-            age: 10,
-            gender: "F",
-            campusID: "CA00001"
-        },
-        {
-            sID: "st00004",
-            lastname: "Dummy",
-            firstname: "Student 4",
-            age: 12,
-            gender: "M",
-            campusID: "CA00001"
-        }
-    ];
+    get student_id() {
+        return this._student_id;
+    }
+
+    set student_id(newStudentId) {
+        this._student_id = newStudentId;
+    }
+
+    getFriendIds() {
+        return new Set(this.friend_ids);
+    }
+
+    getEnemyIds() {
+        return new Set(this.enemy_ids);
+    }
+
+    /**
+     * Add a friend ID to the set of friends.
+     * @param {string} friendId - The ID of the friend to add.
+     */
+    addFriend(friendId) {
+        this.friend_ids.add(friendId);
+    }
+
+    /**
+     * Remove a friend ID from the set of friends.
+     * @param {string} friendId - The ID of the friend to remove.
+     */
+    removeFriend(friendId) {
+        this.friend_ids.delete(friendId);
+    }
+
+    /**
+     * Add an enemy ID to the set of enemies.
+     * @param {string} enemyId - The ID of the enemy to add.
+     */
+    addEnemy(enemyId) {
+        this.enemy_ids.add(enemyId);
+    }
+
+    /**
+     * Remove an enemy ID from the set of enemies.
+     * @param {string} enemyId - The ID of the enemy to remove.
+     */
+    removeEnemy(enemyId) {
+        this.enemy_ids.delete(enemyId);
+    }
 }
