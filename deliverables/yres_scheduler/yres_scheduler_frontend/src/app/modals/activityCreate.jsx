@@ -9,46 +9,31 @@ import Button from 'react-bootstrap/Button';
  * */
 function ActivityCreate({show, setShow}) {
     const handleClose = () => setShow(false);
-    //state for modal values
-    const [nameValue, setNameValue] = useState();
-    const nameValueChange = (event) => {
-        setNameValue(event.target.value);
-    }
-    const [durationValue, setDurationValue] = useState(1);
-    const durationValueChange = (event) => {
-        setDurationValue(event.target.value);
-    }
-    const [typeValue, setTypeValue] = useState("common");
-    const typeValueChange = (event) => {
-        setTypeValue(event.target.value);
-    }
-    const [occurencesValue, setOccurencesValue] = useState(1);
-    const occurencesValueChange = (event) => {
-        setOccurencesValue(event.target.value);
-    }
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
         /**
          * API post request for adding new activity
          */
+        console.log(event.target[0].value);
+        console.log(event.target[1].value);
+        console.log(event.target[2].value);
+        console.log(event.target[3].value);
         handleClose() 
     }
   
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{"Add New Activity"}</Modal.Title>
+            <Modal.Title>{"Add new Activity"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group
                     className="mb-3"
-                    controlId="activityForm.ControlName"
                     >
                     <Form.Label>Activity Name</Form.Label>
                     <Form.Control
                         type="text"
-                        value={nameValue} 
-                        onChange={nameValueChange} 
+                        placeholder={"Math"}
                         autoFocus
                     />
                     </Form.Group> 
@@ -60,8 +45,7 @@ function ActivityCreate({show, setShow}) {
                     <Form.Label>Duration (hours)</Form.Label>
                     <Form.Control
                         type="number"
-                        value={durationValue} 
-                        onChange={durationValueChange} 
+                        placeholder={1}
                     />
                     </Form.Group>
 
@@ -76,10 +60,7 @@ function ActivityCreate({show, setShow}) {
                         value={typeValue} 
                         onChange={typeValueChange} 
                     /> */}
-                    <Form.Check value="common" type="radio" label="Common" 
-                    onChange={typeValueChange} checked={typeValue === "common"}/>
-                    <Form.Check value="filler" type="radio" label="Filler" 
-                    onChange={typeValueChange} checked={typeValue === "filler"}/>
+                    <Form.Check type="checkbox" label="Filler"/>
                     </Form.Group>
 
                     <Form.Group
@@ -89,19 +70,19 @@ function ActivityCreate({show, setShow}) {
                     <Form.Label>Number of Occurences</Form.Label>
                     <Form.Control
                         type="number"
-                        value={occurencesValue} 
-                        onChange={occurencesValueChange} 
+                        placeholder={5}
                     />
                     </Form.Group>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button type="submit" variant="primary">
+                        Create New Activity
+                    </Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={handleSubmit}>
-                Create Activity
-            </Button>
+
             </Modal.Footer>
         </Modal>
     );

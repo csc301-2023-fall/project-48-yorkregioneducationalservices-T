@@ -1,10 +1,11 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react';
 function YresTable(props) {
-  const { keyCol, data, columns, rowEvents, disableHover } = props;
+  const { keyCol, data, columns, rowEvents_const, disableHover } = props;
+  let rowEvents = rowEvents_const;
   const TCols = columns.map((item) => item.dataField);
   if (rowEvents === undefined) {
-    rowEvents = { onClick: (_, _) => {} };
+    rowEvents = { onClick: (_) => {} };
   }
   const [hydrated, setHydrated] = React.useState(false);
 	React.useEffect(() => {

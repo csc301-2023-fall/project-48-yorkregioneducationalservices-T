@@ -18,10 +18,25 @@ import ActivityEdit from '../modals/activityEdit';
 */
 function ActivitiesTable() {
     // Dummy state data. TODO: Replace with GET data api call
+    const [showEdit, setShowEdit] = useState(false);
+    const [editItem, setEditItem] = useState({
+        activity_id: -1,
+        name: null,
+        duration: null,
+        type: null,
+        num_occurences: -1
+    });
     const [activityData, setActivityData] = useState([{
         activty_id: 0,
         name: 'Session',
         duration: 100,
+        type: 'filler',
+        num_occurences: 5
+    },
+    {
+        activty_id: 1,
+        name: 'Se',
+        duration: 10,
         type: 'filler',
         num_occurences: 5
     }]);
@@ -44,69 +59,48 @@ function ActivitiesTable() {
         dataField: 'actions',
         text: 'Actions'
     }]
-    appendRowActions(activityData);
-    return (
-        <div id='profiles-table'>
-            <YresTable keyCol={'activity_id'} data={activityData} columns={columns} disableHover={true}/>
-        </div>
-    )
-}
-
-// Helpers
-
-/* 
- * Appends an edit and trash icon action to each row in <data> 
- * Also adds a tooltip for each icon
- */
-function appendRowActions(data) {
-    const renderEditTooltip = (props) => (
-        <Tooltip {...props}>
-            View/Edit
-        </Tooltip>
-    );
-    const renderDeleteTooltip = (props) => (
-        <Tooltip {...props}>
-            Delete
-        </Tooltip>
-    );
-    const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
-    const handleDelete = () => {
-        /**
-         * Delete logic for activity...
-         */
-    }
-    data.forEach(item => {
+    activityData.forEach(item => {
         //state for modal display
-
+        const showEditModal = () => {
+            setEditItem(item);
+            setShowEdit(true);
+        }
+        const handleDelete = () =>{
+            /**
+             * delete logic
+             */
+        }
         item.actions = (
             <div className='table-actions'>
                 <OverlayTrigger
-                    placement="bottom"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={ renderEditTooltip }
+                    placement="right-start"
+                    overlay={<Tooltip>View/Edit Activity</Tooltip>}
                 >
-                <Button variant="success" onClick={handleShow} className='action-button'>
+                <Button variant="success" onClick={showEditModal} className='action-button'>
                     <FaPencilAlt />
                 </Button>
                 </OverlayTrigger>
-                <ActivityEdit
-                    item={item}
-                    show={show}
-                    setShow={setShow}
-                />
                 <OverlayTrigger
-                    placement="bottom"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={ renderDeleteTooltip }
+                    placement="right-start"
+                    overlay={<Tooltip>Delete Activity</Tooltip>}
                 >
-                    <Button variant="danger" onClick={handleDelete} className='action-button'>
-                        <BsTrash />
-                    </Button>
-                </OverlayTrigger>
+                <Button variant="danger" onClick={handleDelete} className='action-button'>
+                    <BsTrash />
+                </Button>
+            </OverlayTrigger>
             </div>
         )
     });
+    return (
+        <div id='profiles-table'>
+            <YresTable keyCol={'activity_id'} data={activityData} columns={columns} disableHover={true}/>
+            <ActivityEdit
+                item={editItem}
+                show={showEdit}
+                setShow={setShowEdit}
+            />
+        </div>
+    )
 }
 
 export default ActivitiesTable;

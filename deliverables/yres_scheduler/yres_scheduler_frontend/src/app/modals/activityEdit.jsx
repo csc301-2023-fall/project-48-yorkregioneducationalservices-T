@@ -9,28 +9,17 @@ import Button from 'react-bootstrap/Button';
  * */
 function ActivityEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
+    let item_edit = item
     //state for modal values
-    const [nameValue, setNameValue] = useState(item.name);
-    const nameValueChange = (event) => {
-        setNameValue(event.target.value);
-    }
-    const [durationValue, setDurationValue] = useState(item.duration);
-    const durationValueChange = (event) => {
-        setDurationValue(event.target.value);
-    }
-    const [typeValue, setTypeValue] = useState(item.type);
-    const typeValueChange = (event) => {
-        setTypeValue(event.target.value);
-    }
-    const [occurencesValue, setOccurencesValue] = useState(item.num_occurences);
-    const occurencesValueChange = (event) => {
-        setOccurencesValue(event.target.value);
-    }
-    const handleSubmit = () => {
-        item.name = nameValue
-        item.duration = durationValue
-        item.type = typeValue
-        item.num_occurences = occurencesValue
+    const handleSubmit = (event) => {
+        /**
+         * API post requests
+         * use event.target[0] to index through the fields
+         */
+        console.log(event.target[0].value);
+        console.log(event.target[1].value);
+        console.log(event.target[2].value);
+        console.log(event.target[3].value);
         handleClose() //needs to be before setStudentData
     }
   
@@ -40,17 +29,15 @@ function ActivityEdit({item, show, setShow}) {
             <Modal.Title>{"Edit Activity"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group
                     className="mb-3"
-                    controlId="activityForm.ControlName"
                     >
                     <Form.Label>Activity Name</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder={item.name}
-                        value={nameValue} 
-                        onChange={nameValueChange} 
+                        defaultValue={item_edit.name} 
                         autoFocus
                     />
                     </Form.Group> 
@@ -63,8 +50,7 @@ function ActivityEdit({item, show, setShow}) {
                     <Form.Control
                         type="number"
                         placeholder={item.duration}
-                        value={durationValue} 
-                        onChange={durationValueChange} 
+                        defaultValue={item.duration} 
                     />
                     </Form.Group>
 
@@ -79,10 +65,7 @@ function ActivityEdit({item, show, setShow}) {
                         value={typeValue} 
                         onChange={typeValueChange} 
                     /> */}
-                    <Form.Check value="common" type="radio" label="Common" 
-                    onChange={typeValueChange} checked={typeValue === "common"}/>
-                    <Form.Check value="filler" type="radio" label="Filler" 
-                    onChange={typeValueChange} checked={typeValue === "filler"}/>
+                    <Form.Check type="checkbox" label="Filler" defaultChecked={item.type === "filler"}/>
                     </Form.Group>
 
                     <Form.Group
@@ -93,19 +76,19 @@ function ActivityEdit({item, show, setShow}) {
                     <Form.Control
                         type="number"
                         placeholder={item.num_occurences}
-                        value={occurencesValue} 
-                        onChange={occurencesValueChange} 
+                        defaultValue={item.num_occurences} 
                     />
                     </Form.Group>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button type="submit" variant="primary">
+                        Save Changes
+                    </Button>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={handleSubmit}>
-                Save Changes
-            </Button>
+
             </Modal.Footer>
         </Modal>
     );
