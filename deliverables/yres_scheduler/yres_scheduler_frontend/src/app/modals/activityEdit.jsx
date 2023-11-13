@@ -9,7 +9,6 @@ import Button from 'react-bootstrap/Button';
  * */
 function ActivityEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
-    let item_edit = item
     //state for modal values
     const handleSubmit = (event) => {
         /**
@@ -36,8 +35,7 @@ function ActivityEdit({item, show, setShow}) {
                     <Form.Label>Activity Name</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder={item.name}
-                        defaultValue={item_edit.name} 
+                        defaultValue={item.name} 
                         autoFocus
                     />
                     </Form.Group> 
@@ -49,7 +47,6 @@ function ActivityEdit({item, show, setShow}) {
                     <Form.Label>Duration (hours)</Form.Label>
                     <Form.Control
                         type="number"
-                        placeholder={item.duration}
                         defaultValue={item.duration} 
                     />
                     </Form.Group>
@@ -59,12 +56,6 @@ function ActivityEdit({item, show, setShow}) {
                     controlId="activityForm.ControlType"
                     >
                     <Form.Label>Type of Activity</Form.Label>
-                    {/* <Form.Control
-                        type="number"
-                        placeholder={item.type}
-                        value={typeValue} 
-                        onChange={typeValueChange} 
-                    /> */}
                     <Form.Check type="checkbox" label="Filler" defaultChecked={item.type === "filler"}/>
                     </Form.Group>
 
@@ -75,7 +66,6 @@ function ActivityEdit({item, show, setShow}) {
                     <Form.Label>Number of Occurences</Form.Label>
                     <Form.Control
                         type="number"
-                        placeholder={item.num_occurences}
                         defaultValue={item.num_occurences} 
                     />
                     </Form.Group>

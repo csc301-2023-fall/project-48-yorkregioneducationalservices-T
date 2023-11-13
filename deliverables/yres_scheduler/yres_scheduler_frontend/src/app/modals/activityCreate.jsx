@@ -33,7 +33,6 @@ function ActivityCreate({show, setShow}) {
                     <Form.Label>Activity Name</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder={"Math"}
                         autoFocus
                     />
                     </Form.Group> 
@@ -45,7 +44,6 @@ function ActivityCreate({show, setShow}) {
                     <Form.Label>Duration (hours)</Form.Label>
                     <Form.Control
                         type="number"
-                        placeholder={1}
                     />
                     </Form.Group>
 
@@ -54,12 +52,6 @@ function ActivityCreate({show, setShow}) {
                     controlId="activityForm.ControlType"
                     >
                     <Form.Label>Type of Activity</Form.Label>
-                    {/* <Form.Control
-                        type="number"
-                        placeholder={item.type}
-                        value={typeValue} 
-                        onChange={typeValueChange} 
-                    /> */}
                     <Form.Check type="checkbox" label="Filler"/>
                     </Form.Group>
 
@@ -70,7 +62,6 @@ function ActivityCreate({show, setShow}) {
                     <Form.Label>Number of Occurences</Form.Label>
                     <Form.Control
                         type="number"
-                        placeholder={5}
                     />
                     </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>
