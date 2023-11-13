@@ -10,29 +10,29 @@ import Button from 'react-bootstrap/Button';
 function StudentAdd({show, setShow, item}) {
     const handleClose = () => setShow(false);
     //state for modal values
-    const [firstValue, setFirstValue] = useState();
+    let firstValue = item.firstname;
     const firstValueChange = (event) => {
-        setFirstValue(event.target.value);
+        firstValue = event.target.value;
     }
-    const [lastValue, setLastValue] = useState();
+    let lastValue = item.lastname;
     const lastValueChange = (event) => {
-        setLastValue(event.target.value);
+        lastValue = event.target.value;
     }
-    const [ageValue, setAgeValue] = useState();
+    let ageValue = item.age;
     const ageValueChange = (event) => {
-        setAgeValue(event.target.value);
+        ageValue = event.target.value;
     }
-    const [sexValue, setSexValue] = useState();
+    let sexValue = item.sex;
     const sexValueChange = (event) => {
-        setSexValue(event.target.value);
+        sexValue = event.target.value;
     }
-    const [friendsValue, setFriendsValue] = useState();
+    let friendsValue = item.friends_ids;
     const friendsValueChange = (event) => {
-        setFriendsValue(event.target.value);
+        friendsValue = event.target.value;
     }
-    const [enemiesValue, setEnemiesValue] = useState();
+    let enemiesValue = item.enemy_ids;
     const enemiesValueChange = (event) => {
-        setEnemiesValue(event.target.value);
+        enemiesValue = event.target.value;
     }
     const handleSubmit = () => {
         item.firstname = firstValue

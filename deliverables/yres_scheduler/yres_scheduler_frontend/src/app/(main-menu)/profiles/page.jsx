@@ -96,8 +96,11 @@ function Profiles() {
             enemy_ids: ['1']
         };
         setItem(object);
-        const addedArray = [...profileData, object];
-        setProfileData(addedArray);
+        if (currType === PROFILE_TYPES[0]) {
+            DUMMY_STUDENT_DATA.push(object)
+        } else {
+            DUMMY_COUNSELOR_DATA.push(object)
+        }
         setShow(true);
     };
     return (
@@ -109,12 +112,19 @@ function Profiles() {
                     groups={PROFILE_TYPES}
                 />
                 <div className='right-align'>
-                    <Button variant="primary" onClick={handleShow}>Add Student</Button>
-                    <StudentAdd
+                    <Button variant="primary" onClick={handleShow}>Add {currType}</Button>
+                    {currType === PROFILE_TYPES[0] 
+                    ? <StudentAdd
                         show={show}
                         setShow={setShow}
                         item={item}
-                    />
+                        />
+                    : <StudentAdd
+                        show={show}
+                        setShow={setShow}
+                        item={item}
+                        />}
+                    
                 </div>
             </div>
             <div className='center-align'>
@@ -125,7 +135,7 @@ function Profiles() {
                 </div>
             </div>
         </>
-    );
+    )
 }
 
 export default Profiles;
