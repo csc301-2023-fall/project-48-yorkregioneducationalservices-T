@@ -4,36 +4,35 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 /**
- * Editing Modal for Counselors
+ * Addition Modal for Students
  * 
  * */
-function CounselorEdit({item, show, setShow}) {
+function CounselorAdd({show, setShow, item}) {
     const handleClose = () => setShow(false);
     //state for modal values
-    const [firstValue, setFirstValue] = useState(item.firstname);
+    let firstValue = item.firstname;
     const firstValueChange = (event) => {
-        setFirstValue(event.target.value);
+        firstValue = event.target.value;
     }
-    const [lastValue, setLastValue] = useState(item.lastname);
+    let lastValue = item.lastname;
     const lastValueChange = (event) => {
-        setLastValue(event.target.value);
+        lastValue = event.target.value;
     }
-    const [campusValue, setCampusValue] = useState(item.campus_id);
+    let campusValue = item.campus_id;
     const campusValueChange = (event) => {
-        setCampusValue(event.target.value);
+        campusValue = event.target.value;
     }
     const handleSubmit = () => {
         item.firstname = firstValue
         item.lastname = lastValue
         item.campus_id = campusValue
-        handleClose() //needs to be before setCounselorData
-        setCounselorData(counselorData)
+        handleClose()
     }
   
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{"Edit Counselor"}</Modal.Title>
+            <Modal.Title>{"Add a Counselor"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
@@ -44,13 +43,9 @@ function CounselorEdit({item, show, setShow}) {
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder={item.firstname}
-                        value={firstValue} 
-                        onChange={firstValueChange} 
                         autoFocus
                     />
-                    </Form.Group>
-            
+                    </Form.Group>   
                     <Form.Group
                     className="mb-3"
                     controlId="counselorForm.ControlLastName"
@@ -58,9 +53,6 @@ function CounselorEdit({item, show, setShow}) {
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder={item.lastname}
-                        value={lastValue} 
-                        onChange={lastValueChange} 
                     />
                     </Form.Group>
                     <Form.Group
@@ -70,9 +62,6 @@ function CounselorEdit({item, show, setShow}) {
                     <Form.Label>Campus ID</Form.Label>
                     <Form.Control
                         type="number"
-                        placeholder={item.campus_id}
-                        value={campusValue} 
-                        onChange={campusValueChange} 
                     />
                     </Form.Group>
                 </Form>
@@ -89,5 +78,5 @@ function CounselorEdit({item, show, setShow}) {
     );
   }
 
-export default CounselorEdit;
+export default CounselorAdd;
 

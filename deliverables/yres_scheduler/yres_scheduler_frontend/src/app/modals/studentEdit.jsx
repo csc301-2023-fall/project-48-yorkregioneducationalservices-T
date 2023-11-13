@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
  * Editing Modal for Students
  * 
  * */
-function StudentEdit({item, show, setShow, type}) {
+function StudentEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
     //state for modal values
     const [firstValue, setFirstValue] = useState(item.firstname);
@@ -52,7 +52,7 @@ function StudentEdit({item, show, setShow, type}) {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{"Edit " + type}</Modal.Title>
+            <Modal.Title>{"Edit Student"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>

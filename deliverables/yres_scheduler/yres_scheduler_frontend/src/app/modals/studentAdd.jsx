@@ -58,8 +58,6 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
                         type="text"
-                        value={firstValue} 
-                        onChange={firstValueChange} 
                         autoFocus
                     />
                     </Form.Group>   
@@ -70,8 +68,6 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                         type="text"
-                        value={lastValue} 
-                        onChange={lastValueChange} 
                     />
                     </Form.Group>
                     <Form.Group
@@ -81,8 +77,6 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Age</Form.Label>
                     <Form.Control
                         type="number"
-                        value={ageValue} 
-                        onChange={ageValueChange} 
                     />
                     </Form.Group>
                     <Form.Group
@@ -92,8 +86,6 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Sex</Form.Label>
                     <Form.Control
                         type="text"
-                        value={sexValue} 
-                        onChange={sexValueChange} 
                     />
                     </Form.Group>
                     <Form.Group
@@ -103,8 +95,6 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Friends (please seperate by commas without spaces)</Form.Label>
                     <Form.Control
                         type="text"
-                        value={friendsValue} 
-                        onChange={friendsValueChange} 
                     />
                     </Form.Group>
                     <Form.Group
@@ -114,8 +104,6 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Enemies (please seperate by commas without spaces)</Form.Label>
                     <Form.Control
                         type="text"
-                        value={enemiesValue} 
-                        onChange={enemiesValueChange} 
                     />
                     </Form.Group>
                 </Form>
