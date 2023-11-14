@@ -57,11 +57,12 @@ module.exports = class Student {
     }
 
     getFriendIds() {
-        return new Set(this.friend_ids);
+        return [...this.friend_ids];
     }
 
     getEnemyIds() {
-        return new Set(this.enemy_ids);
+        return [...this.enemy_ids];
+
     }
 
     /**

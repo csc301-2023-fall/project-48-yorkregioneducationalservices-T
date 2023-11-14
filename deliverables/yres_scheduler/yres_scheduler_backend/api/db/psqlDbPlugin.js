@@ -3,6 +3,7 @@ const Camp = require("../entities/Camp");
 const Room = require("../entities/Room");
 const AdminUser = require("../entities/AdminUser");
 const Student = require("../entities/Student");
+const uuid = require('uuid');
 
 const {Client} = require('pg')
 const config = require('config');
@@ -435,53 +436,44 @@ async function getFriendPreferencesAndCategorize(student) {
     WHERE student_id1 = $1 OR student_id2 = $1;`;
 
     const values = [student.student_id];
-        // Query friend preferences for the given student
-    const result = await new Promise((queryResolve, queryReject) => {
-        client.query(queryGetAllStudents, (err, result) => {
-            if (err) {
-                queryReject(err);
+    
+    try {
+        const result = await client.query(queryGetFriendPreferencesAndCategorize, values);
+
+ 
+        promises = result.rows.map(async (row) => {
+            if (row.is_apart) {
+                if (row.student_id1 !== student.student_id) {
+                    await student.addEnemy(row.student_id1);
+                } else {
+                    await student.addEnemy(row.student_id2);
+                }
             } else {
-                queryResolve(result);
+                if (row.student_id1 !== student.student_id) {
+                    await student.addFriend(row.student_id1);
+                } else {
+                    await student.addFriend(row.student_id2);
+                }
             }
         });
-    });
-        // Categorize friend preferences into sets
-        result.rows.forEach(row => {
 
-        if (row.is_apart) {
-            if (row.student_id1 !== student.studentId) {
-                student.addEnemy(row.student_id1)
-            } else {
-                student.addEnemy(row.student_id2)
-            }
-        } else {
-            if (row.student_id1 !== student.studentId) {
-                student.addFriend(row.student_id1)
-            } else {
-                student.addFriend(row.student_id2)
-            }
-        }
-    });
-    
 
-    // Categorize friend preferences into sets
-    result.rows.forEach(row => {
-        if (row.student_id1 !== studentId) {
-        friendIds.add(row.student_id1);
-        if (row.is_apart) {
-            enemyIds.add(row.student_id1);
-        }
-        } else {
-        friendIds.add(row.student_id2);
-        if (row.is_apart) {
-            enemyIds.add(row.student_id2);
-        }
-        }
-    });
+        await Promise.all(promises);
+
+    } catch (error) {
+        // Handle errors appropriately
+        console.error('Error while fetching friend preferences:', error);
+        throw new Error('Failed to fetch friend preferences');
+    }
+
   }
 
 
-function getAllStudents() {
+/**
+ * Retrieves all students from the database and maps them to Student objects.
+ * @returns {Promise<Array<Student>>} A promise that resolves with an array of Student objects.
+ */
+async function getAllStudents() {
     const queryGetAllStudents = `
         SELECT
             S.student_id,
@@ -514,11 +506,10 @@ function getAllStudents() {
         // Map the rows to Student objects
         students = rows.map(mapRowToStudent);
 
-     
-        students.forEach(async student => {
-            await getFriendPreferencesAndCategorize(student)
-        });
-
+         // Create an array of promises to wait for all students' preferences to be fetched and categorized
+        for (const student of students) {
+            await getFriendPreferencesAndCategorize(student);
+        }
         // Resolve the promise with the students data
         resolve(students)
 
@@ -575,6 +566,59 @@ function getStudentByUiId(student_ui_id) {
     }
 }
 
+async function createStudent(student) {
+    const query = `
+        INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING student_id;
+    `;
+
+    try {
+        console.log(uuid.v1());
+        const result = await client.query(query, [
+            uuid.v1(),
+            student.student_ui_id,
+            student.firstname,
+            student.lastname,
+            student.age,
+            student.sex,
+        ]);
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false; 
+    }
+}
+
+async function editStudentById(student) {
+    const query = `
+        UPDATE Student
+        SET
+            firstname = $1,
+            lastname = $2,
+            age = $3,
+            sex = $4
+        WHERE
+            student_ui_id = $5
+        RETURNING *;
+    `;
+    console.log(student);
+    try {
+        const result = await client.query(query, [
+            student.firstname,
+            student.lastname,
+            student.age,
+            student.sex,
+            student.student_ui_id,
+        ]);
+        const row = result.rows[0];
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false; 
+    }
+}
+
 
 
 module.exports = {
@@ -589,6 +633,8 @@ module.exports = {
     getAllStudents,
     getStudentById,
     getStudentByUiId,
+    createStudent,
+    editStudentById,
 
     createAdminUser,
     getAdminUserByName,

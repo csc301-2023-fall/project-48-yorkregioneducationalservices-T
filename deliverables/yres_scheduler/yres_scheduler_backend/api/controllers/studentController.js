@@ -16,8 +16,15 @@ async function getAllStudents(req, res) {
     const all_students = await studentService.getAllStudents();
 
     return {
-        students: all_students
+        students: all_students.map((student) => { 
+            return {
+                ...student,
+                friend_ids: student.getFriendIds(),
+                enemy_ids: student.getEnemyIds()
+            };
+        })
     };
+    
 }
 
 function getStudentById(req, res) {
@@ -42,11 +49,35 @@ function getStudentByUiId(req, res) {
     };
 }
 
+async function createStudent(req, res) {
+    
+    const student = req.body;
+
+    const status = await studentService.createStudent(student);
+
+    return {
+        status: status ? 'Success' : 'failure'
+    }
+}
+
+async function editStudentById(req, res) {
+
+    const student = req.body;
+
+    const status = await studentService.editStudentById(student);
+
+    return {
+        status: status ? 'Success' : 'failure'
+    }
+}
+
 
 
 module.exports = {
     getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
-    getStudentByUiId
+    getStudentByUiId,
+    createStudent,
+    editStudentById
 }

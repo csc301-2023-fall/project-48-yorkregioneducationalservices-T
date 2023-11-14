@@ -7,8 +7,8 @@ function getAllStudentsByCampus(campus_id) {
 
 }
 
-function getAllStudents() {
-    var students = db.getAllStudents();
+async function getAllStudents() {
+    var students = await db.getAllStudents();
 
     return students;
 
@@ -28,10 +28,22 @@ function getStudentByUiId(student_ui_id) {
 
 }
 
+function createStudent(student) {
+    const resp = db.createStudent(student);
+    return resp;
+}
+
+function editStudentById(student) {
+    const resp = db.editStudentById(student);
+    return resp;
+}
+
 
 module.exports = {
     getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
-    getStudentByUiId
+    getStudentByUiId,
+    createStudent,
+    editStudentById
 }
