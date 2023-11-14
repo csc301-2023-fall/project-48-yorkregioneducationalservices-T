@@ -1,11 +1,13 @@
 const groupService = require('../controllers/groupController');
 
 module.exports = (app) => {
-    app.get('/group/get', (req, res) => {
-        res.send(groupService.getGroup(req, res));
+    app.get('/group/get', async (req, res) => {
+        const group = await groupService.getGroup(req, res);
+        res.send(group);
     })
 
-    .get('/group/getall', (req, res) => {
-        res.send(groupService.getAllGroups(req, res));
+    .get('/group/getall', async (req, res) => {
+        const all_groups = await groupService.getAllGroups(req, res);
+        res.send(all_groups);
     });
 };

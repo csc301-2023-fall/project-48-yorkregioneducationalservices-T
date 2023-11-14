@@ -1,17 +1,21 @@
 const campusService = require('../services/campusService');
 
-function getCampus(req, res) {
+async function getCampus(req, res) {
     const campus_id = req.body.campus_id;
 
-    const campus = campusService.getCampus(campus_id);
+    const campus = await campusService.getCampus(campus_id);
 
     return {
         campus: campus
     }
 }
 
-function getAllCampuses(req, res) {
-    return campusService.getAllCampuses();
+async function getAllCampuses(req, res) {
+    const allcampuses = await campusService.getAllCampuses()
+
+    return {
+        campuses: allcampuses
+    };
 }
 
 module.exports = {

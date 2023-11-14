@@ -1,19 +1,22 @@
 const groupService = require('../services/groupService');
 
-function getGroup(req, res) {
+async function getGroup(req, res) {
     const group_id = req.body.group_id;
 
-    const group = groupService.getGroup(group_id);
+    const group = await groupService.getGroup(group_id);
 
     return {
         group: group
     }
 }
 
-function getAllGroups(req, res) {
+async function getAllGroups(req, res) {
     const camp_id = req.body.camp_id;
+    const allgroups = await groupService.getAllGroups(camp_id);
 
-    return groupService.getAllGroups(camp_id);
+    return {
+        groups: allgroups
+    };
 }
 
 module.exports = {
