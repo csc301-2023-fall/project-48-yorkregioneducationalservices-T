@@ -1,25 +1,48 @@
-const ScheduleBlock = require("./ScheduleBlock");
+/**
+ * This module represents the Schedule entity.
+ * 
+ * @module api/entities/Schedule
+ */
 
-module.exports = class Schedule {
+/** @const {module} Block The Block entity */
+const Block = require("./Block");
 
-    schedule_id;
-    camp_id;
-    start_time;
-    name;
-    schedule_blocks;
+/**
+ * Schedule class represents a schedule for a group within a camp. It stores the
+ * schedule ID, the corresponding group ID, the ordered blocks that constitute the
+ * schedule, the start time and the end time.
+ * 
+ * @class Schedule
+ */
+class Schedule {
 
+    /**
+     * Create a Schedule entity.
+     * @param {uuid} [schedule_id] UUID to identify unique schedule
+     * @param {uuid} [group_id] UUID for the corresponding Group entity
+     * @param {list[Block]} [blocks] The ordered block entities that constitute the schedule
+     * @param {Date} [start_time] The start time of the schedule
+     * @param {Date} [end_time] The end time of the schedule
+     */
     constructor(schedule_id,
-                camp_id,
+                group_id,
+                blocks,
                 start_time,
-                name) {
+                end_time) {
+
         this.schedule_id = schedule_id;
-        this.camp_id = camp_id;
+        this.group_id = group_id;
+        this.blocks = blocks;
         this.start_time = start_time;
-        this.name = name;
-        this.schedule_blocks = [];
+        this.end_time = end_time;
     }
 
-    addScheduleBlock(activity) {
+    /**
+     * Add an activity as the next block in this schedule.
+     *
+     * @param {Activity} [activity] The activity to be added next in the schedule.
+     */
+    addBlock(activity) {
         var new_start_time;
         var new_end_time;
         var last_block;
@@ -31,13 +54,52 @@ module.exports = class Schedule {
             new_start_time = last_block.end_time;
         }
         new_end_time = new Date();
-        new_end_time.setTime(new_start_time.getTime() + (activity.time_length * 60 * 60 * 1000));
-
-        this.schedule_blocks.push(new ScheduleBlock(activity, new_start_time, new_end_time));
+        new_end_time.setTime(new_start_time.getTime() + (activity.duration * 60 * 60 * 1000));
+        if (new_end_time <= this.end_time) {
+            this.schedule_blocks.push(new Block(activity, new_start_time, new_end_time));
+        }
     }
 
-    getScheduleBlocks() {
-        return this.schedule_blocks;
+    /**
+     * Get the ordered blocks for this schedule
+     * @return {list[Block]} The ordered blocks for this schedule
+     */
+    get blocks() {
+        return this.blocks;
+    }
+
+    /**
+     * Get the schedule ID for this schedule
+     * @return {uuid} The schedule ID for this schedule
+     */
+    get schedule_id() {
+        return this.schedule_id;
+    }
+
+    /**
+     * Get the group ID for this schedule
+     * @return {uuid} The group ID for this schedule
+     */
+    get group_id() {
+        return this.group_id;
+    }
+
+    /**
+     * Get the start time for this schedule
+     * @return {Date} The start time for this schedule
+     */
+    get start_time() {
+        return this.start_time;
+    }
+
+    /**
+     * Get the end time for this schedule
+     * @return {Date} The end time for this schedule
+     */
+    get end_time() {
+        return this.end_time;
     }
 
 }
+
+module.exports = Schedule;
