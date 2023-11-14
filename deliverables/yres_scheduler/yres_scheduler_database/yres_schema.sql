@@ -81,7 +81,8 @@ create table Student (
     lastname text not null,
     age integer not null,
     sex text not null,
-    camp_group_id uuid references CampGroup 
+    camp_group_id uuid references CampGroup,
+    campus_id uuid references Campus
 );
 
 

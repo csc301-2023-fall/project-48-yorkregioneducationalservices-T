@@ -7,7 +7,7 @@ function getAllStudentsByCampus(req, res) {
     const all_students_by_campus = studentService.getAllStudentsByCampus(campus_id);
 
     return {
-        students: JSON.stringify(all_students_by_campus)
+        students: all_students_by_campus
     };
 }
 

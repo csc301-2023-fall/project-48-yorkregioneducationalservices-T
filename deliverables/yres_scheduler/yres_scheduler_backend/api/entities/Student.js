@@ -11,16 +11,28 @@ module.exports = class Student {
      * @param {string} firstname 
      * @param {number} age 
      * @param {string} sex 
+     * @param {string} campus_id  -- Campus id that the student belongs to
      * @param {Set<string>} friend_ids - A set of student IDs that this student prefers to work with.
      * @param {Set<string>} enemy_ids - A set of student IDs that this student doesn't want to work with.
     */
-    constructor(student_id, student_ui_id, lastname, firstname, age, sex, friend_ids, enemy_ids) {
+    constructor(
+        student_id, 
+        student_ui_id, 
+        lastname, 
+        firstname, 
+        age, 
+        sex, 
+        campus_id, 
+        friend_ids, 
+        enemy_ids) {
+            
         this._student_id = student_id;
         this._student_ui_id = student_ui_id;
         this.lastname = lastname;
         this.firstname = firstname;
         this.age = age;
         this.sex = sex;
+        this.campus_id = campus_id;
         this.friend_ids = friend_ids;
         this.enemy_ids = enemy_ids;
     }
@@ -43,7 +55,7 @@ module.exports = class Student {
     set student_Ui_id(newStudentUiId) {
         this._student_ui_id = newStudentUiId;
     }
-    
+
     getFriendIds() {
         return new Set(this.friend_ids);
     }

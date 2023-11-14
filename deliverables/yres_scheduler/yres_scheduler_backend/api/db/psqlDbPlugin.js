@@ -385,6 +385,7 @@ function mapRowToStudent(row) {
         row.firstname,
         row.age,
         row.sex,
+        row.campus_id,
         new Set(),
         new Set()
     );
@@ -426,35 +427,101 @@ function getAllStudentsByCampus(campusId) {
     });
 }
 
+async function getFriendPreferencesAndCategorize(student) {
+ 
+    const queryGetFriendPreferencesAndCategorize = `
+    SELECT *
+    FROM FriendPreference
+    WHERE student_id1 = $1 OR student_id2 = $1;`;
+
+    const values = [student.student_id];
+        // Query friend preferences for the given student
+    const result = await new Promise((queryResolve, queryReject) => {
+        client.query(queryGetAllStudents, (err, result) => {
+            if (err) {
+                queryReject(err);
+            } else {
+                queryResolve(result);
+            }
+        });
+    });
+        // Categorize friend preferences into sets
+        result.rows.forEach(row => {
+
+        if (row.is_apart) {
+            if (row.student_id1 !== student.studentId) {
+                student.addEnemy(row.student_id1)
+            } else {
+                student.addEnemy(row.student_id2)
+            }
+        } else {
+            if (row.student_id1 !== student.studentId) {
+                student.addFriend(row.student_id1)
+            } else {
+                student.addFriend(row.student_id2)
+            }
+        }
+    });
+    
+
+    // Categorize friend preferences into sets
+    result.rows.forEach(row => {
+        if (row.student_id1 !== studentId) {
+        friendIds.add(row.student_id1);
+        if (row.is_apart) {
+            enemyIds.add(row.student_id1);
+        }
+        } else {
+        friendIds.add(row.student_id2);
+        if (row.is_apart) {
+            enemyIds.add(row.student_id2);
+        }
+        }
+    });
+  }
+
 
 function getAllStudents() {
-    const query = `
+    const queryGetAllStudents = `
         SELECT
             S.student_id,
             S.student_ui_id,
             S.firstname,
             S.lastname,
+            S.campus_id,
             S.age,
             S.sex
         FROM
             Student S;
     `;
-
-    return new Promise((resolve, reject) => {
-        client.query(query, (err, result) => {
-            if (err) {
-                reject(err);
-            }
-
-            // Extract rows from the result
-            const rows = result.rows;
-
-            // Map the rows to Student objects
-            const students = rows.map(mapRowToStudent);
-
-            // Resolve the promise with the students data
-            resolve(students);
+    
+    var students;
+    return new Promise(async (resolve, reject) => {
+        const result = await new Promise((queryResolve, queryReject) => {
+            client.query(queryGetAllStudents, (err, result) => {
+                if (err) {
+                    queryReject(err);
+                } else {
+                    queryResolve(result);
+                }
+            });
         });
+        
+
+        // Extract rows from the result
+        const rows = result.rows;
+
+        // Map the rows to Student objects
+        students = rows.map(mapRowToStudent);
+
+     
+        students.forEach(async student => {
+            await getFriendPreferencesAndCategorize(student)
+        });
+
+        // Resolve the promise with the students data
+        resolve(students)
+
     });
 }
 
