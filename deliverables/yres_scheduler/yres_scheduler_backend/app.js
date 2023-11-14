@@ -27,5 +27,7 @@ app.use((req, res, next) => {
 require('./api/routes/scheduleRoutes')(app);
 require('./api/routes/campRoutes')(app);
 require('./api/routes/accountRoutes')(app);
+require('./api/routes/studentRoutes')(app);
+
 
 module.exports = app;

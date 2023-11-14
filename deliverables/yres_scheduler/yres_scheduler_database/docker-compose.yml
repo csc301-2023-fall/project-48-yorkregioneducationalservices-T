@@ -5,27 +5,18 @@ services:
     container_name: db-container
     environment:
       POSTGRES_PASSWORD: csc301
-      POSTGRES_USER: summercamp
-      POSTGRES_DB: summercamp_db
+      POSTGRES_USER: yres
+      POSTGRES_DB: yres_db
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./summer_camp_schema.sql:/docker-entrypoint-initdb.d/summer_camp_schema.sql
+      - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U summercamp -d summercamp_db"]
+      test: ["CMD-SHELL", "pg_isready -U yres -d yres_db"]
       interval: 1s
       timeout: 5s
       retries: 5
-
-  app:
-    image: my-node-app
-    container_name: api-container
-    ports:
-      - "3001:3001"
-    depends_on:
-      db:
-        condition: service_healthy
     
 volumes:
   postgres-data:

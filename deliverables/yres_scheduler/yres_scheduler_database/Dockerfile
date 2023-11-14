@@ -1,15 +1,15 @@
-FROM node:18
+# Use an official base image
+FROM docker/compose:latest
 
+# Set the working directory inside the container
 WORKDIR /app
 
-RUN npm install i npm@latest -g 
+# Copy the docker-compose.yml from the build context to the /app directory in the container
+COPY docker-compose.yml /app/
 
-COPY server/package.json server/package-lock*.json ./
+# Install Docker Compose
+RUN apt-get update && \
+    apt-get install -y docker-compose
 
-RUN npm install
-
-COPY . .
-
-EXPOSE 3001
-
-CMD ["node", "server/api.js"]
+# Start the services defined in docker-compose.yml when the container starts
+CMD ["docker-compose", "-f", "/app/docker-compose.yml", "up", "-d"]

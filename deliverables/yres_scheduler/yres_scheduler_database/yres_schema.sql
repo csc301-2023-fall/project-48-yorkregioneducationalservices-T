@@ -1,7 +1,7 @@
 -- Initalization
-drop schema if exists summer_camp cascade; 
-create schema summer_camp;
-set search_path to summer_camp;
+drop schema if exists yres cascade; 
+create schema yres;
+set search_path to yres;
 
 
 -- Represents a campus with rooms for camps to take place 
@@ -67,7 +67,8 @@ create table Counselor (
 
 -- Represents a student that studies in a group 
 -- Columns:
-    -- student_id : The auto generated unique I
+    -- student_id : The auto generated unique id
+    -- student_ui_id: The student id that is associated with the student on the UI and the imported csv file
     -- first : <UI>
     -- lastname : <UI>
     -- age : <UI>
@@ -75,6 +76,7 @@ create table Counselor (
     -- camp_group_id : Foreign key constraint
 create table Student (
     student_id uuid primary key,           
+    student_ui_id int unique, 
     firstname text not null,
     lastname text not null,
     age integer not null,
