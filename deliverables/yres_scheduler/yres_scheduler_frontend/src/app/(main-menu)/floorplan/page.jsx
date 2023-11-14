@@ -5,7 +5,6 @@ import { Button } from 'react-bootstrap';
 import ActivitiesTable from '../../components/activitiesTable';
 import ActivityCreate from '@/app/modals/activityCreate';
 function Floorplan() {
-
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     return (    

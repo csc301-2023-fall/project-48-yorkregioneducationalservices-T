@@ -23,20 +23,23 @@ function ActivitiesTable() {
         activity_id: -1,
         name: null,
         duration: null,
+        room_ids: [],
         type: null,
         num_occurences: -1
     });
     const [activityData, setActivityData] = useState([{
-        activty_id: 0,
+        activity_id: 0,
         name: 'Session',
         duration: 100,
+        room_ids: [1, 3],
         type: 'filler',
         num_occurences: 5
     },
     {
-        activty_id: 1,
+        activity_id: 1,
         name: 'Se',
         duration: 10,
+        room_ids: [],
         type: 'filler',
         num_occurences: 5
     }]);
@@ -49,6 +52,9 @@ function ActivitiesTable() {
     },{
         dataField: 'duration',
         text: 'Duration'
+    },{
+        dataField: 'room_ids',
+        text: 'Possible Rooms'
     },{
         dataField: 'type',
         text: 'Type'
