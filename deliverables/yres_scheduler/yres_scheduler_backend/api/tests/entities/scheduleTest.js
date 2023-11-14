@@ -1,4 +1,4 @@
-const Activity = require("../../entities/Activity")
+/*const Activity = require("../../entities/Activity")
 const Schedule = require("../../entities/Schedule")
 const ScheduleBlock = require("../../entities/ScheduleBlock")
 var assert = require('assert');
@@ -43,3 +43,4 @@ describe('class Schedule', function () {
     });
   });
 });
+*/

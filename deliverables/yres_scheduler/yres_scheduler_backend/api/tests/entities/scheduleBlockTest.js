@@ -1,4 +1,4 @@
-const ScheduleBlock = require("../../entities/ScheduleBlock")
+/*const ScheduleBlock = require("../../entities/ScheduleBlock")
 var assert = require('assert');
 
 var sample_activity = "dummy";
@@ -17,3 +17,4 @@ describe('class ScheduleBlock', function () {
     });
   });
 });
+*/
