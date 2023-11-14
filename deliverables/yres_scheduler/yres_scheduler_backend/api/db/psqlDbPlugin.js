@@ -436,7 +436,7 @@ function getAllStudents() {
             S.age,
             S.sex
         FROM
-            Student S;
+            student S;
     `;
 
     client.query(query, (err, result) => {
@@ -520,7 +520,7 @@ module.exports = {
     getStudentById,
     getStudentByUiId,
 
-    
+
     createAdminUser,
     getAdminUserByName,
     createRoom,
