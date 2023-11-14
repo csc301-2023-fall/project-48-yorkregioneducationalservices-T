@@ -1,5 +1,12 @@
 {
   "server": {
-    "PORT": 5000
+    "PORT": 1234
+  },
+  "db": {
+    "HOST": "ec2-3-139-100-35.us-east-2.compute.amazonaws.com",
+    "USER": "yres",
+    "PORT": 5432,
+    "PASSWORD": "csc301",
+    "DATABASE": "yres_db"
   }
 }

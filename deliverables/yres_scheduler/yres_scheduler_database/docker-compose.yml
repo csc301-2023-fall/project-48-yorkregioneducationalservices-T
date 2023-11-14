@@ -1,0 +1,22 @@
+version: "3"
+services: 
+  db:
+    image: postgres:latest
+    container_name: db-container
+    environment:
+      POSTGRES_PASSWORD: csc301
+      POSTGRES_USER: yres
+      POSTGRES_DB: yres_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yres -d yres_db"]
+      interval: 1s
+      timeout: 5s
+      retries: 5
+    
+volumes:
+  postgres-data:
