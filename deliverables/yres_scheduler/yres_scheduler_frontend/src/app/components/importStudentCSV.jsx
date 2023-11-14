@@ -62,8 +62,8 @@ function StudentCSV() {
   }
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
+      <Form className="form-inline" onSubmit={handleSubmit}>
+        <Form.Group className="inline-div">
           <Form.Control
               type="file"
               accept=".csv"
@@ -71,7 +71,9 @@ function StudentCSV() {
               onChange={handleOnChange}
           />
         </Form.Group> 
+        <div className='inline-div'>
         <Button type='submit'>Import Students</Button>
+        </div>
       </Form>
     </div>
   );
