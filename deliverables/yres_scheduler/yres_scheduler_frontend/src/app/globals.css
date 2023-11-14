@@ -169,3 +169,15 @@
   height: 10%;
   float: left;
 }
+
+.form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.inline-div {
+  display: inline-block;
+  padding: 5px;
+  vertical-align: middle;
+}
