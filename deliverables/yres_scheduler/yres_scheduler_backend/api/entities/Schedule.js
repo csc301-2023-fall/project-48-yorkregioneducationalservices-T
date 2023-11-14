@@ -52,4 +52,4 @@ module.exports = class Schedule {
         return this.schedule_blocks;
     }
 
-}*/
+}
