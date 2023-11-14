@@ -96,11 +96,14 @@ export default function Schedule({ schedule }) {
     }
     return (
         <div>  
+            <div className='float-child'>
             <RefinedDropdown 
                 handleSelect={handleSelect}
                 displayText={DisplaySched}
                 groups={groups}
+                //
             />
+            </div>
             <div className='float-child'>
             <CSVLink className="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
                 Export to CSV

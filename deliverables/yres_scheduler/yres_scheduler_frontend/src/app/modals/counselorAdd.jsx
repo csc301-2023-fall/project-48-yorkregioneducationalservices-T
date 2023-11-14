@@ -19,7 +19,7 @@ function CounselorAdd({show, setShow, item}) {
             <Modal.Title>{"Add a Counselor"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+            <Form>
                     <Form.Group
                     className="mb-3"
                     controlId="counselorForm.ControlFirstName"
@@ -27,9 +27,11 @@ function CounselorAdd({show, setShow, item}) {
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
                         type="text"
+                        defaultValue={item.firstname}
                         autoFocus
                     />
-                    </Form.Group>   
+                    </Form.Group>
+            
                     <Form.Group
                     className="mb-3"
                     controlId="counselorForm.ControlLastName"
@@ -37,6 +39,7 @@ function CounselorAdd({show, setShow, item}) {
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                         type="text"
+                        defaultValue={item.lastname}
                     />
                     </Form.Group>
                     <Form.Group
@@ -46,6 +49,7 @@ function CounselorAdd({show, setShow, item}) {
                     <Form.Label>Campus ID</Form.Label>
                     <Form.Control
                         type="number"
+                        defaultValue={item.campus_id}
                     />
                     </Form.Group>
                 </Form>

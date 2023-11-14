@@ -26,6 +26,9 @@
 .right-align {
   margin-left: auto;
 }
+.left-align {
+  margin-right: auto;
+}
 
 .black-border {
   border-radius: 0; 

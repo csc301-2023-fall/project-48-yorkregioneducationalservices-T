@@ -19,7 +19,7 @@ function StudentAdd({show, setShow, item}) {
             <Modal.Title>{"Add a Student"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+               <Form>
                     <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFirstName"
@@ -27,6 +27,7 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
                         type="text"
+                        defaultValue={item.firstname}
                         autoFocus
                     />
                     </Form.Group>   
@@ -37,6 +38,7 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                         type="text"
+                        defaultValue={item.lastname}
                     />
                     </Form.Group>
                     <Form.Group
@@ -46,6 +48,7 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Age</Form.Label>
                     <Form.Control
                         type="number"
+                        defaultValue={item.age}
                     />
                     </Form.Group>
                     <Form.Group
@@ -55,6 +58,7 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Sex</Form.Label>
                     <Form.Control
                         type="text"
+                        defaultValue={item.sex}
                     />
                     </Form.Group>
                     <Form.Group
@@ -64,6 +68,7 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Friends (please seperate by commas without spaces)</Form.Label>
                     <Form.Control
                         type="text"
+                        defaultValue={item.friends_id}
                     />
                     </Form.Group>
                     <Form.Group
@@ -73,6 +78,7 @@ function StudentAdd({show, setShow, item}) {
                     <Form.Label>Enemies (please seperate by commas without spaces)</Form.Label>
                     <Form.Control
                         type="text"
+                        defaultValue={item.enemy_id}
                     />
                     </Form.Group>
                 </Form>

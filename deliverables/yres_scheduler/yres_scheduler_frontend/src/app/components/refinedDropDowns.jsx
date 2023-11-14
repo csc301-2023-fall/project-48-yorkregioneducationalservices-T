@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 function RefinedDropdown({handleSelect, displayText, groups}) {
   
     return (
-      <Dropdown className='float-child' onSelect={handleSelect}>
+      <Dropdown onSelect={handleSelect}>
           <Button variant="light" className="black-border"> {displayText}</Button>
           <Dropdown.Toggle split variant="secondary" className="black-border"/>
           <Dropdown.Menu>
