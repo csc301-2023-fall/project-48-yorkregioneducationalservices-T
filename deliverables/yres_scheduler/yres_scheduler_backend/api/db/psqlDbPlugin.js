@@ -1,9 +1,9 @@
 const Activity = require("../entities/Activity");
-const Campus = require("../entities/Campus");
 const Camp = require("../entities/Camp");
-const Group = require("../entities/Group");
 const Room = require("../entities/Room");
 const AdminUser = require("../entities/AdminUser");
+
+const { client } = require('./db');
 
 function getCampusById(campus_id) {
 
@@ -54,13 +54,13 @@ function getAllCampuses() {
                     camp_ids.add(result.rows[i].camp_id);
                 }
             });
-        
+
             client.query(`Select room_id from yres_db.Room where campus_id = '${campus_id}';`, (err, result)=>{
                 for (var i=0; i  < result.length; i++) {
                     room_ids.add(result.rows[i].room_id);
                 }
             });
-            
+
             all_campuses.push(new Campus(campus_id, name, camp_ids, room_ids));
         }
     });
@@ -168,7 +168,7 @@ function getGroupsByCampId(camp_id) {
                     student_ids.add(result.rows[i].student_id);
                 }
             });
-        
+
             client.query(`Select counselor_id from yres_db.Counselor where camp_group_id = '${group_id}';`, (err, result)=>{
                 for (var i=0; i  < result.length; i++) {
                     counselor_ids.add(result.rows[i].counselor_id);
@@ -218,7 +218,6 @@ function submitSchedule(schedule) {
     return true;
 }
 
-/*
 function getCampById(camp_id) {
     // For testing error handling of non-existant camp
     if (camp_id != "f307479d-262e-423a-a681-a043c2577b0b") {
@@ -226,7 +225,6 @@ function getCampById(camp_id) {
     }
     return new Camp(1, camp_id);
 }
-*/
 
 ////////////////////////////////////////////////////////////////////////////////////
 /** Object getter for Room class.
@@ -356,19 +354,19 @@ function existsUser(username) {
         return false;
     return true;
 }
-////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 module.exports = {
-    getCampusById,
-    getAllCampuses,
-    getCampById,
-    getCampsByCampusId,
-    getGroupById,
-    getGroupsByCampId,
     getCampActivities,
     submitSchedule,
+    getCampById,
+    //////////////////////
     checkLogin,
     existsUser,
+
+   
     createAdminUser,
     getAdminUserByName,
     createRoom,

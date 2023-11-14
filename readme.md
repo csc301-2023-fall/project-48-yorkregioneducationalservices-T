@@ -25,10 +25,11 @@ They can search in the table to find the interested profile, then edit through a
  * Schedule exportation: Users can filter the generated schedule for each camp or each classroom. Then they can export the filtered or non-filtered schedule into .csv to make slight modifications, or print it as .pdf.
 ​
 ## Instructions (More to be added)
- * The user lands at the sing up page before they can access the app, where they input a username and password to create an account. If they already have a page, they need to input a valid username-password pair to access the app.
+ * The user lands at the sign up page before they can access the app, where they input a username and password to create an account. If they already have a page, they need to input a valid username-password pair to access the app.
  * Once in the app, they can insert data relating to students and counselors (format unspecified). They can also remove and/or update and/or read data that has been inputted previously.
  * On another page, they can input a floor plan for a building on the camp and place dots on the map corresponding to different rooms, which have a room type and a unique room number. This data can also be read, updated, and deleted in the same way as the other entities.
- * On another page, the user can ask to generate a schedule, which will return as a downloadable file (format unspecified) where students are grouped according to their specifications (i.e. pairs of students to keep apart/together, etc.) in groups of approximately 20 and between 1 and 2 counselors.
+ * Users can also add input activities which will take place at the camp, each of which will contain data like; possible room assignment, number of occurences throughout the camp, activity name etc.
+ * On another page, the user can ask to generate a schedule, which will return as a downloadable file csv file, where students are grouped according to their specifications (i.e. pairs of students to keep apart/together, etc.) in groups of approximately 20 and between 1 and 2 counselors.
 
  ## Development requirements (To Be Determined)
  * What are the technical requirements for a developer to set up on their machine or server (e.g. OS, libraries, etc.)?
@@ -36,7 +37,6 @@ They can search in the table to find the interested profile, then edit through a
  * You can see this [example](https://github.com/alichtman/shallow-backup#readme) to get started.
  
  ## Deployment and Github Workflow (To Be Determined)
-​
 Describe your Git/GitHub workflow. Essentially, we want to understand how your team members share codebase, avoid conflicts and deploys the application.
 ​
  * Be concise, yet precise. For example, "we use pull-requests" is not a precise statement since it leaves too many open questions - Pull-requests from where to where? Who reviews the pull-requests? Who is responsible for merging them? etc.
@@ -45,6 +45,9 @@ Describe your Git/GitHub workflow. Essentially, we want to understand how your t
  * What deployment tool(s) are you using? And how?
  * Don't forget to **briefly justify why** you chose this workflow or particular aspects of it!
 
+ * **tentative answer**
+ * Within the frontend codebase, since we are working with Next.js, we have been using file-based routing, meaning routes are named by their folder, rather than the actual filename. Thus, each high level page file is simply named `page.jsx`, but stored within folder with names such as, `profiles`, `schedules` etc. 
+ * Our group is divided into two subteams, one team for frontend and one team for backend. Our github workflow consists primarily iof pull-requests from personal branches (usually labelled by name and subteam). Each pull-request is review by at least two members of the subteam the pr belonged to (in the case of frontend this is the entire team). Anyone can merge a pull-request, as long as it has been reviewed by a sufficient amount of people and have had all requested changes made. This workflow leads to great collaboration, without the need of any specific authoratative figures dictating what can and cannot be merged. It has led to great teamwork and an overall feeling of unity within the group.
  ## Coding Standards and Guidelines
 We will use [ESLint](https://eslint.org) to ensure adherence to the [standard JavaScript style guide](https://google.github.io/styleguide/jsguide.html), using Github workflow to prevent merges to main that have not passed all tests. We will also use [Swagger](https://swagger.io) for documenting the purposes and contracts of all backend API requests. 
 ​
