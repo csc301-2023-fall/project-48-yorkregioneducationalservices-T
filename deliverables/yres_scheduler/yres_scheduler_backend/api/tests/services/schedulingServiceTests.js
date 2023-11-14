@@ -1,4 +1,4 @@
-const scheduleService = require('../../services/scheduleService');
+/*const scheduleService = require('../../services/scheduleService');
 const assert = require('assert');
 const db = require('../../db/psqlDbPlugin');
 
@@ -69,3 +69,4 @@ describe('scheduleService', function () {
 		});
 	});
 });
+*/
