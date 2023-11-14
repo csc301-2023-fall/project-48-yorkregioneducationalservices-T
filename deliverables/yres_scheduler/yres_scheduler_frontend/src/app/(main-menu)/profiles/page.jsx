@@ -112,7 +112,7 @@ function Profiles() {
                     displayText={currType}
                     groups={PROFILE_TYPES}
                 />
-                <StudentCSV/>
+                <StudentCSV type={currType}/>
                 <div className='right-align'>
                     <Button variant="primary" onClick={handleShow}>Add {currType}</Button>
                     {currType === PROFILE_TYPES[0] 
