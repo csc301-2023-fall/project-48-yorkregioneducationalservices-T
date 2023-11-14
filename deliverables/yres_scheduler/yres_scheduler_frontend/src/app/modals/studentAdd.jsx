@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Alert from '@/app/components/alert';
 
 /**
  * Addition Modal for Students
@@ -27,7 +28,7 @@ function StudentAdd({show, setShow, item, students}) {
             return true
         }
         const studentNames = students.map(student => {return student.firstname + " " + student.lastname})
-        const names = string.split(',');
+        const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
         for (const name of names) {
             if (!studentNames.includes(name)){
                 console.log(name)
@@ -92,7 +93,7 @@ function StudentAdd({show, setShow, item, students}) {
                     className="mb-3"
                     controlId="studentForm.ControlFriends"
                     >
-                    <Form.Label>Friends (please seperate by commas without spaces) <br /> i.e. FirstName Lastname,FirstName Lastname,FirstName...</Form.Label>
+                    <Form.Label>Friends (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.friends_id}
@@ -102,7 +103,7 @@ function StudentAdd({show, setShow, item, students}) {
                     className="mb-3"
                     controlId="studentForm.ControlEnemies"
                     >
-                    <Form.Label>Enemies (please seperate by commas without spaces) <br /> i.e. FirstName Lastname,FirstName Lastname,FirstName...</Form.Label>
+                    <Form.Label>Enemies (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.enemy_id}
