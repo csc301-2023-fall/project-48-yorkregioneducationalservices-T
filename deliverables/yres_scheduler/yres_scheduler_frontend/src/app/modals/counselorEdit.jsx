@@ -27,7 +27,6 @@ function CounselorEdit({item, show, setShow}) {
         item.lastname = lastValue
         item.campus_id = campusValue
         handleClose() //needs to be before setCounselorData
-        setCounselorData(counselorData)
     }
   
     return (
