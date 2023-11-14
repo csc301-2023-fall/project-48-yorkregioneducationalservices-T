@@ -9,7 +9,7 @@ function getAllStudentsByCampus(campus_id) {
 
 function getAllStudents() {
     var students = db.getAllStudents();
-
+    console.log(students);
     return students;
 
 }

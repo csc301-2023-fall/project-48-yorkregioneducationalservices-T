@@ -2,6 +2,7 @@ const Activity = require("../entities/Activity");
 const Camp = require("../entities/Camp");
 const Room = require("../entities/Room");
 const AdminUser = require("../entities/AdminUser");
+const Student = require("../entities/Student");
 
 const {Client} = require('pg')
 const config = require('config');
@@ -439,19 +440,21 @@ function getAllStudents() {
             Student S;
     `;
 
-    client.query(query, (err, result) => {
-        if (err) {
-            throw Error(err);
-        }
+    return new Promise((resolve, reject) => {
+        client.query(query, (err, result) => {
+            if (err) {
+                reject(err);
+            }
 
-        // Extract rows from the result
-        const rows = result.rows;
+            // Extract rows from the result
+            const rows = result.rows;
 
-        // Map the rows to Student objects
-        const students = rows.map(mapRowToStudent);
+            // Map the rows to Student objects
+            const students = rows.map(mapRowToStudent);
 
-
-        return students;
+            // Resolve the promise with the students data
+            resolve(students);
+        });
     });
 }
 

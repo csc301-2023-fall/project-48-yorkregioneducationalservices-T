@@ -11,12 +11,12 @@ function getAllStudentsByCampus(req, res) {
     };
 }
 
-function getAllStudents(req, res) {
+async function getAllStudents(req, res) {
     
-    const all_students = studentService.getAllStudents();
+    const all_students = await studentService.getAllStudents();
 
     return {
-        students: JSON.stringify(all_students)
+        students: all_students
     };
 }
 
