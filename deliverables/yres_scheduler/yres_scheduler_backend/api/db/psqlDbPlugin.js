@@ -619,6 +619,26 @@ async function editStudentById(student) {
     }
 }
 
+async function deleteStudentById(student_ui_id) {
+    const query = `
+        DELETE FROM Student
+        WHERE student_ui_id = $1
+        RETURNING *;
+    `;
+    try {
+        const result = await client.query(query, [student_ui_id]);
+        const deletedStudent = result.rows[0];
+
+        if (deletedStudent === undefined) {
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
+
 
 
 module.exports = {
@@ -635,6 +655,7 @@ module.exports = {
     getStudentByUiId,
     createStudent,
     editStudentById,
+    deleteStudentById,
 
     createAdminUser,
     getAdminUserByName,

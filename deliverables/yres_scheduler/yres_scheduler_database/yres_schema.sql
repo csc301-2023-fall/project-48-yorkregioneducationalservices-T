@@ -74,6 +74,7 @@ create table Counselor (
     -- age : <UI>
     -- sex : <UI>
     -- camp_group_id : Foreign key constraint
+    -- campus_id : Foreign Key constraint
 create table Student (
     student_id uuid primary key,           
     student_ui_id int unique, 
@@ -83,6 +84,7 @@ create table Student (
     sex text not null,
     camp_group_id uuid references CampGroup,
     campus_id uuid references Campus
+    
 );
 
 
@@ -92,8 +94,8 @@ create table Student (
     -- student_id2 : The student id of the second friend 
     -- is_apart : If the students should be apart
 create table FriendPreference (
-    student_id1 uuid not null references Student(student_id), 
-    student_id2 uuid not null references Student(student_id), 
+    student_id1 uuid not null references Student(student_id) on delete cascade, 
+    student_id2 uuid not null references Student(student_id) on delete cascade, 
     is_apart bool not null,     
     primary key (student_id1, student_id2), -- Primary key 
     check (student_id1 > student_id2) -- Make sure they are not duplicates

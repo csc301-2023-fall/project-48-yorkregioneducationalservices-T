@@ -71,6 +71,17 @@ async function editStudentById(req, res) {
     }
 }
 
+async function deleteStudentById(req, res) {
+    
+        const student_ui_id = req.body.student_ui_id;
+    
+        const status = await studentService.deleteStudentById(student_ui_id);
+    
+        return {
+            status: status ? 'Success' : 'failure'
+        }
+    }
+
 
 
 module.exports = {
@@ -79,5 +90,6 @@ module.exports = {
     getStudentById,
     getStudentByUiId,
     createStudent,
-    editStudentById
+    editStudentById,
+    deleteStudentById
 }

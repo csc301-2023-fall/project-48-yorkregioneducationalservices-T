@@ -59,5 +59,15 @@ module.exports = (app) => {
             res.status(500).send(error);
         }
     })
+    .post('/students/deleteStudentById/', async (req, res) => {
+        try {
+            const resp = await studentService.deleteStudentById(req, res);
+            res.send(resp);
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(error);
+        }
+    })
 
 };

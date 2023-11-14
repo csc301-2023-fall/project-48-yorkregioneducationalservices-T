@@ -38,6 +38,10 @@ function editStudentById(student) {
     return resp;
 }
 
+function deleteStudentById(student_ui_id) {
+    const resp = db.deleteStudentById(student_ui_id);
+    return resp;
+}
 
 module.exports = {
     getAllStudentsByCampus,
@@ -45,5 +49,6 @@ module.exports = {
     getStudentById,
     getStudentByUiId,
     createStudent,
-    editStudentById
+    editStudentById,
+    deleteStudentById
 }
