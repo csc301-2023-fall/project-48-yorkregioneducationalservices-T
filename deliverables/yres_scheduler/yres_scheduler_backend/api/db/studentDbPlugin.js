@@ -2,8 +2,11 @@ const Student = require("../entities/Student");
 const uuid = require('uuid');
 const { client } = require('./db');
 
+
+///////////////////////////////////////////////////////////////////////////////////
 // Student db plugin methods
 ///////////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * Maps a row from the student table to a Student object.
@@ -115,6 +118,7 @@ async function getFriendPreferencesAndCategorize(student) {
 
 
 /**
+ * Use this one for now!!!
  * Retrieves all students from the database and maps them to Student objects.
  * @returns {Promise<Array<Student>>} A promise that resolves with an array of Student objects.
  */
