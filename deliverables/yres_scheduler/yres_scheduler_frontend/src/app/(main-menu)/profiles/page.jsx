@@ -7,6 +7,7 @@ import RefinedDropdown from '@/app/components/refinedDropDowns';
 import StudentAdd from '@/app/modals/studentAdd'
 import CounselorAdd from '@/app/modals/counselorAdd'
 import { useState, useEffect } from 'react';
+import StudentCSV from '@/app/components/importStudentCSV';
 
 const PROFILE_TYPES = ['Student', 'Counselor']
 
@@ -119,6 +120,7 @@ function Profiles() {
                     displayText={currType}
                     groups={PROFILE_TYPES}
                 />
+                <StudentCSV type={currType}/>
                 <div className='right-align'>
                     <Button variant="primary" onClick={handleShow}>Add {currType}</Button>
                     {currType === PROFILE_TYPES[0] 

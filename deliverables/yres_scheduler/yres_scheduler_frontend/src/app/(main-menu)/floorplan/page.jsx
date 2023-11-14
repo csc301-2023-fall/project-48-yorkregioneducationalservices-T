@@ -31,7 +31,6 @@ function Floorplan() {
         setCampus(e);
     }
     */
-    
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     return (    
