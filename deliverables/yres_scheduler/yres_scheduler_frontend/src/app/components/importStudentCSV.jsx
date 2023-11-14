@@ -7,21 +7,32 @@ import { Form } from 'react-bootstrap';
  * Editing Modal for Activities
  * 
  * */
-function AddStudents(students){
-  console.log(students);
-  students.forEach((student) => {
-    console.log("Student Information")
-    console.log(student.firstname)
-    console.log(student.lastname)
-    console.log(student.age)
-    console.log(student.sex)
-    console.log(student.friends)
-    console.log(student.enemies)
-    
-
-  });
+function AddStudents(profiles, type){
+  if(type === "Student"){
+    const students = profiles;
+    console.log(students);
+    students.forEach((student) => {
+      console.log("Student Information")
+      console.log(student.firstname)
+      console.log(student.lastname)
+      console.log(student.age)
+      console.log(student.sex)
+      console.log(student.friends)
+      console.log(student.enemies)  
+    });
+  }
+  else{
+    const counselors = profiles;
+    console.log(counselors);
+    counselors.forEach((counselor) => {
+      console.log("Counselor Information")
+      console.log(counselor.firstname)
+      console.log(counselor.lastname)
+      console.log(counselor.campus_id)
+    });
+  }
 }
-function StudentCSV() {
+function StudentCSV({type}) {
   const [file, setFile] = useState();
   // useEffect(() => {
   //   const fileReader = new FileReader();
@@ -33,6 +44,7 @@ function StudentCSV() {
   };
 
   const readExcel = (file) => {
+    if(file){
     const promise = new Promise((resolve, reject) => {
         const fileReader = new FileReader();
         fileReader.readAsArrayBuffer(file);
@@ -52,8 +64,9 @@ function StudentCSV() {
         };
     });
     promise.then((d) => {
-      AddStudents(d);
+      AddStudents(d, type);
     });
+  }
   };
 
   const handleSubmit = (e) => {
@@ -72,7 +85,7 @@ function StudentCSV() {
           />
         </Form.Group> 
         <div className='inline-div'>
-        <Button type='submit'>Import Students</Button>
+        <Button type='submit'>Import {type}</Button>
         </div>
       </Form>
     </div>
