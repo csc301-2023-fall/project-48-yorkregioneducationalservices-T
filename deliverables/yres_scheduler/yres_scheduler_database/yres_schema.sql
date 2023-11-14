@@ -76,7 +76,7 @@ create table Counselor (
     -- camp_group_id : Foreign key constraint
 create table Student (
     student_id uuid primary key,           
-    student_ui_id int unique 
+    student_ui_id int unique, 
     firstname text not null,
     lastname text not null,
     age integer not null,
