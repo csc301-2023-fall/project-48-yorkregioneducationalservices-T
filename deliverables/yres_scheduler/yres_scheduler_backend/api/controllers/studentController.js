@@ -1,5 +1,11 @@
 const studentService = require('../services/studentService');
 
+/**
+ * Retrieves all students by campus ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing an array of students.
+ */
 function getAllStudentsByCampus(req, res) {
 
     const campus_id = req.body.camp_id;
@@ -11,6 +17,12 @@ function getAllStudentsByCampus(req, res) {
     };
 }
 
+/**
+ * Retrieves all students.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing an array of students with friend and enemy IDs.
+ */
 async function getAllStudents(req, res) {
     
     const all_students = await studentService.getAllStudents();
@@ -27,6 +39,12 @@ async function getAllStudents(req, res) {
     
 }
 
+/**
+ * Retrieves a student by ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a student.
+ */
 function getStudentById(req, res) {
     
     const student_id = req.body.student_id;
@@ -38,6 +56,12 @@ function getStudentById(req, res) {
     };
 }
 
+/**
+ * Retrieves a student by UI ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a student.
+ */
 function getStudentByUiId(req, res) {
     
     const stduent_ui_id = req.body.stduent_ui_id;
@@ -49,6 +73,12 @@ function getStudentByUiId(req, res) {
     };
 }
 
+/**
+ * Creates a new student.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
 async function createStudent(req, res) {
     
     const student = req.body;
@@ -60,6 +90,12 @@ async function createStudent(req, res) {
     }
 }
 
+/**
+ * Edits a student by ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
 async function editStudentById(req, res) {
 
     const student = req.body;
@@ -71,18 +107,22 @@ async function editStudentById(req, res) {
     }
 }
 
+/**
+ * Deletes a student by UI ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
 async function deleteStudentById(req, res) {
     
-        const student_ui_id = req.body.student_ui_id;
-    
-        const status = await studentService.deleteStudentById(student_ui_id);
-    
-        return {
-            status: status ? 'Success' : 'failure'
-        }
+    const student_ui_id = req.body.student_ui_id;
+
+    const status = await studentService.deleteStudentById(student_ui_id);
+
+    return {
+        status: status ? 'Success' : 'failure'
     }
-
-
+}
 
 module.exports = {
     getAllStudentsByCampus,
