@@ -73,7 +73,7 @@ function StudentProfilesTable({ studentData, rowEvents }) {
                 item={editItem}
                 show={showEdit}
                 setShow={setShowEdit}
-                type={'Student'}
+                students={studentData}
             />
         </>
     )   
