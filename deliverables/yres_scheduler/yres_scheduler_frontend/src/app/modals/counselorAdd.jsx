@@ -9,23 +9,7 @@ import Button from 'react-bootstrap/Button';
  * */
 function CounselorAdd({show, setShow, item}) {
     const handleClose = () => setShow(false);
-    //state for modal values
-    let firstValue = item.firstname;
-    const firstValueChange = (event) => {
-        firstValue = event.target.value;
-    }
-    let lastValue = item.lastname;
-    const lastValueChange = (event) => {
-        lastValue = event.target.value;
-    }
-    let campusValue = item.campus_id;
-    const campusValueChange = (event) => {
-        campusValue = event.target.value;
-    }
     const handleSubmit = () => {
-        item.firstname = firstValue
-        item.lastname = lastValue
-        item.campus_id = campusValue
         handleClose()
     }
   

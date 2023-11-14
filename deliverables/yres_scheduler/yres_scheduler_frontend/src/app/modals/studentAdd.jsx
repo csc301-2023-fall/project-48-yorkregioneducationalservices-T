@@ -9,38 +9,7 @@ import Button from 'react-bootstrap/Button';
  * */
 function StudentAdd({show, setShow, item}) {
     const handleClose = () => setShow(false);
-    //state for modal values
-    let firstValue = item.firstname;
-    const firstValueChange = (event) => {
-        firstValue = event.target.value;
-    }
-    let lastValue = item.lastname;
-    const lastValueChange = (event) => {
-        lastValue = event.target.value;
-    }
-    let ageValue = item.age;
-    const ageValueChange = (event) => {
-        ageValue = event.target.value;
-    }
-    let sexValue = item.sex;
-    const sexValueChange = (event) => {
-        sexValue = event.target.value;
-    }
-    let friendsValue = item.friends_ids;
-    const friendsValueChange = (event) => {
-        friendsValue = event.target.value;
-    }
-    let enemiesValue = item.enemy_ids;
-    const enemiesValueChange = (event) => {
-        enemiesValue = event.target.value;
-    }
     const handleSubmit = () => {
-        item.firstname = firstValue
-        item.lastname = lastValue
-        item.age = ageValue
-        item.sex = sexValue
-        item.friends_ids = friendsValue.split(',')
-        item.enemy_ids = enemiesValue.split(',')
         handleClose()
     }
   
