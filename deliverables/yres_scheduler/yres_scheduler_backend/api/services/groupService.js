@@ -7,9 +7,9 @@ function getGroup(group_id) {
 
 }
 
-function getAllGroups(camp_id) {
-    var all_groups = db.getGroupsByCampId(camp_id);
-    return JSON.stringify(all_groups);
+function getAllGroups(campus_id) {
+    var all_groups = db.getGroupsByCampusId(campus_id);
+    return all_groups;
 }
 
 module.exports = {

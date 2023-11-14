@@ -6,8 +6,13 @@ module.exports = (app) => {
         res.send(campus);
     })
 
-    .get('/campus/getall', async (req, res) => {
+    .get('/campus/getAll', async (req, res) => {
         const all_campuses = await campusService.getAllCampuses(req, res)
         res.send(all_campuses);
+    })
+
+    .post('/campus/create', async (req, res) => {
+        const campus = await campusService.createCampus(req, res)
+        res.send(campus);
     });
 };

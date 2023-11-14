@@ -9,10 +9,16 @@ function getCampus(campus_id) {
 
 function getAllCampuses() {
     var all_campuses = db.getAllCampuses();
-    return JSON.stringify(all_campuses);
+    return all_campuses;
+}
+
+function createCampus(campus_id, name) {
+    var campus = db.createCampus(campus_id, name);
+    return campus;
 }
 
 module.exports = {
     getCampus,
-    getAllCampuses
+    getAllCampuses,
+    createCampus
 }

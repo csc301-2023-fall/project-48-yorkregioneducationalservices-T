@@ -96,7 +96,7 @@ async function getAllCampuses() {
 
 async function createCampus(campus_id, name) {
     return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO Campus(campus_id, name) VALUES('${campus_id}', '${name}')`, function (err, result) {
+        client.query(`INSERT INTO Campus(campus_id, name) VALUES('${campus_id}', '${name}');`, function (err, result) {
             if (err){
                 reject(err);
             }
@@ -163,7 +163,7 @@ async function getCampsByCampusId(campus_id) {
 
 async function createCamp(camp_id, name, campus_id) {
     return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO Camp(camp_id, name, campus_id) VALUES('${camp_id}', '${name}', '${campus_id}')`, function (err, result) {
+        client.query(`INSERT INTO Camp(camp_id, name, campus_id) VALUES('${camp_id}', '${name}', '${campus_id}');`, function (err, result) {
             if (err){
                 reject(err);
             }
@@ -206,19 +206,27 @@ async function getGroupById(group_id) {
     });
 }
 
-async function getGroupsByCampId(camp_id) {
+async function getGroupsByCampusId(campus_id) {
     var all_groups = new Array();
     return new Promise((resolve, reject) => {
-        client.query(`SELECT * FROM Group WHERE camp_id = '${camp_id}';`, function (err, result) {
+        client.query(
+        `SELECT * 
+        FROM CampGroup 
+        WHERE EXISTS (
+            SELECT *
+            FROM Camp
+            WHERE CampGroup.camp_id = Camp.camp_id AND Camp.campus_id = '${campus_id}'
+            );`, function (err, result) {
             if (err) {
                 reject(err);
             }
-            var group_id, schedule_id, student_ids, counselor_ids;
+            var group_id, schedule_id, student_ids, counselor_ids, camp_id;
             for (var i=0; i<result.length; i++) {
                 group_id = result[i].group_id;
                 schedule_id = result[i].schedule_id;
                 student_ids = new Set();
                 counselor_ids = new Set();
+                camp_id = result[i].camp_id;
 
                 client.query(`Select student_id from Student where camp_group_id = '${group_id}';`, (err, result)=>{
                     for (var i=0; i  < result.length; i++) {
@@ -241,12 +249,23 @@ async function getGroupsByCampId(camp_id) {
 
 async function createGroup(group_id, camp_id) {
     return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO CampGroup(camp_group_id, camp_id) VALUES('${group_id}', '${camp_id}')`, function (err, result) {
+        client.query(`INSERT INTO CampGroup(camp_group_id, camp_id) VALUES('${group_id}', '${camp_id}');`, function (err, result) {
             if (err){
                 reject(err);
             }
         });
         resolve(new Group(group_id, null, new Set(), new Set(), camp_id));
+    });
+}
+
+async function deleteAllGroups() {
+    return new Promise((resolve, reject) => {
+        client.query(`DELETE FROM CampGroup;`, function (err, result) {
+            if (err){
+                reject(err);
+            }
+        });
+        resolve(true);
     });
 }
 
@@ -283,6 +302,43 @@ async function getBlockById(block_id) {
     });
 }
 
+async function getAllBlocks() {
+    var all_blocks = new Array();
+    return new Promise((resolve, reject) => {
+        client.query(`SELECT * FROM Block;`, function (err, result) {
+            if (err) {
+                reject(err);
+            }
+
+            var block_id;
+            var schedule_id;
+            var room_id;
+            var activity_id;
+            var start_time;
+            var end_time;
+
+            for (var i=0; i<result.length; i++) {
+                block_id = result.rows[i].block_id;
+                schedule_id = result.rows[i].schedule_id;
+                room_id = result.rows[i].room_id;
+                activity_id = result.rows[i].activity_id;
+
+                // Set date to be January 1, 2023 (arbitrary, only need to keep track of hours and minutes.)
+                start_hours = result.rows[i].start_time.slice(0, 2);
+                start_minutes = result.rows[i].start_time.slice(3, 5);
+                start_time = new Date(2023, 1, 1, parseInt(start_hours), parseInt(start_minutes));
+
+                end_hours = result.rows[i].end_time.slice(0, 2);
+                end_minutes = result.rows[i].end_time.slice(3, 5);
+                end_time = new Date(2023, 1, 1, parseInt(end_hours), parseInt(end_minutes));
+
+                all_blocks.push(new Block(block_id, schedule_id, room_id, activity_id, start_time, end_time));
+            }
+        });
+        resolve(all_blocks);
+    });
+}
+
 async function createBlock(block_id, schedule_id, room_id, activity_id, start_time, end_time) {
     start_hours = start_time.getHours();
     start_minutes = start_time.getMinutes();
@@ -302,12 +358,23 @@ async function createBlock(block_id, schedule_id, room_id, activity_id, start_ti
         end = end_hours + ":" + end_minutes;
     }
     return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO Block(block_id, room_id, activity_id, start_time, end_time, schedule_id) VALUES('${block_id}', '${room_id}', '${activity_id}', '${start}', '${end}', '${schedule_id}')`, function (err, result) {
+        client.query(`INSERT INTO Block(block_id, room_id, activity_id, start_time, end_time, schedule_id) VALUES('${block_id}', '${room_id}', '${activity_id}', '${start}', '${end}', '${schedule_id}');`, function (err, result) {
             if (err){
                 reject(err);
             }
         });
         resolve(new Block(block_id, schedule_id, room_id, activity_id, start_time, end_time));
+    });
+}
+
+async function deleteAllBlocks() {
+    return new Promise((resolve, reject) => {
+        client.query(`DELETE FROM Block;`, function (err, result) {
+            if (err) {
+                reject(err);
+            }
+        });
+        resolve(true);
     });
 }
 
@@ -619,10 +686,13 @@ module.exports = {
     getCampsByCampusId,
     createCamp,
     getGroupById,
-    getGroupsByCampId,
+    getGroupsByCampusId,
     createGroup,
+    deleteAllGroups,
     getBlockById,
+    getAllBlocks,
     createBlock,
+    deleteAllBlocks,
     getCampActivities,
     submitSchedule,
     checkLogin,
