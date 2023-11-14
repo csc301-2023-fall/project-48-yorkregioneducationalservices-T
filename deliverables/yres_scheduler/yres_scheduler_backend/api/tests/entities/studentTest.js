@@ -10,8 +10,18 @@ var sample_age = 9;
 var sample_sex = "M";
 var sample_friend_ids = new Set();
 var sample_enemy_ids = new Set();
+var sample_campus_id = "c00000001";
 
-const sample = new Student(sample_student_id, sample_student_ui_id, sample_lastname, sample_firstname, sample_age, sample_sex, sample_friend_ids, sample_enemy_ids)
+const sample = new Student(
+  sample_student_id, 
+  sample_student_ui_id, 
+  sample_lastname, 
+  sample_firstname, 
+  sample_age, 
+  sample_sex, 
+  sample_campus_id, 
+  sample_friend_ids, 
+  sample_enemy_ids)
 describe('class Student', function () {
   describe('constructor()', function () {
     it('constructor should return an object', function () {
@@ -24,6 +34,7 @@ describe('class Student', function () {
       assert.equal(sample.firstname, sample_firstname);
       assert.equal(sample.age, sample_age);
       assert.equal(sample.sex, sample_sex);
+      assert.equal(sample.campus_id, sample_campus_id);
       assert.equal(sample.friend_ids, sample_friend_ids);
       assert.equal(sample.enemy_ids, sample_enemy_ids);
     });

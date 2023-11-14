@@ -2,29 +2,8 @@ const Activity = require("../entities/Activity");
 const Camp = require("../entities/Camp");
 const Room = require("../entities/Room");
 const AdminUser = require("../entities/AdminUser");
-const Student = require("../entities/Student");
 
-const {Client} = require('pg')
-const config = require('config');
-
-
-// TODO add diff connection configs, one for prod and other is dev/test
-// if ()
-
-
-// TODO Move the connection to a diff file
-
-const db = config.get('db');
-
-const client = new Client({
-    host: db.HOST,
-    user: db.USER,
-    port: db.PORT,
-    password: db.PASSWORD,
-    database: db.DATABASE
-});
-
-client.connect();
+const { client } = require('./db');
 
 function getCampusById(campus_id) {
 
@@ -375,138 +354,7 @@ function existsUser(username) {
         return false;
     return true;
 }
-////////////////////////////////////////////////////////////////////////////////////
 
-function mapRowToStudent(row) {
-    return new Student(
-        row.student_id,
-        row.student_ui_id,
-        row.lastname,
-        row.firstname,
-        row.age,
-        row.sex,
-        new Set(),
-        new Set()
-    );
-}
-
-// Student db plugin methods
-function getAllStudentsByCampus(campusId) {
-    const query = `
-        SELECT
-            S.student_id,
-            S.student_ui_id,
-            S.firstname,
-            S.lastname,
-            S.age,
-            S.sex
-        FROM
-            Student S
-            JOIN CampGroup CG ON S.camp_group_id = CG.camp_group_id
-            JOIN Camp C ON CG.camp_id = C.camp_id
-            JOIN Campus Campus ON C.campus_id = Campus.campus_id
-        WHERE
-            Campus.campus_id = $1;
-    `;
-
-    const values = [campusId];
-
-    client.query(query, values, (err, result) => {
-        if (err) {
-            throw Error(err);
-        }
-
-        // Extract rows from the result
-        const rows = result.rows;
-
-         // Map the rows to Student objects using the mapRowToStudent function
-        const students = rows.map(mapRowToStudent);
-
-        return students;
-    });
-}
-
-
-function getAllStudents() {
-    const query = `
-        SELECT
-            S.student_id,
-            S.student_ui_id,
-            S.firstname,
-            S.lastname,
-            S.age,
-            S.sex
-        FROM
-            Student S;
-    `;
-
-    return new Promise((resolve, reject) => {
-        client.query(query, (err, result) => {
-            if (err) {
-                reject(err);
-            }
-
-            // Extract rows from the result
-            const rows = result.rows;
-
-            // Map the rows to Student objects
-            const students = rows.map(mapRowToStudent);
-
-            // Resolve the promise with the students data
-            resolve(students);
-        });
-    });
-}
-
-
-async function getStudentById(student_id) {
-    const query = `
-        SELECT
-            S.student_id,
-            S.student_ui_id,
-            S.firstname,
-            S.lastname,
-            S.age,
-            S.sex
-        FROM
-            Student S
-        WHERE
-            S.student_id = $1;
-    `;
-
-    try {
-        const result = client.query(query, [student_id]);
-        const row = result.rows[0];
-        return mapRowToStudent(row);
-    } catch (err) {
-        throw Error(err);
-    }
-}
-
-
-function getStudentByUiId(student_ui_id) {
-    const query = `
-        SELECT
-            S.student_id,
-            S.student_ui_id,
-            S.firstname,
-            S.lastname,
-            S.age,
-            S.sex
-        FROM
-            Student S
-        WHERE
-            S.student_ui_id, = $1;
-    `;
-
-    try {
-        const result = client.query(query, [student_ui_id]);
-        const row = result.rows[0];
-        return mapRowToStudent(row);
-    } catch (err) {
-        throw Error(err);
-    }
-}
 
 
 
@@ -518,11 +366,7 @@ module.exports = {
     checkLogin,
     existsUser,
 
-    getAllStudentsByCampus,
-    getAllStudents,
-    getStudentById,
-    getStudentByUiId,
-
+   
     createAdminUser,
     getAdminUserByName,
     createRoom,
