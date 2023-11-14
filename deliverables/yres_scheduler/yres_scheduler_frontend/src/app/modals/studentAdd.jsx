@@ -7,10 +7,37 @@ import Button from 'react-bootstrap/Button';
  * Addition Modal for Students
  * 
  * */
-function StudentAdd({show, setShow, item}) {
-    const handleClose = () => setShow(false);
-    const handleSubmit = () => {
-        handleClose()
+function StudentAdd({show, setShow, item, students}) {
+    const [error, setError] = useState(<></>);
+    const handleClose = () => {
+        setError(<></>)
+        setShow(false)
+    };
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        let friends = event.target[4].value;
+        let enemies = event.target[5].value;
+        if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
+            handleClose()
+        }
+    }
+        
+    function validRelationship(string, field) {
+        if(string === ''){
+            return true
+        }
+        const studentNames = students.map(student => {return student.firstname + " " + student.lastname})
+        const names = string.split(',');
+        for (const name of names) {
+            if (!studentNames.includes(name)){
+                console.log(name)
+                console.log(students)
+                console.log(studentNames)
+                setError(<Alert simpleMessage={field + " field invalid, " + name + " isn't a known student"}/>)
+                return false
+            }
+        }
+        return true
     }
   
     return (
@@ -19,7 +46,7 @@ function StudentAdd({show, setShow, item}) {
             <Modal.Title>{"Add a Student"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-               <Form>
+               <Form onSubmit={handleSubmit}>
                     <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFirstName"
@@ -65,7 +92,7 @@ function StudentAdd({show, setShow, item}) {
                     className="mb-3"
                     controlId="studentForm.ControlFriends"
                     >
-                    <Form.Label>Friends (please seperate by commas without spaces)</Form.Label>
+                    <Form.Label>Friends (please seperate by commas without spaces) <br /> i.e. FirstName Lastname,FirstName Lastname,FirstName...</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.friends_id}
@@ -75,22 +102,21 @@ function StudentAdd({show, setShow, item}) {
                     className="mb-3"
                     controlId="studentForm.ControlEnemies"
                     >
-                    <Form.Label>Enemies (please seperate by commas without spaces)</Form.Label>
+                    <Form.Label>Enemies (please seperate by commas without spaces) <br /> i.e. FirstName Lastname,FirstName Lastname,FirstName...</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.enemy_id}
                     />
                     </Form.Group>
+                    {error}
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button type="submit" variant="primary">
+                        Save Changes
+                    </Button>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={handleSubmit}>
-                Save Changes
-            </Button>
-            </Modal.Footer>
         </Modal>
     );
   }

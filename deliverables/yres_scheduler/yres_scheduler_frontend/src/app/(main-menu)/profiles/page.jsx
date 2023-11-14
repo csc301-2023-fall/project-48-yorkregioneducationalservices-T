@@ -126,6 +126,7 @@ function Profiles() {
                         show={show}
                         setShow={setShow}
                         item={item}
+                        students={DUMMY_STUDENT_DATA}
                         />
                     : <CounselorAdd
                         show={show}

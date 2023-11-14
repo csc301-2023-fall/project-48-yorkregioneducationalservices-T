@@ -18,7 +18,7 @@ function StudentEdit({item, show, setShow, students}) {
         event.preventDefault()
         let friends = event.target[4].value;
         let enemies = event.target[5].value;
-        if (validRelationship(friends, "friends") && validRelationship(enemies, "enemies")){
+        if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
             handleClose()
         }
     }
@@ -93,7 +93,7 @@ function StudentEdit({item, show, setShow, students}) {
                     className="mb-3"
                     controlId="studentForm.ControlFriends"
                     >
-                    <Form.Label>Friends (please seperate by commas without spaces) <br /> i.e. FirstName Lastname,FirstName...)</Form.Label>
+                    <Form.Label>Friends (please seperate by commas without spaces) <br /> i.e. FirstName Lastname,FirstName Lastname,FirstName...</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.friends_id}
@@ -103,7 +103,7 @@ function StudentEdit({item, show, setShow, students}) {
                     className="mb-3"
                     controlId="studentForm.ControlEnemies"
                     >
-                    <Form.Label>Enemies (please seperate by commas without spaces)</Form.Label>
+                    <Form.Label>Enemies (please seperate by commas without spaces) <br /> i.e. FirstName Lastname,FirstName Lastname,FirstName...</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.enemy_id}
