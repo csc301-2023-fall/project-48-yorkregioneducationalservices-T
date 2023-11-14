@@ -1,4 +1,4 @@
-const ScheduleBlock = require("./ScheduleBlock");
+/*const ScheduleBlock = require("./ScheduleBlock");
 
 module.exports = class Schedule {
 
@@ -40,4 +40,4 @@ module.exports = class Schedule {
         return this.schedule_blocks;
     }
 
-}
+}*/
