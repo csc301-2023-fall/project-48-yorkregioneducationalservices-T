@@ -6,6 +6,7 @@ module.exports = class Student {
      * Create a new student profile.
      * 
      * @param {string} student_id - The unique ID of this student.
+     * @param {number} student_ui_id - The unique ID of this student for the UI
      * @param {string} lastname
      * @param {string} firstname 
      * @param {number} age 

@@ -1,14 +1,52 @@
 const studentService = require('../services/studentService');
 
-function getStudents(req, res) {
+function getAllStudentsByCampus(req, res) {
 
-    const student = studentService.getStudents();
+    const campus_id = req.body.camp_id;
+
+    const all_students_by_campus = studentService.getAllStudentsByCampus(campus_id);
 
     return {
-        student: student
-    }
+        students: JSON.stringify(all_students_by_campus)
+    };
 }
 
+function getAllStudents(req, res) {
+    
+    const all_students = studentService.getAllStudents();
+
+    return {
+        students: JSON.stringify(all_students)
+    };
+}
+
+function getStudentById(req, res) {
+    
+    const student_id = req.body.student_id;
+
+    const student = studentService.getStudentById(student_id);
+
+    return {
+        students: student
+    };
+}
+
+function getStudentByUiId(req, res) {
+    
+    const stduent_ui_id = req.body.stduent_ui_id;
+
+    const student = studentService.getStudentById(stduent_ui_id);
+
+    return {
+        students: student
+    };
+}
+
+
+
 module.exports = {
-    getStudents
+    getAllStudentsByCampus,
+    getAllStudents,
+    getStudentById,
+    getStudentByUiId
 }
