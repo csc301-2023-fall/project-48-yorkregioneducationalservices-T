@@ -8,6 +8,12 @@ function getCamp(camp_id) {
 
 }
 
+function getAllCamps(campus_id) {
+    var all_camps = db.getCampsByCampusId(campus_id);
+    return JSON.stringify(all_camps);
+}
+
 module.exports = {
-    getCamp
+    getCamp,
+    getAllCamps
 }

@@ -128,15 +128,24 @@ create table Room (
     -- type : <UI> The type of the activity (filler / common)
     -- num_occurences <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
     -- camp_id : Foreign Key constraint
-    -- room_id : Foreign Key constraint
 create table Activity (
     activity_id uuid primary key,	
     name text not null, 		
     duration integer not null,
     type text not null,
     num_occurences integer not null,
-    camp_id uuid references Camp,
-    room_id uuid references Room
+    camp_id uuid references Camp
+);
+
+
+-- Intermediary table for many-to-many relationship between Rooms and Activities.
+-- Columns:
+    -- room_id : The id of the room
+    -- activty_id : The id of the activity
+create table RoomActivity (	
+    activity_id uuid references Activity,
+    room_id uuid references Room,
+    primary key (activity_id, room_id)
 );
 
 
