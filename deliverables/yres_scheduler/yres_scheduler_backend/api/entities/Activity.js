@@ -1,19 +1,23 @@
-
+/**
+ * Class representing an activity.
+ */
 module.exports = class Activity {
-
-    camp_id;
-    activity_id;
-    name;
-    time_length;
-
-    constructor(camp_id,
-                activity_id,
-                name,
-                time_length) {
-        this.camp_id = camp_id;
+    /**
+     * 
+     * @param {string} activity_id - uuid.
+     * @param {string} name - name of activity.
+     * @param {number} duration - hours of this activity.
+     * @param {string} type - one of "common"/"filler".
+     * @param {number} num_occurences - number of times this activity should occur in the schedule.
+     * @param {Set} room_ids - a set of IDs of rooms where this activity can be held.
+     */
+    constructor(activity_id, name, duration, type, num_occurences, room_ids) {
         this.activity_id = activity_id;
-        this.time_length = time_length; // hours
         this.name = name;
+        this.duration = duration; // hours
+        this.type = type;
+        this.num_occurences = num_occurences;
+        this.room_ids = room_ids;
     }
 
 }
