@@ -367,10 +367,9 @@ function createAdminUser(username, password) {
     var existing_user = getAdminUserByName(username);
     if (existing_user != undefined)
         return false;
-    client.query(`INSERT INTO yres_db.LoginInfo(username, password) VALUES('${username, password}')`, function (err, result) {
+    client.query(`INSERT INTO yres_db.LoginInfo(username, password) VALUES('${username}', '${password}')`, function (err, result) {
         if (err){
             throw Error(err);
-            return false;
         }
     });
     return true;
