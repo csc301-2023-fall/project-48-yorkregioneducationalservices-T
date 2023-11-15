@@ -31,11 +31,11 @@ class Activity {
                 duration,
                 type,
                 num_occurences) {
-        this.activity_id = activity_id;
-        this.name = name;
-        this.duration = duration;
-        this.type = type;
-        this.num_occurences = num_occurences;
+        this._activity_id = activity_id;
+        this._name = name;
+        this._duration = duration;
+        this._type = type;
+        this._num_occurences = num_occurences;
     }
 
     /**
@@ -43,7 +43,7 @@ class Activity {
      * @return {number} How many instances of the activity should be included in the schedule (or minimum if FILLER_TYPE)
      */
     get num_occurences() {
-        return this.num_occurences;
+        return this._num_occurences;
     }
 
     /**
@@ -51,7 +51,7 @@ class Activity {
      * @param {number} [new_num_occurences] The new num_occurences of the activity
      */
     set num_occurences(new_num_occurences) {
-        this.num_occurences = new_num_occurences;
+        this._num_occurences = new_num_occurences;
     }
 
     /**
@@ -59,7 +59,7 @@ class Activity {
      * @return {string} The name of the activity
      */
     get name() {
-        return this.name;
+        return this._name;
     }
 
     /**
@@ -67,7 +67,7 @@ class Activity {
      * @param {string} [new_name] The new name of the activity
      */
     set name(new_name) {
-        this.name = new_name;
+        this._name = new_name;
     }
 
     /**
@@ -75,7 +75,7 @@ class Activity {
      * @return {number} The duration of the activity
      */
     get duration() {
-        return this.duration;
+        return this._duration;
     }
 
     /**
@@ -83,7 +83,7 @@ class Activity {
      * @param {number} [new_duration] The new duration of the activity
      */
     set duration(new_duration) {
-        this.duration = new_duration;
+        this._duration = new_duration;
     }
 
     /**
@@ -91,7 +91,7 @@ class Activity {
      * @return {number} The type of activity (FILLER_TYPE or COMMON_TYPE)
      */
     get type() {
-        return this.type;
+        return this._type;
     }
 
     /**
@@ -99,7 +99,7 @@ class Activity {
      * @param {number} [new_type] The new type of activity (FILLER_TYPE or COMMON_TYPE)
      */
     set type(new_type) {
-        this.type = new_type;
+        this._type = new_type;
     }
 
     /**
@@ -107,7 +107,7 @@ class Activity {
      * @return {uuid} UUID to identify unique activity
      */
     get activity_id() {
-        return this.activity_id;
+        return this._activity_id;
     }
 
     /**
