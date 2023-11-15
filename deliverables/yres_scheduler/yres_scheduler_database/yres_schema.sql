@@ -1,7 +1,7 @@
 -- Initalization
-drop schema if exists summer_camp cascade; 
-create schema summer_camp;
-set search_path to summer_camp;
+drop schema if exists yres cascade; 
+create schema yres;
+set search_path to yres;
 
 
 -- Represents a campus with rooms for camps to take place 
@@ -67,19 +67,24 @@ create table Counselor (
 
 -- Represents a student that studies in a group 
 -- Columns:
-    -- student_id : The auto generated unique I
+    -- student_id : The auto generated unique id
+    -- student_ui_id: The student id that is associated with the student on the UI and the imported csv file
     -- first : <UI>
     -- lastname : <UI>
     -- age : <UI>
     -- sex : <UI>
     -- camp_group_id : Foreign key constraint
+    -- campus_id : Foreign Key constraint
 create table Student (
     student_id uuid primary key,           
+    student_ui_id int unique, 
     firstname text not null,
     lastname text not null,
     age integer not null,
     sex text not null,
-    camp_group_id uuid references CampGroup 
+    camp_group_id uuid references CampGroup,
+    campus_id uuid references Campus
+    
 );
 
 
@@ -89,8 +94,8 @@ create table Student (
     -- student_id2 : The student id of the second friend 
     -- is_apart : If the students should be apart
 create table FriendPreference (
-    student_id1 uuid not null references Student(student_id), 
-    student_id2 uuid not null references Student(student_id), 
+    student_id1 uuid not null references Student(student_id) on delete cascade, 
+    student_id2 uuid not null references Student(student_id) on delete cascade, 
     is_apart bool not null,     
     primary key (student_id1, student_id2), -- Primary key 
     check (student_id1 > student_id2) -- Make sure they are not duplicates
@@ -128,15 +133,24 @@ create table Room (
     -- type : <UI> The type of the activity (filler / common)
     -- num_occurences <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
     -- camp_id : Foreign Key constraint
-    -- room_id : Foreign Key constraint
 create table Activity (
     activity_id uuid primary key,	
     name text not null, 		
     duration integer not null,
     type text not null,
     num_occurences integer not null,
-    camp_id uuid references Camp,
-    room_id uuid references Room
+    camp_id uuid references Camp
+);
+
+
+-- Intermediary table for many-to-many relationship between Rooms and Activities.
+-- Columns:
+    -- room_id : The id of the room
+    -- activty_id : The id of the activity
+create table RoomActivity (	
+    activity_id uuid references Activity,
+    room_id uuid references Room,
+    primary key (activity_id, room_id)
 );
 
 

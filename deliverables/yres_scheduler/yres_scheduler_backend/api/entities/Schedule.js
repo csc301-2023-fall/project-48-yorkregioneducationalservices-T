@@ -1,6 +1,18 @@
-const ScheduleBlock = require("./ScheduleBlock");
+/**
+ * Class representing a schedule profile.
+ */
 
 module.exports = class Schedule {
+
+    /**
+     * Create a new schedule profile.
+     * 
+     * @param {string} schedule_id - The unique ID of this student.
+     * @param {number} group_id - The ID of the group this schedule belongs to
+     * @param {Set<Block>} blocks 
+     * @param {Date} start_time 
+     * @param {Date} end_time 
+    */
 
     schedule_id;
     camp_id;

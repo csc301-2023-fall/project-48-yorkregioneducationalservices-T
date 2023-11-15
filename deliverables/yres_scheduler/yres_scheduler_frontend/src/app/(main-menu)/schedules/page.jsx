@@ -16,7 +16,7 @@ function simulateNetworkRequest() {
 
 export default function Schedules() {
     const [data, setData] = React.useState([]);
-
+    
     // API request to get Data to fill the table
     const getTableData = () => {
         simulateNetworkRequest().then(() => {

@@ -11,6 +11,13 @@ function getCamp(req, res) {
     }
 }
 
+function getAllCamps(req, res) {
+    const campus_id = req.body.campus_id;
+
+    return campService.getAllCamps(campus_id);
+}
+
 module.exports = {
-    getCamp
+    getCamp,
+    getAllCamps
 }

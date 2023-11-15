@@ -5,10 +5,10 @@ import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
 
 /**
- * Editing Modal for Students
+ * Addition Modal for Students
  * 
  * */
-function StudentEdit({item, show, setShow, students}) {
+function StudentAdd({show, setShow, item, students}) {
     const [error, setError] = useState(<></>);
     const handleClose = () => {
         setError(<></>)
@@ -40,14 +40,14 @@ function StudentEdit({item, show, setShow, students}) {
         }
         return true
     }
-
+  
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{"Edit Student"}</Modal.Title>
+            <Modal.Title>{"Add a Student"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form onSubmit={handleSubmit}>
+               <Form onSubmit={handleSubmit}>
                     <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFirstName"
@@ -120,7 +120,7 @@ function StudentEdit({item, show, setShow, students}) {
             </Modal.Body>
         </Modal>
     );
-}
+  }
 
-export default StudentEdit;
+export default StudentAdd;
 

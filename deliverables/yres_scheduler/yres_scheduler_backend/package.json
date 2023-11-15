@@ -4,7 +4,7 @@
   "description": "CSC301 group project 48.",
   "main": "server.js",
   "scripts": {
-    "test": "mocha 'api/tests/**/*.js'"
+    "test": "mocha --exit 'api/tests/**/*.js'"
   },
   "author": "Backend team",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "http-errors": "^2.0.0",
     "mathjs": "^11.11.2",
     "morgan": "^1.10.0",
+    "pg": "^8.11.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
