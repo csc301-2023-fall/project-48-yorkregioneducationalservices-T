@@ -154,6 +154,12 @@
   clear:both;
 }
 
+.half-table-container{
+  height: 35vh;
+  overflow: scroll;
+  clear:both;
+}
+
 .table-header{
   position: sticky;
   top: 0px;

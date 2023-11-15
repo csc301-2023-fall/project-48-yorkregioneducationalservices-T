@@ -101,7 +101,6 @@ export default function Schedule({ schedule }) {
                 handleSelect={handleSelect}
                 displayText={DisplaySched}
                 groups={groups}
-                //
             />
             </div>
             <div className='float-child'>
@@ -109,7 +108,9 @@ export default function Schedule({ schedule }) {
                 Export to CSV
             </CSVLink>
             </div>
-            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
+            <div className='half-table-container'>
+                <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
+            </div>
             <SideBarWrapper/>
         </div>
     );
