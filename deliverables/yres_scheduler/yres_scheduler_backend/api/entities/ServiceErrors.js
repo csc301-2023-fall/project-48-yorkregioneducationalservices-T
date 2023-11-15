@@ -44,7 +44,7 @@ class ServiceError extends Error {
         super(message);
         this.name = this.constructor.name;
         Error.captureStackTrace(this, this.constructor);
-        this.status_code = status_code;
+        this._status_code = status_code;
     }
 
     /**
@@ -52,7 +52,7 @@ class ServiceError extends Error {
      * @return {number} The status code for this error.
      */
     get status_code() {
-        return this.status_code;
+        return this._status_code;
     }
 
     /**
@@ -60,23 +60,7 @@ class ServiceError extends Error {
      * @param {number} [new_status_code] The new status code for this error.
      */
     set status_code(new_status_code) {
-        this.status_code = new_status_code;
-    }
-
-    /**
-     * Get the message for this error.
-     * @return {string} The descriptive message for this error.
-     */
-    get message() {
-        return this.message;
-    }
-
-    /**
-     * Set the message for this error.
-     * @param {string} [new_message] The new message for this error.
-     */
-    set message(new_message) {
-        this.message = new_message;
+        this._status_code = new_status_code;
     }
 }
 
