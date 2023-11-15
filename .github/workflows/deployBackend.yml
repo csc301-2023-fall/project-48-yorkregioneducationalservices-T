@@ -35,7 +35,7 @@ jobs:
             # Kill the process using port 1234 if it exists
             sudo kill -9 $(sudo lsof -t -i:1234) || true
             sudo npm install
-            sudo node server.js &
+            sudo node server.js 
       
       - name: Wait for backend server deployment to Complete
         run: sleep 5s
