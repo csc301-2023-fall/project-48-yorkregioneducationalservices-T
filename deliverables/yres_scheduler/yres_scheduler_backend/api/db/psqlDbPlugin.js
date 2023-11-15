@@ -181,16 +181,6 @@ function getGroupsByCampId(camp_id) {
     return all_groups;
 }
 
-const {Client} = require('pg')
-
-const client = new Client({
-    host: 'db',
-    user: "summercamp",
-    port: 5432,
-    password: "csc301",
-    database: "summercamp_db"
-});
-
 client.connect();
 
 function getCampById(camp_id) {
