@@ -332,7 +332,7 @@ function createRoom(room_id, name, campus_id) {
  */
 async function getAdminUserByName(username) {
     var password;
-    const query = `SELECT * FROM yres.logininfo WHERE username = '${username}';`
+    const query = `SELECT * FROM logininfo WHERE username = '${username}';`
     try {
         const result = await client.query(query);
 
@@ -359,7 +359,7 @@ async function getAdminUserByName(username) {
  * @returns true if written successfully.
  */
 async function createAdminUser(username, password) {
-    const query = `INSERT INTO yres.logininfo(username, password) VALUES('${username}', '${password}');`
+    const query = `INSERT INTO logininfo(username, password) VALUES('${username}', '${password}');`
     try {
         const result = await client.query(query);
 
