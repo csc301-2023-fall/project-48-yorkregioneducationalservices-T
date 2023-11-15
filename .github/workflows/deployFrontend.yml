@@ -41,6 +41,7 @@ jobs:
             nvm install 21
             nvm use 21
             sudo npm install
+            sudo npm install canvas
             npm run build
             # Kill the process using port 3000 if it exists
             sudo kill -9 $(sudo lsof -t -i:3000) || echo "No process found on port 3000"
