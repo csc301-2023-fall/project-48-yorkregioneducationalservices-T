@@ -1,14 +1,17 @@
 'use client';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import RoomsTable from '@/app/components/roomsTable';
 import ActivitiesTable from '../../components/activitiesTable';
 import ActivityCreate from '@/app/modals/activityCreate';
-import { FaPlus } from 'react-icons/fa';
-import { BsTrash } from 'react-icons/bs';
-import RefinedDropdown from '@/app/components/refinedDropDowns';
+import FloorPlanCanvas from '@/app/components/floorPlanCanvas';
+import RoomsCreate from '@/app/modals/roomsCreate';
 
 function Floorplan() {
+    const [showActivityAdd, setshowActivityAdd] = useState(false);
+    const [showRoomsAdd, setShowRoomsAdd] = useState(false);
+
     /* Multiple Campus Code
     const [currCampus, setCampus] = React.useState('StGeorge');
     const DUMMY_CAMPUS_DATA = [{
@@ -31,35 +34,48 @@ function Floorplan() {
         setCampus(e);
     }
     */
-    const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
+
     return (    
-    <div>
-        <div id='profiles-header'>
-            {/* Multiple Campus Code
-                <RefinedDropdown 
-                    handleSelect={handleSelectType}
-                    displayText={currCampus}
-                    groups={DUMMY_CAMPUS_DATA.map(campus => campus.name)}
-                />
-                <div className='left-align'>
-                    <Button onClick={handleShow} variant="primary"><FaPlus /> Add a new campus</Button>
-                    <Button variant="danger"><BsTrash /> Delete this campus</Button>
+        <div className='split-page'>
+            <div className='left'>
+                {/* Multiple Campus Code
+                    <RefinedDropdown 
+                        handleSelect={handleSelectType}
+                        displayText={currCampus}
+                        groups={DUMMY_CAMPUS_DATA.map(campus => campus.name)}
+                    />
+                    <div className='left-align'>
+                        <Button onClick={handleShow} variant="primary"><FaPlus /> Add a new campus</Button>
+                        <Button variant="danger"><BsTrash /> Delete this campus</Button>
+                    </div>
+                */} 
+                <FloorPlanCanvas/>
+            </div>
+            <div className='right'>
+                <div className='right-align'>
+                    <h3 className='header-title '>Rooms</h3>
+                    <Button onClick={() => setShowRoomsAdd(true)} 
+                            variant="primary">
+                        Add Room
+                    </Button>
+                    <RoomsCreate 
+                        show={showRoomsAdd}
+                        setShow={setShowRoomsAdd}/>
+                    <RoomsTable/>
+                    <h3 className='header-title '>Activities</h3>
+                    <Button onClick={() => setshowActivityAdd(true)} 
+                            variant="primary">
+                        Add Activity
+                    </Button>
+                    <ActivityCreate
+                        show={showActivityAdd}
+                        setShow={setshowActivityAdd}
+                    />
                 </div>
-            */} 
-            <div className='right-align'>
-                <Button onClick={handleShow} variant="primary">Add Activity</Button>
-                <ActivityCreate
-                    show={show}
-                    setShow={setShow}
-                />
+                <ActivitiesTable/>
             </div>
         </div>
-        <div className='center-align'>
-            <ActivitiesTable/>
-        </div>
-    </div>
-    );
+    )
 }
 
 export default Floorplan;
