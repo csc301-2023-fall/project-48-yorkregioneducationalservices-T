@@ -41,6 +41,6 @@ require('./api/routes/campRoutes')(app);
 require('./api/routes/accountRoutes')(app);
 require('./api/routes/studentRoutes')(app);
 require('./api/routes/counselorRoutes')(app);
-
+require('./api/routes/roomRoutes')(app);
 
 module.exports = app;

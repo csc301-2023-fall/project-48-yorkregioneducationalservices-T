@@ -2,9 +2,9 @@ const Room = require("../entities/Room");
 const { client } = require('./db')
 
 /**
- * Maps a row from the student table to a Student object.
- * @param {Object} row - The row from the student table.
- * @returns {Student} A new Student object.
+ * Maps a row from the room table to a Room object.
+ * @param {Object} row - The row from the room table.
+ * @returns {Room} A new Room object.
  */
 function mapRowToRoom(row) {
     return new Room(
@@ -90,9 +90,31 @@ async function createRoom(room_id, name, campus_id) {
     }
 }
 
+/** Delete a Room from database with given room_id.
+ * 
+ * @param {string} room_id - room UUID.
+ * @returns true if deleted successfully.
+ */
+async function deleteRoomById(room_id) {
+    const query = `DELETE FROM Room WHERE room_id = $1 RETURNING *;`;
+    try {
+        const result = await client.query(query, [room_id]);
+        const deleted_room = result.rows[0];
+
+        if (deleted_room === undefined) {
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
+
+
 module.exports = {
     createRoom,
     getRoomsByCampusId,
     getAllRooms,
-
+    deleteRoomById
 }

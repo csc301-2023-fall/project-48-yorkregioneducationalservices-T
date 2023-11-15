@@ -53,9 +53,26 @@ async function createRoom(req, res) {
     };
 }
 
+/** Delete a room data row in the database with given room_id.
+ * 
+ * @param {JSON} req - POST request with body containing the room_id for room to be deleted.
+ * @returns 
+ */
+async function deleteRoomById(req, res) {
+    const room_id = req.body.room_id;
+    if (!uuid.validate(room_id)) {
+        throw Error('deleteRoom - Bad form: unexpected room_id');
+    }
+    const status = await db.deleteRoomById(room_id);
+
+    return {
+        status: status ? 'Success' : 'failure'
+    }
+}
 
 module.exports = {
     getAllRoomsByCampusId,
     getAllRooms,
-    createRoom
+    createRoom,
+    deleteRoomById
 }

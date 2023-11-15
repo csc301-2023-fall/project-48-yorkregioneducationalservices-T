@@ -35,19 +35,6 @@ module.exports = (app) => {
     /**
      * 
      */
-    .post('/rooms/editRoomById/', async (req, res) => {
-        try {
-            const resp = await roomService.editRoomById(req, res);
-            res.send(resp);
-            
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
-        }
-    })
-    /**
-     * 
-     */
     .post('/rooms/deleteRoomById/', async (req, res) => {
         try {
             const resp = await roomService.deleteRoomById(req, res);
