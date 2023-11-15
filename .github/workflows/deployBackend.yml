@@ -1,0 +1,48 @@
+
+# This workflow is responsible for the continuous deployment of the backend code.
+name: Backend Continous Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  transfer-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Transfer code to EC2 instance
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: . 
+          target: /home/ubuntu/yres/backend
+      
+      - name: Deploy the backend server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/yres/backend/deliverables/yres_scheduler/yres_scheduler_backend
+            sudo npm install
+            sudo node server.js &
+      
+      - name: Wait for backend server deployment to Complete
+        run: sleep 5s
+
+      - name: Test backend server connection
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            curl -I http://localhost:1234/students/getAllStudents/

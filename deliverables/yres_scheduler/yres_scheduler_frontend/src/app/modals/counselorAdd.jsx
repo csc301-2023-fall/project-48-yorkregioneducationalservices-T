@@ -4,10 +4,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 /**
- * Editing Modal for Counselors
+ * Addition Modal for Students
  * 
  * */
-function CounselorEdit({item, show, setShow}) {
+function CounselorAdd({show, setShow, item}) {
     const handleClose = () => setShow(false);
     const handleSubmit = () => {
         handleClose()
@@ -16,10 +16,10 @@ function CounselorEdit({item, show, setShow}) {
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{"Edit Counselor"}</Modal.Title>
+            <Modal.Title>{"Add a Counselor"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form>
+            <Form>
                     <Form.Group
                     className="mb-3"
                     controlId="counselorForm.ControlFirstName"
@@ -66,5 +66,5 @@ function CounselorEdit({item, show, setShow}) {
     );
   }
 
-export default CounselorEdit;
+export default CounselorAdd;
 

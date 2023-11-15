@@ -17,8 +17,12 @@ function ActivityEdit({item, show, setShow}) {
          */
         console.log(event.target[0].value);
         console.log(event.target[1].value);
-        console.log(event.target[2].value);
+        let rooms = event.target[2].value.split(",");
+        rooms.forEach((element) => {
+            console.log("Room with id".concat(element));
+        });
         console.log(event.target[3].value);
+        console.log(event.target[4].value);
         handleClose() //needs to be before setStudentData
     }
   
@@ -50,7 +54,16 @@ function ActivityEdit({item, show, setShow}) {
                         defaultValue={item.duration} 
                     />
                     </Form.Group>
-
+                    <Form.Group
+                    className="mb-3"
+                    controlId="activityForm.ControlRoomIDs"
+                    >
+                    <Form.Label>(optional) Possible Rooms (comma seperated)</Form.Label>
+                    <Form.Control
+                        type="text"
+                        defaultValue={item.room_ids.join(",")} 
+                    />
+                    </Form.Group>
                     <Form.Group
                     className="mb-3"
                     controlId="activityForm.ControlType"

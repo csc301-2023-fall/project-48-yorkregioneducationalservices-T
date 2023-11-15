@@ -10,8 +10,42 @@ import FloorPlanCanvas from '@/app/components/floorPlanCanvas';
 function Floorplan() {
     const [showActivityAdd, setshowActivityAdd] = useState(false);
 
+    /* Multiple Campus Code
+    const [currCampus, setCampus] = React.useState('StGeorge');
+    const DUMMY_CAMPUS_DATA = [{
+        campus_id: 0,
+        name: 'StGeorge',
+        camp_ids: [],
+        room_ids: [],
+    }, {
+        campus_id: 1,
+        name: 'Mississauga',
+        camp_ids: [],
+        room_ids: [],
+    },{
+        campus_id: 2,
+        name: 'Scarborough',
+        camp_ids: [],
+        room_ids: [],
+    }]
+    const handleSelectType = (e) => {
+        setCampus(e);
+    }
+    */
+
     return (    
         <div id="floorplan">
+            {/* Multiple Campus Code
+                <RefinedDropdown 
+                    handleSelect={handleSelectType}
+                    displayText={currCampus}
+                    groups={DUMMY_CAMPUS_DATA.map(campus => campus.name)}
+                />
+                <div className='left-align'>
+                    <Button onClick={handleShow} variant="primary"><FaPlus /> Add a new campus</Button>
+                    <Button variant="danger"><BsTrash /> Delete this campus</Button>
+                </div>
+            */} 
             <FloorPlanCanvas/>
             <div id='floor-manger'>
                 <div className='right-align'>
@@ -32,7 +66,8 @@ function Floorplan() {
                 <ActivitiesTable/>
             </div>
         </div>
-    );
+    )
 }
 
 export default Floorplan;
+

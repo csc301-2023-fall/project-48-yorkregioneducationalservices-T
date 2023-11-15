@@ -5,7 +5,9 @@ import CounselorProfilesTable from '@/app/components/counselorProfilesTable';
 import Button from 'react-bootstrap/Button';
 import RefinedDropdown from '@/app/components/refinedDropDowns';
 import StudentAdd from '@/app/modals/studentAdd'
+import CounselorAdd from '@/app/modals/counselorAdd'
 import { useState, useEffect } from 'react';
+import StudentCSV from '@/app/components/importStudentCSV';
 
 const PROFILE_TYPES = ['Student', 'Counselor']
 
@@ -86,19 +88,26 @@ function Profiles() {
     
     const [show, setShow] = useState(false);
     const handleShow = () => {
-        const object = {
-            student_id: 99,
-            firstname: '',
-            lastname: '',
-            age: '0',
-            sex: '',
-            friends_ids: ['1'],
-            enemy_ids: ['1']
-        };
-        setItem(object);
         if (currType === PROFILE_TYPES[0]) {
+            const object = {
+                student_id: 99,
+                firstname: '',
+                lastname: '',
+                age: '0',
+                sex: '',
+                friends_ids: ['1'],
+                enemy_ids: ['1']
+            };
+            setItem(object);
             DUMMY_STUDENT_DATA.push(object)
         } else {
+            const object = {
+                counselor_id: 99,
+                firstname: '',
+                lastname: '',
+                campus_id: 1
+            };
+            setItem(object);
             DUMMY_COUNSELOR_DATA.push(object)
         }
         setShow(true);
@@ -111,6 +120,7 @@ function Profiles() {
                     displayText={currType}
                     groups={PROFILE_TYPES}
                 />
+                <StudentCSV type={currType}/>
                 <div className='right-align'>
                     <Button variant="primary" onClick={handleShow}>Add {currType}</Button>
                     {currType === PROFILE_TYPES[0] 
@@ -118,8 +128,9 @@ function Profiles() {
                         show={show}
                         setShow={setShow}
                         item={item}
+                        students={DUMMY_STUDENT_DATA}
                         />
-                    : <StudentAdd
+                    : <CounselorAdd
                         show={show}
                         setShow={setShow}
                         item={item}
