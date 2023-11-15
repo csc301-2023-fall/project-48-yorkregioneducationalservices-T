@@ -1,27 +1,22 @@
+import { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 /**
- * Editing Modal for Rooms
+ * Addition Modal for Students
  * 
  * */
-function RoomsEdit({item, show, setShow}) {
+function RoomsCreate({show, setShow }) {
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
-        /**
-         * API post requests
-         * use event.target[0] to index through the fields
-         */
-        console.log(event.target[0].value);
-        console.log(event.target[1].value);
-        handleClose() //needs to be before setStudentData
+    const handleSubmit = () => {
+        handleClose()
     }
   
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-            <Modal.Title>{"Edit Room"}</Modal.Title>
+            <Modal.Title>{"Add New Room"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -31,7 +26,6 @@ function RoomsEdit({item, show, setShow}) {
                     <Form.Label>Room Name</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.name} 
                         autoFocus
                     />
                     </Form.Group> 
@@ -41,7 +35,6 @@ function RoomsEdit({item, show, setShow}) {
                     <Form.Label>Activities in this room (comma separated)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.activity_ids.join(",")} 
                     />
                     </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>
@@ -52,11 +45,8 @@ function RoomsEdit({item, show, setShow}) {
                     </Button>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-
-            </Modal.Footer>
         </Modal>
     );
   }
 
-export default RoomsEdit;
+export default RoomsCreate;

@@ -6,9 +6,11 @@ import RoomsTable from '@/app/components/roomsTable';
 import ActivitiesTable from '../../components/activitiesTable';
 import ActivityCreate from '@/app/modals/activityCreate';
 import FloorPlanCanvas from '@/app/components/floorPlanCanvas';
+import RoomsCreate from '@/app/modals/roomsCreate';
 
 function Floorplan() {
     const [showActivityAdd, setshowActivityAdd] = useState(false);
+    const [showRoomsAdd, setShowRoomsAdd] = useState(false);
 
     /* Multiple Campus Code
     const [currCampus, setCampus] = React.useState('StGeorge');
@@ -52,10 +54,13 @@ function Floorplan() {
             <div className='right'>
                 <div className='right-align'>
                     <h3 className='header-title '>Rooms</h3>
-                    <Button 
+                    <Button onClick={() => setShowRoomsAdd(true)} 
                             variant="primary">
                         Add Room
                     </Button>
+                    <RoomsCreate 
+                        show={showRoomsAdd}
+                        setShow={setShowRoomsAdd}/>
                     <RoomsTable/>
                     <h3 className='header-title '>Activities</h3>
                     <Button onClick={() => setshowActivityAdd(true)} 

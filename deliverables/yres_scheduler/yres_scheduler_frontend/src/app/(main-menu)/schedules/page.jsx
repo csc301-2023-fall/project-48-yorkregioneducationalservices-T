@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import table from '../../data/example.json'
 import Schedule from '../../components/scheduleTable'
 import GroupsTable from '../../components/groupsTable'
+import Alert from '@/app/components/alert';
 
 const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas'), {
     ssr: false,
@@ -32,6 +33,7 @@ export default function Schedules() {
 
     const [data, setData] = React.useState([]);
     const [groupData, setGroupData] = React.useState([]);
+    const [error, setError] = React.useState(<></>);
     
     // API request to get Data to fill both tables
     const getTableData = () => {
@@ -42,10 +44,16 @@ export default function Schedules() {
 
     // API request to generate a schedule and update the table
     const generateSchedule = () => {
-        //error checking needed to check if a group currently exists
-        simulateNetworkRequest().then(() => {
-            setData(table);
-        })
+        if (Array.isArray(groupData) && groupData.length > 0) {
+            //error checking needed to check if a group currently exists
+            simulateNetworkRequest().then(() => {
+                setData(table);
+                setError(<></>);
+            })
+        } else {
+            // Error cannot create a schedule with no groups
+            setError(<Alert simpleMessage={"Error cannot create a schedule with no groups"} />);
+        }
     }
 
     // Resets table for D2 TA testing. 
@@ -86,6 +94,7 @@ export default function Schedules() {
                 </Button>
                 <GroupsTable data={groupData}/>
                 <h3 className='header-title '>Schedule</h3>
+                {error}
                 <Schedule schedule={data}/>
                 <Button className='right-btn'
                         variant="primary" 
