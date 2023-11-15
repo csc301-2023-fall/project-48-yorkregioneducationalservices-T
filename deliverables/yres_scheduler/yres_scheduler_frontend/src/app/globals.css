@@ -16,6 +16,18 @@
   display: flex;
 }
 
+.loading {
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-title {
+  border-bottom: 3px solid #5e5e5e;
+  margin-bottom: 1vh;
+}
+
 /* Generic Helper Styles */
 
 .center-align {
@@ -38,6 +50,25 @@
 .right-btn {
   float: right;
 }
+
+.split-page {
+  width: 100vw;
+  padding: 2vh;
+  min-height: 85vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1em;
+}
+.split-page .left {
+  min-height: 85vh;
+  max-width: 48vw;
+}
+.split-page .right {
+  min-height: 85vh;
+  max-width: 48vw;
+}
+
+
 
 /* App Header Styling */
 .nav-header {
@@ -105,14 +136,9 @@
 }
 
 /* Floorplan Specific Styles */
-.floorplan-canvas {
-  width: 50vw;
-  padding-left: 5px;
-}
 
-.floorplan-canvas .display {
+.floorplan-canvas {
   overflow: auto;
-  height: 80vh;
 }
 
 /* Schedules Specific Styles */
@@ -149,7 +175,13 @@
 .table-container{
   background-color: #ffffff;
   border-radius: 20px;
-  height: 70vh;
+  max-height: 70vh;
+  overflow: scroll;
+  clear:both;
+}
+
+.half-table-container{
+  height: 35vh;
   overflow: scroll;
   clear:both;
 }

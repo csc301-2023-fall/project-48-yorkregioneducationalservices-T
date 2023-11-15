@@ -31,9 +31,13 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/yres/deliverables/yres_scheduler/yres_scheduler_database
-            sudo npm install
-            sudo node server.js &
+            cd /home/ubuntu/yres/backend/deliverables/yres_scheduler/yres_scheduler_backend
+            # Kill the process using port 1234 if it exists
+            sudo kill -9 $(sudo lsof -t -i:1234) || echo "No process found on port 1234"
+            npm install
+            # Start the server and wait until a specific output is available
+            nohup sudo node server.js > /dev/null 2>&1 &
+            while ! curl -s http://localhost:1234/students/getAllStudents >/dev/null; do sleep 1; done
       
       - name: Wait for backend server deployment to Complete
         run: sleep 5s
@@ -46,3 +50,4 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             curl -I http://localhost:1234/students/getAllStudents/
+

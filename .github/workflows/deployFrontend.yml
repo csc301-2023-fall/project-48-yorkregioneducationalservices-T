@@ -1,0 +1,62 @@
+# This workflow is responsible for the continuous deployment of the backend code.
+name: Frontend CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  transfer-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Transfer code to EC2 instance
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: . 
+          target: /home/ubuntu/yres/frontend
+          
+      - name: Use Node.js 21.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21.x'
+
+      - name: Deploy the frontend server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/yres/frontend/deliverables/yres_scheduler/yres_scheduler_frontend
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            . ~/.nvm/nvm.sh
+            nvm install 21
+            nvm use 21
+            npm install -g npm@latest
+            sudo npm install
+            sudo npm install canvas
+            npm run build
+            # Kill the process using port 3000 if it exists
+            # sudo kill -9 $(sudo lsof -t -i:3000) || echo "No process found on port 3000"
+            npm run start &
+      
+      - name: Wait for frontend server deployment to Complete
+        run: sleep 5s
+
+      - name: Test frontend server connection
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            curl -I http://localhost:3000
+          

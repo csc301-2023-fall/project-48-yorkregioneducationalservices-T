@@ -242,7 +242,6 @@ async function createStudent(student) {
     `;
 
     try {
-        console.log(uuid.v1());
         const result = await client.query(query, [
             uuid.v1(),
             student.student_ui_id,
