@@ -32,6 +32,7 @@ jobs:
           script: |
             cd /home/ubuntu/yres/frontend/deliverables/yres_scheduler/yres_scheduler_frontend
             sudo npm install
+            echo node -v
             npm cache clean --force
             npm run build
             npm run start &
