@@ -21,6 +21,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: cd /home/ubuntu/yres/deliverables/yres_scheduler/yres_scheduler_frontend
     - run: npm ci
     # - run: npm test
     - run: pm2 restart frontserver
