@@ -3,10 +3,10 @@
  * 
  * @module api/service/AccountService
  * 
- * @requires ../db/psqlDbPlugin
+ * @requires api/db/psqlDbPlugin
  * @requires crypto
  * @requires bcrypt
- * @requires ../entities/ServiceErrors
+ * @requires api/entities/ServiceErrors
  * @requires config
  * @requires jsonwebtoken
  */

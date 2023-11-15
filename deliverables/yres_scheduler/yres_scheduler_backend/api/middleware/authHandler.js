@@ -6,13 +6,17 @@
  * @param {function} [next] The next middleware to call
  * 
  * @module api/middleware/errorHandler
+ * 
+ * @requires jsonwebtoken
+ * @requires api/entities/ServiceErrors
+ * @requires config
  */
 
-/** @const {module} jwt JSON Web Token Package */
 const jwt = require('jsonwebtoken');
-
-/** @const {Object} [STATUS_CODES] Maps status labels to status codes. */
 const {STATUS_CODES} = require('../entities/ServiceErrors');
+
+/** @const {string} [AUTH_TOKEN_SECRET] Secret for JWT signatures. */
+const AUTH_TOKEN_SECRET = process.env.AUTH_SECRET || config.get('auth.SECRET');
 
 const authHandler = (req, res, next) => {
 
@@ -22,7 +26,7 @@ const authHandler = (req, res, next) => {
         const token = header.split(" ")[1];
         req.token = token;
 
-        jwt.verify(req.token, "a wee secret key", (err, data) => {
+        jwt.verify(req.token, AUTH_TOKEN_SECRET, (err, data) => {
             if (err) {
                 res.sendStatus(STATUS_CODES.FORBIDDEN);
             } else {
