@@ -46,17 +46,15 @@ function FloorPlanCanvas() {
     }
 
     if (loading) {
-        return <div className='floorplan-canvas'><Loading/></div>
+        return <Loading/>
     }
 
     return (
-        <div className='floorplan-canvas'>
-            <Stage className='display' width={canvasSize.width} height={canvasSize.height} >
-                <Layer>
-                    <FloorPlanImage/>
-                </Layer>
-            </Stage>
-        </div>
+        <Stage className='floorplan-canvas' width={canvasSize.width} height={canvasSize.height} >
+            <Layer>
+                <FloorPlanImage/>
+            </Layer>
+        </Stage>
     )
 }
 

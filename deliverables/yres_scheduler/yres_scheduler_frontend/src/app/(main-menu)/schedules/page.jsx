@@ -69,9 +69,12 @@ export default function Schedules() {
     }, []);
 
     return (
-        <div id='schedules'>
-            <FloorPlanCanvas/>
-            <div>
+        <div className='split-page'>
+            <div className='left'>
+                <FloorPlanCanvas/>
+            </div>
+            <div className='right'>
+                <h3 className='header-title '>Groups</h3>
                 <Button className='right-btn'
                         variant="primary" 
                         onClick={generateGroups}>
@@ -82,7 +85,7 @@ export default function Schedules() {
                             Reset Groups
                 </Button>
                 <GroupsTable data={groupData}/>
-
+                <h3 className='header-title '>Schedule</h3>
                 <Schedule schedule={data}/>
                 <Button className='right-btn'
                         variant="primary" 

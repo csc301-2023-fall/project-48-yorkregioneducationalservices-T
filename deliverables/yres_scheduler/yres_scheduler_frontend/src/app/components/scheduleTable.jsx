@@ -108,9 +108,7 @@ export default function Schedule({ schedule }) {
                 Export to CSV
             </CSVLink>
             </div>
-            <div className='half-table-container'>
-                <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
-            </div>
+            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
             <SideBarWrapper/>
         </div>
     );

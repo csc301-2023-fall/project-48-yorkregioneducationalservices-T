@@ -34,26 +34,30 @@ function Floorplan() {
     */
 
     return (    
-        <div id="floorplan">
-            {/* Multiple Campus Code
-                <RefinedDropdown 
-                    handleSelect={handleSelectType}
-                    displayText={currCampus}
-                    groups={DUMMY_CAMPUS_DATA.map(campus => campus.name)}
-                />
-                <div className='left-align'>
-                    <Button onClick={handleShow} variant="primary"><FaPlus /> Add a new campus</Button>
-                    <Button variant="danger"><BsTrash /> Delete this campus</Button>
-                </div>
-            */} 
-            <FloorPlanCanvas/>
-            <div id='floor-manger'>
+        <div className='split-page'>
+            <div className='left'>
+                {/* Multiple Campus Code
+                    <RefinedDropdown 
+                        handleSelect={handleSelectType}
+                        displayText={currCampus}
+                        groups={DUMMY_CAMPUS_DATA.map(campus => campus.name)}
+                    />
+                    <div className='left-align'>
+                        <Button onClick={handleShow} variant="primary"><FaPlus /> Add a new campus</Button>
+                        <Button variant="danger"><BsTrash /> Delete this campus</Button>
+                    </div>
+                */} 
+                <FloorPlanCanvas/>
+            </div>
+            <div className='right'>
                 <div className='right-align'>
+                    <h3 className='header-title '>Rooms</h3>
                     <Button 
                             variant="primary">
                         Add Room
                     </Button>
                     <RoomsTable/>
+                    <h3 className='header-title '>Activities</h3>
                     <Button onClick={() => setshowActivityAdd(true)} 
                             variant="primary">
                         Add Activity

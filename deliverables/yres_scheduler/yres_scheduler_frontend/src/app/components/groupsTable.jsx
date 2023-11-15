@@ -37,9 +37,7 @@ function GroupsTable({data}) {
     }]
     return (
         <div>
-            <div className='half-table-container'>
-                <YresTable keyCol={'activity_id'} data={data} columns={columns} disableHover={true}/>
-            </div>
+            <YresTable keyCol={'activity_id'} data={data} columns={columns} disableHover={true}/>
             <ActivityEdit
                 item={editItem}
                 show={showEdit}
