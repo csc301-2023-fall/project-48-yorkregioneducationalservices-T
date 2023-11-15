@@ -46,4 +46,4 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             curl -I http://localhost:3000
-            
+          
