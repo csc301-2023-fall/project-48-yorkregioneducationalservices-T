@@ -89,9 +89,9 @@ module.exports = (app) => {
         try {
             const resp = await studentService.createStudent(req, res);
             if (resp === true){
-                res.status(200).send('Success');
+                res.status(200).send(resp);
             } else {
-                res.status(200).send('Failure');
+                res.status(200).send(resp);
             }
             
         } catch (error) {

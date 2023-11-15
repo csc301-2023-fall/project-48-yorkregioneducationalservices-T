@@ -1,5 +1,6 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react';
+import Loading from './loading';
 function YresTable(props) {
   const { keyCol, data, columns, rowEvents_const, disableHover } = props;
   let rowEvents = rowEvents_const;
@@ -13,7 +14,7 @@ function YresTable(props) {
 	}, []);
 	if (!hydrated) {
 		// Returns null on first render, so the client and server match
-		return null;
+		return <Loading/>;
 	}
   return (
     <div className='table-container'>

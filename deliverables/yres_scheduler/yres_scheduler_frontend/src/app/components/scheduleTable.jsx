@@ -101,7 +101,6 @@ export default function Schedule({ schedule }) {
                 handleSelect={handleSelect}
                 displayText={DisplaySched}
                 groups={groups}
-                //
             />
             </div>
             <div className='float-child'>
