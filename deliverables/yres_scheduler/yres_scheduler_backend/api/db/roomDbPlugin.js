@@ -38,7 +38,7 @@ async function getRoomsByCampusId(campus_id) {
 
         all_rooms = rows.map(mapRowToRoom);
 
-        resolve(all_rooms)
+        resolve(all_rooms);
     });
 }
 

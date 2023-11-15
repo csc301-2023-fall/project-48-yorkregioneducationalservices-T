@@ -1,6 +1,7 @@
 /** Room Controller
  * 
  */
+const { contentSecurityPolicy } = require('helmet');
 const db = require('../db/roomDbPlugin');
 const uuid = require('uuid');
 
@@ -11,7 +12,7 @@ const uuid = require('uuid');
  */
 async function getAllRoomsByCampusId(req, res) {
     const campus_id = req.query.campus_id;
-    if (campus_id == undefined) {
+    if (isNaN(campus_id)) {
         console.log('getAllRooms - Bad request: missing query parameter');
         throw Error('getAllRooms - Bad request: missing query parameter');
     }
@@ -26,7 +27,7 @@ async function getAllRoomsByCampusId(req, res) {
  * @returns JSON representation of all rooms
  */
 async function getAllRooms(req, res) {
-    const all_rooms = await db.getAllRooms(campus_id);
+    const all_rooms = await db.getAllRooms();
     return {
         rooms: all_rooms
     };
@@ -40,12 +41,9 @@ async function getAllRooms(req, res) {
 async function createRoom(req, res) {
     const name = req.body.name;
     const campus_id = req.body.campus_id;
-    if (name == undefined || campus_id == undefined) {
+    if (isNaN(name) || isNaN(campus_id)) {
+        console.log('createRoom - Bad form: missing parameter');
         throw Error('createRoom - Bad form: missing parameter');
-    }
-    if (!(typeof name === 'string' || name instanceof String) ||
-        !(typeof campus_id === 'string' || campus_id instanceof String)) {
-            throw Error('createRoom - Bad form: parameter in unexpected type, expecting string');
     }
     var succeed = await db.createRoom(uuid.v1(), name, campus_id);
     return {
@@ -61,6 +59,7 @@ async function createRoom(req, res) {
 async function deleteRoomById(req, res) {
     const room_id = req.body.room_id;
     if (!uuid.validate(room_id)) {
+        console.log('deleteRoom - Bad form: unexpected room_id');
         throw Error('deleteRoom - Bad form: unexpected room_id');
     }
     const status = await db.deleteRoomById(room_id);

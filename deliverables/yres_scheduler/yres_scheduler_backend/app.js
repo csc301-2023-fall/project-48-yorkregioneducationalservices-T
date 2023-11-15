@@ -42,5 +42,6 @@ require('./api/routes/accountRoutes')(app);
 require('./api/routes/studentRoutes')(app);
 require('./api/routes/counselorRoutes')(app);
 require('./api/routes/roomRoutes')(app);
+require('./api/routes/activityRoutes')(app);
 
 module.exports = app;

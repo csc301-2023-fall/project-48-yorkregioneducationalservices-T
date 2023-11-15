@@ -9,7 +9,7 @@ module.exports = class Activity {
      * @param {number} duration - hours of this activity.
      * @param {string} type - one of "common"/"filler".
      * @param {number} num_occurences - number of times this activity should occur in the schedule.
-     * @param {Set} room_ids - a set of IDs of rooms where this activity can be held.
+     * @param {Array} room_ids - an array of IDs of rooms where this activity can be held.
      */
     constructor(activity_id, name, duration, type, num_occurences, room_ids) {
         this.activity_id = activity_id;
