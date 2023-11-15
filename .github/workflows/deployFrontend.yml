@@ -36,8 +36,11 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/yres/frontend/deliverables/yres_scheduler/yres_scheduler_frontend
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+            . ~/.nvm/nvm.sh
+            nvm install 21
+            nvm use 21
             sudo npm install
-            node -v
             npm run build
             npm run start &
       
