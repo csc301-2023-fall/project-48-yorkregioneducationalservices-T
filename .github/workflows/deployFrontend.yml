@@ -33,7 +33,7 @@ jobs:
             cd /home/ubuntu/yres/frontend/deliverables/yres_scheduler/yres_scheduler_frontend
             sudo npm install
             npm run build
-            npm start build &
+            npm run start &
       
       - name: Wait for frontend server deployment to Complete
         run: sleep 5s
