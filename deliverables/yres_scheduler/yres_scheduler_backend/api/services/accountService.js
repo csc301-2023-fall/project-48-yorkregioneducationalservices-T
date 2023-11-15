@@ -34,15 +34,16 @@ const AUTH_TOKEN_EXPIRATION = process.env.AUTH_EXPIRATION || config.get('auth.EX
  * @param {string} password Plaintext password for loggin on user
  * @returns {token} JWT for login session if credentials are valid
  */
-function login(username, password) {
+async function login(username, password) {
 
-    if (!db.checkLogin(username, password)) {
+    throw new AccountServiceError("Test", STATUS_CODES.SUCCESS);
+    if (!(await db.checkLogin(username, password))) {
         throw new AccountServiceError(
             "Invalid login credentials", 
             STATUS_CODES.UNAUTHORISED
         );
     } else {
-        const curr_user = db.getAdminUserByName(username);
+        const curr_user = await db.getAdminUserByName(username);
         const token = jwt.sign({user_id: curr_user.user_id}, AUTH_TOKEN_SECRET, {
             expiresIn: AUTH_TOKEN_EXPIRATION
         });
@@ -58,21 +59,47 @@ function login(username, password) {
  * @param {string} password Plaintext password for loggin on user
  * @returns {token} JWT for login session for newly-registered user
  */
-function signup(username, password) {
-    if (db.existsUser) {
+async function signup(username, password) {
+    if (await db.existsUser(username)) {
         throw new AccountServiceError(
             `User already exists for username '${username}'`, 
             STATUS_CODES.CONFLICT
         );
     }
     else {
-        db.createAdminUser(username, password);
+        if(!(await db.createAdminUser(username, password))) {
+            throw new AccountServiceError(
+                `Failed to create new admin user resource in DB for '${username}'`, 
+                STATUS_CODES.FAILED
+            );
+        }
         return login(username, password);
+    }
+}
+
+/**
+ * Returns whether the user is logged in or not.
+ * 
+ * @param {token} token JWT for user session (may be null).
+ * @returns {boolean} Whether user is logged in or not
+ */
+async function getLoginStatus(token) {
+    if (token == null) {
+        return false;
+    } else {
+        try {
+            const decoded = jwt.verify(token, AUTH_TOKEN_SECRET);
+            return true;
+        } catch(err) {
+            console.log(err);
+            return false;
+        }
     }
 }
 
 
 module.exports = {
     login,
-    signup
+    signup,
+    getLoginStatus
 }

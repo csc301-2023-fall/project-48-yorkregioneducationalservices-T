@@ -22,12 +22,16 @@ const accountRoutes = (app) => {
      * @param {string} path - Endpoint path
      * @param {callback} middleware - Endpoint middleware
      */
-    app.post('/account/login/', (req, res) => {
-        res.send(accountController.login(req, res));
+    app.post('/account/login/', async (req, res) => {
+        res.send(await accountController.login(req, res));
     });
 
-    app.post('/account/signup/', (req, res) => {
-        res.send(accountController.signup(req, res));
+    app.post('/account/signup/', async (req, res) => {
+        res.send(await accountController.signup(req, res));
+    });
+
+    app.get('/account/login/', async (req, res) => {
+        res.send(await accountController.getLoginStatus(req, res));
     });
 };
 

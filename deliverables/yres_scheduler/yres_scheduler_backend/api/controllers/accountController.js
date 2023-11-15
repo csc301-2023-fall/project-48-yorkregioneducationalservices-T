@@ -18,11 +18,11 @@ const {STATUS_CODES} = require('../entities/ServiceErrors');
  * @param {Object} res 
  * @return {Object} The response body.
  */
-function login(req, res) {
+async function login(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
-    const token = accountService.login(username, password);
+    const token = await accountService.login(username, password);
 
     res.status(STATUS_CODES.SUCCESS);
 
@@ -39,11 +39,11 @@ function login(req, res) {
  * @param {Object} res 
  * @return {Object} The response body.
  */
-function signup(req, res) {
+async function signup(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
-    const token = accountService.signup(username, password);
+    const token = await accountService.signup(username, password);
 
     res.status(STATUS_CODES.SUCCESS);
     
@@ -53,7 +53,32 @@ function signup(req, res) {
     };
 }
 
+/** 
+* Controller function for get login status operation.
+* 
+* @param {Object} req 
+* @param {Object} res 
+* @return {Object} The response body.
+*/
+async function getLoginStatus(req, res) {
+    const header = req.headers["authorization"];
+    var token = null
+
+    if (typeof header !== "undefined") {
+        token = header.split(" ")[1];
+    }
+
+    const isLoggedIn = await accountService.getLoginStatus(token);
+
+   res.status(STATUS_CODES.SUCCESS);
+   
+   return {
+       login_status: isLoggedIn
+   };
+}
+
 module.exports = {
     login,
-    signup
+    signup,
+    getLoginStatus
 }

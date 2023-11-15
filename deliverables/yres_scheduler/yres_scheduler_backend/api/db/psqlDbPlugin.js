@@ -3,7 +3,8 @@ const Camp = require("../entities/Camp");
 const Room = require("../entities/Room");
 const AdminUser = require("../entities/AdminUser");
 
-const { client } = require('./db');
+const { client, connectDB } = require('./db');
+connectDB();
 
 function getCampusById(campus_id) {
 
@@ -181,8 +182,6 @@ function getGroupsByCampId(camp_id) {
     return all_groups;
 }
 
-client.connect();
-
 function getCampById(camp_id) {
 
     var name;
@@ -268,13 +267,13 @@ function getCampById(camp_id) {
 /** Object getter for Room class.
  * 
  * @param {string} room_id - room UUID.
- * @returns an object of type Room with given room ID, or undefined if not exists.
+ * @returns an object of type Room with given room ID, or null if not exists.
  */
 function getRoomById(room_id) {
     var name, campus_id;
     client.query(`SELECT * FROM yres_db.Room WHERE room_id = '${room_id}';`, function (err, result) {
         if (result.length == 0) {
-            return undefined;
+            return null;
         }
         if (err){
             throw Error(err);
@@ -329,22 +328,28 @@ function createRoom(room_id, name, campus_id) {
 /** Object getter for Admin User class.
  * 
  * @param {string} room_id - room UUID.
- * @returns an object of type Room with given room ID, or undefined if not exists.
+ * @returns an object of type Room with given room ID, or null if not exists.
  */
-function getAdminUserByName(username) {
+async function getAdminUserByName(username) {
     var password;
-    client.query(`SELECT * FROM yres_db.LoginInfo WHERE username = '${username}';`, function (err, result) {
-        if (result.length == 0) {
-            return undefined;
+    const query = `SELECT * FROM yres.logininfo WHERE username = '${username}';`
+    try {
+        const result = await client.query(query);
+
+        if (result && result.rowCount > 0) {
+            password = result.rows[0].password;
+            return new AdminUser(
+                username,
+                password);
+        } else {
+
+            return null;
         }
-        password = result.rows[0].password;
-        if (err){
-            throw Error(err);
-        }
-    });
-    return new AdminUser(
-        username,
-        password);
+
+    } catch (err){
+        throw new Error(err);
+    }
+        
 }
 
 /** Write an administrator to the database.
@@ -353,16 +358,16 @@ function getAdminUserByName(username) {
  * @param {string} password 
  * @returns true if written successfully.
  */
-function createAdminUser(username, password) {
-    var existing_user = getAdminUserByName(username);
-    if (existing_user != undefined)
-        return false;
-    client.query(`INSERT INTO yres_db.LoginInfo(username, password) VALUES('${username}', '${password}')`, function (err, result) {
-        if (err){
-            throw Error(err);
-        }
-    });
-    return true;
+async function createAdminUser(username, password) {
+    const query = `INSERT INTO yres.logininfo(username, password) VALUES('${username}', '${password}');`
+    try {
+        const result = await client.query(query);
+
+        return true;
+
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 /** Check if a pair of username and password is valid.
@@ -371,12 +376,14 @@ function createAdminUser(username, password) {
  * @param {string} password 
  * @returns true if the combination is valid.
  */
-function checkLogin(username, password) {
-    var admin = getAdminUserByName(username);
-    if (admin == undefined)
+async function checkLogin(username, password) {
+    var admin = await getAdminUserByName(username);
+    if (admin == null) {
         return false;
-    if (password == admin.password)
+    }
+    if (password == admin.password) {
         return true;
+    }
     return false;
 }
 
@@ -385,14 +392,12 @@ function checkLogin(username, password) {
  * @param {string} username 
  * @returns true if the user exists.
  */
-function existsUser(username) {
-    var admin = getAdminUserByName(username);
-    if (admin == undefined)
+async function existsUser(username) {
+    var admin = await getAdminUserByName(username);
+    if (admin == null)
         return false;
     return true;
 }
-
-
 
 
 module.exports = {

@@ -32,7 +32,7 @@ const authHandler = (req, res, next) => {
             } else {
                 next();
             }
-        })
+        });
     } else {
         res.sendStatus(STATUS_CODES.FORBIDDEN);
     }

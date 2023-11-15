@@ -1,16 +1,19 @@
 // db.js
 
-const { Client } = require('pg');
+const { Pool } = require('pg');
 const config = require('config');
 
 const dbConfig = config.get('db');
 
-const client = new Client({
+const client = new Pool({
     host: dbConfig.HOST,
     user: dbConfig.USER,
     port: dbConfig.PORT,
     password: dbConfig.PASSWORD,
     database: dbConfig.DATABASE,
+    max: 20, 
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000
 });
 
 /**

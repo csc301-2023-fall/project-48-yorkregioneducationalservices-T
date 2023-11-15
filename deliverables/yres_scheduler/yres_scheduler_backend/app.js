@@ -25,10 +25,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(errorHandler);
-
 require('./api/routes/scheduleRoutes')(app);
 require('./api/routes/campRoutes')(app);
 require('./api/routes/accountRoutes')(app);
+
+app.use(errorHandler);
 
 module.exports = app;
