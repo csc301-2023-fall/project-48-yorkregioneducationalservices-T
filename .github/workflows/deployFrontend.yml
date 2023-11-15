@@ -31,6 +31,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/yres/frontend/deliverables/yres_scheduler/yres_scheduler_frontend
+            nvm use 21
             sudo npm install
             node -v
             npm cache clean --force
