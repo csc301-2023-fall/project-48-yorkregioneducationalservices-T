@@ -1,28 +1,37 @@
 'use client';
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import RoomsTable from '@/app/components/roomsTable';
 import ActivitiesTable from '../../components/activitiesTable';
 import ActivityCreate from '@/app/modals/activityCreate';
-function Floorplan() {
+import FloorPlanCanvas from '@/app/components/floorPlanCanvas';
 
-    const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
+function Floorplan() {
+    const [showActivityAdd, setshowActivityAdd] = useState(false);
+
     return (    
-    <div>
-        <div id='profiles-header'>
-            <div className='right-align'>
-                <Button onClick={handleShow} variant="primary">Add Activity</Button>
-                <ActivityCreate
-                    show={show}
-                    setShow={setShow}
-                />
+        <div id="floorplan">
+            <FloorPlanCanvas/>
+            <div id='floor-manger'>
+                <div className='right-align'>
+                    <Button 
+                            variant="primary">
+                        Add Room
+                    </Button>
+                    <RoomsTable/>
+                    <Button onClick={() => setshowActivityAdd(true)} 
+                            variant="primary">
+                        Add Activity
+                    </Button>
+                    <ActivityCreate
+                        show={showActivityAdd}
+                        setShow={setshowActivityAdd}
+                    />
+                </div>
+                <ActivitiesTable/>
             </div>
         </div>
-        <div>
-            <ActivitiesTable/>
-        </div>
-    </div>
     );
 }
 

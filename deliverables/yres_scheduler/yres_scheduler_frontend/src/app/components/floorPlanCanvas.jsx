@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { Stage, Layer, Image, Text } from "react-konva";
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import Loading from './loading';
 import useImage from 'use-image';
 import exampleFloorPlan from '../data/school_floorplan_example.jpg'
 
 function FloorPlanCanvas() {
+    const [loading, setLoading] = React.useState(true);
     const [canvasSize, setCanvasSize] = React.useState({
         width: window.innerWidth / 2,
         height: window.innerHeight
     });
     
     React.useEffect(() => {
-
+        setLoading(false);
         // Dynamically change window size based on window
         const updateSize = () => {
             setCanvasSize({
@@ -45,11 +45,12 @@ function FloorPlanCanvas() {
                 />
     }
 
+    if (loading) {
+        return <div className='floorplan-canvas'><Loading/></div>
+    }
+
     return (
         <div className='floorplan-canvas'>
-            <DropdownButton id="dropdown-basic-button" title="Select Floor"  variant='secondary'>
-                <Dropdown.Item>Floor 1</Dropdown.Item>
-            </DropdownButton>
             <Stage className='display' width={canvasSize.width} height={canvasSize.height} >
                 <Layer>
                     <FloorPlanImage/>

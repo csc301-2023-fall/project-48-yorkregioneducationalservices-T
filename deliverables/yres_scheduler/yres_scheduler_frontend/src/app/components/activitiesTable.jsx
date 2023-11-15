@@ -92,14 +92,14 @@ function ActivitiesTable() {
         )
     });
     return (
-        <div id='profiles-table'>
+        <>
             <YresTable keyCol={'activity_id'} data={activityData} columns={columns} disableHover={true}/>
             <ActivityEdit
                 item={editItem}
                 show={showEdit}
                 setShow={setShowEdit}
             />
-        </div>
+        </>
     )
 }
 
