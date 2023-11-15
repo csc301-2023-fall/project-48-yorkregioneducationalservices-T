@@ -22,7 +22,12 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           source: . 
           target: /home/ubuntu/yres/frontend
-      
+          
+      - name: Use Node.js 21.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21.x'
+
       - name: Deploy the frontend server
         uses: appleboy/ssh-action@master
         with:
@@ -31,10 +36,8 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/yres/frontend/deliverables/yres_scheduler/yres_scheduler_frontend
-            nvm use 21
             sudo npm install
             node -v
-            npm cache clean --force
             npm run build
             npm run start &
       
