@@ -3,10 +3,24 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
+import { validRelationship } from '@/app/helper';
 
 /**
  * Addition Modal for Students
- * 
+ *class Student {
+   *student_id (string) 	    // The auto generated unique ID
+    firstname (string) 		    // <UI>
+    lastname (string) 		    // <UI>
+    age (int) 			        // <UI>
+    sex (string) 		        // <UI>
+    friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
+    enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
+}
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - student object to be added (blank)
+        students - a list of all student objects with attributes described above
  * */
 function StudentAdd({show, setShow, item, students}) {
     const [error, setError] = useState(<></>);
@@ -15,30 +29,13 @@ function StudentAdd({show, setShow, item, students}) {
         setShow(false)
     };
     const handleSubmit = (event) => {
-        event.preventDefault()
+        event.preventDefault() //prevents closing
         let friends = event.target[4].value;
         let enemies = event.target[5].value;
-        if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
+        //if all names are valid then allow close
+        if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
             handleClose()
         }
-    }
-        
-    function validRelationship(string, field) {
-        if(string === ''){
-            return true
-        }
-        const studentNames = students.map(student => {return student.firstname + " " + student.lastname})
-        const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
-        for (const name of names) {
-            if (!studentNames.includes(name)){
-                console.log(name)
-                console.log(students)
-                console.log(studentNames)
-                setError(<Alert simpleMessage={field + " field invalid, " + name + " isn't a known student"}/>)
-                return false
-            }
-        }
-        return true
     }
   
     return (

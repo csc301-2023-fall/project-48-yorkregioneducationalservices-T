@@ -7,7 +7,18 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
 
-function CounselorProfilesTable({ counselorData, rowEvents }) {
+/** 
+ * Counselor Table that displays:
+*class Counselor {
+   *counselor_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
+}
+ * Props: 
+        counselorData - a list of counselor objects with above attributes
+**/
+function CounselorProfilesTable({ counselorData }) {
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         counselor_id: -1,
@@ -34,6 +45,7 @@ function CounselorProfilesTable({ counselorData, rowEvents }) {
     }]
 
     counselorData.forEach(item => {
+        //creates a modal and button for editing and deleting each counselor
         const showEditModal = () => {
             setEditItem(item);
             setShowEdit(true);
@@ -56,7 +68,7 @@ function CounselorProfilesTable({ counselorData, rowEvents }) {
 
     return (
         <>
-            <YresTable keyCol={'counselor_id'} data={counselorData} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
+            <YresTable keyCol={'counselor_id'} data={counselorData} columns={columns} disableHover={true}/>
             <CounselorEdit
                 item={editItem}
                 show={showEdit}

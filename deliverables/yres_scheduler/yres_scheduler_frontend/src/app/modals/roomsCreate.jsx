@@ -3,13 +3,19 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { process_comma_separated_text } from '../helpers/helpers';
+import { process_comma_separated_text } from '../helper';
 import { useRouter } from 'next/navigation'
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /**
- * Add room modal
- * 
+ * Create modal for Rooms
+ * class Room {
+   *room_id (string) 		// The auto generated unique ID
+    name (string) 		// <UI> The name of the room
+    activity_ids (set<string>) 	// <UI> The IDs of the activities that can take place in this room
+}
+ * Props: 
+     currCampus - The current campus being loaded
  * */
 function RoomsCreate({ currCampus }) {
     const router = useRouter();

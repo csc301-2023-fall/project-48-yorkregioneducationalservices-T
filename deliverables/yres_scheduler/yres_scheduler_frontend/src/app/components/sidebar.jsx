@@ -3,6 +3,10 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 /**
  * Creates the Sidebar component to display row information(detailed information about an activity and the group attending it)
+ *Props: 
+        data - details of the side bar with attributes: classNum, name, age, staffA, staffB, time, location, students
+        show - a true or false value that determines if the side bar is shown
+        onHide (optional) - additional functions used when call closed
  */
 function Sidebar({data, show, onHide}) {
     const [classNum, name, age, staffA, staffB, time, location, students] = [data.classNum, data.name, data.age, 

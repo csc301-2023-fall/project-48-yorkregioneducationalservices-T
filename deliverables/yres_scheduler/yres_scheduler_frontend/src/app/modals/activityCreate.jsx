@@ -3,13 +3,22 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { process_comma_separated_text } from '../helpers/helpers';
+import { process_comma_separated_text } from '../helper';
 import { useRouter } from 'next/navigation'
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /**
  * Editing Modal for Activities
- * 
+ * class Activity {
+   *activity_id (string)	// The auto generated unique ID
+    name (string) 		// <UI> The name of the activity
+    duration (int) 		// <UI> The number of hours this activity takes
+    type (string) 		// <UI> The type of the activity (filler / common)
+    num_occurences (int) 	// <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
+}
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
  * */
 function ActivityCreate() {
     const router = useRouter();

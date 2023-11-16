@@ -234,6 +234,20 @@ function getStudentByUiId(student_ui_id) {
  * @param {string} student.sex - The sex of the student.
  * @returns {Promise<boolean>} - A promise that resolves to true if the student was created successfully, false otherwise.
  */
+/**
+ * Inserts a new student into the database along with their friend and enemy preferences.
+ * @async
+ * @function createStudent
+ * @param {Object} student - The student object to be inserted into the database.
+ * @param {string} student.student_ui_id - The unique identifier for the student.
+ * @param {string} student.firstname - The first name of the student.
+ * @param {string} student.lastname - The last name of the student.
+ * @param {number} student.age - The age of the student.
+ * @param {string} student.sex - The gender of the student.
+ * @param {Array<string>} student.friend_ids - An array of unique identifiers for the student's friends.
+ * @param {Array<string>} student.enemy_ids - An array of unique identifiers for the student's enemies.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the student was successfully inserted into the database, or false otherwise.
+ */
 async function createStudent(student) {
     const query = `
         INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)

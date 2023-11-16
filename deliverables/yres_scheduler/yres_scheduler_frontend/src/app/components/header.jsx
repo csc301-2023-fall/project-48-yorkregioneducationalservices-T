@@ -6,6 +6,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import { usePathname } from 'next/navigation'
 
+/** 
+ * Header with navigation to all three pages
+**/
 function Header() {
   const pathname = usePathname()
 

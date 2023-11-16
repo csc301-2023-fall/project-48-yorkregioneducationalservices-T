@@ -3,10 +3,15 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
+import { validRelationship } from '@/app/helper';
 
 /**
  * Editing Modal for Students
- * 
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - student object to be edited
+        students - a list of all student objects with attributes described above
  * */
 function StudentEdit({item, show, setShow, students}) {
     const [error, setError] = useState(<></>);
@@ -15,30 +20,13 @@ function StudentEdit({item, show, setShow, students}) {
         setShow(false)
     };
     const handleSubmit = (event) => {
-        event.preventDefault()
+        event.preventDefault() //prevents closing
         let friends = event.target[4].value;
         let enemies = event.target[5].value;
-        if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
+        //if all names are valid then allow close
+        if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
             handleClose()
         }
-    }
-        
-    function validRelationship(string, field) {
-        if(string === ''){
-            return true
-        }
-        const studentNames = students.map(student => {return student.firstname + " " + student.lastname})
-        const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
-        for (const name of names) {
-            if (!studentNames.includes(name)){
-                console.log(name)
-                console.log(students)
-                console.log(studentNames)
-                setError(<Alert simpleMessage={field + " field invalid, " + name + " isn't a known student"}/>)
-                return false
-            }
-        }
-        return true
     }
 
     return (

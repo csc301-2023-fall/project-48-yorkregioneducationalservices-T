@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /** 
+ * Activities Table that displays:
  * class Activity {
    *activity_id (string)	// The auto generated unique ID
     name (string) 		// <UI> The name of the activity

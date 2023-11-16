@@ -13,6 +13,28 @@ function generateSchedule(req, res) {
     }
 }
 
+async function getAllSchedules(req, res) {
+    const allschedules = await scheduleService.getAllSchedules();
+
+    return {
+        schedules: allschedules.map((schedule) => { 
+            return {
+                ...schedule,
+                blocks: schedule.blocks.map((block) => {
+                    return {
+                        ...block,
+                        start_time: block.getStartTime(),
+                        end_time: block.getEndTime()
+                    }
+                }),
+                start_time: schedule.getStartTime(),
+                end_time: schedule.getEndTime()
+            };
+        })
+    };
+}
+
 module.exports = {
-    generateSchedule
+    generateSchedule,
+    getAllSchedules
 }
