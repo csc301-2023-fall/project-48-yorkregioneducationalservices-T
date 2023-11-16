@@ -2,7 +2,11 @@ const Group = require("../entities/Group");
 const uuid = require('uuid');
 const { client } = require('./db');
 
-
+/**
+ * Maps a row from the CampGroup table to a Group object.
+ * @param {Object} row - The row from the CampGroup table.
+ * @returns {Group} A new Group object.
+ */
 function mapRowToGroup(row) {
     return new Group(
         row.camp_group_id,
@@ -13,7 +17,13 @@ function mapRowToGroup(row) {
     );
 }
 
-
+/**
+ * Retrieves a group from the database by their ID.
+ *
+ * @param {string} group_id - The ID of the group to retrieve.
+ * @returns {Promise<Group>} A Promise that resolves with the retrieved group object.
+ * @throws {Error} If there was an error retrieving the group from the database.
+ */
 async function getGroupById(group_id) {
 
     var schedule_id;
@@ -48,6 +58,14 @@ async function getGroupById(group_id) {
     });
 }
 
+/**
+ * Retrieves student ids from the database and adds them to the set of student ids for a given group.
+ * @async
+ * @function getStudentIds
+ * @param {Object} group - The group object for which to retrieve and store student ids.
+ * @param {string} group.group_id - The ID of the group for which to retrieve and store student ids.
+ * @throws {Error} Throws an error if there was an issue fetching student ids from the database.
+ */
 async function getStudentIds(group) {  
     const queryGetStudentIds = `Select student_id from Student where camp_group_id = $1;`;  
 
@@ -69,6 +87,14 @@ async function getStudentIds(group) {
 
   }
 
+/**
+ * Retrieves counselor ids from the database and adds them to the set of counselor ids for a given group.
+ * @async
+ * @function getCounselorIds
+ * @param {Object} group - The group object for which to retrieve and store counselor ids.
+ * @param {string} group.group_id - The ID of the group for which to retrieve and store counselor ids.
+ * @throws {Error} Throws an error if there was an issue fetching counselor ids from the database.
+ */
   async function getCounselorIds(group) {  
       const queryGetCounselorIds = `Select counselor_id from Counselor where camp_group_id = $1;`;  
   
@@ -90,6 +116,12 @@ async function getStudentIds(group) {
   
     }
 
+/**
+ * Retrieves all CampGroups from the database and maps them to Group objects.
+ * 
+ * @param {string} campus_id - The id of the campus under which to retrieve the groups.
+ * @returns {Promise<Array<Group>>} A promise that resolves with an array of Group objects.
+ */
 async function getGroupsByCampusId(campus_id) {
 
     var all_groups;
@@ -124,6 +156,13 @@ async function getGroupsByCampusId(campus_id) {
     });
 }
 
+/**
+ * Creates a new group record in the database.
+ * @async
+ * @function createGroup
+ * @param {string} camp_id - The id of the camp in which to create the group object in the database.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the group was created successfully.
+ */
 async function createGroup(camp_id) {
     group_id = uuid.v1();
 
@@ -138,6 +177,12 @@ async function createGroup(camp_id) {
     });
 }
 
+/**
+ * Deletes all CampGroups in the database.
+ * @async
+ * @function deleteAllGroups
+ * @returns {Promise<boolean>} - Returns a Promise that resolves to true if the deletion succeeded.
+ */
 async function deleteAllGroups() {
     return new Promise((resolve, reject) => {
         client.query(`DELETE FROM CampGroup;`, function (err, result) {

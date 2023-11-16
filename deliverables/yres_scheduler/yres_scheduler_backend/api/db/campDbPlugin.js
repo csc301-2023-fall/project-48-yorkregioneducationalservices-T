@@ -2,7 +2,11 @@ const Camp = require("../entities/Camp");
 const uuid = require('uuid');
 const { client } = require('./db');
 
-
+/**
+ * Maps a row from the camp table to a Camp object.
+ * @param {Object} row - The row from the camp table.
+ * @returns {Camp} A new Camp object.
+ */
 function mapRowToCamp(row) {
     return new Camp(
         row.camp_id,
@@ -12,7 +16,13 @@ function mapRowToCamp(row) {
     );
 }
 
-
+/**
+ * Retrieves a camp from the database by their ID.
+ *
+ * @param {string} camp_id - The ID of the camp to retrieve.
+ * @returns {Promise<Camp>} A Promise that resolves with the retrieved camp object.
+ * @throws {Error} If there was an error retrieving the camp from the database.
+ */
 async function getCampById(camp_id) {
 
     var name;
@@ -40,6 +50,14 @@ async function getCampById(camp_id) {
     });
 }
 
+/**
+ * Retrieves activity ids from the database and adds them to the set of activity ids for a given camp.
+ * @async
+ * @function getActivityIds
+ * @param {Object} camp - The camp object for which to retrieve and store activity ids.
+ * @param {string} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
+ * @throws {Error} Throws an error if there was an issue fetching activity ids from the database.
+ */
 async function getActivityIds(camp) {  
     const queryGetActivityIds = `Select activity_id from Activity where camp_id = $1;`;  
 
@@ -61,6 +79,12 @@ async function getActivityIds(camp) {
 
   }
 
+/**
+ * Retrieves all camps from the database and maps them to Camp objects.
+ * 
+ * @param {string} campus_id - The id of the campus id from which to retrieve camps.
+ * @returns {Promise<Array<Camp>>} A promise that resolves with an array of Camp objects.
+ */
 async function getCampsByCampusId(campus_id) {
 
     var all_camps;
@@ -87,6 +111,14 @@ async function getCampsByCampusId(campus_id) {
     });
 }
 
+/**
+ * Creates a new camp record in the database.
+ * @async
+ * @function createCamp
+ * @param {string} name - The name of the camp object to be created in the database.
+ * @param {string} campus_id - The id of the campus to store the camp object to be created in the database.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the camp was created successfully.
+ */
 async function createCamp(name, campus_id) {
     camp_id = uuid.v1()
 

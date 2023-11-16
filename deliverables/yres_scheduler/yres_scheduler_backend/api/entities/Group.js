@@ -51,10 +51,20 @@ module.exports = class Group {
         this.counselor_ids.add(newCounselorID);
     }
 
+    /**
+     * Get the students in a list.
+     * 
+     * @returns student_ids as an ordered list.
+     */
     getStudentIds() {
         return [...this.student_ids];
     }
 
+    /**
+     * Get the counselors in a list.
+     * 
+     * @returns counselor_ids as an ordered list.
+     */
     getCounselorIds() {
         return [...this.counselor_ids];
     }
