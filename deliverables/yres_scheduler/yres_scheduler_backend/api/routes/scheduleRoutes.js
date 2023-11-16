@@ -9,5 +9,10 @@ module.exports = (app) => {
             res.status(500).send({error: err.message});
         }
         res.send(result);
+    })
+
+    .get('/schedule/getAll/', async (req, res) => {
+        const all_schedules = await scheduleService.getAllSchedules(req, res);
+        res.send(all_schedules);
     });
 };
