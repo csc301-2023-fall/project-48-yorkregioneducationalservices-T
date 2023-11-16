@@ -22,7 +22,7 @@ function StudentAdd({show, setShow, item, students}) {
         if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
             handleClose()
         }
-        const bodyData ={student_ui_id: toString(nextId), 
+        const bodyData ={student_ui_id: "0", 
             firstname: event.target[0].value, 
             lastname: event.target[1].value, 
             age: parseInt(event.target[2].value), 
