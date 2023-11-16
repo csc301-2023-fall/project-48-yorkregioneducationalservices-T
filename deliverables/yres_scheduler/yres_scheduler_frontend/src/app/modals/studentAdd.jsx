@@ -9,6 +9,7 @@ import Alert from '@/app/components/alert';
  * 
  * */
 function StudentAdd({show, setShow, item, students}) {
+    const [nextId, setnextId] = useState(0);
     const [error, setError] = useState(<></>);
     const handleClose = () => {
         setError(<></>)
@@ -21,6 +22,24 @@ function StudentAdd({show, setShow, item, students}) {
         if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
             handleClose()
         }
+        const bodyData ={student_ui_id: toString(nextId), 
+            firstname: event.target[0].value, 
+            lastname: event.target[1].value, 
+            age: parseInt(event.target[2].value), 
+            sex: event.target[3].value }
+        console.log(bodyData);
+        fetch("http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:1234".concat("/students/createStudent/"), {
+            method: "POST", 
+            body: bodyData
+        })
+        .then(async (response)=> { 
+            if (!response.ok) {
+                throw new Error('RESPONSE ERROR');
+            }
+            const parsedResponse = await response.text(); 
+            console.log(parsedResponse);
+            setnextId(nextId+1);
+        })  
     }
         
     function validRelationship(string, field) {
@@ -38,7 +57,7 @@ function StudentAdd({show, setShow, item, students}) {
                 return false
             }
         }
-        return true
+        return true 
     }
   
     return (

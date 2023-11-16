@@ -20,7 +20,7 @@ function StudentProfilesTable({ studentData, rowEvents }) {
     });
 
     const columns = [{
-        dataField: 'student_id_ui',
+        dataField: '_student_ui_id',
         text: 'ID'
     },{
         dataField: 'firstname',
@@ -68,7 +68,7 @@ function StudentProfilesTable({ studentData, rowEvents }) {
 
     return (
         <>
-            <YresTable keyCol={'student_id_ui'} data={studentData} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
+            <YresTable keyCol={'_student_ui_id'} data={studentData} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
             <StudentEdit
                 item={editItem}
                 show={showEdit}

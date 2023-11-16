@@ -71,7 +71,6 @@ function Profiles() {
     const [currType, setCurrType] = React.useState(PROFILE_TYPES[0]);
     const [profileData, setProfileData] = useState([]);
     const [item, setItem] = useState({});
-
     const handleSelectType = (e) => {
         setCurrType(e);
     }
@@ -89,7 +88,7 @@ function Profiles() {
                 const responseBody = await response.text(); 
                 const parsedResponse = JSON.parse(responseBody);
                 console.log(responseBody);
-                setProfileData(parsedResponse);
+                setProfileData(parsedResponse.students);
                 })   
             
         } else {
