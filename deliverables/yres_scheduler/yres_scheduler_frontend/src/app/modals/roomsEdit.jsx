@@ -13,6 +13,10 @@ import Button from 'react-bootstrap/Button';
     friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
     enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
 }
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - room object to be edited
  * */
 function RoomsEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);

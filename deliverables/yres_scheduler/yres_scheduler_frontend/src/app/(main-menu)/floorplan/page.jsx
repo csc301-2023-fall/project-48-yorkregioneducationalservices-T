@@ -12,6 +12,9 @@ const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas')
     ssr: false,
 });
 
+/**
+ * The Floorplan page that allows for viewing, adding and editing activities and rooms
+**/
 function Floorplan() {
     const [showActivityAdd, setshowActivityAdd] = useState(false);
     const [showRoomsAdd, setShowRoomsAdd] = useState(false);

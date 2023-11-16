@@ -1,6 +1,17 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react';
 import Loading from './loading';
+
+/** 
+ * Primary table we used to display everything
+ * Props: 
+        keyCol - 
+        data - 
+        columns - 
+        rowEvents_const - 
+        disableHover - 
+}
+**/
 function YresTable(props) {
   const { keyCol, data, columns, rowEvents_const, disableHover } = props;
   let rowEvents = rowEvents_const;

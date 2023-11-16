@@ -11,7 +11,11 @@ import Button from 'react-bootstrap/Button';
     lastname (string) 		// <UI>
     campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
 }
- * */
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - counselor object to be edited
+ **/
 function CounselorEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
     const handleSubmit = () => {
