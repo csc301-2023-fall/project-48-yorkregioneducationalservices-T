@@ -1,3 +1,4 @@
+'use client';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -5,34 +6,18 @@ import YresTable from './table'
 import RoomsEdit from '../modals/roomsEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'
+const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
-const DUMMY_ROOM_DATA = [{
-    room_id: 1,
-    name: "BA1160",
-    activity_ids: [1, 2, 3]
-}, {
-    room_id: 2,
-    name: "BA2230",
-    activity_ids: [1]
-}, {
-    room_id: 3,
-    name: "BA2270",
-    activity_ids: [3]
-}]
-
-function RoomsTable() {
-    const [roomData, setRoomData] = useState([]);
+function RoomsTable({ roomData }) {
+    const router = useRouter();
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         room_id: -1,
         name: null,
         activity_ids: []
     });
-
-    useEffect(() => {
-        setRoomData(DUMMY_ROOM_DATA);
-    }, []);
 
     const columns = [{
         dataField: 'room_id',
@@ -48,6 +33,24 @@ function RoomsTable() {
         text: 'Actions'
     }]
 
+    const deleteRoom = (id) => {
+        fetch(`${URI}/rooms/deleteRoomById/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ room_id: id })
+        })
+        .then(res => {
+            if (res.status === 200) {
+                router.refresh();
+                return res.json();
+            } else {
+                // Show error alert
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     roomData.forEach(item => {
         const showEditModal = () => {
             setEditItem(item);
@@ -61,7 +64,7 @@ function RoomsTable() {
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Room</Tooltip>}>
-                    <Button variant="danger" className='action-button'>
+                    <Button variant="danger" onClick={() => deleteRoom(item.room_id)} className='action-button'>
                         <BsTrash />
                     </Button>
                 </OverlayTrigger>

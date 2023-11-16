@@ -4,7 +4,7 @@ import Loading from './loading';
 import useImage from 'use-image';
 import exampleFloorPlan from '../data/school_floorplan_example.jpg'
 
-function FloorPlanCanvas() {
+function RawFloorplanCanvas() {
     const [loading, setLoading] = React.useState(true);
     const [canvasSize, setCanvasSize] = React.useState({
         width: window.innerWidth / 2,
@@ -58,4 +58,4 @@ function FloorPlanCanvas() {
     )
 }
 
-export default FloorPlanCanvas;
+export default RawFloorplanCanvas;

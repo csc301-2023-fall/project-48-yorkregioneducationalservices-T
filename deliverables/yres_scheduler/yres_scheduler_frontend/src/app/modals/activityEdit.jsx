@@ -61,7 +61,9 @@ function ActivityEdit({item, show, setShow}) {
                     <Form.Label>(optional) Possible Rooms (comma seperated)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.room_ids.join(",")} 
+                        disabled
+                        placeholder={'Disabled'}
+                        defaultValue={''/*item.room_ids.join(",")*/}
                     />
                     </Form.Group>
                     <Form.Group

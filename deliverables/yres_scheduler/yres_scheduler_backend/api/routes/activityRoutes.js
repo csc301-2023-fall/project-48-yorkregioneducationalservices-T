@@ -35,7 +35,7 @@ module.exports = (app) => {
     /**
      * 
      */
-    .post('/rooms/deleteActivityById/', async (req, res) => {
+    .post('/activities/deleteActivityById/', async (req, res) => {
         try {
             const resp = await activityService.deleteActivityById(req, res);
             res.send(resp);
