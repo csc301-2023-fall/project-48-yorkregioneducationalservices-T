@@ -31,7 +31,7 @@ function StudentAdd({show, setShow, item, students}) {
             }).toString();
 
         console.log(bodyData);
-        fetch("http://localhost:1234".concat("/students/createStudent/"), {
+        fetch(process.env.BACKEND_URI.concat("/students/createStudent/"), {
             method: "POST", 
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
