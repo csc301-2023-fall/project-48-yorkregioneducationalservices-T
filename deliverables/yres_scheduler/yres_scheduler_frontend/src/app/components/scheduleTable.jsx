@@ -8,26 +8,13 @@ import { CSVLink } from "react-csv";
 import Button from 'react-bootstrap/Button';
 import RefinedDropdown from './refinedDropDowns'
 import Alert from './alert'
-/**
- * Helper function to sort rows of a schedule by their time attribute. Preconditions: Schedule uses 24hr time.
- */
-function sort_times(a, b) {
-    let startA = parseInt(a.time.split(":")[0]);
-    let startB = parseInt(b.time.split(":")[0]);
-    if (startA < startB) {
-        return -1;
-    }
-    if (startA > startB) {
-        return 1;
-    }
-    return 0;
-}
+import { sort_times } from '@/app/helper';
 
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
  * within this function.
  */
-export default function Schedule({ schedule }) {
+export default function Schedule({schedule, generateSchedule}) {
     const groups = new Set();
     groups.add("Master Sched"); // Holds the possible camp groups to be displayed in the dropdown
     schedule.forEach((row) => groups.add(row.classNum));
@@ -73,6 +60,7 @@ export default function Schedule({ schedule }) {
         },
     };
 
+    //generates csvData using current display_data
     const csvData = [
         ["ID", "Time", "Location", "Activity Name", "Group ID"],
         ...display_data.map((row, rowIndex) => { 
@@ -100,7 +88,10 @@ export default function Schedule({ schedule }) {
                 groups={groups}
             />
             </div>
-            <div className='float-child'>
+            <div>
+            <Button className="right-btn" variant="primary" onClick={generateSchedule}>
+                            Generate Schedule
+            </Button>
             <CSVLink className="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
                 Export to CSV
             </CSVLink>

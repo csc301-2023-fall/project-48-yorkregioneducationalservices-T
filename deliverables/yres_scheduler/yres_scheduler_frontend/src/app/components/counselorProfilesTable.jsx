@@ -7,6 +7,15 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
 
+/** 
+ * Counselor Table that displays:
+*class Counselor {
+   *counselor_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
+}
+**/
 function CounselorProfilesTable({ counselorData, rowEvents }) {
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
@@ -34,6 +43,7 @@ function CounselorProfilesTable({ counselorData, rowEvents }) {
     }]
 
     counselorData.forEach(item => {
+        //creates a modal and button for editing and deleting each counselor
         const showEditModal = () => {
             setEditItem(item);
             setShowEdit(true);

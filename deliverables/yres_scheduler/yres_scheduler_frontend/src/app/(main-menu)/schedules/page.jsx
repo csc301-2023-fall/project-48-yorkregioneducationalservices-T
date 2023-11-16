@@ -15,7 +15,9 @@ const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas')
 function simulateNetworkRequest() {
     return new Promise((resolve) => setTimeout(resolve, 100));
 }
-
+/** 
+ * Schedules page that generates and displays schedule and groups
+**/
 export default function Schedules() {
     const DUMMY_GROUP_DATA = [{
         group_id: "AX001",
@@ -149,6 +151,10 @@ export default function Schedules() {
 
     // API request to generate a schedule and update the table
     const generateSchedule = () => {
+        //do nothing if schedule is non-empty 
+        if(data.length != 0){
+            return;
+        }
         //API call to generate the schedule
         //API call to Schedule
         const schedules = DUMMY_SCHEDULE_DATA
@@ -209,16 +215,7 @@ export default function Schedules() {
                 <h3 className='header-title '>Groups</h3>
                 <GroupsTable data={groupData}/>
                 <h3 className='header-title '>Schedule</h3>
-                <Schedule schedule={data}/>
-                <Button className='right-btn'
-                        variant="primary" 
-                        onClick={generateSchedule}>
-                            Generate Schedule
-                </Button>
-                <Button variant="danger" 
-                        onClick={resetTable}>
-                            Reset Schedule 
-                </Button>
+                <Schedule schedule={data} generateSchedule={generateSchedule}/>
             </div>
         </div>
     );

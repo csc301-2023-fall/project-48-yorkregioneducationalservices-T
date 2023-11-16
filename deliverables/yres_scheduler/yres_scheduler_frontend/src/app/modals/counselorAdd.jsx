@@ -4,8 +4,13 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 /**
- * Addition Modal for Students
- * 
+ * Addition Modal for Counselors
+ *class Counselor {
+   *counselor_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
+}
  * */
 function CounselorAdd({show, setShow, item}) {
     const handleClose = () => setShow(false);
