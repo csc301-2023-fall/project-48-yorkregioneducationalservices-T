@@ -11,11 +11,6 @@ module.exports = (app) => {
         res.send(all_groups);
     })
 
-    .get('/group/getIDByScheduleID/', async (req, res) => {
-        const group_id = await groupService.getGroupIDByScheduleId(req, res);
-        res.send(group_id);
-    })
-
     .post('/group/create/', async (req, res) => {
         const status = await groupService.createGroup(req, res);
         res.status(200).send(status);

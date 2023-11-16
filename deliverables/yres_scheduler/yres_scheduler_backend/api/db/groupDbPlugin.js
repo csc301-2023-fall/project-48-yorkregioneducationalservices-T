@@ -124,25 +124,6 @@ async function getGroupsByCampusId(campus_id) {
     });
 }
 
-async function getGroupIDByScheduleId(schedule_id) {
-    var id;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(`Select camp_group_id from CampGroup where schedule_id = '${schedule_id}';`, (err, result)=>{ 
-                if (err) {
-                    queryReject(err);
-                }
-                for (var i=0; i  < result.rows.length; i++) { //Iterates, but there should only be 1 group.
-                    queryResolve(result.rows[i].camp_group_id);
-                }
-            });
-        });
-
-        id = result;
-        resolve(id);
-    });
-}
-
 async function createGroup(camp_id) {
     group_id = uuid.v1();
 
@@ -172,7 +153,6 @@ async function deleteAllGroups() {
 module.exports = {
     getGroupById,
     getGroupsByCampusId,
-    getGroupIDByScheduleId,
     createGroup,
     deleteAllGroups
 }

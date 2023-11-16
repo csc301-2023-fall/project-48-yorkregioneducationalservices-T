@@ -25,15 +25,6 @@ async function getAllGroups(req, res) {
     };
 }
 
-async function getGroupIDByScheduleId(req, res) {
-    const schedule_id = req.body.schedule_id;
-    const group_id = await groupService.getGroupIDByScheduleId(schedule_id);
-
-    return {
-        group_id: group_id
-    };
-}
-
 async function createGroup(req, res) {
     const camp_id = req.body.camp_id;
     const status = await groupService.createGroup(camp_id);
@@ -54,7 +45,6 @@ async function deleteAllGroups(req, res) {
 module.exports = {
     getGroup,
     getAllGroups,
-    getGroupIDByScheduleId,
     createGroup,
     deleteAllGroups
 }
