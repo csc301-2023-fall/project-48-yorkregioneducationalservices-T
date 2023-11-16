@@ -5,8 +5,12 @@ import { Button } from 'react-bootstrap';
 import RoomsTable from '@/app/components/roomsTable';
 import ActivitiesTable from '../../components/activitiesTable';
 import ActivityCreate from '@/app/modals/activityCreate';
-import FloorPlanCanvas from '@/app/components/floorPlanCanvas';
 import RoomsCreate from '@/app/modals/roomsCreate';
+import dynamic from 'next/dynamic';
+
+const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas'), {
+    ssr: false,
+});
 
 function Floorplan() {
     const [showActivityAdd, setshowActivityAdd] = useState(false);
