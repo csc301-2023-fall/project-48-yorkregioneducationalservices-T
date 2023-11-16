@@ -45,4 +45,12 @@ module.exports = class Campus {
     addCamp(newCampID) {
         this.camp_ids.add(newCampID);
     }
+
+    getCampIds() {
+        return [...this.camp_ids];
+    }
+
+    getRoomIds() {
+        return [...this.room_ids];
+    }
 }

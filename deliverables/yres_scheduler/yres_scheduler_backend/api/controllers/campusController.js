@@ -3,7 +3,7 @@ const campusService = require('../services/campusService');
 async function getCampus(req, res) {
     const campus_id = req.body.campus_id;
 
-    const campus = await campusService.getCampus(campus_id)
+    const campus = await campusService.getCampus(campus_id);
 
     return {
         campus: campus
@@ -11,20 +11,25 @@ async function getCampus(req, res) {
 }
 
 async function getAllCampuses(req, res) {
-    const allcampuses = await campusService.getAllCampuses()
+    const allcampuses = await campusService.getAllCampuses();
 
     return {
-        campuses: allcampuses
+        campuses: allcampuses.map((campus) => { 
+            return {
+                ...campus,
+                camp_ids: campus.getCampIds(),
+                room_ids: campus.getRoomIds()
+            };
+        })
     };
 }
 
 async function createCampus(req, res) {
-    const campus_id = req.body.campus_id;
     const name = req.body.name;
-    const campus = await campusService.createCampus(campus_id, name)
+    const status = await campusService.createCampus(name);
 
     return {
-        campus: campus
+        status: status ? 'Success' : 'failure'
     };
 }
 

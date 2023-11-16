@@ -20,4 +20,36 @@ module.exports = class Block {
         this.start_time = start_time;
         this.end_time = end_time;
     }
+
+    /**
+     * @returns start_time as a string.
+     */
+    getStartTime() {    
+        var start_hours = this.start_time.getHours();
+        var start_minutes = this.start_time.getMinutes();
+        var start;
+        if (start_minutes < 10) {
+            start = start_hours + ":0" + start_minutes;
+        } else {
+            start = start_hours + ":" + start_minutes;
+        }
+
+        return start;
+    }
+
+    /**
+     * @returns end_time as a string.
+     */
+    getEndTime() {    
+        var end_hours = this.end_time.getHours();
+        var end_minutes = this.end_time.getMinutes();
+        var end;
+        if (end_minutes < 10) {
+            end = end_hours + ":0" + end_minutes;
+        } else {
+            end = end_hours + ":" + end_minutes;
+        }
+        
+        return end;
+    }
 }
