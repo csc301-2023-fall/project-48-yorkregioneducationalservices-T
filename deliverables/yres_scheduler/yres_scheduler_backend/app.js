@@ -40,6 +40,10 @@ require('./api/routes/scheduleRoutes')(app);
 require('./api/routes/campRoutes')(app);
 require('./api/routes/accountRoutes')(app);
 require('./api/routes/studentRoutes')(app);
+
+require('./api/routes/campusRoutes')(app);
+require('./api/routes/groupRoutes')(app);
+require('./api/routes/blockRoutes')(app);
 require('./api/routes/counselorRoutes')(app);
 
 app.use(errorHandler);

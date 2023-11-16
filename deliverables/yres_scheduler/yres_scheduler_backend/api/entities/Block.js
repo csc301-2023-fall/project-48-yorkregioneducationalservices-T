@@ -1,28 +1,20 @@
 /**
- * This module represents the Block entity.
- * 
- * @module api/entities/Block
+ * Class representing a schedule block unit.
  */
-
-/**
- * The Block class represents a "block of time" in a schedule that corresponds to an
- * activity. It stores the block ID, the corresponding room ID, the corresponding 
- * activity ID, the start time and the end time.
- * 
- * @class Block
- */
-class Block {
-
+module.exports = class Block {
     /**
-     * Create a Block entity.
-     * @param {uuid} [block_id] UUID to identify unique Block entity
-     * @param {uuid} [room_id] UUID for corresponding room entity
-     * @param {uuid} [activity_id] UUID for corresponding activity entity
-     * @param {Date} [start_time] The start time of the schedule block
-     * @param {Date} [end_time] The end time of the schedule block
+     * Create a new block object which will then be added to a schedule's set of blocks.
+     * 
+     * @param {string} block_id - The unique ID assigned by <CONTROLLER>. 
+     * @param {string} schedule_id - The ID of the schedule this block is in.
+     * @param {string} room_id - The ID of the room this block is held in.
+     * @param {string} activity_id - The ID of the activity this block is hosting.
+     * @param {Date} start_time - The starting moment of this block.
+     * @param {Date} end_time - The ending moment of this block.
      */
-    constructor(block_id, room_id, activity_id, start_time, end_time) {
+    constructor(block_id, schedule_id, room_id, activity_id, start_time, end_time) {
         this.block_id = block_id;
+        this.schedule_id = schedule_id;
         this.room_id = room_id;
         this.activity_id = activity_id;
         this.start_time = start_time;
@@ -30,45 +22,34 @@ class Block {
     }
 
     /**
-     * Get the block ID for this block
-     * @return {uuid} The block ID for this block
+     * @returns start_time as a string.
      */
-    get block_id() {
-        return this.block_id;
+    getStartTime() {    
+        var start_hours = this.start_time.getHours();
+        var start_minutes = this.start_time.getMinutes();
+        var start;
+        if (start_minutes < 10) {
+            start = start_hours + ":0" + start_minutes;
+        } else {
+            start = start_hours + ":" + start_minutes;
+        }
+
+        return start;
     }
 
     /**
-     * Get the room ID for this block
-     * @return {uuid} The corresponding room ID for this block
+     * @returns end_time as a string.
      */
-    get room_id() {
-        return this.room_id;
+    getEndTime() {    
+        var end_hours = this.end_time.getHours();
+        var end_minutes = this.end_time.getMinutes();
+        var end;
+        if (end_minutes < 10) {
+            end = end_hours + ":0" + end_minutes;
+        } else {
+            end = end_hours + ":" + end_minutes;
+        }
+        
+        return end;
     }
-
-    /**
-     * Get the activity ID for this block
-     * @return {uuid} The corresponding activity ID for this block
-     */
-    get activity_id() {
-        return this.activity_id;
-    }
-
-    /**
-     * Get the start time for this block
-     * @return {Date} The start time for this block
-     */
-    get start_time() {
-        return this.start_time;
-    }
-
-    /**
-     * Get the stendart time for this block
-     * @return {Date} The end time for this block
-     */
-    get end_time() {
-        return this.end_time;
-    }
-
 }
-
-module.exports = Block;

@@ -50,4 +50,12 @@ module.exports = class Group {
     addCounselor(newCounselorID) {
         this.counselor_ids.add(newCounselorID);
     }
+
+    getStudentIds() {
+        return [...this.student_ids];
+    }
+
+    getCounselorIds() {
+        return [...this.counselor_ids];
+    }
 }
