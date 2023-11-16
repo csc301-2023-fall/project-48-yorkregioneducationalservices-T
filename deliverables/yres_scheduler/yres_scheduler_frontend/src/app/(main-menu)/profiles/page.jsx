@@ -78,7 +78,7 @@ function Profiles() {
     useEffect(() => {
         if (currType === PROFILE_TYPES[0]) {
             // TODO: Make get students API Request
-            fetch("http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:1234".concat("/students/getAllStudents/"), { //Create GET request with inputted data
+            fetch("http://localhost:1234".concat("/students/getAllStudents/"), { //Create GET request with inputted data
             method: "GET"
             })
             .then(async (response)=> { 
@@ -93,7 +93,7 @@ function Profiles() {
             
         } else {
             // TODO: Make get counselors API Request
-            fetch("http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:1234".concat("/counselors/getAllCounselors/"), { //Create GET request with inputted data
+            fetch("http://localhost:1234".concat("/counselors/getAllCounselors/"), { //Create GET request with inputted data
                 method: "GET"
                 })
                 .then(async (response)=> { 

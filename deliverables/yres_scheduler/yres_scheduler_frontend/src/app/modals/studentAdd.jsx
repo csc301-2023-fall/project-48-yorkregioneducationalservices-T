@@ -9,7 +9,6 @@ import Alert from '@/app/components/alert';
  * 
  * */
 function StudentAdd({show, setShow, item, students}) {
-    const [nextId, setnextId] = useState(0);
     const [error, setError] = useState(<></>);
     const handleClose = () => {
         setError(<></>)
@@ -17,29 +16,29 @@ function StudentAdd({show, setShow, item, students}) {
     };
     const handleSubmit = (event) => {
         event.preventDefault()
-        let friends = event.target[4].value;
-        let enemies = event.target[5].value;
+        let friends = event.target[5].value;
+        let enemies = event.target[6].value;
         if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
             handleClose()
         }
-        const bodyData ={student_ui_id: "0", 
-            firstname: event.target[0].value, 
-            lastname: event.target[1].value, 
-            age: parseInt(event.target[2].value), 
-            sex: event.target[3].value }
+        const bodyData = new URLSearchParams(
+            {
+                'student_ui_id': event.target[0].value, 
+                'firstname': event.target[1].value, 
+                'lastname': event.target[2].value, 
+                'age': parseInt(event.target[3].value), 
+                'sex': event.target[4].value 
+            }).toString();
+
         console.log(bodyData);
-        fetch("http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:1234".concat("/students/createStudent/"), {
+        fetch("http://localhost:1234".concat("/students/createStudent/"), {
             method: "POST", 
-            body: bodyData
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: bodyData,
         })
-        .then(async (response)=> { 
-            if (!response.ok) {
-                throw new Error('RESPONSE ERROR');
-            }
-            const parsedResponse = await response.text(); 
-            console.log(parsedResponse);
-            setnextId(nextId+1);
-        })  
+        window.location.reload(false);
     }
         
     function validRelationship(string, field) {
@@ -67,6 +66,17 @@ function StudentAdd({show, setShow, item, students}) {
             </Modal.Header>
             <Modal.Body>
                <Form onSubmit={handleSubmit}>
+                    <Form.Group
+                    className="mb-3"
+                    controlId="studentForm.ControlFirstName"
+                    >
+                    <Form.Label>Student ID</Form.Label>
+                    <Form.Control
+                        type="text"
+                        defaultValue={item._student_ui_id}
+                        autoFocus
+                    />
+                    </Form.Group> 
                     <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFirstName"
@@ -112,7 +122,7 @@ function StudentAdd({show, setShow, item, students}) {
                     className="mb-3"
                     controlId="studentForm.ControlFriends"
                     >
-                    <Form.Label>Friends (please seperate by commas)</Form.Label>
+                    <Form.Label>Friend IDs (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.friends_id}
@@ -122,7 +132,7 @@ function StudentAdd({show, setShow, item, students}) {
                     className="mb-3"
                     controlId="studentForm.ControlEnemies"
                     >
-                    <Form.Label>Enemies (please seperate by commas)</Form.Label>
+                    <Form.Label>Enemie IDs (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
                         defaultValue={item.enemy_id}
