@@ -44,6 +44,48 @@ async function getCampusById(campus_id) {
     });
 }
 
+async function getCampIds(campus) {  
+    const queryGetCampIds = `Select camp_id from Camp where campus_id = $1;`;  
+
+    const values = [campus.campus_id];
+    try {
+        const result = await client.query(queryGetCampIds, values);
+ 
+        promises = result.rows.map(async (row) => {
+            campus.camp_ids.add(row.camp_id);
+        });
+
+        await Promise.all(promises);
+
+    } catch (error) {
+        // Handle errors appropriately
+        console.error('Error while fetching camp ids:', error);
+        throw new Error('Failed to fetch camp ids');
+    }
+
+  }
+
+  async function getRoomIds(campus) {  
+      const queryGetRoomIds = `Select room_id from Room where campus_id = $1;`;  
+  
+      const values = [campus.campus_id];
+      try {
+          const result = await client.query(queryGetRoomIds, values);
+   
+          promises = result.rows.map(async (row) => {
+              campus.room_ids.add(row.room_id);
+          });
+  
+          await Promise.all(promises);
+  
+      } catch (error) {
+          // Handle errors appropriately
+          console.error('Error while fetching room ids:', error);
+          throw new Error('Failed to fetch room ids');
+      }
+  
+    }
+
 async function getAllCampuses() {
 
     var all_campuses;
@@ -63,18 +105,8 @@ async function getAllCampuses() {
         all_campuses = rows.map(mapRowToCampus);
 
         for (const campus of all_campuses) {
-            await client.query(`Select camp_id from Camp where campus_id = '${campus.campus_id}';`, (err, result)=>{  
-                for (var i=0; i  < result.length; i++) {
-                    campus.camp_ids.add(result.rows[i].camp_id);
-                }
-            });
-
-            
-            await client.query(`Select room_id from Room where campus_id = '${campus.campus_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    room_ids.add(result.rows[i].room_id);
-                }
-            });
+            await getCampIds(campus);
+            await getRoomIds(campus);
         }
 
         resolve(all_campuses);

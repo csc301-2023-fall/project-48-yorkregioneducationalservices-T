@@ -48,6 +48,48 @@ async function getGroupById(group_id) {
     });
 }
 
+async function getStudentIds(group) {  
+    const queryGetStudentIds = `Select student_id from Student where camp_group_id = $1;`;  
+
+    const values = [group.group_id];
+    try {
+        const result = await client.query(queryGetStudentIds, values);
+ 
+        promises = result.rows.map(async (row) => {
+            group.student_ids.add(row.student_id);
+        });
+
+        await Promise.all(promises);
+
+    } catch (error) {
+        // Handle errors appropriately
+        console.error('Error while fetching student ids:', error);
+        throw new Error('Failed to fetch student ids');
+    }
+
+  }
+
+  async function getCounselorIds(group) {  
+      const queryGetCounselorIds = `Select counselor_id from Counselor where camp_group_id = $1;`;  
+  
+      const values = [group.group_id];
+      try {
+          const result = await client.query(queryGetCounselorIds, values);
+   
+          promises = result.rows.map(async (row) => {
+              group.counselor_ids.add(row.counselor_id);
+          });
+  
+          await Promise.all(promises);
+  
+      } catch (error) {
+          // Handle errors appropriately
+          console.error('Error while fetching counselor ids:', error);
+          throw new Error('Failed to fetch counselor ids');
+      }
+  
+    }
+
 async function getGroupsByCampusId(campus_id) {
 
     var all_groups;
@@ -74,17 +116,8 @@ async function getGroupsByCampusId(campus_id) {
         all_groups = rows.map(mapRowToGroup);
 
         for (const group of all_groups) {
-            await client.query(`Select student_id from Student where camp_group_id = '${group.group_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    group.student_ids.add(result.rows[i].student_id);
-                }
-            });
-            
-            await client.query(`Select counselor_id from Counselor where camp_group_id = '${group.group_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    group.counselor_ids.add(result.rows[i].counselor_id);
-                }
-            });
+            await getStudentIds(group);
+            await getCounselorIds(group);
         }
 
         resolve(all_groups);

@@ -18,8 +18,8 @@ class Schedule {
 
     /**
      * Create a Schedule entity.
-     * @param {uuid} [schedule_id] UUID to identify unique schedule
-     * @param {uuid} [group_id] UUID for the corresponding Group entity
+     * @param {string} [schedule_id] UUID to identify unique schedule
+     * @param {string} [group_id] UUID for the corresponding Group entity
      * @param {list[Block]} [blocks] The ordered block entities that constitute the schedule
      * @param {Date} [start_time] The start time of the schedule
      * @param {Date} [end_time] The end time of the schedule
@@ -61,43 +61,88 @@ class Schedule {
     }
 
     /**
-     * Get the ordered blocks for this schedule
-     * @return {list[Block]} The ordered blocks for this schedule
+     * Add pre-existing block to list for this schedule
+     * @param {Block} block - The new block for this schedule
      */
-    get blocks() {
-        return this.blocks;
+    add_given_block(block) {
+        this.blocks.push(block);
+        return;
     }
 
     /**
-     * Get the schedule ID for this schedule
-     * @return {uuid} The schedule ID for this schedule
+     * Set the blocks list for this schedule
+     * @param {list[Block]} blocks - The new list of blocks for this schedule
      */
-    get schedule_id() {
-        return this.schedule_id;
+    set_blocks(blocks) {
+        this.blocks = blocks;
+        return;
     }
 
     /**
-     * Get the group ID for this schedule
-     * @return {uuid} The group ID for this schedule
+     * Set the schedule id for this schedule
+     * @param {string} schedule_id - The new schedule id for this schedule
      */
-    get group_id() {
-        return this.group_id;
+    set_schedule_id(schedule_id) {
+        this.schedule_id = schedule_id;
+        return;
     }
 
     /**
-     * Get the start time for this schedule
-     * @return {Date} The start time for this schedule
+     * Set the group ID for this schedule
+     * @param {string} group_id - The new group Id for this schedule
      */
-    get start_time() {
-        return this.start_time;
+    set_group_id(group_id) {
+        this.group_id = group_id;
+        return;
     }
 
     /**
-     * Get the end time for this schedule
-     * @return {Date} The end time for this schedule
+     * Set the start time for this schedule
+     * @param {Date} start_time - The new start time for this schedule
      */
-    get end_time() {
-        return this.end_time;
+    set_start_time(start_time) {
+        this.start_time = start_time;
+        return;
+    }
+    /**
+     * Set the end time for this schedule
+     * @param {Date} end_time - The new end time for this schedule
+     */
+    set_end_time(end_time) {
+        this.end_time = end_time;
+        return;
+    }
+    
+    /**
+     * @returns start_time as a string.
+     */
+    getStartTime() {    
+        var start_hours = this.start_time.getHours();
+        var start_minutes = this.start_time.getMinutes();
+        var start;
+        if (start_minutes < 10) {
+            start = start_hours + ":0" + start_minutes;
+        } else {
+            start = start_hours + ":" + start_minutes;
+        }
+
+        return start;
+    }
+
+    /**
+     * @returns end_time as a string.
+     */
+    getEndTime() {    
+        var end_hours = this.end_time.getHours();
+        var end_minutes = this.end_time.getMinutes();
+        var end;
+        if (end_minutes < 10) {
+            end = end_hours + ":0" + end_minutes;
+        } else {
+            end = end_hours + ":" + end_minutes;
+        }
+        
+        return end;
     }
 
 }

@@ -40,6 +40,27 @@ async function getCampById(camp_id) {
     });
 }
 
+async function getActivityIds(camp) {  
+    const queryGetActivityIds = `Select activity_id from Activity where camp_id = $1;`;  
+
+    const values = [camp.camp_id];
+    try {
+        const result = await client.query(queryGetActivityIds, values);
+ 
+        promises = result.rows.map(async (row) => {
+            camp.activity_ids.add(row.activity_id);
+        });
+
+        await Promise.all(promises);
+
+    } catch (error) {
+        // Handle errors appropriately
+        console.error('Error while fetching activity ids:', error);
+        throw new Error('Failed to fetch activity ids');
+    }
+
+  }
+
 async function getCampsByCampusId(campus_id) {
 
     var all_camps;
@@ -59,11 +80,7 @@ async function getCampsByCampusId(campus_id) {
         all_camps = rows.map(mapRowToCamp);
 
         for (const camp of all_camps) {
-            await client.query(`Select activity_id from Activity where camp_id = '${camp.camp_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    camp.activity_ids.add(result.rows[i].activity_id);
-                }
-            });
+            await getActivityIds(camp);
         }        
         
         resolve(all_camps);
