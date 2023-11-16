@@ -13,7 +13,11 @@ import { sort_times } from '@/app/helper';
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
  * within this function.
- */
+ *Props: 
+        schedule - a list of schedule objects with the attributes: classNum (group id), time, location, and name. 
+        These are matched to columns in the table
+        generateSchedule - a function that makes the necesary calls and computation to create schedule
+**/
 export default function Schedule({schedule, generateSchedule}) {
     const groups = new Set();
     groups.add("Master Sched"); // Holds the possible camp groups to be displayed in the dropdown

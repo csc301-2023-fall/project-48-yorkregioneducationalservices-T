@@ -8,6 +8,7 @@ import { BsTrash } from 'react-icons/bs';
 import ActivityEdit from '../modals/activityEdit';
 
 /** 
+ * Activities Table that displays:
  * class Activity {
    *activity_id (string)	// The auto generated unique ID
     name (string) 		// <UI> The name of the activity

@@ -3,10 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
-/**
- * Editing Modal for Activities
- * 
- * */
 function AddStudents(profiles, type){
   if(type === "Student"){
     const students = profiles;
@@ -32,6 +28,11 @@ function AddStudents(profiles, type){
     });
   }
 }
+/**
+ * Generates a CSV of students
+* Props: 
+        type - either student or counselor, the type of object being csv imported
+**/
 function StudentCSV({type}) {
   const [file, setFile] = useState();
   // useEffect(() => {

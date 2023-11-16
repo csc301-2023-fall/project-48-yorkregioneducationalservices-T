@@ -20,7 +20,14 @@ const DUMMY_ROOM_DATA = [{
     name: "BA2270",
     activity_ids: [3]
 }]
-
+/** 
+ * Rooms Table that displays:
+ * class Room {
+   *room_id (string) 		// The auto generated unique ID
+    name (string) 		// <UI> The name of the room
+    activity_ids (set<string>) 	// <UI> The IDs of the activities that can take place in this room
+}
+**/
 function RoomsTable() {
     const [roomData, setRoomData] = useState([]);
     const [showEdit, setShowEdit] = useState(false);

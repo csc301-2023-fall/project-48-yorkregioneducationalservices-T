@@ -16,6 +16,8 @@ import ActivityEdit from '../modals/activityEdit';
     counselor_ids (set<string>) // The IDs of the counselors that belongs to this group
     camp_id (string) 		// The ID of the camp this group belongs to
 }
+* Props: 
+        data - a list of group objects with above attributes
 **/
 function GroupsTable({data}) {
     const [showEdit, setShowEdit] = useState(false);

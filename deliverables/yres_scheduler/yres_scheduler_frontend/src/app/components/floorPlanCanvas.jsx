@@ -4,6 +4,9 @@ import Loading from './loading';
 import useImage from 'use-image';
 import exampleFloorPlan from '../data/school_floorplan_example.jpg'
 
+/**
+ * The FloorplanCanvas that load and displays the image of the floorplan
+**/
 function FloorPlanCanvas() {
     const [loading, setLoading] = React.useState(true);
     const [canvasSize, setCanvasSize] = React.useState({

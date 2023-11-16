@@ -17,9 +17,11 @@ import { useState } from 'react';
     sex (string) 		// <UI>
     friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
     enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
+ * Props: 
+        studentData - a list of student objects with above attributes
 }
 **/
-function StudentProfilesTable({ studentData, rowEvents }) {
+function StudentProfilesTable({ studentData}) {
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         student_id: -1,
@@ -81,7 +83,7 @@ function StudentProfilesTable({ studentData, rowEvents }) {
 
     return (
         <>
-            <YresTable keyCol={'student_id'} data={studentData} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
+            <YresTable keyCol={'student_id'} data={studentData} columns={columns} disableHover={true}/>
             <StudentEdit
                 item={editItem}
                 show={showEdit}

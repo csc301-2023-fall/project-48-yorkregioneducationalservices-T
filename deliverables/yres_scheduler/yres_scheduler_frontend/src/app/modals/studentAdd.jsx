@@ -16,6 +16,11 @@ import { validRelationship } from '@/app/helper';
     friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
     enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
 }
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - student object to be added (blank)
+        students - a list of all student objects with attributes described above
  * */
 function StudentAdd({show, setShow, item, students}) {
     const [error, setError] = useState(<></>);

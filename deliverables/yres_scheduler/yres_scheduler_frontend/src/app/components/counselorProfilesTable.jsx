@@ -15,8 +15,10 @@ import { useState } from 'react';
     lastname (string) 		// <UI>
     campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
 }
+ * Props: 
+        counselorData - a list of counselor objects with above attributes
 **/
-function CounselorProfilesTable({ counselorData, rowEvents }) {
+function CounselorProfilesTable({ counselorData }) {
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         counselor_id: -1,
@@ -66,7 +68,7 @@ function CounselorProfilesTable({ counselorData, rowEvents }) {
 
     return (
         <>
-            <YresTable keyCol={'counselor_id'} data={counselorData} columns={columns} rowEvents={ rowEvents } disableHover={true}/>
+            <YresTable keyCol={'counselor_id'} data={counselorData} columns={columns} disableHover={true}/>
             <CounselorEdit
                 item={editItem}
                 show={showEdit}
