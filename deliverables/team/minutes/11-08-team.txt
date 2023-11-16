@@ -1,0 +1,47 @@
+2023/11/08 DAY Team Meeting
+////////////////////// APIs /////////////////////////
+Schedule: (Eric)
+	- get			// return everything as JSON
+Block: (Marc)
+	- create (backend only)
+	- getAll (backend only)
+	- deleteAll (backend only)
+Activity: (Peifeng)
+	- create
+	- getAllByCampId	// for now, get all
+	- editById
+	- deleteById
+Campus: 
+	- create
+	- *getAll 		// TBD, assume only one campus now
+Camp: 
+	- create
+	- *getAllByCampusID 	// TBD, assume only one camp type now
+Group: (Marc)
+	- create (backend only) 
+	- getAllByCampusId	// for now, get all
+	- deleteAll (backend only)
+Room: (Peifeng)
+	- create
+	- getAllByCampusId	// for now, get all
+	- editById
+	- deleteById
+AdminUser: // TBD
+Counselor: (Eric)
+	- create
+	- getAllByCampusId	// for now, get all
+	- editById
+	- deleteById
+	- deleteAll		// TBD
+Student: (Eric)
+	- create
+	- getAllByCampusId	// for now, get all
+	- editById
+	- deleteById
+	- deleteAll		// TBD
+
+////////////////////// Backend algorithm /////////////////////////
+generateGroups // divide students and counselors into groups evenly
+
+generateSchedule // 
+
