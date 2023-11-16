@@ -43,7 +43,7 @@ async function getGroupId(schedule) {
 
   async function getBlocks(schedule) {  
         //Blocks are added in random order (order given from sql query). Add ORDER BY in query (or something else) to sort
-      const queryGetBlocks = `Select * from Block where schedule_id = $1;`;  
+      const queryGetBlocks = `Select * from Block where schedule_id = $1 order by start_time;`;  
   
       const values = [schedule.schedule_id];
       try {
