@@ -1,17 +1,17 @@
-const roomService = require('../controllers/roomController');
+const activityService = require('../controllers/activityController');
 
 /**
- * Defines the routes for room-related API endpoints.
+ * Defines the routes for activity-related API endpoints.
  * @param {Object} app - The Express application object.
  */
 module.exports = (app) => {
     /**
      * 
      */
-    app.get('/rooms/getAllRooms/', async (req, res) => {
+    app.get('/activities/getAllActivities/', async (req, res) => {
         try {
-            const all_rooms = await roomService.getAllRooms(req, res);    
-            res.send(all_rooms);
+            const all_activities = await activityService.getAllActivities(req, res);    
+            res.send(all_activities);
         } catch (error) {
             res.status(500).send(error);
         }
@@ -19,9 +19,9 @@ module.exports = (app) => {
     /**
      * 
      */
-    .post('/rooms/createRoom/', async (req, res) => {
+    .post('/activities/createActivity/', async (req, res) => {
         try {
-            const resp = await roomService.createRoom(req, res);
+            const resp = await activityService.createActivity(req, res);
             if (resp === true){
                 res.status(200).send('Success');
             } else {
@@ -35,9 +35,9 @@ module.exports = (app) => {
     /**
      * 
      */
-    .post('/rooms/deleteRoomById/', async (req, res) => {
+    .post('/rooms/deleteActivityById/', async (req, res) => {
         try {
-            const resp = await roomService.deleteRoomById(req, res);
+            const resp = await activityService.deleteActivityById(req, res);
             res.send(resp);
             
         } catch (error) {

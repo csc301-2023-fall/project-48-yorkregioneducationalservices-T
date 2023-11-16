@@ -46,6 +46,9 @@ require('./api/routes/groupRoutes')(app);
 require('./api/routes/blockRoutes')(app);
 require('./api/routes/counselorRoutes')(app);
 
+require('./api/routes/roomRoutes')(app);
+require('./api/routes/activityRoutes')(app);
+
 app.use(errorHandler);
 
 module.exports = app;

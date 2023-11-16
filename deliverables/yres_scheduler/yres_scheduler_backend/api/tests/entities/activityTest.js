@@ -19,6 +19,5 @@ describe('class Activity', function () {
       assert.equal(sample.duration, sampe_time_length);
       assert.equal(sample.type, sample_type);
     });
-
   });
 });
