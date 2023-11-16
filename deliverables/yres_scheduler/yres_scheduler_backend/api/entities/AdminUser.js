@@ -1,7 +1,7 @@
 /**
  * Class representing an admin user.
  */
-module.exports = class User {
+module.exports = class AdminUser {
     /**
      * Create a new user object.
      * 
