@@ -26,9 +26,6 @@ function GroupsTable({data}) {
         dataField: 'group_id',
         text: 'ID'
     },{
-        dataField: 'schedule_id',
-        text: 'Schedule'
-    },{
         dataField: 'student_ids',
         text: 'Students'
     },{

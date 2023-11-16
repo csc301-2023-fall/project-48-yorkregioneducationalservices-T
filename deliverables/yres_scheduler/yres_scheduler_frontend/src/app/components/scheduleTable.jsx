@@ -39,7 +39,7 @@ export default function Schedule({ schedule }) {
     const tempSched = schedule.filter((row) => DisplaySched == "Master Sched" || DisplaySched == row.classNum);
     tempSched.sort(sort_times);
     const display_data = tempSched.map((row, rowIndex) => { 
-        return {id: rowIndex, time: row.time, location: row.location, activity: row.name, group: row.classNum }
+        return {group: row.classNum, time: row.time, location: row.location, activity: row.name }
     });
     /**
      * Handler for dropdown click
@@ -53,8 +53,8 @@ export default function Schedule({ schedule }) {
     const handleShow = () => setShow(true);
     
     const columns = [{
-        dataField: 'id',
-        text: 'ID'
+        dataField: 'group',
+        text: 'Group ID'
     },{
         dataField: 'time',
         text: 'Time'
@@ -64,9 +64,6 @@ export default function Schedule({ schedule }) {
     }, {
         dataField: 'activity',
         text: 'Activity Name'
-    }, {
-        dataField: 'group',
-        text: 'Group ID'
     }];
 
     const rowEvents = {
