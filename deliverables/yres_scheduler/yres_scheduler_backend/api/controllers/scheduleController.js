@@ -13,6 +13,12 @@ function generateSchedule(req, res) {
     }
 }
 
+/**
+ * Retrieves all schedules.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing an array of schedules with a collection of blocks and start/end time strings.
+ */
 async function getAllSchedules(req, res) {
     const allschedules = await scheduleService.getAllSchedules();
 

@@ -2,6 +2,11 @@ const Schedule = require("../entities/Schedule");
 const Block = require("../entities/Block");
 const { client } = require('./db');
 
+/**
+ * Maps a row from the Schedule table to a Schedule object.
+ * @param {Object} row - The row from the Schedule table.
+ * @returns {Schedule} A new Schedule object.
+ */
 function mapRowToSchedule(row) {
     var start_hours = row.start_time.slice(0, 2);
     var start_minutes = row.start_time.slice(3, 5);
@@ -20,6 +25,14 @@ function mapRowToSchedule(row) {
     );
 }
 
+/**
+ * Retrieves the singular (or the last if there is an issue) group id from the database and sets it to the group id for a given Schedule.
+ * @async
+ * @function getGroupId
+ * @param {Object} schedule - The schedule object for which to retrieve and store the group id.
+ * @param {string} schedule.schedule_id - The ID of the schedule for which to retrieve and store the group id.
+ * @throws {Error} Throws an error if there was an issue fetching group ids from the database.
+ */
 async function getGroupId(schedule) {  
     const queryGetGroupId = `Select camp_group_id from CampGroup where schedule_id = $1;`;  
 
@@ -41,6 +54,14 @@ async function getGroupId(schedule) {
 
   }
 
+/**
+ * Retrieves blocks from the database and adds them as Block objects to the set of blocks for a given schedule.
+ * @async
+ * @function getBlocks
+ * @param {Object} schedule - The schedule object for which to retrieve and store blocks.
+ * @param {string} schedule.schedule_id - The ID of the schedule for which to retrieve and store blocks.
+ * @throws {Error} Throws an error if there was an issue fetching blocks from the database.
+ */
   async function getBlocks(schedule) {  
         //Blocks are added in random order (order given from sql query). Add ORDER BY in query (or something else) to sort
       const queryGetBlocks = `Select * from Block where schedule_id = $1 order by start_time;`;  
@@ -75,7 +96,11 @@ async function getGroupId(schedule) {
   
     }
 
-
+/**
+ * Retrieves all Schedules (should only be one) from the database and maps them to Schedule objects.
+ * 
+ * @returns {Promise<Array<Group>>} A promise that resolves with an array of Schedule objects.
+ */
 async function getAllSchedules() {
 
     var all_schedules;
