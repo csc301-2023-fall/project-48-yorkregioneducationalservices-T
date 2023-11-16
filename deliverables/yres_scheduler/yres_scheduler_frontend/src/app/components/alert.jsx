@@ -1,5 +1,10 @@
 import * as React from 'react';
 
+/**
+ * Alert component
+ * if only simpleMessage will display a simple alert
+ * if both simple and complexMessage will display both in a more complex alert
+ */
 function Alert({simpleMessage, complexMessage}) {
     //complex alert with two messages
     if(complexMessage){

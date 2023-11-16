@@ -5,7 +5,12 @@ import Button from 'react-bootstrap/Button';
 
 /**
  * Editing Modal for Counselors
- * 
+ *class Counselor {
+   *counselor_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
+}
  * */
 function CounselorEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);

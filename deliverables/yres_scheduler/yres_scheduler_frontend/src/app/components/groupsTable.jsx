@@ -8,9 +8,15 @@ import { BsTrash } from 'react-icons/bs';
 import ActivityEdit from '../modals/activityEdit';
 
 /** 
- * 
+ * Groups Table that displays:
+ * class Group {
+   *group_id (string) 		// The auto generated unique ID
+    schedule_id (string) 	// The ID of the schedule of this group
+    student_ids (set<string>) 	// The IDs of the students that beglong to this group
+    counselor_ids (set<string>) // The IDs of the counselors that belongs to this group
+    camp_id (string) 		// The ID of the camp this group belongs to
 }
-*/
+**/
 function GroupsTable({data}) {
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({

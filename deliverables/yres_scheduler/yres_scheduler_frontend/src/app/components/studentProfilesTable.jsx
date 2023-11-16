@@ -7,6 +7,18 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
 
+/** 
+ * Student Table that displays:
+ * class Student {
+   *student_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    age (int) 			// <UI>
+    sex (string) 		// <UI>
+    friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
+    enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
+}
+**/
 function StudentProfilesTable({ studentData, rowEvents }) {
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
@@ -46,6 +58,7 @@ function StudentProfilesTable({ studentData, rowEvents }) {
     }]
 
     studentData.forEach(item => {
+        //creates a modal and button for editing and deleting each student
         const showEditModal = () => {
             setEditItem(item);
             setShowEdit(true);
