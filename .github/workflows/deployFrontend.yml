@@ -46,7 +46,7 @@ jobs:
             npm run build
             # Kill the process using port 3000 if it exists
             sudo kill -9 $(sudo lsof -t -i:3000) || echo "No process found on port 3000"
-            npm run start &
+            nohup npm run start > /dev/null 2>&1 &
             while ! curl -s http://localhost:3000 >/dev/null; do sleep 1; done
       
       - name: Wait for frontend server deployment to Complete
