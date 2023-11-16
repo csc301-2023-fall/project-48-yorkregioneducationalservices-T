@@ -30,4 +30,8 @@ module.exports = class Camp {
     addActivity(newActivityID) {
         this.activity_ids.add(newActivityID);
     }
+
+    getActivityIds() {
+        return [...this.activity_ids];
+    }
 }

@@ -34,7 +34,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             # Change directory to the database directory.
-            cd /home/ubuntu/yres/deliverables/yres_scheduler/yres_scheduler_database
+            cd /home/ubuntu/yres/database/deliverables/yres_scheduler/yres_scheduler_database/
             # Stop and remove any existing Docker containers.
             sudo docker-compose down --volumes || true
             # Start the Docker Compose stack in detached mode.
@@ -52,7 +52,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             # Replace the following with your PostgreSQL connection parameters.
-            PSQL_HOST=ec2-3-139-100-35.us-east-2.compute.amazonaws.com
+            PSQL_HOST=ec2-18-218-217-198.us-east-2.compute.amazonaws.com
             PSQL_PORT=5432
             PSQL_USER=yres
             PSQL_DB=yres_db

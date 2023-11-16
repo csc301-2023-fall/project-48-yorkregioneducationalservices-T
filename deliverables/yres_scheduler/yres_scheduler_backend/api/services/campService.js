@@ -1,5 +1,5 @@
 
-const db = require('../db/psqlDbPlugin');
+const db = require('../db/campDbPlugin');
 
 function getCamp(camp_id) {
     var camp = db.getCampById(camp_id);
@@ -8,12 +8,18 @@ function getCamp(camp_id) {
 
 }
 
-function getAllCamps(campus_id) {
-    var all_camps = db.getCampsByCampusId(campus_id);
-    return JSON.stringify(all_camps);
+async function getAllCamps(campus_id) {
+    var all_camps = await db.getCampsByCampusId(campus_id);
+    return all_camps;
+}
+
+function createCamp(name, campus_id) {
+    var camp = db.createCamp(name, campus_id);
+    return camp;
 }
 
 module.exports = {
     getCamp,
-    getAllCamps
+    getAllCamps,
+    createCamp
 }
