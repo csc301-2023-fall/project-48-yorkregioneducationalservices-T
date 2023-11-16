@@ -1,40 +1,84 @@
+/**
+ * This module implements the controller for requests for account service 
+ * operations.
+ * 
+ * @module api/controllers/accountController
+ * 
+ * @requires api/services/accountService
+ * @requires api/entities/ServiceErrors
+ */
 
 const accountService = require('../services/accountService');
+const {STATUS_CODES} = require('../entities/ServiceErrors');
 
-function login(req, res) {
+/**
+ * Controller function for login operation.
+ * 
+ * @param {Object} req 
+ * @param {Object} res 
+ * @return {Object} The response body.
+ */
+async function login(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
-    const login_status = accountService.login(username, password);
+    const token = await accountService.login(username, password);
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
-        login_status: login_status
-    }
+        username: username,
+        token: token
+    };
 }
 
-function signup(req, res) {
+/**
+ * Controller function for sign operation.
+ * 
+ * @param {Object} req 
+ * @param {Object} res 
+ * @return {Object} The response body.
+ */
+async function signup(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
-    const signup_status = accountService.signup(username, password);
+    const token = await accountService.signup(username, password);
 
+    res.status(STATUS_CODES.SUCCESS);
+    
     return {
-        signup_status: signup_status
-    }
+        username: username,
+        token: token
+    };
 }
 
-function logout(req, res) {
-    const userID = req.body.userID;
+/** 
+* Controller function for get login status operation.
+* 
+* @param {Object} req 
+* @param {Object} res 
+* @return {Object} The response body.
+*/
+async function getLoginStatus(req, res) {
+    const header = req.headers["authorization"];
+    var token = null
 
-    const login_status = accountService.logout(userID);
-
-    return {
-        login_status: login_status
+    if (typeof header !== "undefined") {
+        token = header.split(" ")[1];
     }
+
+    const isLoggedIn = await accountService.getLoginStatus(token);
+
+   res.status(STATUS_CODES.SUCCESS);
+   
+   return {
+       login_status: isLoggedIn
+   };
 }
 
 module.exports = {
     login,
     signup,
-    logout
+    getLoginStatus
 }

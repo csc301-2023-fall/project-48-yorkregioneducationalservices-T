@@ -250,6 +250,42 @@ async function createStudent(student) {
             student.age,
             student.sex,
         ]);
+        //Insert student friend preferences
+        const student_id = result.rows[0].student_id;
+        student.friend_ids.forEach(async (friend_ui_id) => {
+            await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [friend_ui_id,]);
+            const friend_id = result.rows[0].student_id;
+            const queryInsertFriendPreferences = `
+                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+                VALUES ($1, $2, $3)
+            `;
+            let larger_id, smaller_id;
+            if (studentId > friend_id) {
+                larger_id = student_id;
+                smaller_id = friend_id;
+              } else {
+                larger_id = friend_id;
+                smaller_id = student_id;
+              }
+            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, false]);
+        });
+        student.enemy_ids.forEach(async (enemy_ui_id) => {
+            await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [enemy_ui_id,]);
+            const enemy_id = result.rows[0].student_id;
+            const queryInsertFriendPreferences = `
+                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+                VALUES ($1, $2, $3)
+            `;
+            let larger_id, smaller_id;
+            if (studentId > enemy_id) {
+                larger_id = student_id;
+                smaller_id = enemy_id;
+              } else {
+                larger_id = enemy_id;
+                smaller_id = student_id;
+              }
+            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, true]);
+        });
         return true;
     } catch (err) {
         console.log(err);

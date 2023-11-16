@@ -3,183 +3,9 @@ const Camp = require("../entities/Camp");
 const Room = require("../entities/Room");
 const AdminUser = require("../entities/AdminUser");
 
-const { client } = require('./db');
+const { client, connectDB } = require('./db');
+connectDB();
 
-function getCampusById(campus_id) {
-
-    var name;
-    var camp_ids = new Set();
-    var room_ids = new Set();
-
-    client.query(`Select * from yres_db.Campus where campus_id = '${campus_id}';`, (err, result)=>{
-
-        name = result.rows[0].name;
-
-        if (err){
-            throw Error(err);
-        }
-    });
-
-    client.query(`Select camp_id from yres_db.Camp where campus_id = '${campus_id}';`, (err, result)=>{
-        for (var i=0; i  < result.length; i++) {
-            camp_ids.add(result.rows[i].camp_id);
-        }
-    });
-
-    client.query(`Select room_id from yres_db.Room where campus_id = '${campus_id}';`, (err, result)=>{
-        for (var i=0; i  < result.length; i++) {
-            room_ids.add(result.rows[i].room_id);
-        }
-    });
-
-    return new Campus(campus_id, name, camp_ids, room_ids);
-
-}
-
-function getAllCampuses() {
-    var all_campuses = new Array();
-    client.query(`SELECT * FROM yres_db.Campus;`, function (err, result) {
-        if (err) {
-            throw Error(err);
-        }
-        var campus_id, name, camp_ids, room_ids;
-        for (var i=0; i<result.length; i++) {
-            campus_id = result[i].campus_id;
-            name = result[i].name;
-            camp_ids = new Set();
-            room_ids = new Set();
-
-            client.query(`Select camp_id from yres_db.Camp where campus_id = '${campus_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    camp_ids.add(result.rows[i].camp_id);
-                }
-            });
-
-            client.query(`Select room_id from yres_db.Room where campus_id = '${campus_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    room_ids.add(result.rows[i].room_id);
-                }
-            });
-
-            all_campuses.push(new Campus(campus_id, name, camp_ids, room_ids));
-        }
-    });
-    return all_campuses;
-}
-
-function getCampById(camp_id) {
-
-    var name;
-    var activity_ids = new Set();
-    var campus_id;
-
-    client.query(`Select * from yres_db.Camp where camp_id = '${camp_id}';`, (err, result)=>{
-
-        campus_id = result.rows[0].campus_id;
-        name = result.rows[0].name;
-
-        if (err){
-            throw Error(err);
-        }
-    });
-
-    client.query(`Select activity_id from yres_db.Activity where camp_id = '${camp_id}';`, (err, result)=>{
-        for (var i=0; i  < result.length; i++) {
-            activity_ids.add(result.rows[i].activity_id);
-        }
-    });
-
-    return new Camp(camp_id, name, activity_ids, campus_id);
-
-}
-
-function getCampsByCampusId(campus_id) {
-    var all_camps = new Array();
-    client.query(`SELECT * FROM yres_db.Camp WHERE campus_id = '${campus_id}';`, function (err, result) {
-        if (err) {
-            throw Error(err);
-        }
-        var camp_id, name, activity_ids;
-        for (var i=0; i<result.length; i++) {
-            camp_id = result[i].camp_id;
-            name = result[i].name;
-            activity_ids = new Set();
-
-            client.query(`Select activity_id from yres_db.Activity where camp_id = '${camp_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    activity_ids.add(result.rows[i].activity_id);
-                }
-            });
-
-            all_camps.push(new Camp(camp_id, name, activity_ids, campus_id));
-        }
-    });
-    return all_camps;
-}
-
-function getGroupById(group_id) {
-
-    var schedule_id;
-    var student_ids = new Set();
-    var counselor_ids = new Set();
-    var camp_id;
-
-    client.query(`Select * from yres_db.CampGroup where camp_group_id = '${group_id}';`, (err, result)=>{
-
-        schedule_id = result.rows[0].schedule_id;
-        camp_id = result.rows[0].camp_id;
-
-        if (err){
-            throw Error(err);
-        }
-    });
-
-    client.query(`Select student_id from yres_db.Student where camp_group_id = '${group_id}';`, (err, result)=>{
-        for (var i=0; i  < result.length; i++) {
-            student_ids.add(result.rows[i].student_id);
-        }
-    });
-
-    client.query(`Select counselor_id from yres_db.Counselor where camp_group_id = '${group_id}';`, (err, result)=>{
-        for (var i=0; i  < result.length; i++) {
-            counselor_ids.add(result.rows[i].counselor_id);
-        }
-    });
-
-    return new Group(group_id, schedule_id, student_ids, counselor_ids, camp_id);
-
-}
-
-function getGroupsByCampId(camp_id) {
-    var all_groups = new Array();
-    client.query(`SELECT * FROM yres_db.Group WHERE camp_id = '${camp_id}';`, function (err, result) {
-        if (err) {
-            throw Error(err);
-        }
-        var group_id, schedule_id, student_ids, counselor_ids;
-        for (var i=0; i<result.length; i++) {
-            group_id = result[i].group_id;
-            schedule_id = result[i].schedule_id;
-            student_ids = new Set();
-            counselor_ids = new Set();
-
-            client.query(`Select student_id from yres_db.Student where camp_group_id = '${group_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    student_ids.add(result.rows[i].student_id);
-                }
-            });
-
-            client.query(`Select counselor_id from yres_db.Counselor where camp_group_id = '${group_id}';`, (err, result)=>{
-                for (var i=0; i  < result.length; i++) {
-                    counselor_ids.add(result.rows[i].counselor_id);
-                }
-            });
-
-            all_groups.push(new Group(group_id, schedule_id, student_ids, counselor_ids, camp_id));
-        }
-    });
-    return all_groups;
-}
 
 function getCampActivities(camp_id) {
     // For testing error handling of non-existant camp
@@ -230,13 +56,13 @@ function getCampById(camp_id) {
 /** Object getter for Room class.
  * 
  * @param {string} room_id - room UUID.
- * @returns an object of type Room with given room ID, or undefined if not exists.
+ * @returns an object of type Room with given room ID, or null if not exists.
  */
 function getRoomById(room_id) {
     var name, campus_id;
     client.query(`SELECT * FROM yres_db.Room WHERE room_id = '${room_id}';`, function (err, result) {
         if (result.length == 0) {
-            return undefined;
+            return null;
         }
         if (err){
             throw Error(err);
@@ -291,22 +117,28 @@ function createRoom(room_id, name, campus_id) {
 /** Object getter for Admin User class.
  * 
  * @param {string} room_id - room UUID.
- * @returns an object of type Room with given room ID, or undefined if not exists.
+ * @returns an object of type Room with given room ID, or null if not exists.
  */
-function getAdminUserByName(username) {
+async function getAdminUserByName(username) {
     var password;
-    client.query(`SELECT * FROM yres_db.LoginInfo WHERE username = '${username}';`, function (err, result) {
-        if (result.length == 0) {
-            return undefined;
+    const query = `SELECT * FROM logininfo WHERE username = '${username}';`
+    try {
+        const result = await client.query(query);
+
+        if (result && result.rowCount > 0) {
+            password = result.rows[0].password;
+            return new AdminUser(
+                username,
+                password);
+        } else {
+
+            return null;
         }
-        password = result.rows[0].password;
-        if (err){
-            throw Error(err);
-        }
-    });
-    return new AdminUser(
-        username,
-        password);
+
+    } catch (err){
+        throw new Error(err);
+    }
+        
 }
 
 /** Write an administrator to the database.
@@ -315,17 +147,16 @@ function getAdminUserByName(username) {
  * @param {string} password 
  * @returns true if written successfully.
  */
-function createAdminUser(username, password) {
-    var existing_user = getAdminUserByName(username);
-    if (existing_user != undefined)
-        return false;
-    client.query(`INSERT INTO yres_db.LoginInfo(username, password) VALUES('${username, password}')`, function (err, result) {
-        if (err){
-            throw Error(err);
-            return false;
-        }
-    });
-    return true;
+async function createAdminUser(username, password) {
+    const query = `INSERT INTO logininfo(username, password) VALUES('${username}', '${password}');`
+    try {
+        const result = await client.query(query);
+
+        return true;
+
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 /** Check if a pair of username and password is valid.
@@ -334,12 +165,14 @@ function createAdminUser(username, password) {
  * @param {string} password 
  * @returns true if the combination is valid.
  */
-function checkLogin(username, password) {
-    var admin = getAdminUserByName(username);
-    if (admin == undefined)
+async function checkLogin(username, password) {
+    var admin = await getAdminUserByName(username);
+    if (admin == null) {
         return false;
-    if (password == admin.password)
+    }
+    if (password == admin.password) {
         return true;
+    }
     return false;
 }
 
@@ -348,14 +181,12 @@ function checkLogin(username, password) {
  * @param {string} username 
  * @returns true if the user exists.
  */
-function existsUser(username) {
-    var admin = getAdminUserByName(username);
-    if (admin == undefined)
+async function existsUser(username) {
+    var admin = await getAdminUserByName(username);
+    if (admin == null)
         return false;
     return true;
 }
-
-
 
 
 module.exports = {
