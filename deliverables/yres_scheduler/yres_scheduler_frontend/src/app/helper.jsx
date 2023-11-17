@@ -30,17 +30,17 @@ export function validRelationship(string, field, setError, students) {
     if(string === ''){
         return true
     }
-    const studentNames = students.map(student => {return student.firstname + " " + student.lastname})
+    const studentNames = students.map(student => {return student._student_ui_id})
     const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
+    console.log(names)
     for (const name of names) {
-        if (!studentNames.includes(name)){
+        if (!studentNames.includes(parseInt(name))){
             setError(<Alert simpleMessage={field + " field invalid, " + name + " isn't a known student"}/>)
             return false
         }
     }
-    return true
+    return true 
 }
-
 /**
  * Helper function to break down a comma separated string of inputs
  * into a properly formatted list

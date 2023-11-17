@@ -73,45 +73,47 @@ function Profiles() {
     const [currType, setCurrType] = React.useState(PROFILE_TYPES[0]);
     const [profileData, setProfileData] = useState([]);
     const [item, setItem] = useState({});
-
     const handleSelectType = (e) => {
+        console.log("hererr")
         setCurrType(e);
     }
 
     useEffect(() => {
         if (currType === PROFILE_TYPES[0]) {
             // TODO: Make get students API Request
-            setProfileData(DUMMY_STUDENT_DATA);
+             fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/getAllStudents/"), { //Create GET request with inputted data
+            method: "GET"
+            })
+            .then(async (response)=> { 
+                if (!response.ok) {
+                    throw new Error('RESPONSE ERROR');
+                }
+                const responseBody = await response.text(); 
+                const parsedResponse = JSON.parse(responseBody);
+                console.log(responseBody);
+                setProfileData(parsedResponse.students);
+                })  
+            
         } else {
-            // TODO: Make get counselors API Request
-            setProfileData(DUMMY_COUNSELOR_DATA);
+            //TODO: Make get counselors API Request
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/counselors/getAllCounselors/"), { //Create GET request with inputted data
+                method: "GET"
+                })
+                .then(async (response)=> { 
+                    if (!response.ok) {
+                        throw new Error('RESPONSE ERROR');
+                    }
+                    const responseBody = await response.text(); 
+                    const parsedResponse = JSON.parse(responseBody);
+                    console.log(responseBody);
+                    setProfileData(parsedResponse.counselors);
+                    })  
+
         }
     }, [currType]);
     
     const [show, setShow] = useState(false);
     const handleShow = () => {
-        if (currType === PROFILE_TYPES[0]) {
-            const object = {
-                student_id: 99,
-                firstname: '',
-                lastname: '',
-                age: '0',
-                sex: '',
-                friends_ids: ['1'],
-                enemy_ids: ['1']
-            };
-            setItem(object);
-            DUMMY_STUDENT_DATA.push(object)
-        } else {
-            const object = {
-                counselor_id: 99,
-                firstname: '',
-                lastname: '',
-                campus_id: 1
-            };
-            setItem(object);
-            DUMMY_COUNSELOR_DATA.push(object)
-        }
         setShow(true);
     };
     return (
@@ -130,7 +132,7 @@ function Profiles() {
                         show={show}
                         setShow={setShow}
                         item={item}
-                        students={DUMMY_STUDENT_DATA}
+                        students={profileData}
                         />
                     : <CounselorAdd
                         show={show}
