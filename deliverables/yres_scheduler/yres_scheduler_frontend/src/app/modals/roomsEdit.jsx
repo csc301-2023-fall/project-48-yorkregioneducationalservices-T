@@ -53,7 +53,9 @@ function RoomsEdit({item, show, setShow}) {
                     <Form.Label>Activities in this room (comma separated)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.activity_ids.join(",")} 
+                        disabled
+                        placeholder={'Disabled'}
+                        defaultValue={''/*item.activity_ids.join(",")*/} 
                     />
                     </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>

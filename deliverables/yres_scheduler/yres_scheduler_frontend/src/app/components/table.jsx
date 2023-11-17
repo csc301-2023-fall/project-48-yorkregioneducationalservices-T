@@ -5,11 +5,11 @@ import Loading from './loading';
 /** 
  * Primary table we used to display everything
  * Props: 
-        keyCol - 
-        data - 
-        columns - 
-        rowEvents_const - 
-        disableHover - 
+        keyCol - The unique key column for this table
+        data - A list of json data containing the appropriate data as defined by columns
+        columns - A list of column names and the corresponding id in the data
+        rowEvents_const - (OPTIONAL) A json object contating functions when a user interacts with a row 
+        disableHover - (OPTIONAL) Disables mouse hovering over the table. Is false by default.
 }
 **/
 function YresTable(props) {

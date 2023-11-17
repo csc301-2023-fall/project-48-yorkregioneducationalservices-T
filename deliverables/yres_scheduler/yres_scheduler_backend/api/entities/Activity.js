@@ -126,6 +126,16 @@ class Activity {
         return COMMON_TYPE;
     }
 
+    toJSON() {
+        return {
+            activity_id: this._activity_id,
+            name: this._name,
+            duration: this._duration,
+            type: this._type,
+            num_occurences: this._num_occurences
+        }
+    }
+
 
 }
 

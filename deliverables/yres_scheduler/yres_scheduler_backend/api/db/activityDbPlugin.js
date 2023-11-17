@@ -1,4 +1,4 @@
-const Room = require("../entities/Activity");
+const Activity = require("../entities/Activity");
 const { client } = require('./db')
 
 /**
@@ -12,8 +12,7 @@ function mapRowToActivity(row) {
         row.name,
         row.duration,
         row.type,
-        row.num_occurences,
-        new Array()
+        row.num_occurences
     );
 }
 
@@ -37,7 +36,7 @@ async function getAllActivities() {
         });
         const rows = result.rows;
 
-        all_activities = rows.map(mapRowToRoom);
+        all_activities = rows.map(mapRowToActivity);
         // TODO: fetch the list of rooms of this activity
         //
         resolve(all_activities);

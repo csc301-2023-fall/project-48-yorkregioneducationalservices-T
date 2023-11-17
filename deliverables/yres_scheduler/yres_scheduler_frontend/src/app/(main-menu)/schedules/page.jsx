@@ -1,15 +1,11 @@
 'use client'
 import * as React from 'react';
-import dynamic from 'next/dynamic';
 import Button from 'react-bootstrap/Button';
 import exampleTable from '../../data/example.json'
 import Schedule from '../../components/scheduleTable'
 import GroupsTable from '../../components/groupsTable'
 import Alert from '@/app/components/alert';
-
-const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas'), {
-    ssr: false,
-});
+import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 
 // Dummy promise to simulate API request. Remove once request implemented
 function simulateNetworkRequest() {
@@ -209,7 +205,7 @@ export default function Schedules() {
     return (
         <div className='split-page'>
             <div className='left'>
-                <FloorPlanCanvas/>
+                <FloorplanCanvas/>
             </div>
             <div className='right'>
                 <h3 className='header-title '>Groups</h3>
