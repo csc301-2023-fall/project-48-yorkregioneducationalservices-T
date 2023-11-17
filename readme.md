@@ -1,7 +1,7 @@
 # YRES Scheduler 
 
 ​​<img width="500" alt="Screenshot 2023-09-29 at 9 43 11 PM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/5f692ff7-e83c-44dc-9ed7-4ba49f608887">
-
+http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/
 ## Partner Intro
 Partner Contact Information:
 Hugo Quan: Web Developer co-op, primary point of contact
@@ -25,12 +25,10 @@ They can search in the table to find the interested profile, then edit through a
 ​
 ## Instructions
  * The user lands at the sign up page before they can access the app, where they input a username and password to create an account. If they already have a page, they need to input a valid username-password pair to access the app.
- * Once in the app, they can insert data relating to students and counselors (format unspecified). They can also remove and/or update and/or read data that has been inputted previously.
+ * Once in the app, they can insert data relating to students and counselors in a csv located in deliverables/yres_scheduler/yres_scheduler_frontend/src/app/data/student_add_data.csv where each student has a unique id. They can also remove and/or update and/or read data that has been inputted previously.
  * On another page, they can input a floor plan for a building on the camp and place dots on the map corresponding to different rooms, which have a room type and a unique room number. This data can also be read, updated, and deleted in the same way as the other entities.
  * Users can also add input activities which will take place at the camp, each of which will contain data like; possible room assignment, number of occurences throughout the camp, activity name etc.
  * On another page, the user can ask to generate a schedule, which will return as a downloadable file csv file, where students are grouped according to their specifications (i.e. pairs of students to keep apart/together, etc.) in groups of approximately 20 and between 1 and 2 counselors.
-
- * MENTION HOW TO UPLOAD A CSV OF StudeNtS.
 
  ## Development requirements
  1. Ensure the latest version of [Node.JS](https://nodejs.org/en) with NPM is installed.
