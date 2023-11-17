@@ -12,15 +12,19 @@ const activitiesService = require('../controllers/activityController');
  * @returns {Object} - An object containing the newly generated schedule.
  */
 function generateSchedule(req, res) {
-
-
+    /*
     const students = studentService.getAllStudents();
     const counselors = counselorService.getAllCounselors();
     const rooms = roomService.getAllRooms();
+    var room_ids = [];
+    for (var i=0; i<rooms.length; i++) {
+        room_ids.push(rooms[i].room_ids);
+    }
     const activities = activitiesService.getAllActivities();
 
-    // const new_schedule = scheduleService.generateSchedule(students, counselors, rooms, activities);
-
+    const new_schedule = scheduleService.scheduleCall(students, counselors, activities, rooms);
+    */
+    const new_schedule = scheduleService.scheduleCall2();
     return {
         schedule: new_schedule
     }

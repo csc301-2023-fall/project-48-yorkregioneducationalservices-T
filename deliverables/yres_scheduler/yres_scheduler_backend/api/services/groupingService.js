@@ -15,7 +15,7 @@ class Group {
         this.schedule = undefined;
     }
 }
-/** DUMMY DATA STARTS HERE
+// DUMMY DATA STARTS HERE
 const DUMMY_STUDENTS = [{
 	student_id: 1,
 	name: "Boy_A",
@@ -154,7 +154,7 @@ const DUMMY_COUNSELORS = [{
 	counselor_id: 3,
 	name: "Teacher_C"
 }]
-*/
+
 // =============== GROUPING ALGORITHM STARTS HERE ========================
 /** Group given students and counselors into groups.
  * 
@@ -240,7 +240,12 @@ function generateGroups(counselors, students) {
 	return groups;
 }
 
+function groupCall() {
+	return generateGroups(DUMMY_COUNSELORS, DUMMY_STUDENTS);
+}
+
 module.exports = {
 	Group,
-    generateGroups
+    generateGroups,
+	groupCall
 }
