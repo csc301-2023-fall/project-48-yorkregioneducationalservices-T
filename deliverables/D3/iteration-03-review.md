@@ -39,7 +39,6 @@ List **process-related** (i.e. team organization and how you work) decisions and
  * Goal Organization: We plan to create a more robust shortterm planning routine with list of at least 5 goals to be completed in the upcoming 3 days. There were often stretches of a couple days where the team felt as though we didnt really have much to work on, when in reality we just hadn't set enough goals for ourselves.
  * Code Organization: We plan to rework the organization of the backend/database as currently it is a bit confusing and difficult to integrate with. 
 #### Q3(b). Integration & Next steps 
-Briefly explain how you integrated the previously developed individuals components as one product (i.e. How did you be combine the code from 3 sub-repos previously created) and if/how the assignment was helpful or not helpful.
 
  We integrated the individual components through three seperate pull requests into the main repo. We felt as though the assignment led to a bit of fragmentation within the organization of code, as everything was built almost completely disjoint of eachother.
 
