@@ -18,37 +18,40 @@ function StudentAdd({show, setShow, item, students}) {
         event.preventDefault()
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
-        if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
+        if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){    
+            const bodyData = new URLSearchParams(
+                {
+                    'student_ui_id': event.target[0].value, 
+                    'firstname': event.target[1].value, 
+                    'lastname': event.target[2].value, 
+                    'age': parseInt(event.target[3].value), 
+                    'sex': event.target[4].value,
+                    'friend_ids': event.target[5].value.split(',').map(s => s.trim().replace(/\s/, ' ')),
+                    'enemy_ids': event.target[6].value.split(',').map(s => s.trim().replace(/\s/, ' '))
+                }).toString();
+
+            console.log(bodyData);
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/createStudent/"), {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: bodyData,
+            })
+            window.location.reload(false);
             handleClose()
         }
-        const bodyData = new URLSearchParams(
-            {
-                'student_ui_id': event.target[0].value, 
-                'firstname': event.target[1].value, 
-                'lastname': event.target[2].value, 
-                'age': parseInt(event.target[3].value), 
-                'sex': event.target[4].value 
-            }).toString();
-
-        console.log(bodyData);
-        fetch(process.env.BACKEND_URI.concat("/students/createStudent/"), {
-            method: "POST", 
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: bodyData,
-        })
-        window.location.reload(false);
     }
-        
+                
     function validRelationship(string, field) {
         if(string === ''){
             return true
         }
-        const studentNames = students.map(student => {return student.firstname + " " + student.lastname})
+        const studentNames = students.map(student => {return student._student_ui_id})
         const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
+        console.log(names)
         for (const name of names) {
-            if (!studentNames.includes(name)){
+            if (!studentNames.includes(parseInt(name))){
                 console.log(name)
                 console.log(students)
                 console.log(studentNames)
@@ -68,7 +71,7 @@ function StudentAdd({show, setShow, item, students}) {
                <Form onSubmit={handleSubmit}>
                     <Form.Group
                     className="mb-3"
-                    controlId="studentForm.ControlFirstName"
+                    controlId="studentForm.ControlId"
                     >
                     <Form.Label>Student ID</Form.Label>
                     <Form.Control
@@ -85,7 +88,6 @@ function StudentAdd({show, setShow, item, students}) {
                     <Form.Control
                         type="text"
                         defaultValue={item.firstname}
-                        autoFocus
                     />
                     </Form.Group>   
                     <Form.Group
@@ -149,7 +151,8 @@ function StudentAdd({show, setShow, item, students}) {
             </Modal.Body>
         </Modal>
     );
-  }
+  
+}
 
 export default StudentAdd;
 

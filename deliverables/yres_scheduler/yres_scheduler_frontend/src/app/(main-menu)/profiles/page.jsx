@@ -72,13 +72,14 @@ function Profiles() {
     const [profileData, setProfileData] = useState([]);
     const [item, setItem] = useState({});
     const handleSelectType = (e) => {
+        console.log("hererr")
         setCurrType(e);
     }
 
     useEffect(() => {
         if (currType === PROFILE_TYPES[0]) {
             // TODO: Make get students API Request
-            fetch("http://localhost:1234".concat("/students/getAllStudents/"), { //Create GET request with inputted data
+             fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/getAllStudents/"), { //Create GET request with inputted data
             method: "GET"
             })
             .then(async (response)=> { 
@@ -89,11 +90,11 @@ function Profiles() {
                 const parsedResponse = JSON.parse(responseBody);
                 console.log(responseBody);
                 setProfileData(parsedResponse.students);
-                })   
+                })  
             
         } else {
-            // TODO: Make get counselors API Request
-            fetch("http://localhost:1234".concat("/counselors/getAllCounselors/"), { //Create GET request with inputted data
+            //TODO: Make get counselors API Request
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/counselors/getAllCounselors/"), { //Create GET request with inputted data
                 method: "GET"
                 })
                 .then(async (response)=> { 
@@ -102,8 +103,10 @@ function Profiles() {
                     }
                     const responseBody = await response.text(); 
                     const parsedResponse = JSON.parse(responseBody);
-                    setProfileData(parsedResponse);
-                    })
+                    console.log(responseBody);
+                    setProfileData(parsedResponse.counselors);
+                    })  
+
         }
     }, [currType]);
     

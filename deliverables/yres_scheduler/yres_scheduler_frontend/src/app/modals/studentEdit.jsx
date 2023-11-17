@@ -16,9 +16,27 @@ function StudentEdit({item, show, setShow, students}) {
     };
     const handleSubmit = (event) => {
         event.preventDefault()
-        let friends = event.target[4].value;
-        let enemies = event.target[5].value;
+        let friends = event.target[5].value;
+        let enemies = event.target[6].value;
         if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
+            const bodyData = new URLSearchParams(
+                {
+                    'student_ui_id': event.target[0].value, 
+                    'firstname': event.target[1].value, 
+                    'lastname': event.target[2].value, 
+                    'age': parseInt(event.target[3].value), 
+                    'sex': event.target[4].value,
+                    // 'friend_ids': !friends ? []: event.target[5].value.split(',').map(s => s.trim().replace(/\s/, ' ')),
+                    // 'enemy_ids': !enemies ? []: event.target[6].value.split(',').map(s => s.trim().replace(/\s/, ' '))
+                }).toString();
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/editStudentById/"), {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: bodyData,
+            })
+            window.location.reload(false);
             handleClose()
         }
     }
@@ -27,10 +45,11 @@ function StudentEdit({item, show, setShow, students}) {
         if(string === ''){
             return true
         }
-        const studentNames = students.map(student => {return student.firstname + " " + student.lastname})
+        const studentNames = students.map(student => {return student._student_ui_id})
         const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
+        console.log(names)
         for (const name of names) {
-            if (!studentNames.includes(name)){
+            if (!studentNames.includes(parseInt(name))){
                 console.log(name)
                 console.log(students)
                 console.log(studentNames)
@@ -38,7 +57,7 @@ function StudentEdit({item, show, setShow, students}) {
                 return false
             }
         }
-        return true
+        return true 
     }
 
     return (
@@ -48,6 +67,17 @@ function StudentEdit({item, show, setShow, students}) {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
+                <Form.Group
+                    className="mb-3"
+                    controlId="studentForm.ControlId"
+                    >
+                    <Form.Label>Student ID</Form.Label>
+                    <Form.Control
+                        type="text"
+                        defaultValue={item._student_ui_id}
+                        autoFocus
+                    />
+                    </Form.Group> 
                     <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFirstName"
@@ -89,7 +119,7 @@ function StudentEdit({item, show, setShow, students}) {
                         defaultValue={item.sex}
                     />
                     </Form.Group>
-                    <Form.Group
+                    {/* <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFriends"
                     >
@@ -108,7 +138,7 @@ function StudentEdit({item, show, setShow, students}) {
                         type="text"
                         defaultValue={item.enemy_id}
                     />
-                    </Form.Group>
+                    </Form.Group> */}
                     {error}
                     <Button variant="secondary" onClick={handleClose}>
                         Close

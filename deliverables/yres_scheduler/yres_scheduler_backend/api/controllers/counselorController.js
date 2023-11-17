@@ -6,14 +6,12 @@ const counselorService = require('../services/counselorService');
  * @param {Object} res - The response object.
  * @returns {Object} - An object containing an array of counselors.
  */
-function getAllCounselorsByCampus(req, res) {
-
-    const campus_id = req.body.camp_id;
-
-    const all_counselors_by_campus = counselorService.getAllCounselorsByCampus(campus_id);
-
+async function getAllCounselors(req, res) {
+    console.log("dick");
+    const all_counselors = await counselorService.getAllCounselors();
+    
     return {
-        counselors: all_counselors_by_campus
+        counselors: all_counselors
     };
 }
 
@@ -69,7 +67,7 @@ async function deleteCounselorById(req, res) {
 }
 
 module.exports = {
-    getAllCounselorsByCampus,
+    getAllCounselors,
     createCounselor,
     editCounselorById,
     deleteCounselorById

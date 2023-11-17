@@ -28,34 +28,39 @@ function mapRowToCounselor(row) {
  * @param {string} campusId - The ID of the campus to retrieve counselors for.
  * @returns {Array} An array of Counselor objects.
  */
-async function getAllCounselorsByCampus(campusId) {
+async function getAllCounselors() {
     const query = `
         SELECT
-            counselor_id,
-            firstname,
-            lastname,
-            campus_id
+            C.counselor_id,
+            C.firstname,
+            C.lastname,
+            C.campus_id
         FROM
-            Counselor
-        WHERE
-            campus_id = $1;
+            Counselor C;
     `;
-
-    const values = [campusId];
-
-    try {
-        const result = await client.query(query, values);
+    var counselors;
+    console.log("dick");
+    return new Promise(async (resolve, reject) => {
+        const result = await new Promise((queryResolve, queryReject) => {
+            client.query(query, (err, result) => {
+                if (err) {
+                    queryReject(err);
+                } else {
+                    queryResolve(result);
+                }
+            });
+        });
         
+
         // Extract rows from the result
         const rows = result.rows;
 
-        // Map the rows to Counselor objects using the mapRowToCounselor function
-        const counselors = rows.map(mapRowToCounselor);
+        // Map the rows to Student objects
+        counselors = rows.map(mapRowToCounselor);
+        // Resolve the promise with the students data
+        resolve(counselors)
 
-        return counselors;
-    } catch (error) {
-        throw new Error(error.message);
-    }
+    });
 }
 
 
@@ -165,7 +170,7 @@ async function deleteCounselorById(counselorId) {
 
 
 module.exports = {
-    getAllCounselorsByCampus,
+    getAllCounselors,
     createCounselor,
     editCounselorById,
     deleteCounselorById

@@ -13,7 +13,6 @@ function CounselorProfilesTable({ counselorData, rowEvents }) {
         counselor_id: -1,
         firstname: null,
         lastname: null,
-        campus_id: -1
     });
 
     const columns = [{
@@ -25,9 +24,6 @@ function CounselorProfilesTable({ counselorData, rowEvents }) {
     },{
         dataField: 'lastname',
         text: 'Last Name'
-    },{
-        dataField: 'campus_id',
-        text: 'Campus'
     },{
         dataField: 'actions',
         text: 'Actions'

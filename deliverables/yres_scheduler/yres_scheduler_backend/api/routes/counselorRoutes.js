@@ -14,14 +14,16 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves with the retrieved counselors or rejects with an error.
      */
-    app.get('/counselors/getAllCounselors/', (req, res) => {
-        counselorService.getAllCounselorsByCampus(req, res)
-            .then((result) => {
-                res.send(result);
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-            });
+    app.get('/counselors/getAllCounselors/', async (req, res) => {
+        console.log("dick");
+        const result = await counselorService.getAllCounselors(req, res);
+        res.send(result);
+        try{
+
+        }
+        catch(error){
+            res.status(500).send(error);
+        }   
     })
     /**
      * POST endpoint that creates a new counselor.

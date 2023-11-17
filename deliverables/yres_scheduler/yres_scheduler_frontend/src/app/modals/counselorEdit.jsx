@@ -42,16 +42,6 @@ function CounselorEdit({item, show, setShow}) {
                         defaultValue={item.lastname}
                     />
                     </Form.Group>
-                    <Form.Group
-                    className="mb-3"
-                    controlId="counselorForm.ControlCampus"
-                    >
-                    <Form.Label>Campus ID</Form.Label>
-                    <Form.Control
-                        type="number"
-                        defaultValue={item.campus_id}
-                    />
-                    </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>

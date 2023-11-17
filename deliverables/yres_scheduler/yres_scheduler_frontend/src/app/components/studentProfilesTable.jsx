@@ -35,7 +35,7 @@ function StudentProfilesTable({ studentData, rowEvents }) {
         dataField: 'sex',
         text: 'Sex'
     },{
-        dataField: 'friends_ids',
+        dataField: 'friend_ids',
         text: 'Friends'
     },{
         dataField: 'enemy_ids',
@@ -44,11 +44,25 @@ function StudentProfilesTable({ studentData, rowEvents }) {
         dataField: 'actions',
         text: 'Actions'
     }]
-
     studentData.forEach(item => {
         const showEditModal = () => {
             setEditItem(item);
             setShowEdit(true);
+        }
+        const deleteStudent = () =>{
+            console.log(item);
+            const bodyData = new URLSearchParams(
+                {
+                    'student_ui_id': item._student_ui_id, 
+                }).toString();
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/deleteStudentById/"), {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: bodyData,
+            })
+            window.location.reload(false);
         }
         item.actions = (
             <div className='table-actions'>
@@ -58,7 +72,7 @@ function StudentProfilesTable({ studentData, rowEvents }) {
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Student</Tooltip>}>
-                    <Button variant="danger" className='action-button'>
+                    <Button variant="danger" onClick={deleteStudent} className='action-button'>
                         <BsTrash />
                     </Button>
                 </OverlayTrigger>
