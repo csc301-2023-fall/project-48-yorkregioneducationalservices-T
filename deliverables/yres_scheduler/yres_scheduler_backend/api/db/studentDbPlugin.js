@@ -266,7 +266,7 @@ async function createStudent(student) {
         ]);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
-        student.friend_ids.forEach(async (friend_ui_id) => {
+        student.friend_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (friend_ui_id) => {
             await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [friend_ui_id,]);
             const friend_id = result.rows[0].student_id;
             const queryInsertFriendPreferences = `
@@ -283,7 +283,7 @@ async function createStudent(student) {
               }
             await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, false]);
         });
-        student.enemy_ids.forEach(async (enemy_ui_id) => {
+        student.enemy_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (enemy_ui_id) => {
             await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [enemy_ui_id,]);
             const enemy_id = result.rows[0].student_id;
             const queryInsertFriendPreferences = `
