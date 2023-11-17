@@ -73,4 +73,5 @@ Another thing that did not work well for us was we failed to make our app very p
  * Did your partner accept the features? And were there change requests?
     The partner commented that they were happy with the features and did not request any changes. They did however, take photos of our presentation and would get back to us depending on how other members in the partner organization felt. They have yet to make any replies.
  * What were your learnings through this process? This can be either from a process and/or product perspective.
+   We felt we got good experience with runnning a presentation of an app in front of partners. 
  * *This section will be marked very leniently so keep it brief and just make sure the points are addressed*
