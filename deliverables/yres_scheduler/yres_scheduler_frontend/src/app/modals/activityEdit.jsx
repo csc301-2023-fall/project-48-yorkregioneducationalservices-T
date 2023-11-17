@@ -18,22 +18,38 @@ import Button from 'react-bootstrap/Button';
         item - activity object to be edited
  **/
 function ActivityEdit({item, show, setShow}) {
+    const router = useRouter();
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    //state for modal values
     const handleSubmit = (event) => {
+        event.preventDefault();
         /**
-         * API post requests
-         * use event.target[0] to index through the fields
+         * API post request for adding new activity
          */
-        console.log(event.target[0].value);
-        console.log(event.target[1].value);
-        let rooms = event.target[2].value.split(",");
-        rooms.forEach((element) => {
-            console.log("Room with id".concat(element));
+        const new_activity = {
+            name: event.target[0].value,
+            duration: event.target[1].value,
+            type: event.target[3].checked ? "filler" : "common",
+            num_occurences: event.target[4].value,
+            room_ids: [] //process_comma_separated_text(event.target[2].value);
+        }
+
+        fetch(`${URI}/activities/createActivity/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(new_activity)
+        })
+        .then(res => {
+            if (res.status === 200) {
+                router.refresh();
+                return res.json();
+            } else {
+                // Show error alert
+            }
+        }).catch(err => {
+            console.log(err);
         });
-        console.log(event.target[3].value);
-        console.log(event.target[4].value);
-        handleClose() //needs to be before setStudentData
+        handleClose();
     }
   
     return (
