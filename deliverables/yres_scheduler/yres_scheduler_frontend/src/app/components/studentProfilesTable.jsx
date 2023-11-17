@@ -6,6 +6,7 @@ import StudentEdit from '../modals/studentEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
+import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
 
 /** 
  * Student Table that displays:
@@ -34,7 +35,7 @@ function StudentProfilesTable({ studentData}) {
     });
 
     const columns = [{
-        dataField: 'student_id',
+        dataField: '_student_ui_id',
         text: 'ID'
     },{
         dataField: 'firstname',
@@ -49,21 +50,29 @@ function StudentProfilesTable({ studentData}) {
         dataField: 'sex',
         text: 'Sex'
     },{
-        dataField: 'friends_ids',
-        text: 'Friends'
-    },{
-        dataField: 'enemy_ids',
-        text: 'Enemies'
-    },{
         dataField: 'actions',
         text: 'Actions'
     }]
-
     studentData.forEach(item => {
         //creates a modal and button for editing and deleting each student
         const showEditModal = () => {
             setEditItem(item);
             setShowEdit(true);
+        }
+        const deleteStudent = () =>{
+            console.log(item);
+            const bodyData = new URLSearchParams(
+                {
+                    'student_ui_id': item._student_ui_id, 
+                }).toString();
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/deleteStudentById/"), {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: bodyData,
+            })
+            window.location.reload(false);
         }
         item.actions = (
             <div className='table-actions'>
@@ -73,7 +82,7 @@ function StudentProfilesTable({ studentData}) {
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Student</Tooltip>}>
-                    <Button variant="danger" className='action-button'>
+                    <Button variant="danger" onClick={deleteStudent} className='action-button'>
                         <BsTrash />
                     </Button>
                 </OverlayTrigger>
@@ -83,7 +92,7 @@ function StudentProfilesTable({ studentData}) {
 
     return (
         <>
-            <YresTable keyCol={'student_id'} data={studentData} columns={columns} disableHover={true}/>
+            <YresTable keyCol={'_student_ui_id'} data={studentData} columns={columns} disableHover={true}/>
             <StudentEdit
                 item={editItem}
                 show={showEdit}

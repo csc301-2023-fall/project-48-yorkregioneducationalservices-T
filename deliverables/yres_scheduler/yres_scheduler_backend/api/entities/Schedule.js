@@ -47,16 +47,16 @@ class Schedule {
         var new_end_time;
         var last_block;
 
-        if (this.schedule_blocks.length == 0) {
+        if (this.blocks.length == 0) {
             new_start_time = this.start_time;
         } else {
-            last_block = this.schedule_blocks[this.schedule_blocks.length - 1]
+            last_block = this.blocks[this.blocks.length - 1]
             new_start_time = last_block.end_time;
         }
         new_end_time = new Date();
         new_end_time.setTime(new_start_time.getTime() + (activity.duration * 60 * 60 * 1000));
         if (new_end_time <= this.end_time) {
-            this.schedule_blocks.push(new Block(activity, new_start_time, new_end_time));
+            this.blocks.push(new Block(activity, new_start_time, new_end_time));
         }
     }
 

@@ -6,8 +6,8 @@ const db = require('../db/counselorDbPlugin');
  * @param {number} campus_id - The ID of the campus to retrieve counselors for.
  * @returns {Array} - An array of counselor objects.
  */
-function getAllCounselorsByCampus(campus_id) {
-    var counselors = db.getAllCounselorsByCampus(campus_id);
+async function getAllCounselors() {
+    var counselors = await db.getAllCounselors();
     return counselors;
 
 }
@@ -44,7 +44,7 @@ function deleteCounselorById(counselor_ui_id) {
 }
 
 module.exports = {
-    getAllCounselorsByCampus,
+    getAllCounselors,
     createCounselor,
     editCounselorById,
     deleteCounselorById

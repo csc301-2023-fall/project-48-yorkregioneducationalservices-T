@@ -20,11 +20,28 @@ function StudentEdit({item, show, setShow, students}) {
         setShow(false)
     };
     const handleSubmit = (event) => {
-        event.preventDefault() //prevents closing
-        let friends = event.target[4].value;
-        let enemies = event.target[5].value;
-        //if all names are valid then allow close
+        event.preventDefault()
+        let friends = event.target[5].value;
+        let enemies = event.target[6].value;
         if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
+            const bodyData = new URLSearchParams(
+                {
+                    'student_ui_id': event.target[0].value, 
+                    'firstname': event.target[1].value, 
+                    'lastname': event.target[2].value, 
+                    'age': parseInt(event.target[3].value), 
+                    'sex': event.target[4].value,
+                    // 'friend_ids': !friends ? []: event.target[5].value.split(',').map(s => s.trim().replace(/\s/, ' ')),
+                    // 'enemy_ids': !enemies ? []: event.target[6].value.split(',').map(s => s.trim().replace(/\s/, ' '))
+                }).toString();
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/editStudentById/"), {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: bodyData,
+            })
+            window.location.reload(false);
             handleClose()
         }
     }
@@ -36,6 +53,17 @@ function StudentEdit({item, show, setShow, students}) {
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
+                <Form.Group
+                    className="mb-3"
+                    controlId="studentForm.ControlId"
+                    >
+                    <Form.Label>Student ID</Form.Label>
+                    <Form.Control
+                        type="text"
+                        defaultValue={item._student_ui_id}
+                        autoFocus
+                    />
+                    </Form.Group> 
                     <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFirstName"
@@ -84,7 +112,8 @@ function StudentEdit({item, show, setShow, students}) {
                     <Form.Label>Friends (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.friends_id}
+                        defaultValue={item.friend_ids}
+                        disabled
                     />
                     </Form.Group>
                     <Form.Group
@@ -94,7 +123,8 @@ function StudentEdit({item, show, setShow, students}) {
                     <Form.Label>Enemies (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.enemy_id}
+                        defaultValue={item.enemy_ids}
+                        disabled
                     />
                     </Form.Group>
                     {error}

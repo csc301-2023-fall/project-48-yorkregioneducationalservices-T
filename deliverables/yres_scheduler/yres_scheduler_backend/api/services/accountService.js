@@ -35,8 +35,7 @@ const AUTH_TOKEN_EXPIRATION = process.env.AUTH_EXPIRATION || config.get('auth.EX
  * @returns {token} JWT for login session if credentials are valid
  */
 async function login(username, password) {
-
-    throw new AccountServiceError("Test", STATUS_CODES.SUCCESS);
+    
     if (!(await db.checkLogin(username, password))) {
         throw new AccountServiceError(
             "Invalid login credentials", 

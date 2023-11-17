@@ -1,5 +1,6 @@
 
 const scheduleService = require('../services/schedulingService');
+const schedService = require('../services/scheduleService');
 const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
 const roomService = require('../services/roomService');
@@ -14,7 +15,7 @@ const activitiesService = require('../controllers/activityController');
 function generateSchedule(req, res) {
     /*
     const students = studentService.getAllStudents();
-    const counselors = counselorService.getAllCounselors();
+    const counselors = counselorService.getAllCounselorsByCampus();
     const rooms = roomService.getAllRooms();
     var room_ids = [];
     for (var i=0; i<rooms.length; i++) {
@@ -37,7 +38,7 @@ function generateSchedule(req, res) {
  * @returns {Object} - An object containing an array of schedules with a collection of blocks and start/end time strings.
  */
 async function getAllSchedules(req, res) {
-    const allschedules = await scheduleService.getAllSchedules();
+    const allschedules = await schedService.getAllSchedules();
 
     return {
         schedules: allschedules.map((schedule) => { 

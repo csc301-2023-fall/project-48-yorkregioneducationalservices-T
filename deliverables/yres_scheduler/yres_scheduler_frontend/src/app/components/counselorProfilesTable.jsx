@@ -24,11 +24,10 @@ function CounselorProfilesTable({ counselorData }) {
         counselor_id: -1,
         firstname: null,
         lastname: null,
-        campus_id: -1
     });
 
     const columns = [{
-        dataField: 'counselor_id',
+        dataField: '_counselor_id',
         text: 'ID'
     },{
         dataField: 'firstname',
@@ -36,9 +35,6 @@ function CounselorProfilesTable({ counselorData }) {
     },{
         dataField: 'lastname',
         text: 'Last Name'
-    },{
-        dataField: 'campus_id',
-        text: 'Campus'
     },{
         dataField: 'actions',
         text: 'Actions'
@@ -50,6 +46,21 @@ function CounselorProfilesTable({ counselorData }) {
             setEditItem(item);
             setShowEdit(true);
         }
+        const deleteCounselor = () =>{
+            console.log(item);
+            const bodyData = new URLSearchParams(
+                {
+                    'counselor_id': item._counselor_id, 
+                }).toString();
+            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/counselors/deleteCounselorById/"), {
+                method: "POST", 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: bodyData,
+            })
+            window.location.reload(false);
+        }
         item.actions = (
             <div className='table-actions'>
                 <OverlayTrigger placement="right-start" overlay={<Tooltip>View/Edit Counselor</Tooltip>}>
@@ -58,7 +69,7 @@ function CounselorProfilesTable({ counselorData }) {
                     </Button>
                 </OverlayTrigger>
                 <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Counselor</Tooltip>}>
-                    <Button variant="danger" className='action-button'>
+                    <Button variant="danger" onClick={deleteCounselor} className='action-button'>
                         <BsTrash />
                     </Button>
                 </OverlayTrigger>
@@ -68,7 +79,7 @@ function CounselorProfilesTable({ counselorData }) {
 
     return (
         <>
-            <YresTable keyCol={'counselor_id'} data={counselorData} columns={columns} disableHover={true}/>
+            <YresTable keyCol={'_counselor_id'} data={counselorData} columns={columns} disableHover={true}/>
             <CounselorEdit
                 item={editItem}
                 show={showEdit}
