@@ -15,7 +15,7 @@ York Region Educational Services (YRES) is a non-profit organization based in On
 ## Description about the project
 The product is a web application that generates student summer camp schedules using an inputted floor plan and user data. The value is the simplification of the scheduling process, the accuracy afforded, and the ease of distribution for the schedule. This solves the problem of the course coordinators having to manually create schedules accounting for various factors and the distributing of the schedules.
 ​
-## Key Features (More to be added)
+## Key Features
  * Account system: Only course manager(s) of the YRES organization will be able to create an account. Only loginned users can access the application.
  * Profile management: Add: Users can add four types of profiles (student, counselor, staff, and class). They can add either one-by-one manually through a form or by importing a .csv file. The added profile will be stored in a database, and meanwhile displayed to the user in a table. Edit: Users will be able to search for, edit, and delete those profiles in the table.
 They can search in the table to find the interested profile, then edit through a form, or delete it. They can also delete a whole database (used when the camp session ends).
@@ -24,7 +24,7 @@ They can search in the table to find the interested profile, then edit through a
  * Schedule generation: Users can generate schedules based on camp division, staff, and campus information. A campus will hold many camps in a week. On each day, they will take classes from morning to afternoon. Each class is assigned two staffs as instructors. The generated schedule has all class arrangements of the campus.
  * Schedule exportation: Users can filter the generated schedule for each camp or each classroom. Then they can export the filtered or non-filtered schedule into .csv to make slight modifications, or print it as .pdf.
 ​
-## Instructions (More to be added)
+## Instructions
  * The user lands at the sign up page before they can access the app, where they input a username and password to create an account. If they already have a page, they need to input a valid username-password pair to access the app.
  * Once in the app, they can insert data relating to students and counselors (format unspecified). They can also remove and/or update and/or read data that has been inputted previously.
  * On another page, they can input a floor plan for a building on the camp and place dots on the map corresponding to different rooms, which have a room type and a unique room number. This data can also be read, updated, and deleted in the same way as the other entities.
