@@ -1,6 +1,11 @@
+const Student = require("../entities/Student");
+const Counselor = require("../entities/Counselor");
+const Group = require("../entities/Group");
+const uuid = require('uuid');
 
 const MAX_STUDENT = 7;
 const NUM_COUNSELOR = 1;
+/** DUMMY DATA STARTS HERE
 const DUMMY_STUDENTS = [{
 	student_id: 1,
 	name: "Boy_A",
@@ -139,7 +144,14 @@ const DUMMY_COUNSELORS = [{
 	counselor_id: 3,
 	name: "Teacher_C"
 }]
-
+*/
+// =============== GROUPING ALGORITHM STARTS HERE ========================
+/** Group given students and counselors into groups.
+ * 
+ * @param {Array} counselors - A list of all counselors to be grouped. 
+ * @param {Array} students - A list of all students to be grouped.
+ * @returns A list of Group entities.
+ */
 function generateGroups(counselors, students) {
 	const num_groups = Math.floor(counselors.length / NUM_COUNSELOR);
 
@@ -191,19 +203,15 @@ function generateGroups(counselors, students) {
 	 */
 	const groups = []
 	for (let i = 0; i < num_groups; i++) {
-		const new_group = {
-			name: `Group ${i}`,
-			students: [],
-			counselors: []
-		}
+		const new_group = new Group(uuid.v1(), `Group ${i}`, '', [], [], '');
 		for (let c = 0; c < NUM_COUNSELOR; c++) {
-			new_group.counselors.push(counselors[i * NUM_COUNSELOR + c]);
+			new_group.counselor_ids.push(counselors[i * NUM_COUNSELOR + c]);
 		}
 		for (let s = 0; s < students_per_group; s++) {
-			new_group.students.push(arranged_students[i * students_per_group + s]);
+			new_group.student_ids.push(arranged_students[i * students_per_group + s]);
 		}
 		if (student_remainder > 0) {
-			new_group.students.push(arranged_students[students_per_group * num_groups + i])
+			new_group.student_ids.push(arranged_students[students_per_group * num_groups + i])
             student_remainder--;
 		}
 		groups.push(new_group);
@@ -216,9 +224,12 @@ function generateGroups(counselors, students) {
 
 	groups.forEach(group => {
 		console.log(`Group Name: ${group.name}`);
-		group.counselors.forEach(counselor => console.log(`Student ID: ${counselor.counselor_id} Name: ${counselor.name}\n`));
-		group.students.forEach(student => console.log(`Student ID: ${student.student_id} Name: ${student.name}\n`));
+		group.counselor_ids.forEach(counselor => console.log(`Student ID: ${counselor.counselor_id} Name: ${counselor.name}\n`));
+		group.student_ids.forEach(student => console.log(`Student ID: ${student.student_id} Name: ${student.name}\n`));
 	})
-
+	return groups;
 }
 
+module.exports = {
+    generateGroups
+}
