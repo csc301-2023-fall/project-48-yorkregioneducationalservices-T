@@ -53,6 +53,8 @@ Another thing that did not work well for us was we failed to make our app very p
   </figcaption>
 </figure>
 
+ A separate issue was that we had a much larger scope planned from the start and as time passed and we lowered the scope, we ended up with a lot of loose ends. There is a lot of left over frontend, backend, and schema code that is unapplicable or outdated.
+
 #### Q3(a). Planned changes
 
  * Communication: We plan to integrate our communication between the frontend and the backend, as having it completely sperate made code integration much more difficult. For example, api calls were being ogranized with out any frontend having any knowledge of their form. This led to a very sloppy integration of the two, and a last of last minute hustle to resolve bugs.
