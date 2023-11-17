@@ -6,11 +6,7 @@ import exampleTable from '../../data/example.json'
 import Schedule from '../../components/scheduleTable'
 import GroupsTable from '../../components/groupsTable'
 import Alert from '@/app/components/alert';
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
-
-const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas'), {
-    ssr: false,
-});
+import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 
 // Dummy promise to simulate API request. Remove once request implemented
 function simulateNetworkRequest() {
