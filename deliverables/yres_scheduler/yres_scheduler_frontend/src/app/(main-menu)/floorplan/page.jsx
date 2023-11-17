@@ -31,7 +31,7 @@ async function Floorplan() {
     const rooms = await getRooms();
     const activities = await getActivities();
     const curr_campus = await getCurrCampus();
-
+    console.log(curr_campus);
     return (    
         <div className='split-page'>
             <div className='left'>
@@ -43,9 +43,9 @@ async function Floorplan() {
                     <RoomsCreate currCampus={curr_campus}/>
                     <RoomsTable roomData={rooms}/>
                     <h3 className='header-title'>Activities</h3>
-                    <ActivityCreate/>
+                    <ActivityCreate currCampus={curr_campus}/>
                 </div>
-                <ActivitiesTable activityData={activities}/>
+                <ActivitiesTable currCampus={curr_campus} activityData={activities}/>
             </div>
         </div>
     )

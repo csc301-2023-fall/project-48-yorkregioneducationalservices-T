@@ -43,6 +43,7 @@ function RoomsEdit({item, show, setShow}) {
                     <Form.Label>Room Name</Form.Label>
                     <Form.Control
                         type="text"
+                        disabled
                         defaultValue={item.name} 
                         autoFocus
                     />
@@ -60,9 +61,6 @@ function RoomsEdit({item, show, setShow}) {
                     </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
-                    </Button>
-                    <Button type="submit" variant="primary">
-                        Save Changes
                     </Button>
                 </Form>
             </Modal.Body>

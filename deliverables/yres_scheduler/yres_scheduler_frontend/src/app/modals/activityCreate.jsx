@@ -20,7 +20,7 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
         show - boolean value determines if modal should be displayed
         setShow - function that toggles show
  * */
-function ActivityCreate() {
+function ActivityCreate({ currCampus }) {
     const router = useRouter();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -34,6 +34,7 @@ function ActivityCreate() {
             duration: event.target[1].value,
             type: event.target[3].checked ? "filler" : "common",
             num_occurences: event.target[4].value,
+            camp_id: currCampus.camp_ids[0],
             room_ids: [] //process_comma_separated_text(event.target[2].value);
         }
 

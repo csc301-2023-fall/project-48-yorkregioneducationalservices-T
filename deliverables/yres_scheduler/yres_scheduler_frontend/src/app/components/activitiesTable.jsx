@@ -33,9 +33,6 @@ function ActivitiesTable({ activityData }) {
     });
 
     const columns = [{
-        dataField: 'activity_id',
-        text: 'ID'
-    },{
         dataField: 'name',
         text: 'Activity Name'
     },{
