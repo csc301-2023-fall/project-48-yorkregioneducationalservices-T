@@ -65,6 +65,21 @@ async function getAllActivities() {
     });
 }
 
+async function createRoomActivities(activity_id, room_id) {
+  const queryCreateRoomActivity = `Insert into RoomActivity values ($1, $2);`;  
+
+  const values = [activity_id, room_id];
+  try {
+      const result = await client.query(queryCreateRoomActivity, values);
+
+  } catch (error) {
+      // Handle errors appropriately
+      console.error('Error while creating RoomActivities:', error);
+      throw new Error('Failed to create RoomActivities');
+  }
+
+}
+
 /** Write an Activity to database.
  * 
  */
@@ -74,15 +89,15 @@ async function createActivity(activity_id, name, duration, type, num_occurences,
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING activity_id;
     `;
-    const rquery = `INSERT INTO RoomActivity (activity_id, room_id) VALUES ($1, $2);`;
     try {
         var result = await client.query(query, [activity_id, name, duration, type, num_occurences, camp_id]);
         if (room_ids === undefined || room_ids.length === 0) {
             return true;
         }
-        for (var i=0; i<room_ids.length; i++) {
+        ids = room_ids.split(',')
+        for (id of ids) {
             try {
-                result = await client.query(rquery, [activity_id, room_ids[i]]);
+                createRoomActivities(activity_id, id);
             }
             catch (err) {
                 console.log(err);
@@ -96,6 +111,21 @@ async function createActivity(activity_id, name, duration, type, num_occurences,
     }
     // TODO: write the list of rooms of this activity
     //
+}
+
+async function clearRoomActivities(activity_id) {
+  const queryCreateRoomActivity = `Delete From RoomActivity where activity_id = $1;`;  
+
+  const values = [activity_id];
+  try {
+      const result = await client.query(queryCreateRoomActivity, values);
+
+  } catch (error) {
+      // Handle errors appropriately
+      console.error('Error while deleting RoomActivities:', error);
+      throw new Error('Failed to delete RoomActivities');
+  }
+
 }
 
 async function editActivityById(activity) {
@@ -123,14 +153,19 @@ async function editActivityById(activity) {
         ]);
 
         if (activity.room_ids !== undefined) {
-            const dquery = `DELETE FROM RoomActivity WHERE activity_id = $1 RETURNING room_id;`
-            const equery = `INSERT INTO RoomActivity (activity_id, room_id) VALUES ($1, $2);`
             try {
                 // First delete all RoomActivity related to this activity.
-                const result = await client.query(dquery, [activity.activity_id]);
+                clearRoomActivities(activity.activity_id);
                 // Then insert the new ones
-                for (var i=0; i<result.length; i++) {
-                    await client.query(equery, [activity.activity_id, result[i][0]]);
+                ids = activity.room_ids.split(',')
+                for (id of ids) {
+                    try {
+                        createRoomActivities(activity.activity_id, id);
+                    }
+                    catch (err) {
+                        console.log(err);
+                        return false;
+                    }
                 }
             }
             catch (err) {
