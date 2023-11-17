@@ -266,46 +266,44 @@ async function createStudent(student) {
         ]);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
-        if(student.friend_ids !== undefined) {
-            student.friend_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (friend_ui_id) => {
-                const friends_result = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [friend_ui_id,]);
-                const friend_id = friends_result.rows[0].student_id;
-
-                const queryInsertFriendPreferences = `
-                    INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-                    VALUES ($1, $2, $3)
-                `;
-                let larger_id, smaller_id;
-                if (larger_id > friend_id) {
-                    larger_id = student_id;
-                    smaller_id = friend_id;
-                } else {
-                    larger_id = friend_id;
-                    smaller_id = student_id;
-                }
-                await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, false]);
-            });
-        }
-    
-        if (student.enemy_ids !== undefined) {
-            student.enemy_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (enemy_ui_id) => {
-                const enemy_result = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [enemy_ui_id,]);
-                const enemy_id = enemy_result.rows[0].student_id;
-                const queryInsertFriendPreferences = `
-                    INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-                    VALUES ($1, $2, $3)
-                `;
-                let larger_id, smaller_id;
-                if (smaller_id > enemy_id) {
-                    larger_id = student_id;
-                    smaller_id = enemy_id;
-                } else {
-                    larger_id = enemy_id;
-                    smaller_id = student_id;
-                }
-                await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, true]);
-            });
-        }
+        student.friend_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (friend_ui_id) => {
+            if(friend_ui_id !== ''){
+            const result_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [friend_ui_id,]);
+            const friend_id = result_friend.rows[0].student_id;
+            const queryInsertFriendPreferences = `
+                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+                VALUES ($1, $2, $3)
+            `;
+            let larger_id, smaller_id;
+            if (student_id > friend_id) {
+                larger_id = student_id;
+                smaller_id = friend_id;
+              } else {
+                larger_id = friend_id;
+                smaller_id = student_id;
+              }
+            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, false]);
+            }
+        });
+        student.enemy_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (enemy_ui_id) => {
+            if(enemy_ui_id !== ''){
+            const result_enemy = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [enemy_ui_id,]);
+            const enemy_id = result.rows[0].student_id;
+            const queryInsertFriendPreferences = `
+                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+                VALUES ($1, $2, $3)
+            `;
+            let larger_id, smaller_id;
+            if (student_id > enemy_id) {
+                larger_id = student_id;
+                smaller_id = enemy_id;
+              } else {
+                larger_id = enemy_id;
+                smaller_id = student_id;
+              }
+            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, true]);
+            }
+        });
         return true;
     } catch (err) {
         console.log(err);
