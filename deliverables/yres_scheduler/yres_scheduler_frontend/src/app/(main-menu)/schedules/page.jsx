@@ -234,7 +234,7 @@ export default function Schedules() {
         const rooms = DUMMY_ROOM_DATA
         //rooms = getRooms()
         
-        // The room and activites non-dummy data calls are untested
+        // The schedule, schedules and groups non-dummy data calls are untested
 
         let table = []
         schedules.forEach(schedule => {
