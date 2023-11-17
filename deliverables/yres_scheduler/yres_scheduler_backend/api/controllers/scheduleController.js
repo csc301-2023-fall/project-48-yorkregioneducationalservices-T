@@ -16,11 +16,11 @@ function generateSchedule(req, res) {
 
 
     const students = studentService.getAllStudents();
-    const counselors = counselorService.getAllCounselors();
+    const counselors = counselorService.getAllCounselorsByCampus();
     const rooms = roomService.getAllRooms();
     const activities = activitiesService.getAllActivities();
 
-    // const new_schedule = scheduleService.generateSchedule(students, counselors, rooms, activities);
+    const new_schedule = scheduleService.scheduleCall(generateSchedulestudents, counselors, rooms, activities);
 
     return {
         schedule: new_schedule
