@@ -23,7 +23,7 @@ function StudentEdit({item, show, setShow, students}) {
         event.preventDefault()
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
-        if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
+        
             const bodyData = new URLSearchParams(
                 {
                     'student_ui_id': event.target[0].value, 
@@ -43,7 +43,7 @@ function StudentEdit({item, show, setShow, students}) {
             })
             window.location.reload(false);
             handleClose()
-        }
+        
     }
 
     return (
