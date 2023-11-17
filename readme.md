@@ -31,10 +31,14 @@ They can search in the table to find the interested profile, then edit through a
  * Users can also add input activities which will take place at the camp, each of which will contain data like; possible room assignment, number of occurences throughout the camp, activity name etc.
  * On another page, the user can ask to generate a schedule, which will return as a downloadable file csv file, where students are grouped according to their specifications (i.e. pairs of students to keep apart/together, etc.) in groups of approximately 20 and between 1 and 2 counselors.
 
- ## Development requirements (To Be Determined)
- * What are the technical requirements for a developer to set up on their machine or server (e.g. OS, libraries, etc.)?
- * Briefly describe instructions for setting up and running the application. You should address this part like how one would expect a README doc of real-world deployed application would be.
- * You can see this [example](https://github.com/alichtman/shallow-backup#readme) to get started.
+ ## Development requirements
+ 1. Ensure the latest version of [Node.JS](https://nodejs.org/en) with NPM is installed.
+ 2. Clone the team repository: `https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git`
+ 3. Navigate to the './deliverables/yres_scheduler/yres_scheduler_backend' directory and install dependencies: `npm install`.
+ 4. Start the backend API `node server.js`.
+ 5. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install`.
+ 6. Then build the frontend application: `npm run build`.
+ 7. Finally, start the frontend server: `npm start`.
  
  ## Deployment and Github Workflow
  * Within the frontend codebase, since we are working with Next.js, we have been using file-based routing, meaning routes are named by their folder, rather than the actual filename. Thus, each high level page file is simply named `page.jsx`, but stored within folder with names such as, `profiles`, `schedules` etc. 
