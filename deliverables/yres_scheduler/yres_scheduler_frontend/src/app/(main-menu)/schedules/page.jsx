@@ -222,16 +222,16 @@ export default function Schedules() {
         }
         //API call to generate the schedule
         //getSchedule()
-        const schedules = DUMMY_SCHEDULE_DATA
+        let schedules = DUMMY_SCHEDULE_DATA
         //schedules = getSchedules()
         //API call to Activity
-        const activities = DUMMY_ACTIVITY_DATA
+        let activities = DUMMY_ACTIVITY_DATA
         //activities = getActivities()
         //API call to Group
-        const groups = DUMMY_GROUP_DATA
+        let groups = DUMMY_GROUP_DATA
         //groups = getGroups()
         //API call to Room
-        const rooms = DUMMY_ROOM_DATA
+        let rooms = DUMMY_ROOM_DATA
         //rooms = getRooms()
         
         // The schedule, schedules and groups non-dummy data calls are untested
