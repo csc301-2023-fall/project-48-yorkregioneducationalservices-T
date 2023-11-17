@@ -1,9 +1,9 @@
 # YRES Scheduler 
 
-​​<img width="500" alt="Screenshot 2023-09-29 at 9 43 11 PM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/5f692ff7-e83c-44dc-9ed7-4ba49f608887">
+<img width="500" alt="Screenshot 2023-11-17 at 12 42 34 AM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/31d3ab77-02c4-44a2-9460-b0783665c2bb">
 
 
-http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/
+[Link Deployed App](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/)
 ## Partner Intro
 Partner Contact Information:
 Hugo Quan: Web Developer co-op, primary point of contact
