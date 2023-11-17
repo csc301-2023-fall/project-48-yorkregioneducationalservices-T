@@ -10,7 +10,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the generateSchedule function.
      */
-    app.post('/schedule/generate/', async (req, res) => {
+    app.get('/schedule/generate/', async (req, res) => {
         var result;
         try {
             result = await cheduleService.generateSchedule(req, res)

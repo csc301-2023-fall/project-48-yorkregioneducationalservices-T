@@ -1,9 +1,9 @@
 
-const scheduleService = require('../services/scheduleService');
+// const scheduleService = require('../services/schedulingService');
 const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
 const roomService = require('../services/roomService');
-const activitiesService = require('../services/activitiesService');
+const activitiesService = require('../controllers/activityController');
 
 /**
  * Generates a new schedule.
@@ -19,7 +19,7 @@ function generateSchedule(req, res) {
     const rooms = roomService.getAllRooms();
     const activities = activitiesService.getAllActivities();
 
-    const new_schedule = scheduleService.generateSchedule(students, counselors, rooms, activities);
+    // const new_schedule = scheduleService.generateSchedule(students, counselors, rooms, activities);
 
     return {
         schedule: new_schedule

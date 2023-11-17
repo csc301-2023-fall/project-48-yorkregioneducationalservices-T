@@ -33,6 +33,7 @@ async function createActivity(req, res) {
         throw Error('createActivity - Bad form: missing parameter');
     }
     var succeed = await db.createActivity(uuid.v1(), name, duration, type, num_occurences, camp_id, room_ids);
+    console.log(succeed);
     return {
         status: succeed ? 'Success' : 'failure'
     };
