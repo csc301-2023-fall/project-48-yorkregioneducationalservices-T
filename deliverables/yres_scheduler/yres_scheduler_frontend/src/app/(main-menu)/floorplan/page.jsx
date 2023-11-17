@@ -31,7 +31,6 @@ async function Floorplan() {
     const rooms = await getRooms();
     const activities = await getActivities();
     const curr_campus = await getCurrCampus();
-    console.log(curr_campus);
     return (    
         <div className='split-page'>
             <div className='left'>
