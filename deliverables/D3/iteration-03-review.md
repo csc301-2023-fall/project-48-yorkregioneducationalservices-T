@@ -1,4 +1,4 @@
-# Your Team Number and Name
+# 48 YRES (York Regional Educational Services) 
 
  > _Note:_ This document is meant to be written during (or shortly after) your review meeting, which should happen fairly close to the due date.      
  >      
@@ -22,9 +22,9 @@ List **process-related** (i.e. team organization and how you work) decisions and
  * Give a supporting argument about what makes you think that way.
  * Feel free to refer/link to process artifact(s).
 
-2. Our development process is meticulously structured to prevent conflicts between teams by separating both backend and frontend code. We leverage Github Workflows for continuous integration tests, employing four primary automation workflows. These encompass CI for the backend, CD for the backend, CI/CD for the database, and CI/CD for the frontend—all seamlessly integrated onto an EC2 instance. These workflows are triggered by various actions such as pull requests, pushes/merges to the main branch, or specific file alterations.
+2. We leverage Github Workflows for continuous integration tests, employing four primary automation workflows. These encompass CI for the backend, CD for the backend, CI/CD for the database, and CI/CD for the frontend—all seamlessly integrated onto an EC2 instance. These workflows are triggered by various actions such as pull requests, pushes/merges to the main branch, or specific file alterations.
 
- * This streamlined approach ensures effortless and automated deployment, maintaining a continuously operational main version while validating every build before integration into the main branch. This not only simplifies deployment but also guarantees a stable and reliable codebase at all times and a single version of a database that everyone can work with. https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/actions TODO format ur to say link
+ * This streamlined approach ensures effortless and automated deployment, maintaining a continuously operational main version while validating every build before integration into the main branch. This not only simplifies deployment but also guarantees a stable and reliable codebase at all times and a single version of a database that everyone can work with. [GitHub Actions](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/actions?page=2)
 ![Screenshot 2023-11-16 at 12 19 19 AM](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/cc3f71ee-a7b2-4b1a-b38f-0b997a550ff7)
 
    

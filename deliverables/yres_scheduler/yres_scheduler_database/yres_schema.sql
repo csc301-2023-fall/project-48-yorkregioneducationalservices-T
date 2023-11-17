@@ -148,8 +148,8 @@ create table Activity (
     -- room_id : The id of the room
     -- activty_id : The id of the activity
 create table RoomActivity (	
-    activity_id uuid references Activity,
-    room_id uuid references Room,
+    activity_id uuid references Activity on delete cascade,
+    room_id uuid references Room on delete cascade,
     primary key (activity_id, room_id)
 );
 

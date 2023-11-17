@@ -119,22 +119,23 @@ async function getStudentIds(group) {
 /**
  * Retrieves all CampGroups from the database and maps them to Group objects.
  * 
- * @param {string} campus_id - The id of the campus under which to retrieve the groups.
  * @returns {Promise<Array<Group>>} A promise that resolves with an array of Group objects.
  */
-async function getGroupsByCampusId(campus_id) {
-
-    var all_groups;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(
-            `SELECT * 
+/* OLD QUERY IN CASE WE DO GET BY CAMPUS ID AGAIN
+`SELECT * 
             FROM CampGroup 
             WHERE EXISTS (
                 SELECT *
                 FROM Camp
                 WHERE CampGroup.camp_id = Camp.camp_id AND Camp.campus_id = '${campus_id}'
-                );`, function (err, result) {
+                );`
+*/
+async function getAllGroups() {
+
+    var all_groups;
+    return new Promise(async (resolve, reject) => {
+        const result = await new Promise((queryResolve, queryReject) => {
+            client.query(`SELECT * FROM CampGroup;`, function (err, result) {
                 if (err) {
                     queryReject(err);
                 } else {
@@ -197,7 +198,7 @@ async function deleteAllGroups() {
 
 module.exports = {
     getGroupById,
-    getGroupsByCampusId,
+    getAllGroups,
     createGroup,
     deleteAllGroups
 }

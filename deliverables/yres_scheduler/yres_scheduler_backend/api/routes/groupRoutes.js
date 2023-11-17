@@ -18,14 +18,14 @@ module.exports = (app) => {
 
     /**
      * Route to get all groups.
-     * @name GET /group/getAllByCampusID/
+     * @name GET /group/getAll/
      * @function
      * @memberof module:routes/groupRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllGroups function.
      */
-    .get('/group/getAllByCampusID/', async (req, res) => {
+    .get('/group/getAll/', async (req, res) => {
         const all_groups = await groupService.getAllGroups(req, res);
         res.send(all_groups);
     })
