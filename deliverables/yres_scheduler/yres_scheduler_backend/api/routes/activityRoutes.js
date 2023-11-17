@@ -22,11 +22,9 @@ module.exports = (app) => {
     .post('/activities/createActivity/', async (req, res) => {
         try {
             const resp = await activityService.createActivity(req, res);
-            if (resp === true){
-                res.status(200).send('Success');
-            } else {
-                res.status(200).send('Failure');
-            }
+            
+            res.status(200).send(resp);
+            
             
         } catch (error) {
             res.status(500).send(error);
