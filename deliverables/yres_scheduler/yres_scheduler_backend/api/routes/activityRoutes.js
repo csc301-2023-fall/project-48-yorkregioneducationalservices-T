@@ -32,6 +32,16 @@ module.exports = (app) => {
             res.status(500).send(error);
         }
     })
+    .post('/activities/editActivityById/', async (req, res) => {
+        try {
+            const resp = await activityService.editActivityById(req, res);
+            res.send(resp);
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(error);
+        }
+    })
     /**
      * 
      */
