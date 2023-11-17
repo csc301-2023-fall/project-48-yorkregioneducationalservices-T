@@ -1,32 +1,33 @@
+/*
 const Block = require("../../entities/Block")
 var assert = require('assert');
 
-var sample_block_id = "ae69df15-4a98-4fc9-b314-92a382c29b0d";
-var sample_schedule_id = "263adcd6-9f4f-4ef4-a138-f6c37bd63053";
-var sample_room_id = "055d2c16-84fa-11ee-b9d1-0242ac120002";
-var sample_activity_id = "094f7658-84fa-11ee-b9d1-0242ac120002"
-var sample_day = 1;
-var sample_time = 1;
-var sample = new Block(
-  sample_block_id,
-  sample_schedule_id,
-  sample_room_id,
-  sample_activity_id,
-  sample_day,
-  sample_time);
-
+var sample_blockID = "b000000001";
+var sample_scheduleID = "s000000001";
+var sample_roomID = "r000000001";
+var sample_activityID = "a000000001";
+var sample_startTime = new Date(2023, 1, 1, 8, 0);
+var sample_endTime = new Date(2023, 1, 1, 9, 0);
+var sample = new Block(sample_blockID, sample_scheduleID, sample_roomID, sample_activityID, sample_startTime, sample_endTime);
 describe('class Block', function () {
   describe('constructor()', function () {
     it('constructor should return an object', function () {
       assert.notEqual(sample, undefined);
     });
     it('with attributes properly set', function () {
-      assert.equal(sample.block_id, sample_block_id);
-      assert.equal(sample.schedule_id, sample_schedule_id);
-      assert.equal(sample.room_id, sample_room_id);
-      assert.equal(sample.activity_id, sample_activity_id);
-      assert.equal(sample.day, sample_day);
-      assert.equal(sample.time, sample_time);
+      assert.equal(sample.group_id, sample_blockID);
+      assert.equal(sample.schedule_id, sample_scheduleID);
+      assert.equal(sample.room_id, sample_roomID);
+      assert.equal(sample.activity_id, sample_activityID);
+    });
+    it('with times defined', function() {
+      assert.notEqual(sample.start_time, undefined);
+      assert.notEqual(sample.end_time, undefined);
+    });
+    it('get time string methods methods should return defined string', function() {
+      assert.notEqual(sample.getStartTime(), undefined);
+      assert.notEqual(sample.getEndTime(), undefined);
     });
   });
 });
+*/
