@@ -1,30 +1,24 @@
 const gs = require("./groupingService");
-const Block = require("../entities/Block");
-const Schedule = require("../entities/Schedule");
 const Activity = require("../entities/Activity");
-const Group = require("../entities/Group");
-const Room = require("../entities/Room");
 const uuid = require('uuid');
 
 // THESE MIGHT BE REMOVED OR MOVED TO CONFIG LATER
 const DAY = 5;
 const TIME = 8;
 const MAX_ATTEMPT = 1000000;
-/*
+
 // THESE WILL BE REMOVED ONCE ALL ENTITIES ARE READY
 class Block {
-    constructor(room_id, activity, duration) {
+    constructor(block_id, schedule_id, room_id, activity, day, time) {
+        this.block_id = block_id;
+        this.schedule_id = schedule_id;
         this.room_id = room_id;
         this.activity = activity;
-        this.duration = duration;
+        this.day = day;
+        this.time = time;
     }
 }
-class Group {
-    constructor(name) {
-        this.name = name;
-        this.schedule = [];
-    }
-}
+/*
 class Activity {
     constructor(activity_id, name, duration, type, num_occurences, room_ids) {
         this.activity_id = activity_id;
@@ -61,8 +55,7 @@ function scheduleCall(students, counselors, activities, rooms) {
     var groups = gs.generateGroups(counselors, students);
     console.log("Grouping complete");
     console.log("Start scheduling algorithm...")
-    scheduleAlgorithm(groups, activities, rooms);
-    console.log("Scheduling complete");
+    return scheduleAlgorithm(groups, activities, rooms);
 }
 
 
@@ -215,5 +208,5 @@ function scheduleAlgorithm(groups, activities, rooms) {
             }
         }
     }
-
+    return groups;
 }

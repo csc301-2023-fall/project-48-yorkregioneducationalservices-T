@@ -1,10 +1,20 @@
 const Student = require("../entities/Student");
 const Counselor = require("../entities/Counselor");
-const Group = require("../entities/Group");
 const uuid = require('uuid');
 
 const MAX_STUDENT = 7;
 const NUM_COUNSELOR = 1;
+class Group {
+    constructor(group_id, name, schedule_id, student_ids, counselor_ids, camp_id) {
+        this.group_id = group_id;
+        this.name = name;
+        this.schedule_id = schedule_id;
+        this.student_ids = student_ids;
+        this.counselor_ids = counselor_ids;
+        this.camp_id = camp_id;
+        this.schedule = undefined;
+    }
+}
 /** DUMMY DATA STARTS HERE
 const DUMMY_STUDENTS = [{
 	student_id: 1,
@@ -231,5 +241,6 @@ function generateGroups(counselors, students) {
 }
 
 module.exports = {
+	Group,
     generateGroups
 }
