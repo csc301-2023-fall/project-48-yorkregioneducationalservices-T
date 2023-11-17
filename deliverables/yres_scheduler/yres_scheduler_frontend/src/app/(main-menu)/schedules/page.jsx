@@ -6,6 +6,7 @@ import exampleTable from '../../data/example.json'
 import Schedule from '../../components/scheduleTable'
 import GroupsTable from '../../components/groupsTable'
 import Alert from '@/app/components/alert';
+const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas'), {
     ssr: false,
@@ -142,6 +143,58 @@ export default function Schedules() {
     const [data, setData] = React.useState([]);
     const [groupData, setGroupData] = React.useState([]);
     
+    async function getRooms() {
+       fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("rooms/getAllRooms/"), {
+        method: "GET"
+       })
+       .then(async (response) =>{
+            if(!response.ok){
+                throw new Error("RESPONSE ERROR")
+            }
+            const responseBody = await response.text()
+            const parsedResponse = JSON.parse(responseBody)
+            console.log(responseBody)
+       })
+    }
+    async function getActivities() {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/activities/getAllActivities/"), {
+         method: "GET"
+        })
+        .then(async (response) =>{
+             if(!response.ok){
+                 throw new Error("RESPONSE ERROR")
+             }
+             const responseBody = await response.text()
+             const parsedResponse = JSON.parse(responseBody)
+             console.log(responseBody)
+        })
+    }
+    async function getSchedules() {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/schedule/getAll/"), {
+         method: "GET"
+        })
+        .then(async (response) =>{
+             if(!response.ok){
+                 throw new Error("RESPONSE ERROR")
+             }
+             const responseBody = await response.text()
+             const parsedResponse = JSON.parse(responseBody)
+             console.log(responseBody)
+        })
+     }
+    async function getGroups() {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/group/getAll/"), {
+        method: "GET"
+    })
+    .then(async (response) =>{
+            if(!response.ok){
+                throw new Error("RESPONSE ERROR")
+            }
+            const responseBody = await response.text()
+            const parsedResponse = JSON.parse(responseBody)
+            console.log(responseBody)
+    })
+    }
     // API request to get Data to fill both tables
     const getTableData = () => {
         simulateNetworkRequest().then(() => {
@@ -158,6 +211,7 @@ export default function Schedules() {
         //API call to generate the schedule
         //API call to Schedule
         const schedules = DUMMY_SCHEDULE_DATA
+        getRooms()
         //API call to Activity
         const activities = DUMMY_ACTIVITY_DATA
         //API call to Group
