@@ -17,14 +17,13 @@ async function getGroup(req, res) {
 }
 
 /**
- * Retrieves all groups under a campus.
+ * Retrieves all groups.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {Object} - An object containing an array of groups with student and counselor ids.
  */
 async function getAllGroups(req, res) {
-    const campus_id = req.body.campus_id;
-    const allgroups = await groupService.getAllGroups(campus_id);
+    const allgroups = await groupService.getAllGroups();
 
     return {
         groups: allgroups.map((group) => { 

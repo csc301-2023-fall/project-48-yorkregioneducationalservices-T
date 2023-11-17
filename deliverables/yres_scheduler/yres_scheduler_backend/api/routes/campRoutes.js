@@ -18,14 +18,14 @@ module.exports = (app) => {
 
     /**
      * Route to get all camps.
-     * @name GET /camp/getAllByCampusID/
+     * @name GET /camp/getAll/
      * @function
      * @memberof module:routes/campRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllCamps function.
      */
-    .get('/camp/getAllByCampusID/', async (req, res) => {
+    .get('/camp/getAll/', async (req, res) => {
         const all_camps = await campService.getAllCamps(req, res);
         res.send(all_camps);
     })

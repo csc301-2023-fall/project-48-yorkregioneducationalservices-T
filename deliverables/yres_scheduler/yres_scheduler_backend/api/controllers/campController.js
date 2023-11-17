@@ -18,14 +18,13 @@ async function getCamp(req, res) {
 }
 
 /**
- * Retrieves all camps in a campus.
+ * Retrieves all camps.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @returns {Object} - An object containing an array of camps with activity ids.
  */
 async function getAllCamps(req, res) {
-    const campus_id = req.body.campus_id;
-    const allcamps = await campService.getAllCamps(campus_id);
+    const allcamps = await campService.getAllCamps();
 
     return {
         camps: allcamps.map((camp) => { 
