@@ -1,10 +1,5 @@
 # 48 YRES (York Regional Educational Services) 
 
- > _Note:_ This document is meant to be written during (or shortly after) your review meeting, which should happen fairly close to the due date.      
- >      
- > _Suggestion:_ Have your review meeting a day or two before the due date. This way you will have some time to go over (and edit) this document, and all team members should have a chance to make their contribution.
-
-
 ## Iteration 3 - Review & Retrospect
 
  * When: Thursday November 16, 2023
