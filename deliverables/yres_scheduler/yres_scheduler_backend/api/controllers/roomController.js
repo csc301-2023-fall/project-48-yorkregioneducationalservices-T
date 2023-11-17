@@ -41,7 +41,7 @@ async function getAllRooms(req, res) {
 async function createRoom(req, res) {
     const name = req.body.name;
     const campus_id = req.body.campus_id;
-    if (isNaN(name) || isNaN(campus_id)) {
+    if (!name || !campus_id) {
         console.log('createRoom - Bad form: missing parameter');
         throw Error('createRoom - Bad form: missing parameter');
     }

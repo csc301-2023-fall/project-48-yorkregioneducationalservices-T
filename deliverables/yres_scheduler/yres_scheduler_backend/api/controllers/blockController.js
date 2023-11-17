@@ -1,5 +1,11 @@
 const blockService = require('../services/blockService');
 
+/**
+ * Retrieves a block by ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a block.
+ */
 async function getBlock(req, res) {
     const block_id = req.body.block_id;
 
@@ -10,6 +16,12 @@ async function getBlock(req, res) {
     };
 }
 
+/**
+ * Retrieves all blocks.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing an array of blocks with start and end time strings.
+ */
 async function getAllBlocks(req, res) {
     const allblocks = await blockService.getAllBlocks();
 
@@ -24,6 +36,12 @@ async function getAllBlocks(req, res) {
     };
 }
 
+/**
+ * Creates a new block.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
 async function createBlock(req, res) {
     const schedule_id = req.body.schedule_id;
     const room_id = req.body.room_id;
@@ -39,6 +57,12 @@ async function createBlock(req, res) {
     };
 }
 
+/**
+ * Deletes all blocks.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
 async function deleteAllBlocks(req, res) {
     const status = await blockService.deleteAllBlocks();
 

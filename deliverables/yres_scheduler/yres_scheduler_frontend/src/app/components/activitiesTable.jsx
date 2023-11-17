@@ -1,13 +1,17 @@
+'use client';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import YresTable from './table'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import ActivityEdit from '../modals/activityEdit';
+import { useRouter } from 'next/navigation'
+const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /** 
+ * Activities Table that displays:
  * class Activity {
    *activity_id (string)	// The auto generated unique ID
     name (string) 		// <UI> The name of the activity
@@ -16,8 +20,8 @@ import ActivityEdit from '../modals/activityEdit';
     num_occurences (int) 	// <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
 }
 */
-function ActivitiesTable() {
-    // Dummy state data. TODO: Replace with GET data api call
+function ActivitiesTable({ activityData }) {
+    const router = useRouter();
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         activity_id: -1,
@@ -27,22 +31,7 @@ function ActivitiesTable() {
         type: null,
         num_occurences: -1
     });
-    const [activityData, setActivityData] = useState([{
-        activity_id: 0,
-        name: 'Session',
-        duration: 100,
-        room_ids: [1, 3],
-        type: 'filler',
-        num_occurences: 5
-    },
-    {
-        activity_id: 1,
-        name: 'Se',
-        duration: 10,
-        room_ids: [],
-        type: 'filler',
-        num_occurences: 5
-    }]);
+
     const columns = [{
         dataField: 'activity_id',
         text: 'ID'
@@ -65,16 +54,30 @@ function ActivitiesTable() {
         dataField: 'actions',
         text: 'Actions'
     }]
+
+    const deleteActivity = (id) => {
+        fetch(`${URI}/activities/deleteActivityById/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ activity_id: id })
+        })
+        .then(res => {
+            if (res.status === 200) {
+                router.refresh();
+                return res.json();
+            } else {
+                // Show error alert
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     activityData.forEach(item => {
         //state for modal display
         const showEditModal = () => {
             setEditItem(item);
             setShowEdit(true);
-        }
-        const handleDelete = () =>{
-            /**
-             * delete logic
-             */
         }
         item.actions = (
             <div className='table-actions'>
@@ -90,7 +93,7 @@ function ActivitiesTable() {
                     placement="right-start"
                     overlay={<Tooltip>Delete Activity</Tooltip>}
                 >
-                <Button variant="danger" onClick={handleDelete} className='action-button'>
+                <Button variant="danger" onClick={() => deleteActivity(item.activity_id)} className='action-button'>
                     <BsTrash />
                 </Button>
             </OverlayTrigger>

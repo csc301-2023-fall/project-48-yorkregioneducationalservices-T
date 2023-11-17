@@ -1,5 +1,10 @@
 const db = require('../db/groupDbPlugin');
 
+/**
+ * Retrieves a group object by their ID.
+ * @param {string} group_id - The ID of the group to retrieve.
+ * @returns {object} - The group object.
+ */
 function getGroup(group_id) {
     var group = db.getGroupById(group_id);
 
@@ -7,16 +12,33 @@ function getGroup(group_id) {
 
 }
 
+/**
+ * Retrieves all groups under a given campus from the database.
+ *
+ * @param {string} campus_id - The campus id under which to retrieve the groups.
+ * @returns {Promise<Array>} - A promise that resolves to an array of group objects.
+ */
 async function getAllGroups(campus_id) {
     var all_groups = await db.getGroupsByCampusId(campus_id);
     return all_groups;
 }
 
+/**
+ * Creates a new group in the database.
+ *
+ * @param {string} camp_id - The id of the camp under which the group object is to be created.
+ * @returns {Promise<boolean>} - A promise that resolves to true if the creation succeeded.
+ */
 function createGroup(camp_id) {
     var group = db.createGroup(camp_id);
     return group;
 }
 
+/**
+ * Deletes all groups in the database.
+ *
+ * @returns {Promise<boolean>} - A promise that resolves to true if the deletion succeeded.
+ */
 function deleteAllGroups() {
     var group = db.deleteAllGroups();
     return group;

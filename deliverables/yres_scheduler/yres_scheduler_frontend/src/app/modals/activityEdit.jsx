@@ -5,8 +5,18 @@ import Button from 'react-bootstrap/Button';
 
 /**
  * Editing Modal for Activities
- * 
- * */
+ * class Activity {
+   *activity_id (string)	// The auto generated unique ID
+    name (string) 		// <UI> The name of the activity
+    duration (int) 		// <UI> The number of hours this activity takes
+    type (string) 		// <UI> The type of the activity (filler / common)
+    num_occurences (int) 	// <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
+}
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - activity object to be edited
+ **/
 function ActivityEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
     //state for modal values
@@ -61,7 +71,9 @@ function ActivityEdit({item, show, setShow}) {
                     <Form.Label>(optional) Possible Rooms (comma seperated)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.room_ids.join(",")} 
+                        disabled
+                        placeholder={'Disabled'}
+                        defaultValue={''/*item.room_ids.join(",")*/}
                     />
                     </Form.Group>
                     <Form.Group

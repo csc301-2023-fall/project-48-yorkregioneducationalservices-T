@@ -66,7 +66,9 @@ const DUMMY_COUNSELOR_DATA = [{
     lastname: 'Pinkman',
     campus_id: '12',
 }]
-
+/**
+ * The Profiles page that allows for viewing, adding and editing student and counselor profiles
+**/
 function Profiles() {
     const [currType, setCurrType] = React.useState(PROFILE_TYPES[0]);
     const [profileData, setProfileData] = useState([]);

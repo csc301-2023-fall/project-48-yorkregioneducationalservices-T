@@ -2,6 +2,9 @@ import Alert from '@/app/components/alert';
 
 /**
  * Helper function to sort rows of a schedule by their time attribute. Preconditions: Schedule uses 24hr time.
+ * Props: 
+        a - string in time format i.e. 9:00
+        b - string in time format i.e. 9:00
  */
 export function sort_times(a, b) {
     let startA = parseInt(a.time.split(":")[0]);
@@ -17,6 +20,11 @@ export function sort_times(a, b) {
 
 /**
  * Helper function to check if a list of names are pre-exisitng students
+ * Props: 
+        string - a string with a list of names to be validated
+        field - the field this is being called for
+        setError - the state function to be called if an error is found
+        students - a list of all existing students
  */
 export function validRelationship(string, field, setError, students) {
     if(string === ''){
@@ -31,4 +39,15 @@ export function validRelationship(string, field, setError, students) {
         }
     }
     return true
+}
+
+/**
+ * Helper function to break down a comma separated string of inputs
+ * into a properly formatted list
+ * 
+ * Props:
+ *      input - a string of inputs separated by commas
+ */
+export function process_comma_separated_text(input) {
+    return input.split(',').map(s => s.trim().replace(/\s/, ' '));
 }

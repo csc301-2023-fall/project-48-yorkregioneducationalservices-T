@@ -7,7 +7,11 @@ import { validRelationship } from '@/app/helper';
 
 /**
  * Editing Modal for Students
- * 
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - student object to be edited
+        students - a list of all student objects with attributes described above
  * */
 function StudentEdit({item, show, setShow, students}) {
     const [error, setError] = useState(<></>);

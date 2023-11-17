@@ -2,7 +2,11 @@ const Block = require("../entities/Block");
 const uuid = require('uuid');
 const { client } = require('./db');
 
-
+/**
+ * Maps a row from the Block table to a Block object.
+ * @param {Object} row - The row from the Block table.
+ * @returns {Block} A new Block object.
+ */
 function mapRowToBlock(row) {
     var start_hours = row.start_time.slice(0, 2);
     var start_minutes = row.start_time.slice(3, 5);
@@ -22,7 +26,13 @@ function mapRowToBlock(row) {
     );
 }
 
-
+/**
+ * Retrieves a block from the database by their ID.
+ *
+ * @param {string} block_id - The ID of the block to retrieve.
+ * @returns {Promise<Block>} A Promise that resolves with the retrieved block object.
+ * @throws {Error} If there was an error retrieving the block from the database.
+ */
 async function getBlockById(block_id) {
 
     var schedule_id;
@@ -56,6 +66,11 @@ async function getBlockById(block_id) {
     });
 }
 
+/**
+ * Retrieves all Blocks from the database and maps them to Block objects.
+ * 
+ * @returns {Promise<Array<Block>>} A promise that resolves with an array of Block objects.
+ */
 async function getAllBlocks() {
 
     var all_blocks;
@@ -110,6 +125,12 @@ async function createBlock(schedule_id, room_id, activity_id, start_time, end_ti
     });
 }
 
+/**
+ * Deletes all Blocks in the database.
+ * @async
+ * @function deleteAllBlocks
+ * @returns {Promise<boolean>} - Returns a Promise that resolves to true if the deletion succeeded.
+ */
 async function deleteAllBlocks() {
     return new Promise((resolve, reject) => {
         client.query(`DELETE FROM Block;`, function (err, result) {

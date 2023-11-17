@@ -31,6 +31,11 @@ module.exports = class Camp {
         this.activity_ids.add(newActivityID);
     }
 
+    /**
+     * Get the activiies in a list.
+     * 
+     * @returns activity_ids as an ordered list.
+     */
     getActivityIds() {
         return [...this.activity_ids];
     }

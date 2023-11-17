@@ -1,82 +1,51 @@
-'use client';
 import * as React from 'react';
-import { useState } from 'react';
-import { Button } from 'react-bootstrap';
 import RoomsTable from '@/app/components/roomsTable';
 import ActivitiesTable from '../../components/activitiesTable';
 import ActivityCreate from '@/app/modals/activityCreate';
 import RoomsCreate from '@/app/modals/roomsCreate';
-import dynamic from 'next/dynamic';
+import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
+const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
-const FloorPlanCanvas = dynamic(() => import('../../components/floorPlanCanvas'), {
-    ssr: false,
-});
+// GET rooms frontend server side
+async function getRooms() {
+    const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
+    const data = await res.json();
+    return data.rooms;
+}
 
-function Floorplan() {
-    const [showActivityAdd, setshowActivityAdd] = useState(false);
-    const [showRoomsAdd, setShowRoomsAdd] = useState(false);
+// GET activities frontend server side
+async function getActivities() {
+    const res = await fetch(`${URI}/activities/getAllActivities/`, { cache: 'no-store' });
+    const data = await res.json();
+    return data.activities;
+}
 
-    /* Multiple Campus Code
-    const [currCampus, setCampus] = React.useState('StGeorge');
-    const DUMMY_CAMPUS_DATA = [{
-        campus_id: 0,
-        name: 'StGeorge',
-        camp_ids: [],
-        room_ids: [],
-    }, {
-        campus_id: 1,
-        name: 'Mississauga',
-        camp_ids: [],
-        room_ids: [],
-    },{
-        campus_id: 2,
-        name: 'Scarborough',
-        camp_ids: [],
-        room_ids: [],
-    }]
-    const handleSelectType = (e) => {
-        setCampus(e);
-    }
-    */
+// GET current campus frontend server side
+async function getCurrCampus() {
+    const res = await fetch(`${URI}/campus/getAll/`, { cache: 'no-store' });
+    const data = await res.json();
+    return data.campuses[0];
+}
+
+async function Floorplan() {
+    const rooms = await getRooms();
+    const activities = await getActivities();
+    const curr_campus = await getCurrCampus();
 
     return (    
         <div className='split-page'>
             <div className='left'>
-                {/* Multiple Campus Code
-                    <RefinedDropdown 
-                        handleSelect={handleSelectType}
-                        displayText={currCampus}
-                        groups={DUMMY_CAMPUS_DATA.map(campus => campus.name)}
-                    />
-                    <div className='left-align'>
-                        <Button onClick={handleShow} variant="primary"><FaPlus /> Add a new campus</Button>
-                        <Button variant="danger"><BsTrash /> Delete this campus</Button>
-                    </div>
-                */} 
-                <FloorPlanCanvas/>
+                <FloorplanCanvas/>
             </div>
             <div className='right'>
                 <div className='right-align'>
-                    <h3 className='header-title '>Rooms</h3>
-                    <Button onClick={() => setShowRoomsAdd(true)} 
-                            variant="primary">
-                        Add Room
-                    </Button>
-                    <RoomsCreate 
-                        show={showRoomsAdd}
-                        setShow={setShowRoomsAdd}/>
-                    <RoomsTable/>
-                    <h3 className='header-title '>Activities</h3>
-                    <Button onClick={() => setshowActivityAdd(true)} 
-                            variant="primary">
-                        Add Activity
-                    </Button>
-                    <ActivityCreate
-                        show={showActivityAdd}
-                        setShow={setshowActivityAdd}
-                    />
+                    <h3 className='header-title'>Rooms</h3>
+                    <RoomsCreate currCampus={curr_campus}/>
+                    <RoomsTable roomData={rooms}/>
+                    <h3 className='header-title'>Activities</h3>
+                    <ActivityCreate/>
                 </div>
-                <ActivitiesTable/>
+                <ActivitiesTable activityData={activities}/>
             </div>
         </div>
     )
