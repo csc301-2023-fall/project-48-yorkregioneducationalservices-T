@@ -1,5 +1,6 @@
 
 const db = require('../db/psqlDbPlugin');
+const schedb = require('../db/scheduleDbPlugin');
 const Schedule = require('../entities/Schedule');
 const crypto = require('crypto');
 
@@ -26,6 +27,17 @@ function generateSchedule(camp_id, start_time, name) {
 
 }
 
+/**
+ * Retrieves all schedules (should be only one) from the database.
+ *
+ * @returns {Promise<Array>} - A promise that resolves to an array of schedule objects.
+ */
+async function getAllSchedules() {
+    var all_schedules = await schedb.getAllSchedules();
+    return all_schedules;
+}
+
 module.exports = {
-    generateSchedule
+    generateSchedule,
+    getAllSchedules
 }

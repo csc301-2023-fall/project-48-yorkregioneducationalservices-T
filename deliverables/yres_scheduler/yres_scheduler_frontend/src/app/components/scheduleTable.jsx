@@ -8,26 +8,17 @@ import { CSVLink } from "react-csv";
 import Button from 'react-bootstrap/Button';
 import RefinedDropdown from './refinedDropDowns'
 import Alert from './alert'
-/**
- * Helper function to sort rows of a schedule by their time attribute. Preconditions: Schedule uses 24hr time.
- */
-function sort_times(a, b) {
-    let startA = parseInt(a.time.split(":")[0]);
-    let startB = parseInt(b.time.split(":")[0]);
-    if (startA < startB) {
-        return -1;
-    }
-    if (startA > startB) {
-        return 1;
-    }
-    return 0;
-}
+import { sort_times } from '@/app/helper';
 
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
  * within this function.
- */
-export default function Schedule({ schedule }) {
+ *Props: 
+        schedule - a list of schedule objects with the attributes: classNum (group id), time, location, and name. 
+        These are matched to columns in the table
+        generateSchedule - a function that makes the necesary calls and computation to create schedule
+**/
+export default function Schedule({schedule, generateSchedule}) {
     const groups = new Set();
     groups.add("Master Sched"); // Holds the possible camp groups to be displayed in the dropdown
     schedule.forEach((row) => groups.add(row.classNum));
@@ -39,7 +30,7 @@ export default function Schedule({ schedule }) {
     const tempSched = schedule.filter((row) => DisplaySched == "Master Sched" || DisplaySched == row.classNum);
     tempSched.sort(sort_times);
     const display_data = tempSched.map((row, rowIndex) => { 
-        return {id: rowIndex, time: row.time, location: row.location, activity: row.name, group: row.classNum }
+        return {group: row.classNum, time: row.time, location: row.location, activity: row.name }
     });
     /**
      * Handler for dropdown click
@@ -53,8 +44,8 @@ export default function Schedule({ schedule }) {
     const handleShow = () => setShow(true);
     
     const columns = [{
-        dataField: 'id',
-        text: 'ID'
+        dataField: 'group',
+        text: 'Group ID'
     },{
         dataField: 'time',
         text: 'Time'
@@ -64,9 +55,6 @@ export default function Schedule({ schedule }) {
     }, {
         dataField: 'activity',
         text: 'Activity Name'
-    }, {
-        dataField: 'group',
-        text: 'Group ID'
     }];
 
     const rowEvents = {
@@ -76,6 +64,7 @@ export default function Schedule({ schedule }) {
         },
     };
 
+    //generates csvData using current display_data
     const csvData = [
         ["ID", "Time", "Location", "Activity Name", "Group ID"],
         ...display_data.map((row, rowIndex) => { 
@@ -103,7 +92,10 @@ export default function Schedule({ schedule }) {
                 groups={groups}
             />
             </div>
-            <div className='float-child'>
+            <div>
+            <Button className="right-btn" variant="primary" onClick={generateSchedule}>
+                            Generate Schedule
+            </Button>
             <CSVLink className="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
                 Export to CSV
             </CSVLink>

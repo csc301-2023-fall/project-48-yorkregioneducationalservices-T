@@ -288,7 +288,7 @@ async function createStudent(student) {
         student.enemy_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (enemy_ui_id) => {
             if(enemy_ui_id !== ''){
             const result_enemy = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [enemy_ui_id,]);
-            const enemy_id = result.rows[0].student_id;
+            const enemy_id = result_enemy.rows[0].student_id;
             const queryInsertFriendPreferences = `
                 INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
                 VALUES ($1, $2, $3)

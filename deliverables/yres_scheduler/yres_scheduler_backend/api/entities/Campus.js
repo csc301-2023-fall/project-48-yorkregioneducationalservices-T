@@ -46,10 +46,20 @@ module.exports = class Campus {
         this.camp_ids.add(newCampID);
     }
 
+    /**
+     * Get the camps in a list.
+     * 
+     * @returns camp_ids as an ordered list.
+     */
     getCampIds() {
         return [...this.camp_ids];
     }
 
+    /**
+     * Get the rooms in a list.
+     * 
+     * @returns room_ids as an ordered list.
+     */
     getRoomIds() {
         return [...this.room_ids];
     }

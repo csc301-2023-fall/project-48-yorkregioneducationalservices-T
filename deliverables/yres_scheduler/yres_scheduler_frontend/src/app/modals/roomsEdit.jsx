@@ -4,7 +4,19 @@ import Button from 'react-bootstrap/Button';
 
 /**
  * Editing Modal for Rooms
- * 
+ *class Student {
+   *student_id (string) 	    // The auto generated unique ID
+    firstname (string) 		    // <UI>
+    lastname (string) 		    // <UI>
+    age (int) 			        // <UI>
+    sex (string) 		        // <UI>
+    friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
+    enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
+}
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - room object to be edited
  * */
 function RoomsEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
@@ -41,7 +53,9 @@ function RoomsEdit({item, show, setShow}) {
                     <Form.Label>Activities in this room (comma separated)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.activity_ids.join(",")} 
+                        disabled
+                        placeholder={'Disabled'}
+                        defaultValue={''/*item.activity_ids.join(",")*/} 
                     />
                     </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>

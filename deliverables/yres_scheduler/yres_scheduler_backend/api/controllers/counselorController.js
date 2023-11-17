@@ -7,7 +7,6 @@ const counselorService = require('../services/counselorService');
  * @returns {Object} - An object containing an array of counselors.
  */
 async function getAllCounselors(req, res) {
-    console.log("dick");
     const all_counselors = await counselorService.getAllCounselors();
     
     return {
@@ -57,7 +56,7 @@ async function editCounselorById(req, res) {
  */
 async function deleteCounselorById(req, res) {
     
-    const counselor_ui_id = req.body.counselor_ui_id;
+    const counselor_ui_id = req.body.counselor_id;
 
     const status = await counselorService.deleteCounselorById(counselor_ui_id);
 

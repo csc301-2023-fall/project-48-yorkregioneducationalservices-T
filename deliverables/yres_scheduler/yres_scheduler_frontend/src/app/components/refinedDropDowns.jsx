@@ -5,8 +5,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 
 /**
- * Dropdown componetnt
- * */
+ * Better looking dropdown component that matches the prototype
+ **/
 function RefinedDropdown({handleSelect, displayText, groups}) {
   
     return (

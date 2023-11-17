@@ -3,10 +3,15 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
+import { validRelationship } from '@/app/helper';
 
 /**
  * Editing Modal for Students
- * 
+ * Props: 
+        show - boolean value determines if modal should be displayed
+        setShow - function that toggles show
+        item - student object to be edited
+        students - a list of all student objects with attributes described above
  * */
 function StudentEdit({item, show, setShow, students}) {
     const [error, setError] = useState(<></>);
@@ -18,7 +23,7 @@ function StudentEdit({item, show, setShow, students}) {
         event.preventDefault()
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
-        if (validRelationship(friends, "Friends") && validRelationship(enemies, "Enemies")){
+        if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
             const bodyData = new URLSearchParams(
                 {
                     'student_ui_id': event.target[0].value, 
@@ -39,25 +44,6 @@ function StudentEdit({item, show, setShow, students}) {
             window.location.reload(false);
             handleClose()
         }
-    }
-        
-    function validRelationship(string, field) {
-        if(string === ''){
-            return true
-        }
-        const studentNames = students.map(student => {return student._student_ui_id})
-        const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
-        console.log(names)
-        for (const name of names) {
-            if (!studentNames.includes(parseInt(name))){
-                console.log(name)
-                console.log(students)
-                console.log(studentNames)
-                setError(<Alert simpleMessage={field + " field invalid, " + name + " isn't a known student"}/>)
-                return false
-            }
-        }
-        return true 
     }
 
     return (
@@ -119,14 +105,15 @@ function StudentEdit({item, show, setShow, students}) {
                         defaultValue={item.sex}
                     />
                     </Form.Group>
-                    {/* <Form.Group
+                    <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlFriends"
                     >
                     <Form.Label>Friends (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.friends_id}
+                        defaultValue={item.friend_ids}
+                        disabled
                     />
                     </Form.Group>
                     <Form.Group
@@ -136,9 +123,10 @@ function StudentEdit({item, show, setShow, students}) {
                     <Form.Label>Enemies (please seperate by commas)</Form.Label>
                     <Form.Control
                         type="text"
-                        defaultValue={item.enemy_id}
+                        defaultValue={item.enemy_ids}
+                        disabled
                     />
-                    </Form.Group> */}
+                    </Form.Group>
                     {error}
                     <Button variant="secondary" onClick={handleClose}>
                         Close
