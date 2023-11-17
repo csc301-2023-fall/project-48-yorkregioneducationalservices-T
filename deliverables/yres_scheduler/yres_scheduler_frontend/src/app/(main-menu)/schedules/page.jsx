@@ -137,9 +137,22 @@ export default function Schedules() {
     }]
     const [data, setData] = React.useState([]);
     const [groupData, setGroupData] = React.useState([]);
-    
+    async function getSchedule() {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/schedules/generate/"), {
+         method: "GET"
+        })
+        .then(async (response) =>{
+             if(!response.ok){
+                 throw new Error("RESPONSE ERROR")
+             }
+             const responseBody = await response.text()
+             const parsedResponse = JSON.parse(responseBody)
+             console.log(parsedResponse)
+        })
+    }
+
     async function getRooms() {
-       fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("rooms/getAllRooms/"), {
+       fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/rooms/getAllRooms/"), {
         method: "GET"
        })
        .then(async (response) =>{
@@ -148,7 +161,8 @@ export default function Schedules() {
             }
             const responseBody = await response.text()
             const parsedResponse = JSON.parse(responseBody)
-            console.log(responseBody)
+            console.log(parsedResponse)
+            return parsedResponse.rooms;
        })
     }
     async function getActivities() {
@@ -161,7 +175,8 @@ export default function Schedules() {
              }
              const responseBody = await response.text()
              const parsedResponse = JSON.parse(responseBody)
-             console.log(responseBody)
+             console.log(parsedResponse)
+             return parsedResponse.activities;
         })
     }
     async function getSchedules() {
@@ -174,7 +189,8 @@ export default function Schedules() {
              }
              const responseBody = await response.text()
              const parsedResponse = JSON.parse(responseBody)
-             console.log(responseBody)
+             console.log(parsedResponse)
+             return parsedResponse.schedules;
         })
      }
     async function getGroups() {
@@ -187,7 +203,8 @@ export default function Schedules() {
             }
             const responseBody = await response.text()
             const parsedResponse = JSON.parse(responseBody)
-            console.log(responseBody)
+            console.log(parsedResponse)
+            return parsedResponse.groups;
     })
     }
     // API request to get Data to fill both tables
@@ -204,19 +221,21 @@ export default function Schedules() {
             return;
         }
         //API call to generate the schedule
-        //API call to Schedule
+        //getSchedule()
         const schedules = DUMMY_SCHEDULE_DATA
-        getSchedules()
+        //schedules = getSchedules()
         //API call to Activity
         const activities = DUMMY_ACTIVITY_DATA
-        getActivities()
+        //activities = getActivities()
         //API call to Group
         const groups = DUMMY_GROUP_DATA
-        getGroups()
+        //groups = getGroups()
         //API call to Room
         const rooms = DUMMY_ROOM_DATA
-        getRooms()
-        //Creating objects that are usable by the table
+        //rooms = getRooms()
+        
+        // The schedule, schedules and groups non-dummy data calls are untested
+
         let table = []
         schedules.forEach(schedule => {
             schedule.blocks.forEach(block =>{
