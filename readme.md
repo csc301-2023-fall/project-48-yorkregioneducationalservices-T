@@ -31,6 +31,8 @@ They can search in the table to find the interested profile, then edit through a
  * Users can also add input activities which will take place at the camp, each of which will contain data like; possible room assignment, number of occurences throughout the camp, activity name etc.
  * On another page, the user can ask to generate a schedule, which will return as a downloadable file csv file, where students are grouped according to their specifications (i.e. pairs of students to keep apart/together, etc.) in groups of approximately 20 and between 1 and 2 counselors.
 
+ * MENTION HOW TO UPLOAD A CSV OF StudeNtS.
+
  ## Development requirements
  1. Ensure the latest version of [Node.JS](https://nodejs.org/en) with NPM is installed.
  2. Clone the team repository: `https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git`
