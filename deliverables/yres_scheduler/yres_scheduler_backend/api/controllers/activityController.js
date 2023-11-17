@@ -11,7 +11,7 @@ const uuid = require('uuid');
 async function getAllActivities(req, res) {
     const all_activities = await db.getAllActivities();
     return {
-        rooms: all_activities
+        activities: all_activities
     };
 }
 
@@ -22,25 +22,31 @@ async function getAllActivities(req, res) {
  */
 async function createActivity(req, res) {
     const name = req.body.name;
-    const duration = req.body.duration;
+    const duration = parseInt(req.body.duration);
     const type = req.body.type;
-    const num_occurences = req.body.num_occurences;
+    const num_occurences = parseInt(req.body.num_occurences);
     const room_ids = req.body.room_ids;
+    const camp_id = req.body.camp_id;
 
-    if (isNaN(name) || isNaN(duration) || isNaN(type) || isNaN(num_occurences)) {
+    if (!name || !duration || !type || !num_occurences || !camp_id) {
         console.log('createActivity - Bad form: missing parameter');
         throw Error('createActivity - Bad form: missing parameter');
     }
-    if (!Number.isInteger(duration) || !Number.isInteger(num_occurences)) {
-        console.log('createRoom - Bad form: parameter in unexpected type, expecting integer');
-        throw Error('createRoom - Bad form: parameter in unexpected type, expecting integer');
-    }
-    if (isNaN(room_ids))
-        room_ids = new Array();
-    var succeed = await db.createActivity(uuid.v1(), name, duration, type, num_occurences, room_ids);
+    var succeed = await db.createActivity(uuid.v1(), name, duration, type, num_occurences, camp_id, room_ids);
     return {
         status: succeed ? 'Success' : 'failure'
     };
+}
+
+async function editActivityById(req, res) {
+
+    const activity = req.body;
+
+    const status = await db.editActivityById(activity);
+
+    return {
+        status: status ? 'Success' : 'failure'
+    }
 }
 
 /** Delete an Activity data row in the database with given room_id.
@@ -54,7 +60,7 @@ async function deleteActivityById(req, res) {
         console.log('deleteActivity - Bad form: unexpected uuid');
         throw Error('deleteActivity - Bad form: unexpected uuid');
     }
-    const status = await db.deleteActivityById(room_id);
+    const status = await db.deleteActivityById(activity_id);
 
     return {
         status: status ? 'Success' : 'failure'
@@ -64,5 +70,6 @@ async function deleteActivityById(req, res) {
 module.exports = {
     getAllActivities,
     createActivity,
+    editActivityById,
     deleteActivityById
 }
