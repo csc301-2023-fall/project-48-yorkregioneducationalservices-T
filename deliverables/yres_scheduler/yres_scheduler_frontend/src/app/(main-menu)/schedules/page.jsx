@@ -138,6 +138,58 @@ export default function Schedules() {
     const [data, setData] = React.useState([]);
     const [groupData, setGroupData] = React.useState([]);
     
+    async function getRooms() {
+       fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("rooms/getAllRooms/"), {
+        method: "GET"
+       })
+       .then(async (response) =>{
+            if(!response.ok){
+                throw new Error("RESPONSE ERROR")
+            }
+            const responseBody = await response.text()
+            const parsedResponse = JSON.parse(responseBody)
+            console.log(responseBody)
+       })
+    }
+    async function getActivities() {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/activities/getAllActivities/"), {
+         method: "GET"
+        })
+        .then(async (response) =>{
+             if(!response.ok){
+                 throw new Error("RESPONSE ERROR")
+             }
+             const responseBody = await response.text()
+             const parsedResponse = JSON.parse(responseBody)
+             console.log(responseBody)
+        })
+    }
+    async function getSchedules() {
+        fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/schedule/getAll/"), {
+         method: "GET"
+        })
+        .then(async (response) =>{
+             if(!response.ok){
+                 throw new Error("RESPONSE ERROR")
+             }
+             const responseBody = await response.text()
+             const parsedResponse = JSON.parse(responseBody)
+             console.log(responseBody)
+        })
+     }
+    async function getGroups() {
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/group/getAll/"), {
+        method: "GET"
+    })
+    .then(async (response) =>{
+            if(!response.ok){
+                throw new Error("RESPONSE ERROR")
+            }
+            const responseBody = await response.text()
+            const parsedResponse = JSON.parse(responseBody)
+            console.log(responseBody)
+    })
+    }
     // API request to get Data to fill both tables
     const getTableData = () => {
         simulateNetworkRequest().then(() => {
@@ -154,12 +206,16 @@ export default function Schedules() {
         //API call to generate the schedule
         //API call to Schedule
         const schedules = DUMMY_SCHEDULE_DATA
+        getSchedules()
         //API call to Activity
         const activities = DUMMY_ACTIVITY_DATA
+        getActivities()
         //API call to Group
         const groups = DUMMY_GROUP_DATA
+        getGroups()
         //API call to Room
         const rooms = DUMMY_ROOM_DATA
+        getRooms()
         //Creating objects that are usable by the table
         let table = []
         schedules.forEach(schedule => {

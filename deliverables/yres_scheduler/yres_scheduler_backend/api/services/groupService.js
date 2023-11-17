@@ -15,11 +15,10 @@ function getGroup(group_id) {
 /**
  * Retrieves all groups under a given campus from the database.
  *
- * @param {string} campus_id - The campus id under which to retrieve the groups.
  * @returns {Promise<Array>} - A promise that resolves to an array of group objects.
  */
-async function getAllGroups(campus_id) {
-    var all_groups = await db.getGroupsByCampusId(campus_id);
+async function getAllGroups() {
+    var all_groups = await db.getAllGroups();
     return all_groups;
 }
 
