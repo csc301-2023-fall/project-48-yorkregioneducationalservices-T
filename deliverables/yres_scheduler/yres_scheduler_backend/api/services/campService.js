@@ -16,11 +16,10 @@ function getCamp(camp_id) {
 /**
  * Retrieves all camps from a campus from the database.
  *
- * @param {string} campus_id - The id of the campus under which to retrive the camps.
  * @returns {Promise<Array>} - A promise that resolves to an array of camp objects.
  */
-async function getAllCamps(campus_id) {
-    var all_camps = await db.getCampsByCampusId(campus_id);
+async function getAllCamps() {
+    var all_camps = await db.getAllCamps();
     return all_camps;
 }
 
