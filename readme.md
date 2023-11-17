@@ -3,7 +3,8 @@
 <img width="500" alt="Screenshot 2023-11-17 at 12 42 34 AM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/31d3ab77-02c4-44a2-9460-b0783665c2bb">
 
 
-[Link Deployed App](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/)
+[Link To Deployed App](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/)
+
 ## Partner Intro
 Partner Contact Information:
 Hugo Quan: Web Developer co-op, primary point of contact
@@ -41,8 +42,8 @@ They can search in the table to find the interested profile, then edit through a
  6. Then build the frontend application: `npm run build`.
  7. Finally, start the frontend server: `npm start`.
 
-We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally.
- 
+We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the db ensure you have [psql](https://www.postgresql.org/download/) installed  `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: csc301.
+  
  ## Deployment and Github Workflow
  * Within the frontend codebase, since we are working with Next.js, we have been using file-based routing, meaning routes are named by their folder, rather than the actual filename. Thus, each high level page file is simply named `page.jsx`, but stored within folder with names such as, `profiles`, `schedules` etc. 
  * Our group is divided into two subteams, one team for frontend and one team for backend. Our github workflow consists primarily iof pull-requests from personal branches (usually labelled by name and subteam). Each pull-request is review by at least two members of the subteam the PR belonged to (in the case of frontend this is the entire team). Anyone can merge a pull-request, as long as it has been reviewed by a sufficient amount of people and have had all requested changes made. This workflow leads to great collaboration, without the need of any specific authoratative figures dictating what can and cannot be merged. It has led to great teamwork and an overall feeling of unity within the group. 
