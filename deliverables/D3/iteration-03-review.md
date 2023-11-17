@@ -43,8 +43,9 @@ List **process-related** (i.e. team organization and how you work) decisions and
 List any **process-related** (i.e. team organization and/or how you work) changes you are planning to make (if there are any)
 
  * Ordered from most to least important, with supporting argument explaining a change.
-
-#### Q3(b). Integration & Next steps
+ * Communication: We plan to integrate our communication between the frontend and the backend, as having it completely sperate made code integration much more difficult. For example, api calls were being ogranized with out any frontend having any knowledge of their form. This led to a very sloppy integration of the two, and a last of last minute hustle to resolve bugs.
+ * Organization: We plan to create a more robust shortterm planning routine with list of at least 5 goals to be completed in the upcoming 3 days.
+#### Q3(b). Integration & Next steps 
 Briefly explain how you integrated the previously developed individuals components as one product (i.e. How did you be combine the code from 3 sub-repos previously created) and if/how the assignment was helpful or not helpful.
 
  * Keep this very short (1-3 lines).
