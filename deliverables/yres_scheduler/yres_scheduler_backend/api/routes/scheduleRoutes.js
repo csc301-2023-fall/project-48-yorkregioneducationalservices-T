@@ -13,7 +13,7 @@ module.exports = (app) => {
     app.get('/schedule/generate/', async (req, res) => {
         var result;
         try {
-            result = await cheduleService.generateSchedule(req, res)
+            result = await scheduleService.generateSchedule(req, res)
         } catch(err) {
             res.status(500).send({error: err.message});
         }
