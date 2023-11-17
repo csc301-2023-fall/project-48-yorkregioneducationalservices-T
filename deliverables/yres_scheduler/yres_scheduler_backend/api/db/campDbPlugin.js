@@ -82,15 +82,14 @@ async function getActivityIds(camp) {
 /**
  * Retrieves all camps from the database and maps them to Camp objects.
  * 
- * @param {string} campus_id - The id of the campus id from which to retrieve camps.
  * @returns {Promise<Array<Camp>>} A promise that resolves with an array of Camp objects.
  */
-async function getCampsByCampusId(campus_id) {
+async function getAllCamps() {
 
     var all_camps;
     return new Promise(async (resolve, reject) => {
         const result = await new Promise((queryResolve, queryReject) => {
-            client.query(`SELECT * FROM Camp WHERE campus_id = '${campus_id}';`, function (err, result) {
+            client.query(`SELECT * FROM Camp;`, function (err, result) {
                 if (err) {
                     queryReject(err);
                 } else {
@@ -134,6 +133,6 @@ async function createCamp(name, campus_id) {
 
 module.exports = {
     getCampById,
-    getCampsByCampusId,
+    getAllCamps,
     createCamp
 }
