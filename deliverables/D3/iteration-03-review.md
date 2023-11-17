@@ -37,6 +37,8 @@ List **process-related** (i.e. team organization and how you work) decisions and
  * Give a supporting argument about what makes you think that way.
  * Feel free to refer/link to process artifact(s).
 
+ * 1 - One issue that held us back was lines of communication between the front and back end teams. Up until close to the deadline the two teams worked in parallel without much discussion with each other, and this changed only near the end, however at that point there was an overwhelming amount of messages between random people trying to solve various issues.
+
 
 #### Q3(a). Planned changes
 
