@@ -211,13 +211,16 @@ export default function Schedules() {
         //API call to generate the schedule
         //API call to Schedule
         const schedules = DUMMY_SCHEDULE_DATA
-        getRooms()
+        getSchedules()
         //API call to Activity
         const activities = DUMMY_ACTIVITY_DATA
+        getActivities()
         //API call to Group
         const groups = DUMMY_GROUP_DATA
+        getGroups()
         //API call to Room
         const rooms = DUMMY_ROOM_DATA
+        getRooms()
         //Creating objects that are usable by the table
         let table = []
         schedules.forEach(schedule => {
