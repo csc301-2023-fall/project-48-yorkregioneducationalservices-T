@@ -1,9 +1,16 @@
 
 const scheduleService = require('../services/scheduleService');
 
+/**
+ * Generates a new schedule.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing the newly generated schedule.
+ */
 function generateSchedule(req, res) {
     const camp_id = req.body.camp_id;
     const start_time = new Date(req.body.start_time);
+
     const name = req.body.name;
     
     const new_schedule = scheduleService.generateSchedule(camp_id, start_time, name);
