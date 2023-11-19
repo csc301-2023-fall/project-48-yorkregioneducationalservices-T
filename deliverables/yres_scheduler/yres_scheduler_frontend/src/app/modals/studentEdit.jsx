@@ -24,6 +24,7 @@ function StudentEdit({item, show, setShow, students}) {
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
         
+        
             const bodyData = new URLSearchParams(
                 {
                     'student_ui_id': event.target[0].value, 
