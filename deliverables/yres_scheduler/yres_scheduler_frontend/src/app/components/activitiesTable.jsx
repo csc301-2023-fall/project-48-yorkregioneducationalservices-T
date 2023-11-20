@@ -7,7 +7,8 @@ import { useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import ActivityEdit from '../modals/activityEdit';
-import { useRouter } from 'next/navigation'
+import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /** 
@@ -53,21 +54,11 @@ function ActivitiesTable({ activityData }) {
     }]
 
     const deleteActivity = (id) => {
-        fetch(`${URI}/activities/deleteActivityById/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ activity_id: id })
-        })
-        .then(res => {
-            if (res.status === 200) {
-                router.refresh();
-                return res.json();
-            } else {
-                // Show error alert
-            }
-        }).catch(err => {
-            console.log(err);
-        });
+        send_post_request(
+            "/activities/deleteActivityById/",
+            { activity_id: id }
+        );
+        router.refresh();
     }
 
     activityData.forEach(item => {

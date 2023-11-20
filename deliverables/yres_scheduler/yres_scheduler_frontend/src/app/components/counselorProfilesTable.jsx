@@ -6,6 +6,8 @@ import CounselorEdit from '../modals/counselorEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
+import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /** 
  * Counselor Table that displays:
@@ -19,6 +21,7 @@ import { useState } from 'react';
         counselorData - a list of counselor objects with above attributes
 **/
 function CounselorProfilesTable({ counselorData }) {
+    const router = useRouter();
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         counselor_id: -1,
@@ -47,19 +50,11 @@ function CounselorProfilesTable({ counselorData }) {
             setShowEdit(true);
         }
         const deleteCounselor = () =>{
-            console.log(item);
-            const bodyData = new URLSearchParams(
-                {
-                    'counselor_id': item._counselor_id, 
-                }).toString();
-            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/counselors/deleteCounselorById/"), {
-                method: "POST", 
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: bodyData,
-            })
-            window.location.reload(false);
+            send_post_request(
+                "/counselors/deleteCounselorById/", 
+                { counselor_id: item._counselor_id }
+            );
+            router.refresh();
         }
         item.actions = (
             <div className='table-actions'>

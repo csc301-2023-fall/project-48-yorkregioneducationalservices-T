@@ -27,7 +27,6 @@ function RoomsCreate({ currCampus }) {
             "/rooms/createRoom/",
             {
                 name: e.target[0].value,
-                //activities: process_comma_separated_text(e.target[1].value)
                 campus_id: currCampus.campus_id
             }
         );
@@ -56,16 +55,6 @@ function RoomsCreate({ currCampus }) {
                             autoFocus
                         />
                         </Form.Group> 
-                        <Form.Group
-                        className="mb-3"
-                        >
-                        <Form.Label>Activities in this room (comma separated)</Form.Label>
-                        <Form.Control
-                            type="text"
-                            disabled
-                            placeholder={'Disabled'}
-                        />
-                        </Form.Group>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
                         </Button>

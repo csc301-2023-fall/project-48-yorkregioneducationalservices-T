@@ -1,6 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { send_post_request } from '../helper';
 
 /**
  * Editing Modal for Rooms
@@ -20,17 +21,17 @@ import Button from 'react-bootstrap/Button';
  * */
 function RoomsEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         /**
          * API post requests
          * use event.target[0] to index through the fields
          */
         send_post_request(
-            "/rooms/createRoom/",
+            "/rooms/editRoomById/",
             {
                 room_id: item.room_id,
                 name: e.target[0].value,
-                //activities: process_comma_separated_text(e.target[1].value)
                 campus_id: item.campus_id
             }
         );
@@ -55,19 +56,11 @@ function RoomsEdit({item, show, setShow}) {
                         autoFocus
                     />
                     </Form.Group> 
-                    <Form.Group
-                    className="mb-3"
-                    >
-                    <Form.Label>Activities in this room (comma separated)</Form.Label>
-                    <Form.Control
-                        type="text"
-                        disabled
-                        placeholder={'Disabled'}
-                        defaultValue={''/*item.activity_ids.join(",")*/} 
-                    />
-                    </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
+                    </Button>
+                    <Button type="submit" variant="primary">
+                        Save Changes
                     </Button>
                 </Form>
             </Modal.Body>
