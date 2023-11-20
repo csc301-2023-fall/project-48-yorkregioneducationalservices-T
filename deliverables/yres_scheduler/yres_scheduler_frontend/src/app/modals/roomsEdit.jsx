@@ -25,8 +25,16 @@ function RoomsEdit({item, show, setShow}) {
          * API post requests
          * use event.target[0] to index through the fields
          */
-        console.log(event.target[0].value);
-        console.log(event.target[1].value);
+        send_post_request(
+            "/rooms/createRoom/",
+            {
+                room_id: item.room_id,
+                name: e.target[0].value,
+                //activities: process_comma_separated_text(e.target[1].value)
+                campus_id: item.campus_id
+            }
+        );
+        router.refresh();
         handleClose() //needs to be before setStudentData
     }
   
@@ -43,7 +51,6 @@ function RoomsEdit({item, show, setShow}) {
                     <Form.Label>Room Name</Form.Label>
                     <Form.Control
                         type="text"
-                        disabled
                         defaultValue={item.name} 
                         autoFocus
                     />

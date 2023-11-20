@@ -4,7 +4,7 @@
 
 
 [Link To Deployed App](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/)
-(Note FloorPlan and View Schedule is currently using dummy data)
+(Note View Schedule is currently using dummy data)
 
 ## Partner Intro
 Partner Contact Information:
