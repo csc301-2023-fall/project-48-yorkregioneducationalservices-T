@@ -1,12 +1,17 @@
-/** Activity Controller
- * 
+/**
+ * @fileoverview This file contains the controller functions for managing activities in the database.
+ * @module activityController
  */
+
 const db = require('../db/activityDbPlugin');
 const uuid = require('uuid');
 
-/** Get all activities in the database.
- * 
- * @returns JSON representation of all activities.
+/**
+ * Get all activities in the database.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - JSON representation of all activities.
  */
 async function getAllActivities(req, res) {
     const all_activities = await db.getAllActivities();
@@ -15,10 +20,12 @@ async function getAllActivities(req, res) {
     };
 }
 
-/** Create a activity data row in the database with given information.
- * 
- * @param {JSON} req - POST request with body containing name, duration, type, num_occurences, an array of room_ids.
- * @returns if the insertion succeeded.
+/**
+ * Create an activity data row in the database with given information.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - If the insertion succeeded.
  */
 async function createActivity(req, res) {
     const name = req.body.name;
@@ -39,6 +46,13 @@ async function createActivity(req, res) {
     };
 }
 
+/**
+ * Edit an activity data row in the database with given activity object.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - If the update succeeded.
+ */
 async function editActivityById(req, res) {
 
     const activity = req.body;
@@ -50,10 +64,12 @@ async function editActivityById(req, res) {
     }
 }
 
-/** Delete an Activity data row in the database with given room_id.
- * 
- * @param {JSON} req - POST request with body containing the activity_id for activity to be deleted.
- * @returns 
+/**
+ * Delete an activity data row in the database with given activity_id.
+ * @async
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - If the deletion succeeded.
  */
 async function deleteActivityById(req, res) {
     const activity_id = req.body.activity_id;
