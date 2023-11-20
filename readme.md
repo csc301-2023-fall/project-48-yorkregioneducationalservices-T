@@ -42,9 +42,10 @@ They can search in the table to find the interested profile, then edit through a
  2. Clone the team repository: `https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git`
  3. Navigate to the './deliverables/yres_scheduler/yres_scheduler_backend' directory and install dependencies: `npm install`.
  4. Start the backend API `node server.js`.
- 5. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install`.
- 6. Then build the frontend application: `npm run build`.
- 7. Finally, start the frontend server: `npm start`.
+ 5. To run the backend tests run: `npm test`.
+ 6. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install`.
+ 7. Then build the frontend application: `npm run build`.
+ 8. Finally, start the frontend server: `npm start`.
 
 We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the db ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: csc301.
   
