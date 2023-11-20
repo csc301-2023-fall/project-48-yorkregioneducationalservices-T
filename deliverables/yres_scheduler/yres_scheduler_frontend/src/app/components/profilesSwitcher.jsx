@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import RefinedDropdown from '@/app/components/refinedDropDowns';
 import StudentAdd from '@/app/modals/studentAdd'
 import CounselorAdd from '@/app/modals/counselorAdd'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import StudentCSV from '@/app/components/importStudentCSV';
 
 const PROFILE_TYPES = ['Student', 'Counselor']
@@ -15,10 +15,20 @@ const PROFILE_TYPES = ['Student', 'Counselor']
  * Toggles profile page to show either Students or Counselors
 **/
 function ProfilesSwitcher({ studentData, counselorData }) {
+    const [students, setStudents] = useState([]);
+    const [counselors, setCounselors] = useState([]);
     const [currType, setCurrType] = React.useState(PROFILE_TYPES[0]);
     const handleSelectType = (e) => {
         setCurrType(e);
     }
+
+    useEffect(() => {
+        setStudents(studentData);
+    }, [studentData])
+
+    useEffect(() => {
+        setCounselors(counselorData);
+    }, [counselorData])
     
     const [show, setShow] = useState(false);
     const handleShow = () => {
@@ -40,7 +50,7 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                         show={show}
                         setShow={setShow}
                         item={{}}
-                        students={studentData}
+                        students={students}
                         />
                     : <CounselorAdd
                         show={show}
@@ -53,8 +63,8 @@ function ProfilesSwitcher({ studentData, counselorData }) {
             <div className='center-align'>
                 <div id='profiles-table'>
                     {currType === PROFILE_TYPES[0] ? 
-                        <StudentProfilesTable studentData={studentData}/> : 
-                        <CounselorProfilesTable counselorData={counselorData}/>}
+                        <StudentProfilesTable studentData={students}/> : 
+                        <CounselorProfilesTable counselorData={counselors}/>}
                 </div>
             </div>
         </>
