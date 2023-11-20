@@ -226,7 +226,6 @@ function getStudentByUiId(student_ui_id) {
 async function insertFriendPreferences(student_id, other_student_ui_id, is_apart) {
   
     const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
-    console.log(result_other_friend);
     if (result_other_friend.rows.length !== 0) {
         console.log('inserting friend preferences')
         const other_student_id = result_other_friend.rows[0].student_id;
@@ -279,7 +278,6 @@ async function createStudent(student) {
             student.age,
             student.sex,
         ]);
-        console.log(result.rows[0].student_id);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
         student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
