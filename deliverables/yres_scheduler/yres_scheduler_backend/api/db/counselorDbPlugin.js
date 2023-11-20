@@ -39,7 +39,6 @@ async function getAllCounselors() {
             Counselor C;
     `;
     var counselors;
-    console.log("dick");
     return new Promise(async (resolve, reject) => {
         const result = await new Promise((queryResolve, queryReject) => {
             client.query(query, (err, result) => {
