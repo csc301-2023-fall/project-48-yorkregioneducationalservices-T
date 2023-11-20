@@ -94,7 +94,7 @@ async function createActivity(activity_id, name, duration, type, num_occurences,
         if (room_ids === undefined || room_ids.length === 0) {
             return true;
         }
-        ids = room_ids.split(',')
+        ids = room_ids.split(',').filter(id => id !== '');
         for (id of ids) {
             try {
                 createRoomActivities(activity_id, id);
@@ -157,7 +157,7 @@ async function editActivityById(activity) {
                 // First delete all RoomActivity related to this activity.
                 clearRoomActivities(activity.activity_id);
                 // Then insert the new ones
-                ids = activity.room_ids.split(',')
+                ids = activity.room_ids.split(',').filter(id => id !== '');
                 for (id of ids) {
                     try {
                         createRoomActivities(activity.activity_id, id);
