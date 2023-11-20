@@ -49,5 +49,39 @@ export function validRelationship(string, field, setError, students) {
  *      input - a string of inputs separated by commas
  */
 export function process_comma_separated_text(input) {
-    return input.split(',').map(s => s.trim().replace(/\s/, ' '));
+    return typeof input === 'string' ? input.split(',').map(s => s.trim().replace(/\s/, ' ')).join() : "";
+}
+
+/**
+ * Helper function to make a POST
+ * 
+ * Props:
+ *      route - a string representing the route from the base URI to send this request
+ *      data - the JSON data being sent
+ *      callback - (OPTIONAL) a function that runs after recieving a response back from the server
+ */
+export function send_post_request(route, data, callback) {
+    let func = callback;
+    if (typeof callback !== 'function') {
+        func = _ => {};
+    }
+
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if (res.status === 200) {
+            return res.json();
+        } else {
+            throw new Error(`${res.status} error!`);
+        }
+    })
+    .then(json => {
+        func(json);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 }

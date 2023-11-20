@@ -7,6 +7,7 @@ import RoomsEdit from '../modals/roomsEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
+import { send_post_request } from '../helper';
 import { useRouter } from 'next/navigation'
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
@@ -23,29 +24,16 @@ function RoomsTable({ roomData }) {
         dataField: 'name',
         text: 'Name'
     }, {
-        dataField: 'activity_ids',
-        text: 'Activities'
-    }, {
         dataField: 'actions',
         text: 'Actions'
     }]
 
     const deleteRoom = (id) => {
-        fetch(`${URI}/rooms/deleteRoomById/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ room_id: id })
-        })
-        .then(res => {
-            if (res.status === 200) {
-                router.refresh();
-                return res.json();
-            } else {
-                // Show error alert
-            }
-        }).catch(err => {
-            console.log(err);
-        });
+        send_post_request(
+            "/rooms/deleteRoomById/",
+            { room_id: id }
+        );
+        router.refresh();
     }
 
     roomData.forEach(item => {

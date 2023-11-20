@@ -1,6 +1,8 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /**
  * Editing Modal for Rooms
@@ -19,14 +21,23 @@ import Button from 'react-bootstrap/Button';
         item - room object to be edited
  * */
 function RoomsEdit({item, show, setShow}) {
+    const router = useRouter();
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         /**
          * API post requests
          * use event.target[0] to index through the fields
          */
-        console.log(event.target[0].value);
-        console.log(event.target[1].value);
+        send_post_request(
+            "/rooms/editRoomById/",
+            {
+                room_id: item.room_id,
+                name: e.target[0].value,
+                campus_id: item.campus_id
+            }
+        );
+        router.refresh();
         handleClose() //needs to be before setStudentData
     }
   
@@ -43,24 +54,15 @@ function RoomsEdit({item, show, setShow}) {
                     <Form.Label>Room Name</Form.Label>
                     <Form.Control
                         type="text"
-                        disabled
                         defaultValue={item.name} 
                         autoFocus
                     />
                     </Form.Group> 
-                    <Form.Group
-                    className="mb-3"
-                    >
-                    <Form.Label>Activities in this room (comma separated)</Form.Label>
-                    <Form.Control
-                        type="text"
-                        disabled
-                        placeholder={'Disabled'}
-                        defaultValue={''/*item.activity_ids.join(",")*/} 
-                    />
-                    </Form.Group>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
+                    </Button>
+                    <Button type="submit" variant="primary">
+                        Save Changes
                     </Button>
                 </Form>
             </Modal.Body>

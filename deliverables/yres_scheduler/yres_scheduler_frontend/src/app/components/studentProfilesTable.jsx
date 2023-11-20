@@ -7,6 +7,8 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
 import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
+import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /** 
  * Student Table that displays:
@@ -23,6 +25,7 @@ import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
 }
 **/
 function StudentProfilesTable({ studentData}) {
+    const router = useRouter();
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         student_id: -1,
@@ -60,19 +63,11 @@ function StudentProfilesTable({ studentData}) {
             setShowEdit(true);
         }
         const deleteStudent = () =>{
-            console.log(item);
-            const bodyData = new URLSearchParams(
-                {
-                    'student_ui_id': item._student_ui_id, 
-                }).toString();
-            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/deleteStudentById/"), {
-                method: "POST", 
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: bodyData,
-            })
-            window.location.reload(false);
+            send_post_request(
+                "/students/deleteStudentById/", 
+                { student_ui_id: item._student_ui_id }
+            );
+            router.refresh();
         }
         item.actions = (
             <div className='table-actions'>

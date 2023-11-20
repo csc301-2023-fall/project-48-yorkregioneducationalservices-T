@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /**
  * Addition Modal for Counselors
@@ -17,24 +18,18 @@ import Button from 'react-bootstrap/Button';
         item - counselor object to be added (blank)
  * */
 function CounselorAdd({show, setShow, item}) {
+    const router = useRouter();
     const handleClose = () => setShow(false);
     const handleSubmit = (event) => {
         event.preventDefault()
-        const bodyData = new URLSearchParams(
+        send_post_request(
+            "/counselors/createCounselor/",
             {
-                'firstname': event.target[0].value, 
-                'lastname': event.target[1].value, 
-            }).toString();
-
-        console.log(bodyData);
-        fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/counselors/createCounselor/"), {
-            method: "POST", 
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: bodyData,
-        })
-        window.location.reload(false);
+                firstname: event.target[0].value,
+                lastname: event.target[1].value
+            }
+        );
+        router.refresh();
         handleClose()
     }
   

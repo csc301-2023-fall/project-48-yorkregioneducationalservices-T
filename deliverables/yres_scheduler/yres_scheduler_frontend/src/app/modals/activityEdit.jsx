@@ -1,8 +1,8 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useRouter } from 'next/navigation'
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
+import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /**
  * Editing Modal for Activities
@@ -24,33 +24,21 @@ function ActivityEdit({item, show, setShow }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         /**
-         * API post request for adding new activity
+         * API post request for updating activity
          */
-        const updated_activity = {
-            activity_id: item.activity_id,
-            name: event.target[0].value,
-            duration: event.target[1].value,
-            type: event.target[3].checked ? "filler" : "common",
-            num_occurences: event.target[4].value,
-            camp_id: item.camp_id,
-            room_ids: [] //process_comma_separated_text(event.target[2].value);
-        }
-
-        fetch(`${URI}/activities/editActivityById/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updated_activity)
-        })
-        .then(res => {
-            if (res.status === 200) {
-                router.refresh();
-                return res.json();
-            } else {
-                // Show error alert
+        send_post_request(
+            "/activities/editActivityById/", 
+            {
+                activity_id: item.activity_id,
+                name: event.target[0].value,
+                duration: event.target[1].value,
+                type: event.target[3].checked ? "filler" : "common",
+                num_occurences: event.target[4].value,
+                camp_id: item.camp_id,
+                room_ids: "" //process_comma_separated_text(event.target[2].value);
             }
-        }).catch(err => {
-            console.log(err);
-        });
+        )
+        router.refresh();
         handleClose();
     }
   
