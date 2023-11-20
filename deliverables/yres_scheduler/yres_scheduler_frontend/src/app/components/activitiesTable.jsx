@@ -63,7 +63,6 @@ function ActivitiesTable({ activityData }) {
             "/activities/deleteActivityById/",
             { activity_id: id }
         );
-        router.refresh();
     }
 
     activities.forEach(item => {
