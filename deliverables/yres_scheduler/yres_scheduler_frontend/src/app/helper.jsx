@@ -73,13 +73,11 @@ export function send_post_request(route, data, callback) {
     })
     .then(res => {
         if (res.status === 200) {
-            return res.json();
+            window.location.reload();
+            //return res.json();
         } else {
             throw new Error(`${res.status} error!`);
         }
-    })
-    .then(json => {
-        func(json);
     })
     .catch(err => {
         console.log(err);
