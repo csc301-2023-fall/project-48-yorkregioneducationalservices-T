@@ -33,7 +33,7 @@ function ActivityCreate({ currCampus }) {
                 type: event.target[3].checked ? "filler" : "common",
                 num_occurences: event.target[4].value,
                 camp_id: currCampus.camp_ids[0],
-                room_ids: [] //process_comma_separated_text(event.target[2].value);
+                room_ids: "" //process_comma_separated_text(event.target[2].value);
             }
         )
         router.refresh();
