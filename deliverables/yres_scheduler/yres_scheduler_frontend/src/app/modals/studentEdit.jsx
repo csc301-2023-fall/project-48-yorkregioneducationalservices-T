@@ -28,6 +28,7 @@ function StudentEdit({item, show, setShow, students}) {
         send_post_request(
             "/students/editStudentById/", 
             {
+                student_id: item.student_id,
                 student_ui_id: event.target[0].value, 
                 firstname: event.target[1].value, 
                 lastname: event.target[2].value, 
