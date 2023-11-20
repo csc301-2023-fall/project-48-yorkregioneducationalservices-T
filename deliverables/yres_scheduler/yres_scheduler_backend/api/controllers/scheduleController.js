@@ -3,7 +3,7 @@ const scheduleService = require('../services/schedulingService');
 const schedService = require('../services/scheduleService');
 const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
-const roomService = require('../services/roomService');
+// const roomService = require('../services/roomService');
 const activitiesService = require('../controllers/activityController');
 
 /**

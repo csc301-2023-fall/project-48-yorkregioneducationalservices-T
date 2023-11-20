@@ -43,9 +43,9 @@ module.exports = (app) => {
             res.status(500).send(error);
         }
     })
-    .post('/rooms/editRoomsById/', async (req, res) => {
+    .post('/rooms/editRoomById/', async (req, res) => {
         try {
-            const resp = await roomService.editActivityById(req, res);
+            const resp = await roomService.editRoomsById(req, res);
             res.send(resp);
             
         } catch (error) {
