@@ -15,7 +15,6 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves with the retrieved counselors or rejects with an error.
      */
     app.get('/counselors/getAllCounselors/', async (req, res) => {
-        console.log("dick");
         const result = await counselorService.getAllCounselors(req, res);
         res.send(result);
         try{

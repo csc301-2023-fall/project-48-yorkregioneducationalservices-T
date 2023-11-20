@@ -222,18 +222,26 @@ function getStudentByUiId(student_ui_id) {
     }
 }
 
-/**
- * Creates a new student record in the database.
- * @async
- * @function createStudent
- * @param {Object} student - The student object to be created in the database.
- * @param {string} student.student_ui_id - The unique identifier of the student.
- * @param {string} student.firstname - The first name of the student.
- * @param {string} student.lastname - The last name of the student.
- * @param {number} student.age - The age of the student.
- * @param {string} student.sex - The sex of the student.
- * @returns {Promise<boolean>} - A promise that resolves to true if the student was created successfully, false otherwise.
- */
+
+async function insertFriendPreferences(student_id, other_student_ui_id, is_apart) {
+  
+    const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
+    const other_student_id = result_other_friend.rows[0].student_id;
+    const queryInsertFriendPreferences = `
+        INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+        VALUES ($1, $2, $3)
+    `;
+    let larger_id, smaller_id;
+    if (student_id > other_student_id) {
+        larger_id = student_id;
+        smaller_id = other_student_id;
+        } else {
+        larger_id = other_student_id;
+        smaller_id = student_id;
+        }
+    await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
+}
+
 /**
  * Inserts a new student into the database along with their friend and enemy preferences.
  * @async
@@ -249,6 +257,7 @@ function getStudentByUiId(student_ui_id) {
  * @returns {Promise<boolean>} - A promise that resolves to true if the student was successfully inserted into the database, or false otherwise.
  */
 async function createStudent(student) {
+    console.log('Creating studentl:', student);
     const query = `
         INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)
         VALUES ($1, $2, $3, $4, $5, $6)
@@ -266,43 +275,11 @@ async function createStudent(student) {
         ]);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
-        student.friend_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (friend_ui_id) => {
-            if(friend_ui_id !== ''){
-            const result_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [friend_ui_id,]);
-            const friend_id = result_friend.rows[0].student_id;
-            const queryInsertFriendPreferences = `
-                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-                VALUES ($1, $2, $3)
-            `;
-            let larger_id, smaller_id;
-            if (student_id > friend_id) {
-                larger_id = student_id;
-                smaller_id = friend_id;
-              } else {
-                larger_id = friend_id;
-                smaller_id = student_id;
-              }
-            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, false]);
-            }
+        student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
+            insertFriendPreferences(student_id, friend_ui_id, false);
         });
-        student.enemy_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (enemy_ui_id) => {
-            if(enemy_ui_id !== ''){
-            const result_enemy = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [enemy_ui_id,]);
-            const enemy_id = result_enemy.rows[0].student_id;
-            const queryInsertFriendPreferences = `
-                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-                VALUES ($1, $2, $3)
-            `;
-            let larger_id, smaller_id;
-            if (student_id > enemy_id) {
-                larger_id = student_id;
-                smaller_id = enemy_id;
-              } else {
-                larger_id = enemy_id;
-                smaller_id = student_id;
-              }
-            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, true]);
-            }
+        student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            insertFriendPreferences(student_id, enemy_ui_id, true)
         });
         return true;
     } catch (err) {
@@ -310,6 +287,21 @@ async function createStudent(student) {
         return false; 
     }
 }
+
+async function clearFriendPreferencesById(student_id) {
+    const queryDeleteFriendPreferences = `Delete From FriendPreference where student_id1 = $1 or student_id2 = $1;`;  
+  
+    const values = [student_id];
+    try {
+        const result = await client.query(queryDeleteFriendPreferences, values);
+  
+    } catch (error) {
+        // Handle errors appropriately
+        console.error('Error while deleting FriendPreferences:', error);
+        throw new Error('Failed to delete FriendPreferences');
+    }
+  
+  }
 
 /**
  * Edits a student record in the database by ID.
@@ -344,8 +336,18 @@ async function editStudentById(student) {
             student.sex,
             student.student_ui_id,
         ]);
-        const row = result.rows[0];
+        clearFriendPreferencesById(student.student_id);
+        //Insert student friend preferences
+        const student_id = result.rows[0].student_id;
+        student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
+            await insertFriendPreferences(student_id, friend_ui_id, false);
+        });
+        student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            await insertFriendPreferences(student_id, enemy_ui_id, true)
+        });
+        
         return true;
+
     } catch (err) {
         console.log(err);
         return false; 
