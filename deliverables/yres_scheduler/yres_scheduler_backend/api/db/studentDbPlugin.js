@@ -324,22 +324,24 @@ async function editStudentById(student) {
     const query = `
         UPDATE Student
         SET
-            firstname = $1,
-            lastname = $2,
-            age = $3,
-            sex = $4
+            student_ui_id = $1,
+            firstname = $2,
+            lastname = $3,
+            age = $4,
+            sex = $5
         WHERE
-            student_ui_id = $5
+            student_id = $6
         RETURNING *;
     `;
     console.log(student);
     try {
         const result = await client.query(query, [
+            student.student_ui_id,
             student.firstname,
             student.lastname,
             student.age,
             student.sex,
-            student.student_ui_id,
+            student.student_id
         ]);
         clearFriendPreferencesById(student.student_id);
         //Insert student friend preferences
