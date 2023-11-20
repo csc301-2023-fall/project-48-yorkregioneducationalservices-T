@@ -49,7 +49,7 @@ export function validRelationship(string, field, setError, students) {
  *      input - a string of inputs separated by commas
  */
 export function process_comma_separated_text(input) {
-    return input.split(',').map(s => s.trim().replace(/\s/, ' '));
+    return typeof input === 'string' ? ','.join(input.split(',').map(s => s.trim().replace(/\s/, ' '))) : "";
 }
 
 /**

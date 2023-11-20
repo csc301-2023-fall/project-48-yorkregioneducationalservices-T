@@ -3,50 +3,37 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
+import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
+
 function AddStudents(profiles, type){
   if(type === "Student"){
     const students = profiles;
-    console.log(students);
     students.forEach((student) => {
-
-      const bodyData = new URLSearchParams(
+      send_post_request(
+        "/students/createStudent/", 
         {
-            'student_ui_id': student.student_id, 
-            'firstname': student.firstname, 
-            'lastname': student.lastname, 
-            'age': student.age, 
-            'sex': student.sex,
-            'friend_ids': student.friend_ids === undefined ? []: toString(student.friend_ids).split(',').map(s => s.trim().replace(/\s/, ' ')),
-            'enemy_ids': student.enemy_ids === undefined ? []: toString(student.enemy_ids).split(',').map(s => s.trim().replace(/\s/, ' '))
-        }).toString();
-    console.log(bodyData);
-    fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/createStudent/"), {
-        method: "POST", 
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: bodyData,
-    })
+            student_ui_id: student.student_id, 
+            firstname: student.firstname, 
+            lastname: student.lastname, 
+            age: student.age, 
+            sex: student.sex,
+            friend_ids: "",
+            enemy_ids: "",
+        }
+      )
     });
   }
   else{
     const counselors = profiles;
-    console.log(counselors);
     counselors.forEach((counselor) => {
-      const bodyData = new URLSearchParams(
+      send_post_request(
+        "/counselors/createCounselor/",
         {
-            'firstname': counselor.firstname, 
-            'lastname': counselor.lastname, 
-        }).toString();
-
-    console.log(bodyData);
-    fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/counselors/createCounselor/"), {
-        method: "POST", 
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: bodyData,
-    })
+            firstname: counselor.firstname,
+            lastname: counselor.lastname
+        }
+      );
     });
   }
 }
@@ -56,6 +43,7 @@ function AddStudents(profiles, type){
         type - either student or counselor, the type of object being csv imported
 **/
 function StudentCSV({type}) {
+  const router = useRouter();
   const [file, setFile] = useState();
   // useEffect(() => {
   //   const fileReader = new FileReader();
@@ -88,6 +76,7 @@ function StudentCSV({type}) {
     });
     promise.then((d) => {
       AddStudents(d, type);
+      router.refresh();
     });
   }
   };

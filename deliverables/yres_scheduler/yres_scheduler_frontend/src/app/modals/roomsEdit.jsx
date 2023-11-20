@@ -2,6 +2,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { send_post_request } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /**
  * Editing Modal for Rooms
@@ -20,6 +21,7 @@ import { send_post_request } from '../helper';
         item - room object to be edited
  * */
 function RoomsEdit({item, show, setShow}) {
+    const router = useRouter();
     const handleClose = () => setShow(false);
     const handleSubmit = (e) => {
         e.preventDefault();
