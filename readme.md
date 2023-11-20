@@ -4,7 +4,7 @@
 
 
 [Link To Deployed App](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/)
-(Note View Schedule is currently using dummy data)
+(Note View Schedule is currently using dummy data; however it can be tested on the backend doing: `curl http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:1234/schedule/generate`)
 
 ## Partner Intro
 Partner Contact Information:
