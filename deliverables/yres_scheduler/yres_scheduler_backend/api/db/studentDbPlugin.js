@@ -226,20 +226,26 @@ function getStudentByUiId(student_ui_id) {
 async function insertFriendPreferences(student_id, other_student_ui_id, is_apart) {
   
     const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
-    const other_student_id = result_other_friend.rows[0].student_id;
-    const queryInsertFriendPreferences = `
-        INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-        VALUES ($1, $2, $3)
-    `;
-    let larger_id, smaller_id;
-    if (student_id > other_student_id) {
-        larger_id = student_id;
-        smaller_id = other_student_id;
-        } else {
-        larger_id = other_student_id;
-        smaller_id = student_id;
-        }
-    await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
+    console.log(result_other_friend);
+    if (result_other_friend.rows.length !== 0) {
+        console.log('inserting friend preferences')
+        const other_student_id = result_other_friend.rows[0].student_id;
+        const queryInsertFriendPreferences = `
+            INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+            VALUES ($1, $2, $3)
+        `;
+        let larger_id, smaller_id;
+        if (student_id > other_student_id) {
+            larger_id = student_id;
+            smaller_id = other_student_id;
+            } else {
+            larger_id = other_student_id;
+            smaller_id = student_id;
+            }
+        await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
+    } else {
+        console.log('other student not found');
+    }
 }
 
 /**
@@ -257,7 +263,7 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
  * @returns {Promise<boolean>} - A promise that resolves to true if the student was successfully inserted into the database, or false otherwise.
  */
 async function createStudent(student) {
-    console.log('Creating studentl:', student);
+    console.log('Creating student:', student);
     const query = `
         INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)
         VALUES ($1, $2, $3, $4, $5, $6)
@@ -273,6 +279,7 @@ async function createStudent(student) {
             student.age,
             student.sex,
         ]);
+        console.log(result.rows[0].student_id);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
         student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
