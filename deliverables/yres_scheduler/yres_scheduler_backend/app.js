@@ -2,12 +2,40 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var morgan = require('morgan');
+const winston = require('winston');
 
 const app = express();
 const errorHandler = require('./api/middleware/errorHandler');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const { combine, timestamp, json } = winston.format;
+
+// Create a custom format for log entries
+const logger = winston.createLogger({
+  level: 'http',
+  format: combine(
+    timestamp({
+      format: 'YYYY-MM-DD hh:mm:ss.SSS A',
+    }),
+    json()
+  ),
+  transports: [new winston.transports.Console()],
+});
+
+const morganMiddleware = morgan(
+  ':method :url :status :res[content-length] - :response-time ms',
+  {
+    stream: {
+      // Configure Morgan to use our custom logger with the http severity
+      write: (message) => logger.http(message.trim()),
+    },
+  }
+);
+
+app.use(morganMiddleware);
+
 app.use(morgan('dev'));
 app.use('/demo', express.static('./api/res/d2_public'));
 const { connectDB } = require('./api/db/db');
@@ -51,4 +79,4 @@ require('./api/routes/activityRoutes')(app);
 
 app.use(errorHandler);
 
-module.exports = app;
+module.exports = app, logger;
