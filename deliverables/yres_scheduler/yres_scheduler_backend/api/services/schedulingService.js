@@ -9,42 +9,7 @@ const Activity = require("../entities/Activity");
 const DAY = 5;
 const TIME = 8;
 const MAX_ATTEMPT = 1000000;
-/*
-// THESE WILL BE REMOVED ONCE ALL ENTITIES ARE READY
-class Block {
-    constructor(block_id, schedule_id, room_id, activity, day, time) {
-        this.block_id = block_id;
-        this.schedule_id = schedule_id;
-        this.room_id = room_id;
-        this.activity = activity;
-        this.day = day;
-        this.time = time;
-    }
-}
 
-class Activity {
-    constructor(activity_id, name, duration, type, num_occurences, room_ids) {
-        this.activity_id = activity_id;
-        this.name = name;
-        this.duration = duration; // hours
-        this.type = type;
-        this.num_occurences = num_occurences;
-        this.room_ids = room_ids;
-    }
-}
-
-// THESE DUMMY DATA WILL BE REMOVED ONCE CONNECTED TO OTHER APIS 
-var activities = [new Activity("1", "class", 1, "common", 24, ["1", "2", "3", "4", "5"]),
-new Activity("2", "sport", 2, "common", 2, ["6"]),
-new Activity("3", "art", 1, "common", 2, ["1", "2", "3", "4", "5"]),
-new Activity("4", "cs", 1, "common", 2, ["7"]),
-new Activity("5", "filler_A", 1, "filler", 0, ["1", "2", "3", "4", "5"]),
-new Activity("6", "filler_B", 1, "filler", 0, ["6", "7"])];
-
-var groups = [new Group("A"), new Group("B"), new Group("C")];
-
-var rooms = ["1", "2", "3", "4", "5", "6", "7"];
-*/
 /* ============ HERE STARTS THE SCHEDULE CALL ================ */
 /** The short function for API calls.
  * 
