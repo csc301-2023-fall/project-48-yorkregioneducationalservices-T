@@ -20,7 +20,7 @@ async function getAllStudents(req, res) {
         }
         return {
             status: STATUS_CODES.SUCCESS,
-            students: all_students.map((student) => { 
+            result: all_students.map((student) => { 
                 return {
                     ...student,
                     friend_ids: student.getFriendIds(),
@@ -56,7 +56,7 @@ function getStudentById(req, res) {
             };
         }
         return {
-            students: student,
+            result: student,
             status: STATUS_CODES.SUCCESS
         };
     } catch (error) {
@@ -86,7 +86,7 @@ function getStudentByUiId(req, res) {
         }
         return {
             status: STATUS_CODES.SUCCESS,
-            students: student
+            result: student
         };
     } catch (error) {
         return {
