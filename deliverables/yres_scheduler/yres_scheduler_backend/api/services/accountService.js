@@ -12,7 +12,6 @@
  */
 
 const db = require('../db/accountDbPlugin');
-const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const {AccountServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 const config = require('config');
@@ -23,9 +22,11 @@ const AdminUser = require('../entities/AdminUser');
  * Authorisation token config.
  * @const {string} [AUTH_TOKEN_SECRET] Secret for JWT signatures.
  * @const {number} [AUTH_TOKEN_EXPIRATION] Number of days until JWT expires.
+ * @const {number} [AUTH_HASHING_SALT_ROUNDS] Number of salt rounds for password hashing.
  */
 const AUTH_TOKEN_SECRET = process.env.AUTH_SECRET || config.get('auth.SECRET');
 const AUTH_TOKEN_EXPIRATION = process.env.AUTH_EXPIRATION || config.get('auth.EXPIRATION');
+const AUTH_HASHING_SALT_ROUNDS = process.env.SALT_ROUNDS || config.get('auth.SALT_ROUNDS');
 
 /**
  * Generates token for admin user session if login credentials are valid.
@@ -66,7 +67,8 @@ async function signup(username, password) {
         );
     }
     else {
-        if(!(await db.createAdminUser(username, password))) {
+        const password_hash = await bcrypt.hash(password, AUTH_HASHING_SALT_ROUNDS);
+        if(!(await db.createAdminUser(username, password_hash))) {
             throw new AccountServiceError(
                 `Failed to create new admin user resource in DB for '${username}'`, 
                 STATUS_CODES.FAILED

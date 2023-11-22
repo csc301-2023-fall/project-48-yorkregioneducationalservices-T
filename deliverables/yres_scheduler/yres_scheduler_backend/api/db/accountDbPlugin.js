@@ -1,6 +1,6 @@
 const AdminUser = require("../entities/AdminUser");
-const uuid = require('uuid');
 const { client } = require('./db');
+const bcrypt = require('bcrypt');
 
 /** Gets an AdminUser entitity for a given username from the database.
  * 
@@ -35,8 +35,8 @@ async function getAdminUserByName(username) {
  * @param {string} password 
  * @returns true if written successfully.
  */
-async function createAdminUser(username, password) {
-    const query = `INSERT INTO logininfo(username, password) VALUES('${username}', '${password}');`
+async function createAdminUser(username, hashed_password) {
+    const query = `INSERT INTO logininfo(username, password) VALUES('${username}', '${hashed_password}');`
     try {
         const result = await client.query(query);
 
@@ -58,10 +58,8 @@ async function checkLogin(username, password) {
     if (admin == null) {
         return false;
     }
-    if (password == admin.password) {
-        return true;
-    }
-    return false;
+    const is_valid =  await bcrypt.compare(password, admin.password);
+    return is_valid;
 }
 
 /** Check if a user exists.
