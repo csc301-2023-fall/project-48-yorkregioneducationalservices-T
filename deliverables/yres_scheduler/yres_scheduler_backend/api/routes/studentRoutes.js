@@ -6,24 +6,6 @@ const studentService = require('../controllers/studentController');
  */
 module.exports = (app) => {
     /**
-     * Route to get all students by campus.
-     * @name GET /students/getAllStudentsByCampus/
-     * @function
-     * @memberof module:routes/studentRoutes
-     * @param {Object} req - The Express request object.
-     * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the getAllStudentsByCampus function.
-     */
-    app.get('/students/getAllStudentsByCampus/', (req, res) => {
-        studentService.getAllStudentsByCampus(req, res)
-            .then((result) => {
-                res.send(result);
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-            });
-    })
-    /**
      * Route to get all students.
      * @name GET /students/getAllStudents/
      * @function

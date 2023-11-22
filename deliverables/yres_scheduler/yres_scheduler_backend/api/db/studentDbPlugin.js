@@ -27,47 +27,6 @@ function mapRowToStudent(row) {
     );
 }
 
-// Student db plugin methods
-/**
- * Retrieves all students belonging to a specific campus.
- * @param {number} campusId - The ID of the campus to retrieve students for.
- * @returns {Array} An array of Student objects.
- */
-function getAllStudentsByCampus(campusId) {
-    const query = `
-        SELECT
-            S.student_id,
-            S.student_ui_id,
-            S.firstname,
-            S.lastname,
-            S.age,
-            S.sex
-        FROM
-            Student S
-            JOIN CampGroup CG ON S.camp_group_id = CG.camp_group_id
-            JOIN Camp C ON CG.camp_id = C.camp_id
-            JOIN Campus Campus ON C.campus_id = Campus.campus_id
-        WHERE
-            Campus.campus_id = $1;
-    `;
-
-    const values = [campusId];
-
-    client.query(query, values, (err, result) => {
-        if (err) {
-            throw Error(err);
-        }
-
-        // Extract rows from the result
-        const rows = result.rows;
-
-         // Map the rows to Student objects using the mapRowToStudent function
-        const students = rows.map(mapRowToStudent);
-
-        return students;
-    });
-}
-
 /**
  * Retrieves friend preferences from the database and categorizes them as either friends or enemies for a given student.
  * @async

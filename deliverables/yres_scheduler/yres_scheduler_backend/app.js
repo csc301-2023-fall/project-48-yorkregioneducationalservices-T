@@ -12,6 +12,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const { combine, timestamp, json } = winston.format;
 
+// Log only if the severity level is greater than or equal to error
+const errorFilter = winston.format((info, opts) => {
+  return info.level === 'error' ? info : false;
+});
+
+// Log only if the severity level is less than error
+const infoFilter = winston.format((info, opts) => {
+  return info.level === 'info' ? info : false;
+});
+
+// Log only if http requests - with morgan
+const httpFilter = winston.format((info, opts) => {
+  return info.level === 'info' ? info : false;
+});
+
 // Create a custom format for log entries
 const logger = winston.createLogger({
   level: 'http',
@@ -21,7 +36,26 @@ const logger = winston.createLogger({
     }),
     json()
   ),
-  transports: [new winston.transports.Console()],
+  transports:  [
+    new winston.transports.File({
+      filename: './logging/all-backend-logs.log',
+    }),
+    new winston.transports.File({
+      filename: './logging/backend-http.log',
+      level: 'http',
+      format: combine(httpFilter(), timestamp(), json()),
+    }),
+    new winston.transports.File({
+      filename: './logging/backend-error.log',
+      level: 'error',
+      format: combine(errorFilter(), timestamp(), json()),
+    }),
+    new winston.transports.File({
+      filename: './logging/backend-info.log',
+      level: 'info',
+      format: combine(infoFilter(), timestamp(), json()),
+    }),
+  ],
 });
 
 const morganMiddleware = morgan(
@@ -40,6 +74,7 @@ app.use(morgan('dev'));
 app.use('/demo', express.static('./api/res/d2_public'));
 const { connectDB } = require('./api/db/db');
 
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -57,11 +92,14 @@ app.use((req, res, next) => {
 // Call the connectDB function to establish the database connection
 connectDB()
   .then(() => {
+      // Kept the console.log for server deployment
       console.log('Server is ready!');
+      logger.info('Server is ready!');
   })
   .catch((error) => {
       console.error('Error connecting to the database:', error);
-      exit(1);
+      logger.error(`Error connecting to the database: ${error}`);
+      process.exit(1);
   });
 
 require('./api/routes/scheduleRoutes')(app);
@@ -79,4 +117,4 @@ require('./api/routes/activityRoutes')(app);
 
 app.use(errorHandler);
 
-module.exports = app, logger;
+module.exports = { app, logger };

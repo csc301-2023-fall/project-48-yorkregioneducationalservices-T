@@ -1,23 +1,6 @@
 const studentService = require('../services/studentService');
 
 /**
- * Retrieves all students by campus ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - An object containing an array of students.
- */
-function getAllStudentsByCampus(req, res) {
-
-    const campus_id = req.body.camp_id;
-
-    const all_students_by_campus = studentService.getAllStudentsByCampus(campus_id);
-
-    return {
-        students: all_students_by_campus
-    };
-}
-
-/**
  * Retrieves all students.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.

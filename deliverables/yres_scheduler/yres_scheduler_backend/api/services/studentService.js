@@ -1,19 +1,6 @@
 const db = require('../db/studentDbPlugin');
 
 /**
- * Retrieves all students associated with a given campus.
- *
- * @param {number} campus_id - The ID of the campus to retrieve students for.
- * @returns {Array} - An array of student objects associated with the given campus.
- */
-function getAllStudentsByCampus(campus_id) {
-    var students = db.getAllStudentsByCampus(campus_id);
-
-    return students;
-
-}
-
-/**
  * Retrieves all students from the database.
  *
  * @returns {Promise<Array>} A promise that resolves to an array of student objects.
