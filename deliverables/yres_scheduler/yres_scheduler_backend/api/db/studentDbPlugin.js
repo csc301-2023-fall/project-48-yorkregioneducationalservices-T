@@ -1,7 +1,9 @@
 const Student = require("../entities/Student");
 const uuid = require('uuid');
 const { client } = require('./db');
-const logger = require('../../logger')
+const logger = require('../../logger');
+const c = require("config");
+const e = require("express");
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -71,8 +73,8 @@ async function getFriendPreferencesAndCategorize(student) {
 
     } catch (error) {
         // Handle errors appropriately
-        logger.error('Error while fetching friend preferences:', error);
-        throw new Error('Failed to fetch friend preferences');
+        logger.error('Error while fetching friend preferences:', {error: error});
+        throw new Error('Failed to fetch friend preferences', error.message);
     }
 
   }
@@ -96,8 +98,8 @@ async function getAllStudents() {
         FROM
             Student S;
     `;
-
-    logger.info('Getting all students in the studentDbPlugin');
+    const functionName = getAllStudents.name; // Get the name of the current function for logging purposes
+    logger.info(`Function ${functionName}: Getting all students in the studentDbPlugin`);
     var students;
     return new Promise(async (resolve, reject) => {
         try {
@@ -124,8 +126,8 @@ async function getAllStudents() {
             // Resolve the promise with the students data
             resolve(students);
         } catch (error) {
-            logger.error('Failed to getAllStudents', error);
-            reject(new Error('Failed to getAllStudents'));
+            logger.error('Error while getting all students:', {error: error});
+            return {result: false, error: err.message};
         }
     });
 }
@@ -152,13 +154,15 @@ async function getStudentById(student_id) {
         WHERE
             S.student_id = $1;
     `;
-
+    const functionName = getStudentById.name; // Get the name of the current function for logging purposes
+    logger.info(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentId: ${student_id}`);
     try {
         const result = client.query(query, [student_id]);
         const row = result.rows[0];
         return mapRowToStudent(row);
     } catch (err) {
-        throw Error(err);
+        logger.error('Failed to getStudentById', {error: err});
+        return {result: false, error: err.message};
     }
 }
 
@@ -177,22 +181,23 @@ function getStudentByUiId(student_ui_id) {
         WHERE
             S.student_ui_id, = $1;
     `;
-
+    const functionName = getStudentByUiId.name; // Get the name of the current function for logging purposes
+    logger.info(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
     try {
         const result = client.query(query, [student_ui_id]);
         const row = result.rows[0];
         return mapRowToStudent(row);
     } catch (err) {
-        throw Error(err);
+        logger.error('Failed to getStudentByUiId', {error: err});
+        return {result: false, error: err.message};
     }
 }
-
 
 async function insertFriendPreferences(student_id, other_student_ui_id, is_apart) {
   
     const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
     if (result_other_friend.rows.length !== 0) {
-        console.log('inserting friend preferences')
+        logger.info('inserting friend preferences');
         const other_student_id = result_other_friend.rows[0].student_id;
         const queryInsertFriendPreferences = `
             INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
@@ -208,7 +213,7 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
             }
         await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
     } else {
-        console.log('other student not found');
+        logger.info('other student not found');
     }
 }
 
@@ -227,13 +232,14 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
  * @returns {Promise<boolean>} - A promise that resolves to true if the student was successfully inserted into the database, or false otherwise.
  */
 async function createStudent(student) {
-    console.log('Creating student:', student);
+
     const query = `
         INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING student_id;
     `;
-
+    const functionName = createStudent.name; // Get the name of the current function for logging purposes
+    logger.info(`Function ${functionName}: Creating student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
             uuid.v1(),
@@ -251,10 +257,10 @@ async function createStudent(student) {
         student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
             insertFriendPreferences(student_id, enemy_ui_id, true)
         });
-        return true;
+        return {result: true};
     } catch (err) {
-        console.log(err);
-        return false; 
+        logger.error('Failed to create student', {error: err});
+        return {result: false, error: err.message};
     }
 }
 
@@ -267,7 +273,7 @@ async function clearFriendPreferencesById(student_id) {
   
     } catch (error) {
         // Handle errors appropriately
-        console.error('Error while deleting FriendPreferences:', error);
+        console.error('Error while deleting FriendPreferences:', {error: error});
         throw new Error('Failed to delete FriendPreferences');
     }
   
@@ -298,7 +304,8 @@ async function editStudentById(student) {
             student_id = $6
         RETURNING *;
     `;
-    console.log(student);
+    const functionName = editStudentById.name; // Get the name of the current function for logging purposes
+    logger.info(`Function ${functionName}: Editing student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
             student.student_ui_id,
@@ -317,12 +324,10 @@ async function editStudentById(student) {
         student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
             await insertFriendPreferences(student_id, enemy_ui_id, true)
         });
-        
-        return true;
-
+        return {result: true};
     } catch (err) {
-        console.log(err);
-        return false; 
+        logger.error('Failed to edit student', {error: err});
+        return {result: false, error: err.message};
     }
 }
 
@@ -341,17 +346,20 @@ async function deleteStudentById(student_ui_id) {
         WHERE student_ui_id = $1
         RETURNING *;
     `;
+    const functionName = deleteStudentById.name; // Get the name of the current function for logging purposes
+    logger.info(`Function ${functionName}: Deleting student in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
     try {
         const result = await client.query(query, [student_ui_id]);
         const deletedStudent = result.rows[0];
 
         if (deletedStudent === undefined) {
-            return false;
+            logger.info('Student not found');
+            throw new Error('Student not found');
         }
-        return true;
+        return {result: true};
     } catch (err) {
-        console.log(err);
-        return false;
+        logger.error('Failed to delete student', {error: err});
+        return {result: false, error: err.message};
     }
 }
 

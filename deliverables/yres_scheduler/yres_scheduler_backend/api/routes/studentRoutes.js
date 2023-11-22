@@ -1,6 +1,7 @@
 const studentService = require('../controllers/studentController');
 const logger = require('../../logger');
 const {STATUS_CODES} = require('../entities/ServiceErrors');
+const { log } = require('mathjs');
 
 /**
  * Defines the routes for student-related API endpoints.
@@ -18,11 +19,11 @@ module.exports = (app) => {
      */
     app.get('/students/getAllStudents/', async (req, res) => {
         try {
-            const all_students = await studentService.getAllStudents(req, res);    
-            logger.info(`Successfully completed GET /students/getAllStudents/ with response ${all_students}`);
-            res.status(STATUS_CODES.SUCCESS).send(all_students);
+            const resp = await studentService.getAllStudents(req, res);
+            logger.info(`Completed GET /students/getAllStudents/ with response `, resp);
+            res.status(resp.status).send(resp);
         } catch (error) {
-            logger.error(`Error in GET /students/getAllStudents/: ${error}`);
+            logger.error(`Error in GET /students/getAllStudents/: `, error);
             res.status(STATUS_CODES.FAILED).send(error);
         }
     })
@@ -37,11 +38,11 @@ module.exports = (app) => {
      */
     .get('/students/getStudentById/', async (req, res) => {
         try {
-            const student = await studentService.getStudentById(req, res);    
-            logger.info(`Successfully completed GET /students/getStudentById/ with response ${student}`);
-            res.status(STATUS_CODES.SUCCESS).send(student);
+            const resp = await studentService.getStudentById(req, res);    
+            logger.info(`Completed GET /students/getStudentById/ with response`, resp);
+            res.status(resp.status).send(resp);
         } catch (error) {
-            logger.error(`Error in GET /students/getStudentById/: ${error}`);
+            logger.error(`Error in GET /students/getStudentById/: `, error);
             res.status(STATUS_CODES.FAILED).send(error);
         }
     })
@@ -57,11 +58,11 @@ module.exports = (app) => {
 
     .get('/students/getStudentByUiId/', async (req, res) => {
         try {
-            const student = await studentService.getStudentByUiId(req, res);    
-            logger.info(`Successfully completed GET /students/getStudentByUiId/ with response ${student}`);
-            res.status(STATUS_CODES.SUCCESS).send(student);
+            const resp = await studentService.getStudentByUiId(req, res);    
+            logger.info(`Completed GET /students/getStudentByUiId/ with response`, resp);
+            res.status(resp.status).send(resp);
         } catch (error) {
-            logger.error(`Error in GET /students/getStudentByUiId/: ${error}`);
+            logger.error(`Error in GET /students/getStudentByUiId/: `, error);
             res.status(STATUS_CODES.FAILED).send(error);
         }
     })
@@ -76,11 +77,11 @@ module.exports = (app) => {
      */
     .post('/students/createStudent/', async (req, res) => {
         try {
-            const student = await studentService.getStudentByUiId(req, res);    
-            logger.info(`Successfully completed GET /students/getStudentByUiId/ with response ${student}`);
-            res.status(STATUS_CODES.SUCCESS).send(student);
+            const resp = await studentService.createStudent(req, res);    
+            logger.info(`Completed POST /students/createStudent/ with response`, resp);
+            res.status(resp.status).send(resp);
         } catch (error) {
-            logger.error(`Error in GET /students/getStudentByUiId/: ${error}`);
+            logger.error(`Error in GET /students/getStudentByUiId/: `, error);
             res.status(STATUS_CODES.FAILED).send(error);
         }
     })
@@ -96,11 +97,11 @@ module.exports = (app) => {
     .post('/students/editStudentById/', async (req, res) => {
         try {
             const resp = await studentService.editStudentById(req, res);
-            res.send(resp);
-            
+            logger.info(`Completed POST /students/editStudentById/ with response `, resp);
+            res.status(resp.status).send(resp);
         } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
+            logger.error('Error in POST /students/editStudentById/: ', error);
+            res.status(STATUS_CODES.FAILED).send(error);
         }
     })
     /**
@@ -115,11 +116,11 @@ module.exports = (app) => {
     .post('/students/deleteStudentById/', async (req, res) => {
         try {
             const resp = await studentService.deleteStudentById(req, res);
-            res.send(resp);
-            
+            logger.info(`Completed POST /students/deleteStudentById/ with response `, resp);
+            res.status(resp.status).send(resp);
         } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
+            logger.error(`Error in POST /students/deleteStudentById/:`, error);
+            res.status(STATUS_CODES.FAILED).send(error);
         }
     })
 

@@ -6,9 +6,9 @@ const db = require('../db/studentDbPlugin');
  * @returns {Promise<Array>} A promise that resolves to an array of student objects.
  */
 async function getAllStudents() {
-    var students = await db.getAllStudents();
+    const resp = await db.getAllStudents();
 
-    return students;
+    return resp;
 
 }
 
@@ -18,9 +18,9 @@ async function getAllStudents() {
  * @returns {object} - The student object.
  */
 function getStudentById(student_id) {
-    var student = db.getStudentById(student_id);
+    const resp = db.getStudentById(student_id);
 
-    return student;
+    return resp;
 
 }
 
@@ -32,9 +32,9 @@ function getStudentById(student_id) {
  */
 function getStudentByUiId(student_ui_id) {
 
-    var student = db.getStudentById(student_ui_id);
+    const resp = db.getStudentById(student_ui_id);
 
-    return student;
+    return resp;
 
 }
 
