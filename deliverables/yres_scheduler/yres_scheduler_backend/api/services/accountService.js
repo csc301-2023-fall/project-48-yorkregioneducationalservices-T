@@ -11,7 +11,7 @@
  * @requires jsonwebtoken
  */
 
-const db = require('../db/psqlDbPlugin');
+const db = require('../db/accountDbPlugin');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const {AccountServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
@@ -90,7 +90,7 @@ async function getLoginStatus(token) {
             const decoded = jwt.verify(token, AUTH_TOKEN_SECRET);
             return true;
         } catch(err) {
-            console.log(err);
+            // Error indicates token is invalid
             return false;
         }
     }
