@@ -32,7 +32,6 @@ function RoomsTable({ roomData }) {
             "/rooms/deleteRoomById/",
             { room_id: id }
         );
-        router.refresh();
     }
 
     roomData.forEach(item => {

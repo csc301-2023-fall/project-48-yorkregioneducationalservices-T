@@ -36,7 +36,6 @@ function ActivityCreate({ currCampus }) {
                 room_ids: "" //process_comma_separated_text(event.target[2].value);
             }
         )
-        router.refresh();
         handleClose();
     }
   

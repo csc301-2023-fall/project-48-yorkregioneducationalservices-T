@@ -76,7 +76,6 @@ function StudentCSV({type}) {
     });
     promise.then((d) => {
       AddStudents(d, type);
-      router.refresh();
     });
   }
   };

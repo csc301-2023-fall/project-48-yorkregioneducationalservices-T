@@ -47,7 +47,6 @@ function StudentAdd({show, setShow, item, students}) {
                     enemy_ids: process_comma_separated_text(event.target[6].value),
                 }
             )
-            router.refresh();
             handleClose()
         }
     }

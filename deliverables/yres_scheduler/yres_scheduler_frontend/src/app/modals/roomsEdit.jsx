@@ -37,7 +37,6 @@ function RoomsEdit({item, show, setShow}) {
                 campus_id: item.campus_id
             }
         );
-        router.refresh();
         handleClose() //needs to be before setStudentData
     }
   
