@@ -85,3 +85,27 @@ export function send_post_request(route, data, callback) {
         console.log(err);
     });
 }
+
+/**
+ * Helper function to make a POST request. Throws an error if the request fails
+ * or if the request returns a non 200 response.
+ * 
+ * Input:
+ *      route - a string representing the route from the base URI to send this request
+ *      item - the JSON item being sent
+ * Output:
+ *      The json data returned from the server
+ */
+export async function fetchDataPOST(route, item) {
+    const settings = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item)
+    }
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`, settings);
+    const data = response.json();
+    if (!response.ok) {
+        throw new Error(`Error: ${data.message}`)
+    }
+    return data;
+}

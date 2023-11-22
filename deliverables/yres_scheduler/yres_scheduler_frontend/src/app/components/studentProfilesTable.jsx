@@ -7,7 +7,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
 import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
-import { send_post_request } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /** 
@@ -62,8 +62,8 @@ function StudentProfilesTable({ studentData}) {
             setEditItem(item);
             setShowEdit(true);
         }
-        const deleteStudent = () =>{
-            send_post_request(
+        const deleteStudent = async () =>{
+            await fetchDataPOST(
                 "/students/deleteStudentById/", 
                 { student_ui_id: item._student_ui_id }
             );

@@ -3,13 +3,12 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import YresTable from './table'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import ActivityEdit from '../modals/activityEdit';
-import { send_post_request } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /** 
  * Activities Table that displays:
@@ -23,7 +22,6 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 */
 function ActivitiesTable({ activityData }) {
     const router = useRouter();
-    const [activities, setActivities] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         activity_id: -1,
@@ -33,10 +31,6 @@ function ActivitiesTable({ activityData }) {
         type: null,
         num_occurences: -1
     });
-
-    useEffect(() => {
-        setActivities(activityData);
-    }, [activityData])
 
     const columns = [{
         dataField: 'name',
@@ -58,15 +52,15 @@ function ActivitiesTable({ activityData }) {
         text: 'Actions'
     }]
 
-    const deleteActivity = (id) => {
-        send_post_request(
+    const deleteActivity = async (id) => {
+        await fetchDataPOST(
             "/activities/deleteActivityById/",
             { activity_id: id }
         );
         router.refresh();
     }
 
-    activities.forEach(item => {
+    activityData.forEach(item => {
         //state for modal display
         const showEditModal = () => {
             setEditItem(item);
@@ -95,7 +89,7 @@ function ActivitiesTable({ activityData }) {
     });
     return (
         <>
-            <YresTable keyCol={'activity_id'} data={activities} columns={columns} disableHover={true}/>
+            <YresTable keyCol={'activity_id'} data={activityData} columns={columns} disableHover={true}/>
             <ActivityEdit
                 item={editItem}
                 show={showEdit}

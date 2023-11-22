@@ -6,24 +6,18 @@ import YresTable from './table'
 import RoomsEdit from '../modals/roomsEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
-import { useState, useEffect } from 'react';
-import { send_post_request } from '../helper';
+import { useState } from 'react';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation'
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 function RoomsTable({ roomData }) {
     const router = useRouter();
-    const [rooms, setRooms] = useState([]);
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         room_id: -1,
         name: null,
         activity_ids: []
     });
-
-    useEffect(() => {
-        setRooms(roomData);
-    }, [roomData])
 
     const columns = [{
         dataField: 'name',
@@ -33,15 +27,15 @@ function RoomsTable({ roomData }) {
         text: 'Actions'
     }]
 
-    const deleteRoom = (id) => {
-        send_post_request(
+    const deleteRoom = async (id) => {
+        await fetchDataPOST(
             "/rooms/deleteRoomById/",
             { room_id: id }
         );
         router.refresh();
     }
 
-    rooms.forEach(item => {
+    roomData.forEach(item => {
         const showEditModal = () => {
             setEditItem(item);
             setShowEdit(true);
@@ -64,7 +58,7 @@ function RoomsTable({ roomData }) {
 
     return (
         <>
-            <YresTable keyCol={'room_id'} data={rooms} columns={columns} disableHover={true}/>
+            <YresTable keyCol={'room_id'} data={roomData} columns={columns} disableHover={true}/>
             <RoomsEdit item={editItem} show={showEdit} setShow={setShowEdit}/>
         </>
     )   

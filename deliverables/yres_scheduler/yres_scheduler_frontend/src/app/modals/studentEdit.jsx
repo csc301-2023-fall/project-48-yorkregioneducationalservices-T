@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
-import { validRelationship, process_comma_separated_text, send_post_request  } from '@/app/helper';
+import { validRelationship, process_comma_separated_text, fetchDataPOST  } from '@/app/helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -21,11 +21,11 @@ function StudentEdit({item, show, setShow, students}) {
         setError(<></>)
         setShow(false)
     };
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
-        send_post_request(
+        await fetchDataPOST(
             "/students/editStudentById/", 
             {
                 student_id: item._student_id,

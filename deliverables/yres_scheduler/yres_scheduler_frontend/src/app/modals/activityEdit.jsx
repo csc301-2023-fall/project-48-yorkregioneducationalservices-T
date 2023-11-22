@@ -1,7 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { send_post_request } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -21,12 +21,12 @@ import { useRouter } from 'next/navigation';
 function ActivityEdit({item, show, setShow }) {
     const router = useRouter();
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         /**
          * API post request for updating activity
          */
-        send_post_request(
+        await fetchDataPOST(
             "/activities/editActivityById/", 
             {
                 activity_id: item.activity_id,

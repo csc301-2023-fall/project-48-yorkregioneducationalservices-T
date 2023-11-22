@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { process_comma_separated_text, send_post_request } from '../helper';
+import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -23,9 +23,9 @@ function ActivityCreate({ currCampus }) {
     const router = useRouter();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        send_post_request(
+        await fetchDataPOST(
             "/activities/createActivity/",
             {
                 name: event.target[0].value,
