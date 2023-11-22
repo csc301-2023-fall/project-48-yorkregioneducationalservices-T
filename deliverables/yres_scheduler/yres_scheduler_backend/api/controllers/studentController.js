@@ -150,7 +150,7 @@ async function createStudentsFromList(req, res) {
 
     return {
         status: failed_students.length === 0 ? STATUS_CODES.SUCCESS : STATUS_CODES.FAILED,
-        failed_students: failed_students // Return the list of failed student IDs
+        error: { failed_students: failed_students} // Return the list of failed student IDs
     };
 }
 /**
