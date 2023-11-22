@@ -63,11 +63,16 @@ function StudentProfilesTable({ studentData}) {
             setShowEdit(true);
         }
         const deleteStudent = async () =>{
-            await fetchDataPOST(
-                "/students/deleteStudentById/", 
-                { student_ui_id: item._student_ui_id }
-            );
-            router.refresh();
+            try {
+                await fetchDataPOST(
+                    "/students/deleteStudentById/", 
+                    { student_ui_id: item._student_ui_id }
+                );
+                router.refresh();
+            } catch (err) {
+                //TODO: Display Error in component
+                console.log(err);
+            }
         }
         item.actions = (
             <div className='table-actions'>

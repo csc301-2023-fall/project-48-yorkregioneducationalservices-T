@@ -53,11 +53,16 @@ function ActivitiesTable({ activityData }) {
     }]
 
     const deleteActivity = async (id) => {
-        await fetchDataPOST(
-            "/activities/deleteActivityById/",
-            { activity_id: id }
-        );
-        router.refresh();
+        try {
+            await fetchDataPOST(
+                "/activities/deleteActivityById/",
+                { activity_id: id }
+            );
+            router.refresh();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
 
     activityData.forEach(item => {

@@ -59,19 +59,16 @@ export function process_comma_separated_text(input) {
  * Input:
  *      route - a string representing the route from the base URI to send this request
  *      item - the JSON item being sent
- * Output:
- *      The json data returned from the server
  */
 export async function fetchDataPOST(route, item) {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`;
     const settings = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(item)
     }
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`, settings);
-    const data = response.json();
-    if (!response.ok) {
-        throw new Error(`Error: ${data.message}`)
+    const response = await fetch(url, settings);
+    if (response.status !== 200) {
+        throw new Error(`${response.status} Error: Something Wrong Happened!`)
     }
-    return data;
 }

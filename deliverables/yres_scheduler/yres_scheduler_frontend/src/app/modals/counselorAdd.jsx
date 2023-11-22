@@ -21,16 +21,21 @@ function CounselorAdd({show, setShow, item}) {
     const router = useRouter();
     const handleClose = () => setShow(false);
     const handleSubmit = async (event) => {
-        event.preventDefault()
-        await fetchDataPOST(
-            "/counselors/createCounselor/",
-            {
-                firstname: event.target[0].value,
-                lastname: event.target[1].value
-            }
-        );
-        router.refresh();
-        handleClose()
+        try {
+            event.preventDefault()
+            await fetchDataPOST(
+                "/counselors/createCounselor/",
+                {
+                    firstname: event.target[0].value,
+                    lastname: event.target[1].value
+                }
+            );
+            router.refresh();
+            handleClose()
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

@@ -25,19 +25,24 @@ function ActivityCreate({ currCampus }) {
     const handleClose = () => setShow(false);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await fetchDataPOST(
-            "/activities/createActivity/",
-            {
-                name: event.target[0].value,
-                duration: event.target[1].value,
-                type: event.target[3].checked ? "filler" : "common",
-                num_occurences: event.target[4].value,
-                camp_id: currCampus.camp_ids[0],
-                room_ids: "" //process_comma_separated_text(event.target[2].value);
-            }
-        )
-        router.refresh();
-        handleClose();
+        try {
+            await fetchDataPOST(
+                "/activities/createActivity/",
+                {
+                    name: event.target[0].value,
+                    duration: event.target[1].value,
+                    type: event.target[3].checked ? "filler" : "common",
+                    num_occurences: event.target[4].value,
+                    camp_id: currCampus.camp_ids[0],
+                    room_ids: "" //process_comma_separated_text(event.target[2].value);
+                }
+            )
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

@@ -22,15 +22,20 @@ function RoomsCreate({ currCampus }) {
     const handleClose = () => setShow(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await fetchDataPOST(
-            "/rooms/createRoom/",
-            {
-                name: e.target[0].value,
-                campus_id: currCampus.campus_id
-            }
-        );
-        router.refresh();
-        handleClose();
+        try {
+            await fetchDataPOST(
+                "/rooms/createRoom/",
+                {
+                    name: e.target[0].value,
+                    campus_id: currCampus.campus_id
+                }
+            );
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

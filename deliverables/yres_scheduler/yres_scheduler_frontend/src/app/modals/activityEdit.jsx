@@ -23,23 +23,28 @@ function ActivityEdit({item, show, setShow }) {
     const handleClose = () => setShow(false);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        /**
-         * API post request for updating activity
-         */
-        await fetchDataPOST(
-            "/activities/editActivityById/", 
-            {
-                activity_id: item.activity_id,
-                name: event.target[0].value,
-                duration: event.target[1].value,
-                type: event.target[3].checked ? "filler" : "common",
-                num_occurences: event.target[4].value,
-                camp_id: item.camp_id,
-                room_ids: "" //process_comma_separated_text(event.target[2].value);
-            }
-        )
-        router.refresh();
-        handleClose();
+        try {
+            /**
+             * API post request for updating activity
+             */
+            await fetchDataPOST(
+                "/activities/editActivityById/", 
+                {
+                    activity_id: item.activity_id,
+                    name: event.target[0].value,
+                    duration: event.target[1].value,
+                    type: event.target[3].checked ? "filler" : "common",
+                    num_occurences: event.target[4].value,
+                    camp_id: item.camp_id,
+                    room_ids: "" //process_comma_separated_text(event.target[2].value);
+                }
+            )
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

@@ -35,20 +35,25 @@ function StudentAdd({show, setShow, item, students}) {
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
         if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
-            await fetchDataPOST(
-                "/students/createStudent/", 
-                {
-                    student_ui_id: event.target[0].value, 
-                    firstname: event.target[1].value, 
-                    lastname: event.target[2].value, 
-                    age: event.target[3].value, 
-                    sex: event.target[4].value,
-                    friend_ids: process_comma_separated_text(event.target[5].value),
-                    enemy_ids: process_comma_separated_text(event.target[6].value),
-                }
-            )
-            router.refresh();
-            handleClose()
+            try {
+                await fetchDataPOST(
+                    "/students/createStudent/", 
+                    {
+                        student_ui_id: event.target[0].value, 
+                        firstname: event.target[1].value, 
+                        lastname: event.target[2].value, 
+                        age: event.target[3].value, 
+                        sex: event.target[4].value,
+                        friend_ids: process_comma_separated_text(event.target[5].value),
+                        enemy_ids: process_comma_separated_text(event.target[6].value),
+                    }
+                )
+                router.refresh();
+                handleClose()
+            } catch (err) {
+                //TODO: Display Error in component
+                console.log(err);
+            }
         }
     }
   

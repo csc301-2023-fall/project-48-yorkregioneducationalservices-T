@@ -28,11 +28,16 @@ function RoomsTable({ roomData }) {
     }]
 
     const deleteRoom = async (id) => {
-        await fetchDataPOST(
-            "/rooms/deleteRoomById/",
-            { room_id: id }
-        );
-        router.refresh();
+        try {
+            await fetchDataPOST(
+                "/rooms/deleteRoomById/",
+                { room_id: id }
+            );
+            router.refresh();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
 
     roomData.forEach(item => {

@@ -50,11 +50,16 @@ function CounselorProfilesTable({ counselorData }) {
             setShowEdit(true);
         }
         const deleteCounselor = async () =>{
-            await fetchDataPOST(
-                "/counselors/deleteCounselorById/", 
-                { counselor_id: item._counselor_id }
-            );
-            router.refresh();
+            try {
+                await fetchDataPOST(
+                    "/counselors/deleteCounselorById/", 
+                    { counselor_id: item._counselor_id }
+                );
+                router.refresh();
+            } catch (err) {
+                //TODO: Display Error in component
+                console.log(err);
+            }
         }
         item.actions = (
             <div className='table-actions'>

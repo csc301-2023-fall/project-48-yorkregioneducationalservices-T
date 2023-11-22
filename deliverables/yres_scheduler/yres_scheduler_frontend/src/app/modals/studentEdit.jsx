@@ -25,21 +25,26 @@ function StudentEdit({item, show, setShow, students}) {
         event.preventDefault()
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
-        await fetchDataPOST(
-            "/students/editStudentById/", 
-            {
-                student_id: item._student_id,
-                student_ui_id: event.target[0].value, 
-                firstname: event.target[1].value, 
-                lastname: event.target[2].value, 
-                age: event.target[3].value, 
-                sex: event.target[4].value,
-                friend_ids: process_comma_separated_text(friends.value),
-                enemy_ids: process_comma_separated_text(enemies.value),
-            }
-        )
-        router.refresh();
-        handleClose();
+        try {
+            await fetchDataPOST(
+                "/students/editStudentById/", 
+                {
+                    student_id: item._student_id,
+                    student_ui_id: event.target[0].value, 
+                    firstname: event.target[1].value, 
+                    lastname: event.target[2].value, 
+                    age: event.target[3].value, 
+                    sex: event.target[4].value,
+                    friend_ids: process_comma_separated_text(friends.value),
+                    enemy_ids: process_comma_separated_text(enemies.value),
+                }
+            )
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
 
     return (

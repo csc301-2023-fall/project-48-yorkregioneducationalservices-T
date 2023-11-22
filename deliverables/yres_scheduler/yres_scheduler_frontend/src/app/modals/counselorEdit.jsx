@@ -22,16 +22,21 @@ function CounselorEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
     const handleSubmit = async (event) => {
         event.preventDefault()
-        await fetchDataPOST(
-            "/counselors/editCounselorById/",
-            {
-                counselor_id: item._counselor_id,
-                firstname: event.target[0].value,
-                lastname: event.target[1].value
-            }
-        );
-        router.refresh();
-        handleClose()
+        try {
+            await fetchDataPOST(
+                "/counselors/editCounselorById/",
+                {
+                    counselor_id: item._counselor_id,
+                    firstname: event.target[0].value,
+                    lastname: event.target[1].value
+                }
+            );
+            router.refresh();
+            handleClose()
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

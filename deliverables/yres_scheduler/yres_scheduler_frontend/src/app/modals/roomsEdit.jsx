@@ -25,20 +25,25 @@ function RoomsEdit({item, show, setShow}) {
     const handleClose = () => setShow(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        /**
-         * API post requests
-         * use event.target[0] to index through the fields
-         */
-        await fetchDataPOST(
-            "/rooms/editRoomById/",
-            {
-                room_id: item.room_id,
-                name: e.target[0].value,
-                campus_id: item.campus_id
-            }
-        );
-        router.refresh();
-        handleClose() //needs to be before setStudentData
+        try {
+            /**
+             * API post requests
+             * use event.target[0] to index through the fields
+             */
+            await fetchDataPOST(
+                "/rooms/editRoomById/",
+                {
+                    room_id: item.room_id,
+                    name: e.target[0].value,
+                    campus_id: item.campus_id
+                }
+            );
+            router.refresh();
+            handleClose()
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (
