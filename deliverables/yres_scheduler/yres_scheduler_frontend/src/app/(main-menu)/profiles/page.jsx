@@ -117,7 +117,7 @@ function Profiles() {
         setShow(true);
     };
     return (
-        <>
+        <div id='profiles-page'>
             <div id='profiles-header'>
                 <RefinedDropdown 
                     handleSelect={handleSelectType}
@@ -149,7 +149,7 @@ function Profiles() {
                         <CounselorProfilesTable counselorData={profileData}/>}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
