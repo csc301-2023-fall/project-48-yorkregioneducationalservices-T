@@ -1,5 +1,6 @@
 const roomService = require('../controllers/roomController');
-
+const logger = require('../../logger');
+const { log } = require('mathjs');
 /**
  * Defines the routes for room-related API endpoints.
  * @param {Object} app - The Express application object.
@@ -9,48 +10,54 @@ module.exports = (app) => {
      * 
      */
     app.get('/rooms/getAllRooms/', async (req, res) => {
+        logger.info(`GET /rooms/getAllRooms/`);
         try {
-            const all_rooms = await roomService.getAllRooms(req, res);    
-            res.send(all_rooms);
+            const result = await roomService.getAllRooms(req, res);    
+            res.status(STATUS_CODES.SUCCESS).send(result);
         } catch (error) {
-            res.status(500).send(error);
+            logger.error(`Error in GET /rooms/getAllRooms/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }
     })
     /**
      * 
      */
     .post('/rooms/createRoom/', async (req, res) => {
+        logger.info(`POST /rooms/createRoom/`);
         try {
-            const resp = await roomService.createRoom(req, res);
+            const result = await roomService.createRoom(req, res);
 
-            res.status(200).send('Success');
+            res.status(STATUS_CODES.SUCCESS).send(result);
 
-            
+        
         } catch (error) {
-            res.status(500).send(error);
+            logger.error(`Error in POST /rooms/createRoom/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }
     })
     /**
      * 
      */
     .post('/rooms/deleteRoomById/', async (req, res) => {
+        logger.info(`POST /rooms/deleteRoomById/`);
         try {
-            const resp = await roomService.deleteRoomById(req, res);
-            res.send(resp);
+            const result = await roomService.deleteRoomById(req, res);
+            res.status(STATUS_CODES.SUCCESS).send(result);
             
         } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
+            logger.error(`Error in POST /rooms/deleteRoomById/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }
     })
     .post('/rooms/editRoomById/', async (req, res) => {
+        logger.info(`POST /rooms/editRoomById/`);
         try {
-            const resp = await roomService.editRoomsById(req, res);
-            res.send(resp);
+            const result = await roomService.editRoomsById(req, res);
+            res.status(STATUS_CODES.SUCCESS).send(result);
             
         } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
+            logger.error(`Error in POST /rooms/editRoomById/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }
     });
 };
