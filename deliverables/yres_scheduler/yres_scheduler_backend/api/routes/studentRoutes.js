@@ -85,6 +85,27 @@ module.exports = (app) => {
             res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
+
+/**
+     * Route to create a new student from a json list.
+     * @name POST /students/createStudentsFromList/
+     * @function
+     * @memberof module:routes/studentRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     * @returns {Promise} A Promise that resolves to a string indicating success or failure.
+     */
+    .post('/students/createStudentsFromList/', async (req, res) => {
+        try {
+            const resp = await studentService.createStudentsFromList(req, res);    
+            logger.info(`Completed POST /students/createStudentsFromList/ with response`, resp);
+            res.status(resp.status).send(resp);
+        } catch (error) {
+            logger.error(`Error in GET /students/createStudentsFromList/: `, error);
+            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
+        }
+    })
+
     /**
      * Route to edit a student by ID.
      * @name POST /students/editStudentById/

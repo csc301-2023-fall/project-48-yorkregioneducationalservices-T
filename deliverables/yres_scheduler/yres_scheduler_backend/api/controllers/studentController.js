@@ -1,7 +1,7 @@
 const c = require('config');
 const studentService = require('../services/studentService');
 const {STATUS_CODES} = require('../entities/ServiceErrors');
-
+const logger = require('../../logger');
 /**
  * Retrieves all students.
  * @param {Object} req - The request object.
@@ -128,6 +128,32 @@ async function createStudent(req, res) {
 }
 
 /**
+ * Creates a new student.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
+async function createStudentsFromList(req, res) {
+        
+    const students = req.body;
+    logger.info(`createStudentsFromList: `, students);
+
+    const failed_students = []; // Initialize an array to store failed student IDs
+
+    await Promise.all(students.map(async student => {
+        const status = await studentService.createStudent(student);
+        if (status?.result === false) {
+            logger.error(`createStudentsFromList: Failed to create student ${student.student_ui_id} with error: ${status.error}`)
+            failed_students.push(student.student_ui_id); 
+        }
+    }));
+
+    return {
+        status: failed_students.length === 0 ? STATUS_CODES.SUCCESS : STATUS_CODES.FAILED,
+        failed_students: failed_students // Return the list of failed student IDs
+    };
+}
+/**
  * Edits a student by ID.
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
@@ -193,6 +219,7 @@ module.exports = {
     getStudentById,
     getStudentByUiId,
     createStudent,
+    createStudentsFromList,
     editStudentById,
     deleteStudentById
 }
