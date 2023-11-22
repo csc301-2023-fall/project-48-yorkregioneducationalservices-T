@@ -1,4 +1,6 @@
 const studentService = require('../controllers/studentController');
+const logger = require('../../logger');
+const {STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Defines the routes for student-related API endpoints.
@@ -14,12 +16,14 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllStudents function.
      */
-    .get('/students/getAllStudents/', async (req, res) => {
+    app.get('/students/getAllStudents/', async (req, res) => {
         try {
             const all_students = await studentService.getAllStudents(req, res);    
-            res.send(all_students);
+            logger.info(`Successfully completed GET /students/getAllStudents/ with response ${all_students}`);
+            res.status(STATUS_CODES.SUCCESS).send(all_students);
         } catch (error) {
-            res.status(500).send(error);
+            logger.error(`Error in GET /students/getAllStudents/: ${error}`);
+            res.status(STATUS_CODES.FAILED).send(error);
         }
     })
     /**
@@ -31,14 +35,15 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getStudentById function.
      */
-    .get('/students/getStudentById/', (req, res) => {
-        studentService.getStudentById(req, res)
-            .then((result) => {
-                res.send(result);
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-            });
+    .get('/students/getStudentById/', async (req, res) => {
+        try {
+            const student = await studentService.getStudentById(req, res);    
+            logger.info(`Successfully completed GET /students/getStudentById/ with response ${student}`);
+            res.status(STATUS_CODES.SUCCESS).send(student);
+        } catch (error) {
+            logger.error(`Error in GET /students/getStudentById/: ${error}`);
+            res.status(STATUS_CODES.FAILED).send(error);
+        }
     })
     /**
      * Route to get a student by UI ID.
@@ -49,14 +54,16 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getStudentByUiId function.
      */
-    .get('/students/getStudentByUiId/', (req, res) => {
-        studentService.getStudentByUiId(req, res)
-            .then((result) => {
-                res.send(result);
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-            });
+
+    .get('/students/getStudentByUiId/', async (req, res) => {
+        try {
+            const student = await studentService.getStudentByUiId(req, res);    
+            logger.info(`Successfully completed GET /students/getStudentByUiId/ with response ${student}`);
+            res.status(STATUS_CODES.SUCCESS).send(student);
+        } catch (error) {
+            logger.error(`Error in GET /students/getStudentByUiId/: ${error}`);
+            res.status(STATUS_CODES.FAILED).send(error);
+        }
     })
     /**
      * Route to create a new student.
@@ -69,15 +76,12 @@ module.exports = (app) => {
      */
     .post('/students/createStudent/', async (req, res) => {
         try {
-            const resp = await studentService.createStudent(req, res);
-            if (resp === true){
-                res.status(200).send(resp);
-            } else {
-                res.status(200).send(resp);
-            }
-            
+            const student = await studentService.getStudentByUiId(req, res);    
+            logger.info(`Successfully completed GET /students/getStudentByUiId/ with response ${student}`);
+            res.status(STATUS_CODES.SUCCESS).send(student);
         } catch (error) {
-            res.status(500).send(error);
+            logger.error(`Error in GET /students/getStudentByUiId/: ${error}`);
+            res.status(STATUS_CODES.FAILED).send(error);
         }
     })
     /**

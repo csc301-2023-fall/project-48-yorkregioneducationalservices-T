@@ -1,6 +1,7 @@
 const Student = require("../entities/Student");
 const uuid = require('uuid');
 const { client } = require('./db');
+const logger = require('../../logger')
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -38,9 +39,10 @@ function mapRowToStudent(row) {
 async function getFriendPreferencesAndCategorize(student) {
  
     const queryGetFriendPreferencesAndCategorize = `
-    SELECT *
-    FROM FriendPreference
-    WHERE student_id1 = $1 OR student_id2 = $1;`;
+        SELECT *
+        FROM FriendPreference
+        WHERE student_id1 = $1 OR student_id2 = $1;
+    `;
 
     const values = [student.student_id];
     
@@ -69,7 +71,7 @@ async function getFriendPreferencesAndCategorize(student) {
 
     } catch (error) {
         // Handle errors appropriately
-        console.error('Error while fetching friend preferences:', error);
+        logger.error('Error while fetching friend preferences:', error);
         throw new Error('Failed to fetch friend preferences');
     }
 
@@ -94,33 +96,37 @@ async function getAllStudents() {
         FROM
             Student S;
     `;
-    
+
+    logger.info('Getting all students in the studentDbPlugin');
     var students;
     return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(queryGetAllStudents, (err, result) => {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
+        try {
+            const result = await new Promise((queryResolve, queryReject) => {
+                client.query(queryGetAllStudents, (err, result) => {
+                    if (err) {
+                        queryReject(err);
+                    } else {
+                        queryResolve(result);
+                    }
+                });
             });
-        });
-        
-
-        // Extract rows from the result
-        const rows = result.rows;
-
-        // Map the rows to Student objects
-        students = rows.map(mapRowToStudent);
-
-         // Create an array of promises to wait for all students' preferences to be fetched and categorized
-        for (const student of students) {
-            await getFriendPreferencesAndCategorize(student);
+    
+            // Extract rows from the result
+            const rows = result.rows;
+    
+            // Map the rows to Student objects
+            students = rows.map(mapRowToStudent);
+    
+            // Create an array of promises to wait for all students' preferences to be fetched and categorized
+            for (const student of students) {
+                await getFriendPreferencesAndCategorize(student);
+            }
+            // Resolve the promise with the students data
+            resolve(students);
+        } catch (error) {
+            logger.error('Failed to getAllStudents', error);
+            reject(new Error('Failed to getAllStudents'));
         }
-        // Resolve the promise with the students data
-        resolve(students)
-
     });
 }
 
@@ -350,8 +356,6 @@ async function deleteStudentById(student_ui_id) {
 }
 
 module.exports = {
-
-    getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
     getStudentByUiId,

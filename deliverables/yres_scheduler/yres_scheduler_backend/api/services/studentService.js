@@ -71,7 +71,6 @@ function deleteStudentById(student_ui_id) {
 }
 
 module.exports = {
-    getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
     getStudentByUiId,

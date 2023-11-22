@@ -108,7 +108,6 @@ async function deleteStudentById(req, res) {
 }
 
 module.exports = {
-    getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
     getStudentByUiId,
