@@ -24,7 +24,7 @@ module.exports = (app) => {
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getAllStudents/: `, error);
-            res.status(STATUS_CODES.FAILED).send(error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
     /**
@@ -43,7 +43,7 @@ module.exports = (app) => {
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getStudentById/: `, error);
-            res.status(STATUS_CODES.FAILED).send(error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
     /**
@@ -63,7 +63,7 @@ module.exports = (app) => {
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getStudentByUiId/: `, error);
-            res.status(STATUS_CODES.FAILED).send(error);
+            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
     /**
@@ -82,7 +82,7 @@ module.exports = (app) => {
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getStudentByUiId/: `, error);
-            res.status(STATUS_CODES.FAILED).send(error);
+            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
     /**
@@ -101,7 +101,7 @@ module.exports = (app) => {
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error('Error in POST /students/editStudentById/: ', error);
-            res.status(STATUS_CODES.FAILED).send(error);
+            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
     /**
@@ -120,7 +120,7 @@ module.exports = (app) => {
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in POST /students/deleteStudentById/:`, error);
-            res.status(STATUS_CODES.FAILED).send(error);
+            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
 
