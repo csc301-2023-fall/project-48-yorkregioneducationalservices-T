@@ -29,6 +29,7 @@ function CounselorAdd({show, setShow, item}) {
                 lastname: event.target[1].value
             }
         );
+        router.refresh();
         handleClose()
     }
   

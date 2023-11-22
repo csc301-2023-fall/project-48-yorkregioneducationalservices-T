@@ -29,6 +29,7 @@ function RoomsCreate({ currCampus }) {
                 campus_id: currCampus.campus_id
             }
         );
+        router.refresh();
         handleClose();
     }
   

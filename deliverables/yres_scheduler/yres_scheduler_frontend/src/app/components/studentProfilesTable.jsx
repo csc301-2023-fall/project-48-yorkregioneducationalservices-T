@@ -67,6 +67,7 @@ function StudentProfilesTable({ studentData}) {
                 "/students/deleteStudentById/", 
                 { student_ui_id: item._student_ui_id }
             );
+            router.refresh();
         }
         item.actions = (
             <div className='table-actions'>

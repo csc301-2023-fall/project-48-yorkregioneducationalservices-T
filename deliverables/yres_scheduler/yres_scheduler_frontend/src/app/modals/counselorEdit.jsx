@@ -30,6 +30,7 @@ function CounselorEdit({item, show, setShow}) {
                 lastname: event.target[1].value
             }
         );
+        router.refresh();
         handleClose()
     }
   

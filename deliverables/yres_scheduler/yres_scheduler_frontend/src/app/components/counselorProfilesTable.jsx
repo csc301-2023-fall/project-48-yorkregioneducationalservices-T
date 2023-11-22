@@ -54,6 +54,7 @@ function CounselorProfilesTable({ counselorData }) {
                 "/counselors/deleteCounselorById/", 
                 { counselor_id: item._counselor_id }
             );
+            router.refresh();
         }
         item.actions = (
             <div className='table-actions'>

@@ -53,38 +53,6 @@ export function process_comma_separated_text(input) {
 }
 
 /**
- * Helper function to make a POST
- * 
- * Props:
- *      route - a string representing the route from the base URI to send this request
- *      data - the JSON data being sent
- *      callback - (OPTIONAL) a function that runs after recieving a response back from the server
- */
-export function send_post_request(route, data, callback) {
-    let func = callback;
-    if (typeof callback !== 'function') {
-        func = _ => {};
-    }
-
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-    .then(res => {
-        if (res.status === 200) {
-            window.location.reload();
-            //return res.json();
-        } else {
-            throw new Error(`${res.status} error!`);
-        }
-    })
-    .catch(err => {
-        console.log(err);
-    });
-}
-
-/**
  * Helper function to make a POST request. Throws an error if the request fails
  * or if the request returns a non 200 response.
  * 

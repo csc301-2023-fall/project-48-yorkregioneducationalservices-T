@@ -38,6 +38,7 @@ function StudentEdit({item, show, setShow, students}) {
                 enemy_ids: process_comma_separated_text(enemies.value),
             }
         )
+        router.refresh();
         handleClose();
     }
 
