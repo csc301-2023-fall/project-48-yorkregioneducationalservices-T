@@ -12,6 +12,10 @@ const infoFilter = winston.format((info, opts) => {
   return info.level === 'info' ? info : false;
 });
 
+const debugFilter = winston.format((info, opts) => {
+    return info.level === 'debug' ? info : false;
+});
+
 // Log only if http requests - with morgan
 const httpFilter = winston.format((info, opts) => {
   return info.level === 'info' ? info : false;
@@ -45,6 +49,11 @@ const logger = winston.createLogger({
       level: 'info',
       format: combine(infoFilter(), timestamp(), json()),
     }),
+    new winston.transports.File({
+        filename: './logging/backend-debug.log',
+        level: 'debug',
+        format: combine(debugFilter(), timestamp(), json()),
+      }),
   ],
 });
 

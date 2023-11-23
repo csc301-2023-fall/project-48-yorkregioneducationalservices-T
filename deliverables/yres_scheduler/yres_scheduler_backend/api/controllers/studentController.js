@@ -136,7 +136,7 @@ async function createStudent(req, res) {
 async function createStudentsFromList(req, res) {
         
     const students = req.body;
-    logger.info(`createStudentsFromList: `, students);
+    logger.debug(`createStudentsFromList: `, students);
 
     const failed_students = []; // Initialize an array to store failed student IDs
 

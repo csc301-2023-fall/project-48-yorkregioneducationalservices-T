@@ -41,7 +41,7 @@ async function getAllCounselors() {
             Counselor C;
     `;
     const functionName = getAllCounselors.name;
-    logger.info(`Function ${functionName}: Getting all counselors from the database.`);
+    logger.debug(`Function ${functionName}: Getting all counselors from the database.`);
     var counselors;
     try {
         const result = await new Promise((queryResolve, queryReject) => {
@@ -86,7 +86,7 @@ async function createCounselor(counselor) {
         RETURNING counselor_id;
     `;
     const functionName = createCounselor.name;
-    logger.info(`Function ${functionName}: Creating a new counselor in the database.`);
+    logger.debug(`Function ${functionName}: Creating a new counselor in the database.`);
     try {
         const result = await client.query(query, [
             uuid.v4(), // Assuming counselor_id is a UUID

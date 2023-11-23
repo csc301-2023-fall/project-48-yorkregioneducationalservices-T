@@ -1,22 +1,41 @@
 version: "3"
 services: 
-  db:
+  production_db:
     image: postgres:latest
-    container_name: db-container
+    container_name: production-db-container
     environment:
       POSTGRES_PASSWORD: csc301
       POSTGRES_USER: yres
-      POSTGRES_DB: yres_db
+      POSTGRES_DB: production_db # Database name for production instance
     ports:
-      - "5432:5432"
+      - "5432:5432" # Port mapping for production instance
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql
+      - postgres-data-production:/var/lib/postgresql/data
+      - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql # Shared SQL script for both instances
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U yres -d yres_db"]
+      test: ["CMD-SHELL", "pg_isready -U yres -d production_db"]
       interval: 1s
       timeout: 5s
       retries: 5
     
+  testing_db:
+    image: postgres:latest
+    container_name: testing-db-container
+    environment:
+      POSTGRES_PASSWORD: csc301
+      POSTGRES_USER: yres
+      POSTGRES_DB: testing_db # Database name for testing instance
+    ports:
+      - "5433:5432" # Different port mapping for testing instance
+    volumes:
+      - postgres-data-testing:/var/lib/postgresql/data
+      - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql # Shared SQL script for both instances
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yres -d testing_db"]
+      interval: 1s
+      timeout: 5s
+      retries: 5
+
 volumes:
-  postgres-data:
+  postgres-data-production: # Volume for production instance data
+  postgres-data-testing: # Volume for testing instance data

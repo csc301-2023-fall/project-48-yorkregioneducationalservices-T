@@ -99,7 +99,7 @@ async function getAllStudents() {
             Student S;
     `;
     const functionName = getAllStudents.name; // Get the name of the current function for logging purposes
-    logger.info(`Function ${functionName}: Getting all students in the studentDbPlugin`);
+    logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin`);
     var students;
     return new Promise(async (resolve, reject) => {
         try {
@@ -155,7 +155,7 @@ async function getStudentById(student_id) {
             S.student_id = $1;
     `;
     const functionName = getStudentById.name; // Get the name of the current function for logging purposes
-    logger.info(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentId: ${student_id}`);
+    logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentId: ${student_id}`);
     try {
         const result = client.query(query, [student_id]);
         const row = result.rows[0];
@@ -182,7 +182,7 @@ function getStudentByUiId(student_ui_id) {
             S.student_ui_id, = $1;
     `;
     const functionName = getStudentByUiId.name; // Get the name of the current function for logging purposes
-    logger.info(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
+    logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
     try {
         const result = client.query(query, [student_ui_id]);
         const row = result.rows[0];
@@ -197,7 +197,7 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
   
     const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
     if (result_other_friend.rows.length !== 0) {
-        logger.info('inserting friend preferences');
+        logger.debug('inserting friend preferences');
         const other_student_id = result_other_friend.rows[0].student_id;
         const queryInsertFriendPreferences = `
             INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
@@ -213,7 +213,7 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
             }
         await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
     } else {
-        logger.info('other student not found');
+        logger.debug('other student not found');
     }
 }
 
@@ -239,7 +239,7 @@ async function createStudent(student) {
         RETURNING student_id;
     `;
     const functionName = createStudent.name; // Get the name of the current function for logging purposes
-    logger.info(`Function ${functionName}: Creating student in the studentDbPlugin`, { student: student });
+    logger.debug(`Function ${functionName}: Creating student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
             uuid.v1(),
@@ -305,7 +305,7 @@ async function editStudentById(student) {
         RETURNING *;
     `;
     const functionName = editStudentById.name; // Get the name of the current function for logging purposes
-    logger.info(`Function ${functionName}: Editing student in the studentDbPlugin`, { student: student });
+    logger.debug(`Function ${functionName}: Editing student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
             student.student_ui_id,
@@ -347,13 +347,13 @@ async function deleteStudentById(student_ui_id) {
         RETURNING *;
     `;
     const functionName = deleteStudentById.name; // Get the name of the current function for logging purposes
-    logger.info(`Function ${functionName}: Deleting student in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
+    logger.debug(`Function ${functionName}: Deleting student in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
     try {
         const result = await client.query(query, [student_ui_id]);
         const deletedStudent = result.rows[0];
 
         if (deletedStudent === undefined) {
-            logger.info('Student not found');
+            logger.debug('Student not found');
             throw new Error('Student not found');
         }
         return {result: true};
