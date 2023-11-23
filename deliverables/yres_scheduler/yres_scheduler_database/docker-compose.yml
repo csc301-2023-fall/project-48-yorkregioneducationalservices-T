@@ -10,8 +10,8 @@ services:
     ports:
       - "5432:5432" # Port mapping for production instance
     volumes:
-      - production-postgres-data:/var/lib/postgresql/data
-      - ./production_schema.sql:/docker-entrypoint-initdb.d/production_schema.sql # SQL script for production
+      - postgres-data-production:/var/lib/postgresql/data
+      - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql # Shared SQL script for both instances
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U yres -d production_db"]
       interval: 1s
@@ -26,10 +26,10 @@ services:
       POSTGRES_USER: yres
       POSTGRES_DB: testing_db # Database name for testing instance
     ports:
-      - "5555:5432" # Different port mapping for testing instance
+      - "5433:5432" # Different port mapping for testing instance
     volumes:
-      - testing-postgres-data:/var/lib/postgresql/data
-      - ./testing_schema.sql:/docker-entrypoint-initdb.d/testing_schema.sql # SQL script for testing
+      - postgres-data-testing:/var/lib/postgresql/data
+      - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql # Shared SQL script for both instances
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U yres -d testing_db"]
       interval: 1s
@@ -37,5 +37,5 @@ services:
       retries: 5
 
 volumes:
-  production-postgres-data: # Volume for production instance data
-  testing-postgres-data: # Volume for testing instance data
+  postgres-data-production: # Volume for production instance data
+  postgres-data-testing: # Volume for testing instance data

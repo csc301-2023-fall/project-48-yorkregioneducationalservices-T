@@ -19,8 +19,8 @@ module.exports = (app) => {
      */
     app.get('/students/getAllStudents/', async (req, res) => {
         try {
+            logger.info(`GET /students/getAllStudents/`);
             const resp = await studentService.getAllStudents(req, res);
-            logger.info(`Completed GET /students/getAllStudents/ with response `, resp);
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getAllStudents/: `, error);
@@ -38,8 +38,8 @@ module.exports = (app) => {
      */
     .get('/students/getStudentById/', async (req, res) => {
         try {
+            logger.info(`GET /students/getStudentById/`);
             const resp = await studentService.getStudentById(req, res);    
-            logger.info(`Completed GET /students/getStudentById/ with response`, resp);
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getStudentById/: `, error);
@@ -58,8 +58,8 @@ module.exports = (app) => {
 
     .get('/students/getStudentByUiId/', async (req, res) => {
         try {
+            logger.info(`GET /students/getStudentByUiId/`);
             const resp = await studentService.getStudentByUiId(req, res);    
-            logger.info(`Completed GET /students/getStudentByUiId/ with response`, resp);
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getStudentByUiId/: `, error);
@@ -77,8 +77,8 @@ module.exports = (app) => {
      */
     .post('/students/createStudent/', async (req, res) => {
         try {
+            logger.info(`POST /students/createStudent/`);
             const resp = await studentService.createStudent(req, res);    
-            logger.info(`Completed POST /students/createStudent/ with response`, resp);
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/getStudentByUiId/: `, error);
@@ -97,8 +97,8 @@ module.exports = (app) => {
      */
     .post('/students/createStudentsFromList/', async (req, res) => {
         try {
+            logger.info(`POST /students/createStudentsFromList/`);
             const resp = await studentService.createStudentsFromList(req, res);    
-            logger.info(`Completed POST /students/createStudentsFromList/ with response`, resp);
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/createStudentsFromList/: `, error);
@@ -117,8 +117,8 @@ module.exports = (app) => {
      */
     .post('/students/editStudentById/', async (req, res) => {
         try {
+            logger.info(`POST /students/editStudentById/`);
             const resp = await studentService.editStudentById(req, res);
-            logger.info(`Completed POST /students/editStudentById/ with response `, resp);
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error('Error in POST /students/editStudentById/: ', error);
@@ -136,8 +136,8 @@ module.exports = (app) => {
      */
     .post('/students/deleteStudentById/', async (req, res) => {
         try {
+            logger.info(`POST /students/deleteStudentById/`);
             const resp = await studentService.deleteStudentById(req, res);
-            logger.info(`Completed POST /students/deleteStudentById/ with response `, resp);
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in POST /students/deleteStudentById/:`, error);
