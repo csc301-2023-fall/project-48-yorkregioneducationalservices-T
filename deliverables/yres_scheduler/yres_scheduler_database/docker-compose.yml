@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: yres
       POSTGRES_DB: production_db # Database name for production instance
     ports:
-      - "5432:5432" # Port mapping for production instance
+      - "5400:5432" # Port mapping for production instance
     volumes:
       - postgres-data-production:/var/lib/postgresql/data
       - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql # Shared SQL script for both instances
@@ -26,7 +26,7 @@ services:
       POSTGRES_USER: yres
       POSTGRES_DB: testing_db # Database name for testing instance
     ports:
-      - "5433:5432" # Different port mapping for testing instance
+      - "5500:5432" # Different port mapping for testing instance
     volumes:
       - postgres-data-testing:/var/lib/postgresql/data
       - ./yres_schema.sql:/docker-entrypoint-initdb.d/yres_schema.sql # Shared SQL script for both instances
