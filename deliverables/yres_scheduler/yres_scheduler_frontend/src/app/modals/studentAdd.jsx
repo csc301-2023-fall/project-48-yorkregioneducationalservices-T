@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
-import { validRelationship, process_comma_separated_text, send_post_request  } from '@/app/helper';
+import { validRelationship, process_comma_separated_text, fetchDataPOST  } from '@/app/helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -30,24 +30,30 @@ function StudentAdd({show, setShow, item, students}) {
         setError(<></>)
         setShow(false)
     };
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
         if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
-            send_post_request(
-                "/students/createStudent/", 
-                {
-                    student_ui_id: event.target[0].value, 
-                    firstname: event.target[1].value, 
-                    lastname: event.target[2].value, 
-                    age: event.target[3].value, 
-                    sex: event.target[4].value,
-                    friend_ids: process_comma_separated_text(event.target[5].value),
-                    enemy_ids: process_comma_separated_text(event.target[6].value),
-                }
-            )
-            handleClose()
+            try {
+                await fetchDataPOST(
+                    "/students/createStudent/", 
+                    {
+                        student_ui_id: event.target[0].value, 
+                        firstname: event.target[1].value, 
+                        lastname: event.target[2].value, 
+                        age: event.target[3].value, 
+                        sex: event.target[4].value,
+                        friend_ids: process_comma_separated_text(event.target[5].value),
+                        enemy_ids: process_comma_separated_text(event.target[6].value),
+                    }
+                )
+                router.refresh();
+                handleClose()
+            } catch (err) {
+                //TODO: Display Error in component
+                console.log(err);
+            }
         }
     }
   

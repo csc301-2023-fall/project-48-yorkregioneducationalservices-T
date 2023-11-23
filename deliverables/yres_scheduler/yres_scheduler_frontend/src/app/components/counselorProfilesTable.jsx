@@ -6,7 +6,7 @@ import CounselorEdit from '../modals/counselorEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
-import { send_post_request } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /** 
@@ -49,11 +49,17 @@ function CounselorProfilesTable({ counselorData }) {
             setEditItem(item);
             setShowEdit(true);
         }
-        const deleteCounselor = () =>{
-            send_post_request(
-                "/counselors/deleteCounselorById/", 
-                { counselor_id: item._counselor_id }
-            );
+        const deleteCounselor = async () =>{
+            try {
+                await fetchDataPOST(
+                    "/counselors/deleteCounselorById/", 
+                    { counselor_id: item._counselor_id }
+                );
+                router.refresh();
+            } catch (err) {
+                //TODO: Display Error in component
+                console.log(err);
+            }
         }
         item.actions = (
             <div className='table-actions'>

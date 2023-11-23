@@ -1,22 +1,7 @@
+const c = require('config');
 const studentService = require('../services/studentService');
-
-/**
- * Retrieves all students by campus ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - An object containing an array of students.
- */
-function getAllStudentsByCampus(req, res) {
-
-    const campus_id = req.body.camp_id;
-
-    const all_students_by_campus = studentService.getAllStudentsByCampus(campus_id);
-
-    return {
-        students: all_students_by_campus
-    };
-}
-
+const {STATUS_CODES} = require('../entities/ServiceErrors');
+const logger = require('../../logger');
 /**
  * Retrieves all students.
  * @param {Object} req - The request object.
@@ -25,17 +10,30 @@ function getAllStudentsByCampus(req, res) {
  */
 async function getAllStudents(req, res) {
     
-    const all_students = await studentService.getAllStudents();
-
-    return {
-        students: all_students.map((student) => { 
+    try {
+        const all_students = await studentService.getAllStudents();
+        if (all_students?.result === false) {
             return {
-                ...student,
-                friend_ids: student.getFriendIds(),
-                enemy_ids: student.getEnemyIds()
+                status: STATUS_CODES.FAILED,
+                error: all_students.error
             };
-        })
-    };
+        }
+        return {
+            status: STATUS_CODES.SUCCESS,
+            result: all_students.map((student) => { 
+                return {
+                    ...student,
+                    friend_ids: student.getFriendIds(),
+                    enemy_ids: student.getEnemyIds()
+                };
+            })
+        };
+    } catch (error) {
+        return {
+            status: STATUS_CODES.FAILED,
+            error: error.message
+        };
+    }
     
 }
 
@@ -46,14 +44,27 @@ async function getAllStudents(req, res) {
  * @returns {Object} - An object containing a student.
  */
 function getStudentById(req, res) {
-    
-    const student_id = req.body.student_id;
 
-    const student = studentService.getStudentById(student_id);
+    try {
+        const student_id = req.body.student_id;
 
-    return {
-        students: student
-    };
+        const student = studentService.getStudentById(student_id);
+        if (student?.result === false) {
+            return {
+                status: STATUS_CODES.FAILED,
+                error: student.error
+            };
+        }
+        return {
+            result: student,
+            status: STATUS_CODES.SUCCESS
+        };
+    } catch (error) {
+        return {
+            status: STATUS_CODES.FAILED,
+            error: error.message
+        };
+    }
 }
 
 /**
@@ -63,14 +74,26 @@ function getStudentById(req, res) {
  * @returns {Object} - An object containing a student.
  */
 function getStudentByUiId(req, res) {
-    
-    const stduent_ui_id = req.body.stduent_ui_id;
+    try {
+        const stduent_ui_id = req.body.stduent_ui_id;
 
-    const student = studentService.getStudentById(stduent_ui_id);
-
-    return {
-        students: student
-    };
+        const student = studentService.getStudentByUiId(stduent_ui_id);
+        if (student?.result === false) {
+            return {
+                status: STATUS_CODES.FAILED,
+                error: student.error
+            };
+        }
+        return {
+            status: STATUS_CODES.SUCCESS,
+            result: student
+        };
+    } catch (error) {
+        return {
+            status: STATUS_CODES.FAILED,
+            error: error.message
+        };
+    }
 }
 
 /**
@@ -83,13 +106,53 @@ async function createStudent(req, res) {
     
     const student = req.body;
 
-    const status = await studentService.createStudent(student);
-
-    return {
-        status: status ? 'Success' : 'failure'
+    try {
+        const status = await studentService.createStudent(student);
+        
+        if (status?.result === false) {
+            return {
+                status: STATUS_CODES.FAILED,
+                error: status.error
+            };
+        } else {
+            return {
+                status: STATUS_CODES.SUCCESS,
+            };
+        }
+    } catch (error) {
+        return {
+            status: STATUS_CODES.FAILED,
+            error: error.message
+        };
     }
 }
 
+/**
+ * Creates a new student.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
+async function createStudentsFromList(req, res) {
+        
+    const students = req.body;
+    logger.info(`createStudentsFromList: `, students);
+
+    const failed_students = []; // Initialize an array to store failed student IDs
+
+    await Promise.all(students.map(async student => {
+        const status = await studentService.createStudent(student);
+        if (status?.result === false) {
+            logger.error(`createStudentsFromList: Failed to create student ${student.student_ui_id} with error: ${status.error}`)
+            failed_students.push(student.student_ui_id); 
+        }
+    }));
+
+    return {
+        status: failed_students.length === 0 ? STATUS_CODES.SUCCESS : STATUS_CODES.FAILED,
+        error: { failed_students: failed_students} // Return the list of failed student IDs
+    };
+}
 /**
  * Edits a student by ID.
  * @param {Object} req - The request object.
@@ -98,12 +161,26 @@ async function createStudent(req, res) {
  */
 async function editStudentById(req, res) {
 
-    const student = req.body;
+    try {
+        const student = req.body;
 
-    const status = await studentService.editStudentById(student);
+        const status = await studentService.editStudentById(student);
 
-    return {
-        status: status ? 'Success' : 'failure'
+        if (status?.result === false) {
+            return {
+                status: STATUS_CODES.FAILED,
+                error: status.error
+            };
+        } else {
+            return {
+                status: STATUS_CODES.SUCCESS,
+            };
+        }
+    } catch (error) {
+        return {
+            status: STATUS_CODES.FAILED,
+            error: error.message
+        };
     }
 }
 
@@ -114,22 +191,35 @@ async function editStudentById(req, res) {
  * @returns {Object} - An object containing a status message.
  */
 async function deleteStudentById(req, res) {
-    
-    const student_ui_id = req.body.student_ui_id;
+    try {
+        const student_ui_id = req.body.student_ui_id;
 
-    const status = await studentService.deleteStudentById(student_ui_id);
+        const status = await studentService.deleteStudentById(student_ui_id);
 
-    return {
-        status: status ? 'Success' : 'failure'
+        if (status?.result === false) {
+            return {
+                status: STATUS_CODES.FAILED,
+                error: status.error
+            };
+        } else {
+            return {
+                status: STATUS_CODES.SUCCESS,
+            };
+        }
+    } catch (error) {
+        return {
+            status: STATUS_CODES.FAILED,
+            error: error.message
+        };
     }
 }
 
 module.exports = {
-    getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
     getStudentByUiId,
     createStudent,
+    createStudentsFromList,
     editStudentById,
     deleteStudentById
 }

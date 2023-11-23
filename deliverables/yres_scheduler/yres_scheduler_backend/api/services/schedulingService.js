@@ -214,6 +214,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
 //     }
 // }
 
+
 // var activities = [new Activity("1", "class", 1, "common", 24, ["1", "2", "3", "4", "5"]),
 // new Activity("2", "sport", 2, "common", 2, ["6"]),
 // new Activity("3", "art", 1, "common", 2, ["1", "2", "3", "4", "5"]),
@@ -359,6 +360,8 @@ function scheduleCall2() {
     }
     return groups;
 }
+
+
 
 module.exports = {
     scheduleAlgorithm,

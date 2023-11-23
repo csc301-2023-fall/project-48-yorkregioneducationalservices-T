@@ -3,9 +3,8 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { process_comma_separated_text, send_post_request } from '../helper';
+import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation'
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /**
  * Create modal for Rooms
@@ -21,16 +20,22 @@ function RoomsCreate({ currCampus }) {
     const router = useRouter();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        send_post_request(
-            "/rooms/createRoom/",
-            {
-                name: e.target[0].value,
-                campus_id: currCampus.campus_id
-            }
-        );
-        handleClose();
+        try {
+            await fetchDataPOST(
+                "/rooms/createRoom/",
+                {
+                    name: e.target[0].value,
+                    campus_id: currCampus.campus_id
+                }
+            );
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

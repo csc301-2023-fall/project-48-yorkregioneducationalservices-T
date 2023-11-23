@@ -1,27 +1,14 @@
 const db = require('../db/studentDbPlugin');
 
 /**
- * Retrieves all students associated with a given campus.
- *
- * @param {number} campus_id - The ID of the campus to retrieve students for.
- * @returns {Array} - An array of student objects associated with the given campus.
- */
-function getAllStudentsByCampus(campus_id) {
-    var students = db.getAllStudentsByCampus(campus_id);
-
-    return students;
-
-}
-
-/**
  * Retrieves all students from the database.
  *
  * @returns {Promise<Array>} A promise that resolves to an array of student objects.
  */
 async function getAllStudents() {
-    var students = await db.getAllStudents();
+    const resp = await db.getAllStudents();
 
-    return students;
+    return resp;
 
 }
 
@@ -31,9 +18,9 @@ async function getAllStudents() {
  * @returns {object} - The student object.
  */
 function getStudentById(student_id) {
-    var student = db.getStudentById(student_id);
+    const resp = db.getStudentById(student_id);
 
-    return student;
+    return resp;
 
 }
 
@@ -45,9 +32,9 @@ function getStudentById(student_id) {
  */
 function getStudentByUiId(student_ui_id) {
 
-    var student = db.getStudentById(student_ui_id);
+    const resp = db.getStudentById(student_ui_id);
 
-    return student;
+    return resp;
 
 }
 
@@ -84,7 +71,6 @@ function deleteStudentById(student_ui_id) {
 }
 
 module.exports = {
-    getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
     getStudentByUiId,

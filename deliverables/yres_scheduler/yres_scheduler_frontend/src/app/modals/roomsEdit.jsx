@@ -1,7 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { send_post_request } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -23,21 +23,27 @@ import { useRouter } from 'next/navigation';
 function RoomsEdit({item, show, setShow}) {
     const router = useRouter();
     const handleClose = () => setShow(false);
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        /**
-         * API post requests
-         * use event.target[0] to index through the fields
-         */
-        send_post_request(
-            "/rooms/editRoomById/",
-            {
-                room_id: item.room_id,
-                name: e.target[0].value,
-                campus_id: item.campus_id
-            }
-        );
-        handleClose() //needs to be before setStudentData
+        try {
+            /**
+             * API post requests
+             * use event.target[0] to index through the fields
+             */
+            await fetchDataPOST(
+                "/rooms/editRoomById/",
+                {
+                    room_id: item.room_id,
+                    name: e.target[0].value,
+                    campus_id: item.campus_id
+                }
+            );
+            router.refresh();
+            handleClose()
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

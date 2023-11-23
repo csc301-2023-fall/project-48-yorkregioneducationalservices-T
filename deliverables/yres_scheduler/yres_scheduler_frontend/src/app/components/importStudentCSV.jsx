@@ -3,16 +3,15 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
-import { send_post_request } from '../helper';
-import { useRouter } from 'next/navigation';
 
 function AddStudents(profiles, type){
   if(type === "Student"){
     const students = profiles;
     students.forEach((student) => {
-      send_post_request(
-        "/students/createStudent/", 
-        {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/students/createStudent/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             student_ui_id: student.student_id, 
             firstname: student.firstname, 
             lastname: student.lastname, 
@@ -20,20 +19,27 @@ function AddStudents(profiles, type){
             sex: student.sex,
             friend_ids: "",
             enemy_ids: "",
-        }
-      )
+        })
+      })
+      .catch(err => {
+          console.log(err);
+      });
     });
   }
   else{
     const counselors = profiles;
     counselors.forEach((counselor) => {
-      send_post_request(
-        "/counselors/createCounselor/",
-        {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/counselors/createCounselor/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             firstname: counselor.firstname,
             lastname: counselor.lastname
-        }
-      );
+        })
+      })
+      .catch(err => {
+          console.log(err);
+      });
     });
   }
 }
@@ -43,7 +49,6 @@ function AddStudents(profiles, type){
         type - either student or counselor, the type of object being csv imported
 **/
 function StudentCSV({type}) {
-  const router = useRouter();
   const [file, setFile] = useState();
   // useEffect(() => {
   //   const fileReader = new FileReader();
@@ -76,6 +81,7 @@ function StudentCSV({type}) {
     });
     promise.then((d) => {
       AddStudents(d, type);
+      window.location.reload();
     });
   }
   };

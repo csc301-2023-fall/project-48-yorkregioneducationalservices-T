@@ -1,7 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { send_post_request } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -20,16 +20,22 @@ import { useRouter } from 'next/navigation';
 function CounselorAdd({show, setShow, item}) {
     const router = useRouter();
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        send_post_request(
-            "/counselors/createCounselor/",
-            {
-                firstname: event.target[0].value,
-                lastname: event.target[1].value
-            }
-        );
-        handleClose()
+    const handleSubmit = async (event) => {
+        try {
+            event.preventDefault()
+            await fetchDataPOST(
+                "/counselors/createCounselor/",
+                {
+                    firstname: event.target[0].value,
+                    lastname: event.target[1].value
+                }
+            );
+            router.refresh();
+            handleClose()
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (
