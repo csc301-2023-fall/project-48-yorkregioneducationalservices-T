@@ -1,4 +1,5 @@
 const Activity = require("../entities/Activity");
+const accountRoutes = require("../routes/accountRoutes");
 const { client } = require('./db')
 
 /**
@@ -43,6 +44,7 @@ async function getAllActivities() {
         if (all_activities === undefined) {
             resolve(all_activities);
         }
+
         for (var i=0; i<all_activities.length; i++) {
             result = await new Promise((queryResolve, queryReject) => {
                 client.query(rquery, [all_activities[i].activity_id], (err, result) => {
@@ -58,9 +60,11 @@ async function getAllActivities() {
                 continue;
             }
             for (var j=0; j<rows.length; j++) {
-                all_activities[i].room_ids?.push(rows[j][0]);
+
+                all_activities[i].rooms.push(rows[j].room_id);
             }
         }
+
         resolve(all_activities);
     });
 }

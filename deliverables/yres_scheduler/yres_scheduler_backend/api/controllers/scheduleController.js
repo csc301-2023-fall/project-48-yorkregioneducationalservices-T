@@ -3,7 +3,7 @@ const scheduleService = require('../services/schedulingService');
 const schedService = require('../services/scheduleService');
 const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
-// const roomService = require('../services/roomService');
+const roomService = require('../controllers/roomController');
 const activitiesService = require('../controllers/activityController');
 
 /**
@@ -12,20 +12,22 @@ const activitiesService = require('../controllers/activityController');
  * @param {Object} res - The response object.
  * @returns {Object} - An object containing the newly generated schedule.
  */
-function generateSchedule(req, res) {
-    /*
-    const students = studentService.getAllStudents();
-    const counselors = counselorService.getAllCounselorsByCampus();
-    const rooms = roomService.getAllRooms();
+async function generateSchedule(req, res) {
+    
+    const students = await studentService.getAllStudents();
+    const counselors = await counselorService.getAllCounselors();
+    const rooms = await roomService.getAllRooms();
     var room_ids = [];
-    for (var i=0; i<rooms.length; i++) {
-        room_ids.push(rooms[i].room_ids);
-    }
-    const activities = activitiesService.getAllActivities();
+    rooms.rooms.forEach(room => {
+        room_ids.push(room.room_id);
+    });
 
-    const new_schedule = scheduleService.scheduleCall(students, counselors, activities, rooms);
-    */
-    const new_schedule = scheduleService.scheduleCall2();
+    const activities = await activitiesService.getAllActivities();
+
+    console.log(activities);
+    const new_schedule = await scheduleService.scheduleCall(students, counselors, activities, room_ids);
+    
+    // const new_schedule = scheduleService();
     return {
         schedule: new_schedule
     }
