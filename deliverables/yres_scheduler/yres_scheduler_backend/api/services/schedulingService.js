@@ -46,7 +46,7 @@ var rooms = ["1", "2", "3", "4", "5", "6", "7"];
 /** The short function for API calls.
  * 
  * @param {Array} students - All students to be grouped.
- * @param {Array}} counselors - All counselors to be grouped.
+ * @param {Array} counselors - All counselors to be grouped.
  * @param {Array} activities - All activities to be schduled for the camp.
  * @param {Array} rooms - All rooms available for scheduling.
  */
@@ -236,14 +236,15 @@ class Activity {
     }
 }
 
-var activities = [new Activity("1", "class", 1, "common", 24, ["1", "2", "3", "4", "5"]),
+var activities = [new Activity("1", "class", 1, "common", 36, ["1", "2", "3", "4", "5"]),
 new Activity("2", "sport", 2, "common", 2, ["6"]),
-new Activity("3", "art", 1, "common", 2, ["1", "2", "3", "4", "5"]),
-new Activity("4", "cs", 1, "common", 2, ["7"]),
-new Activity("5", "filler_A", 1, "filler", 0, ["1", "2", "3", "4", "5"]),
-new Activity("6", "filler_B", 1, "filler", 0, ["6", "7"])];
+// new Activity("3", "art", 1, "common", 2, ["1", "2", "3", "4", "5"]),
+// new Activity("4", "cs", 1, "common", 2, ["7"]),
+// new Activity("5", "filler_A", 1, "filler", 0, ["1", "2", "3", "4", "5"]),
+// new Activity("6", "filler_B", 1, "filler", 0, ["6", "7"])
+];
 
-var groups = [new Group("A"), new Group("B"), new Group("C")];
+var groups = [new Group("A"), ]; //  new Group("B"), new Group("C")
 
 var rooms = ["1", "2", "3", "4", "5", "6", "7"];
 
@@ -381,6 +382,8 @@ function scheduleCall2() {
     }
     return groups;
 }
+
+
 
 module.exports = {
     scheduleAlgorithm,

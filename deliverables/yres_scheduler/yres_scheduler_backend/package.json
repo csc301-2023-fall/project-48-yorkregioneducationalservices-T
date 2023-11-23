@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "mocha": "^10.2.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "winston": "^3.11.0"
   }
 }
