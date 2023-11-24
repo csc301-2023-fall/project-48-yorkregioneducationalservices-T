@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 app.use('/demo', express.static('./api/res/d2_public'));
 const { connectDB } = require('./api/db/db');
+const asyncHandler = require('./api/middleware/asyncHandler');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -35,6 +36,8 @@ connectDB()
       console.error('Error connecting to the database:', error);
       exit(1);
   });
+
+app.use(asyncHandler);
 
 require('./api/routes/scheduleRoutes')(app);
 require('./api/routes/campRoutes')(app);
