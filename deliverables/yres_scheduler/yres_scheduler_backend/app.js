@@ -1,4 +1,5 @@
 // Main app for the backend server
+require("express-async-errors");
 const express = require('express');
 const bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -55,7 +56,7 @@ connectDB()
       process.exit(1);
   });
 
-app.use(asyncHandler);
+// app.use(asyncHandler);
 
 require('./api/routes/scheduleRoutes')(app);
 require('./api/routes/campRoutes')(app);
@@ -69,6 +70,11 @@ require('./api/routes/counselorRoutes')(app);
 
 require('./api/routes/roomRoutes')(app);
 require('./api/routes/activityRoutes')(app);
+
+// Handle invalid requests
+app.get('*', function(req, res){
+  res.send({message: "Route does not exist"}, 404);
+});
 
 app.use(errorHandler);
 

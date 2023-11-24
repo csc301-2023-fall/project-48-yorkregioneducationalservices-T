@@ -19,7 +19,6 @@ async function getAdminUserByName(username) {
                 username,
                 password);
         } else {
-
             return null;
         }
 
