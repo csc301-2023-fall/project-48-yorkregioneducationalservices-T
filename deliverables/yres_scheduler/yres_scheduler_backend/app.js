@@ -1,17 +1,32 @@
-
+// Main app for the backend server
 const express = require('express');
 const bodyParser = require('body-parser');
 var morgan = require('morgan');
+const logger = require('./logger');
 
 const app = express();
 const errorHandler = require('./api/middleware/errorHandler');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const morganMiddleware = morgan(
+  ':method :url :status :res[content-length] - :response-time ms',
+  {
+    stream: {
+      // Configure Morgan to use our custom logger with the http severity
+      write: (message) => logger.http(message.trim()),
+    },
+  }
+);
+
+app.use(morganMiddleware);
+
 app.use(morgan('dev'));
 app.use('/demo', express.static('./api/res/d2_public'));
 const { connectDB } = require('./api/db/db');
 const asyncHandler = require('./api/middleware/asyncHandler');
+
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -30,11 +45,14 @@ app.use((req, res, next) => {
 // Call the connectDB function to establish the database connection
 connectDB()
   .then(() => {
+      // Kept the console.log for server deployment
       console.log('Server is ready!');
+      logger.info('Server is ready!');
   })
   .catch((error) => {
       console.error('Error connecting to the database:', error);
-      exit(1);
+      logger.error(`Error connecting to the database: ${error}`);
+      process.exit(1);
   });
 
 app.use(asyncHandler);

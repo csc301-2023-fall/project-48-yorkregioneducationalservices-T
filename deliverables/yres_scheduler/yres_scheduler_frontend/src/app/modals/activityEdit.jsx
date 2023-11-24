@@ -1,7 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { send_post_request } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -21,24 +21,30 @@ import { useRouter } from 'next/navigation';
 function ActivityEdit({item, show, setShow }) {
     const router = useRouter();
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        /**
-         * API post request for updating activity
-         */
-        send_post_request(
-            "/activities/editActivityById/", 
-            {
-                activity_id: item.activity_id,
-                name: event.target[0].value,
-                duration: event.target[1].value,
-                type: event.target[3].checked ? "filler" : "common",
-                num_occurences: event.target[4].value,
-                camp_id: item.camp_id,
-                room_ids: "" //process_comma_separated_text(event.target[2].value);
-            }
-        )
-        handleClose();
+        try {
+            /**
+             * API post request for updating activity
+             */
+            await fetchDataPOST(
+                "/activities/editActivityById/", 
+                {
+                    activity_id: item.activity_id,
+                    name: event.target[0].value,
+                    duration: event.target[1].value,
+                    type: event.target[3].checked ? "filler" : "common",
+                    num_occurences: event.target[4].value,
+                    camp_id: item.camp_id,
+                    room_ids: "" //process_comma_separated_text(event.target[2].value);
+                }
+            )
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
+            console.log(err);
+        }
     }
   
     return (

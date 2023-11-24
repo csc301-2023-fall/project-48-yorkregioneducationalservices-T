@@ -19,6 +19,7 @@ module.exports = class Block {
         this.activity_id = activity_id;
         this.start_time = start_time;
         this.end_time = end_time;
+        this.duration = this.end_time - this.start_time || 1;
     }
 
     /**
