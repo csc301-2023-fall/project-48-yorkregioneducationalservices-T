@@ -1,6 +1,5 @@
+'use client';
 import * as React from 'react';
-import DropdownButton from 'react-bootstrap/Dropdown';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { useState } from 'react';
 import Sidebar from '../components/sidebar';
 import YresTable from './table'

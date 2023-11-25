@@ -1,14 +1,18 @@
-/** Room Controller
+/**
+ * Room Controller
  * 
+ * @module roomController
  */
+
 const { contentSecurityPolicy } = require('helmet');
 const db = require('../db/roomDbPlugin');
 const uuid = require('uuid');
 
-/** Get all rooms by ID of campus that they belong to.
+/**
+ * Get all rooms by ID of campus that they belong to.
  * 
  * @param {JSON} req - GET request with query parameter campus_id.
- * @returns JSON representation of all rooms
+ * @returns {JSON} - JSON representation of all rooms.
  */
 async function getAllRoomsByCampusId(req, res) {
     const campus_id = req.query.campus_id;
@@ -22,9 +26,10 @@ async function getAllRoomsByCampusId(req, res) {
     };
 }
 
-/** Get all rooms in the database.
+/**
+ * Get all rooms in the database.
  * 
- * @returns JSON representation of all rooms
+ * @returns {JSON} - JSON representation of all rooms.
  */
 async function getAllRooms(req, res) {
     const all_rooms = await db.getAllRooms();
@@ -33,10 +38,11 @@ async function getAllRooms(req, res) {
     };
 }
 
-/** Create a room data row in the database with given information.
+/**
+ * Create a room data row in the database with given information.
  * 
  * @param {JSON} req - POST request with body containing name and campus_id of the room.
- * @returns if the insertion succeeded.
+ * @returns {Object} - If the insertion succeeded.
  */
 async function createRoom(req, res) {
     const name = req.body.name;
@@ -51,10 +57,11 @@ async function createRoom(req, res) {
     };
 }
 
-/** Delete a room data row in the database with given room_id.
+/**
+ * Delete a room data row in the database with given room_id.
  * 
  * @param {JSON} req - POST request with body containing the room_id for room to be deleted.
- * @returns 
+ * @returns {Object} - The status of the deletion.
  */
 async function deleteRoomById(req, res) {
     const room_id = req.body.room_id;
@@ -69,9 +76,26 @@ async function deleteRoomById(req, res) {
     }
 }
 
+/**
+ * Edit a room data row in the database with given room object.
+ * 
+ * @param {JSON} req - POST request with body containing the updated room object.
+ * @returns {Object} - The status of the edit operation.
+ */
+async function editRoomsById(req, res) {
+    const room = req.body;
+
+    const status = await db.editRoomById(room);
+
+    return {
+        status: status ? 'Success' : 'failure'
+    }
+}
+
 module.exports = {
     getAllRoomsByCampusId,
     getAllRooms,
     createRoom,
-    deleteRoomById
+    deleteRoomById,
+    editRoomsById
 }

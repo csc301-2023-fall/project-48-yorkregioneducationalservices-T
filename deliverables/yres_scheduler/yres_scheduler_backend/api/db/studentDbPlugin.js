@@ -1,6 +1,9 @@
 const Student = require("../entities/Student");
 const uuid = require('uuid');
 const { client } = require('./db');
+const logger = require('../../logger');
+const c = require("config");
+const e = require("express");
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -27,47 +30,6 @@ function mapRowToStudent(row) {
     );
 }
 
-// Student db plugin methods
-/**
- * Retrieves all students belonging to a specific campus.
- * @param {number} campusId - The ID of the campus to retrieve students for.
- * @returns {Array} An array of Student objects.
- */
-function getAllStudentsByCampus(campusId) {
-    const query = `
-        SELECT
-            S.student_id,
-            S.student_ui_id,
-            S.firstname,
-            S.lastname,
-            S.age,
-            S.sex
-        FROM
-            Student S
-            JOIN CampGroup CG ON S.camp_group_id = CG.camp_group_id
-            JOIN Camp C ON CG.camp_id = C.camp_id
-            JOIN Campus Campus ON C.campus_id = Campus.campus_id
-        WHERE
-            Campus.campus_id = $1;
-    `;
-
-    const values = [campusId];
-
-    client.query(query, values, (err, result) => {
-        if (err) {
-            throw Error(err);
-        }
-
-        // Extract rows from the result
-        const rows = result.rows;
-
-         // Map the rows to Student objects using the mapRowToStudent function
-        const students = rows.map(mapRowToStudent);
-
-        return students;
-    });
-}
-
 /**
  * Retrieves friend preferences from the database and categorizes them as either friends or enemies for a given student.
  * @async
@@ -79,9 +41,10 @@ function getAllStudentsByCampus(campusId) {
 async function getFriendPreferencesAndCategorize(student) {
  
     const queryGetFriendPreferencesAndCategorize = `
-    SELECT *
-    FROM FriendPreference
-    WHERE student_id1 = $1 OR student_id2 = $1;`;
+        SELECT *
+        FROM FriendPreference
+        WHERE student_id1 = $1 OR student_id2 = $1;
+    `;
 
     const values = [student.student_id];
     
@@ -110,8 +73,8 @@ async function getFriendPreferencesAndCategorize(student) {
 
     } catch (error) {
         // Handle errors appropriately
-        console.error('Error while fetching friend preferences:', error);
-        throw new Error('Failed to fetch friend preferences');
+        logger.error('Error while fetching friend preferences:', {error: error});
+        throw new Error('Failed to fetch friend preferences', error.message);
     }
 
   }
@@ -135,33 +98,37 @@ async function getAllStudents() {
         FROM
             Student S;
     `;
-    
+    const functionName = getAllStudents.name; // Get the name of the current function for logging purposes
+    logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin`);
     var students;
     return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(queryGetAllStudents, (err, result) => {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
+        try {
+            const result = await new Promise((queryResolve, queryReject) => {
+                client.query(queryGetAllStudents, (err, result) => {
+                    if (err) {
+                        queryReject(err);
+                    } else {
+                        queryResolve(result);
+                    }
+                });
             });
-        });
-        
-
-        // Extract rows from the result
-        const rows = result.rows;
-
-        // Map the rows to Student objects
-        students = rows.map(mapRowToStudent);
-
-         // Create an array of promises to wait for all students' preferences to be fetched and categorized
-        for (const student of students) {
-            await getFriendPreferencesAndCategorize(student);
+    
+            // Extract rows from the result
+            const rows = result.rows;
+    
+            // Map the rows to Student objects
+            students = rows.map(mapRowToStudent);
+    
+            // Create an array of promises to wait for all students' preferences to be fetched and categorized
+            for (const student of students) {
+                await getFriendPreferencesAndCategorize(student);
+            }
+            // Resolve the promise with the students data
+            resolve(students);
+        } catch (error) {
+            logger.error('Error while getting all students:', {error: error});
+            return {result: false, error: err.message};
         }
-        // Resolve the promise with the students data
-        resolve(students)
-
     });
 }
 
@@ -187,13 +154,15 @@ async function getStudentById(student_id) {
         WHERE
             S.student_id = $1;
     `;
-
+    const functionName = getStudentById.name; // Get the name of the current function for logging purposes
+    logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentId: ${student_id}`);
     try {
         const result = client.query(query, [student_id]);
         const row = result.rows[0];
         return mapRowToStudent(row);
     } catch (err) {
-        throw Error(err);
+        logger.error('Failed to getStudentById', {error: err});
+        return {result: false, error: err.message};
     }
 }
 
@@ -212,28 +181,42 @@ function getStudentByUiId(student_ui_id) {
         WHERE
             S.student_ui_id, = $1;
     `;
-
+    const functionName = getStudentByUiId.name; // Get the name of the current function for logging purposes
+    logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
     try {
         const result = client.query(query, [student_ui_id]);
         const row = result.rows[0];
         return mapRowToStudent(row);
     } catch (err) {
-        throw Error(err);
+        logger.error('Failed to getStudentByUiId', {error: err});
+        return {result: false, error: err.message};
     }
 }
 
-/**
- * Creates a new student record in the database.
- * @async
- * @function createStudent
- * @param {Object} student - The student object to be created in the database.
- * @param {string} student.student_ui_id - The unique identifier of the student.
- * @param {string} student.firstname - The first name of the student.
- * @param {string} student.lastname - The last name of the student.
- * @param {number} student.age - The age of the student.
- * @param {string} student.sex - The sex of the student.
- * @returns {Promise<boolean>} - A promise that resolves to true if the student was created successfully, false otherwise.
- */
+async function insertFriendPreferences(student_id, other_student_ui_id, is_apart) {
+  
+    const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
+    if (result_other_friend.rows.length !== 0) {
+        logger.debug('inserting friend preferences');
+        const other_student_id = result_other_friend.rows[0].student_id;
+        const queryInsertFriendPreferences = `
+            INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+            VALUES ($1, $2, $3)
+        `;
+        let larger_id, smaller_id;
+        if (student_id > other_student_id) {
+            larger_id = student_id;
+            smaller_id = other_student_id;
+            } else {
+            larger_id = other_student_id;
+            smaller_id = student_id;
+            }
+        await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
+    } else {
+        logger.debug('other student not found');
+    }
+}
+
 /**
  * Inserts a new student into the database along with their friend and enemy preferences.
  * @async
@@ -249,12 +232,14 @@ function getStudentByUiId(student_ui_id) {
  * @returns {Promise<boolean>} - A promise that resolves to true if the student was successfully inserted into the database, or false otherwise.
  */
 async function createStudent(student) {
+
     const query = `
         INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING student_id;
     `;
-
+    const functionName = createStudent.name; // Get the name of the current function for logging purposes
+    logger.debug(`Function ${functionName}: Creating student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
             uuid.v1(),
@@ -266,50 +251,33 @@ async function createStudent(student) {
         ]);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
-        student.friend_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (friend_ui_id) => {
-            if(friend_ui_id !== ''){
-            const result_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [friend_ui_id,]);
-            const friend_id = result_friend.rows[0].student_id;
-            const queryInsertFriendPreferences = `
-                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-                VALUES ($1, $2, $3)
-            `;
-            let larger_id, smaller_id;
-            if (student_id > friend_id) {
-                larger_id = student_id;
-                smaller_id = friend_id;
-              } else {
-                larger_id = friend_id;
-                smaller_id = student_id;
-              }
-            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, false]);
-            }
+        student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
+            insertFriendPreferences(student_id, friend_ui_id, false);
         });
-        student.enemy_ids.split(',').map(s => s.trim().replace(/\s/, ' ')).forEach(async (enemy_ui_id) => {
-            if(enemy_ui_id !== ''){
-            const result_enemy = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [enemy_ui_id,]);
-            const enemy_id = result_enemy.rows[0].student_id;
-            const queryInsertFriendPreferences = `
-                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-                VALUES ($1, $2, $3)
-            `;
-            let larger_id, smaller_id;
-            if (student_id > enemy_id) {
-                larger_id = student_id;
-                smaller_id = enemy_id;
-              } else {
-                larger_id = enemy_id;
-                smaller_id = student_id;
-              }
-            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, true]);
-            }
+        student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            insertFriendPreferences(student_id, enemy_ui_id, true)
         });
-        return true;
+        return {result: true};
     } catch (err) {
-        console.log(err);
-        return false; 
+        logger.error('Failed to create student', {error: err});
+        return {result: false, error: err.message};
     }
 }
+
+async function clearFriendPreferencesById(student_id) {
+    const queryDeleteFriendPreferences = `Delete From FriendPreference where student_id1 = $1 or student_id2 = $1;`;  
+  
+    const values = [student_id];
+    try {
+        const result = await client.query(queryDeleteFriendPreferences, values);
+  
+    } catch (error) {
+        // Handle errors appropriately
+        console.error('Error while deleting FriendPreferences:', {error: error});
+        throw new Error('Failed to delete FriendPreferences');
+    }
+  
+  }
 
 /**
  * Edits a student record in the database by ID.
@@ -327,28 +295,39 @@ async function editStudentById(student) {
     const query = `
         UPDATE Student
         SET
-            firstname = $1,
-            lastname = $2,
-            age = $3,
-            sex = $4
+            student_ui_id = $1,
+            firstname = $2,
+            lastname = $3,
+            age = $4,
+            sex = $5
         WHERE
-            student_ui_id = $5
+            student_id = $6
         RETURNING *;
     `;
-    console.log(student);
+    const functionName = editStudentById.name; // Get the name of the current function for logging purposes
+    logger.debug(`Function ${functionName}: Editing student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
+            student.student_ui_id,
             student.firstname,
             student.lastname,
             student.age,
             student.sex,
-            student.student_ui_id,
+            student.student_id
         ]);
-        const row = result.rows[0];
-        return true;
+        clearFriendPreferencesById(student.student_id);
+        //Insert student friend preferences
+        const student_id = result.rows[0].student_id;
+        student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
+            await insertFriendPreferences(student_id, friend_ui_id, false);
+        });
+        student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            await insertFriendPreferences(student_id, enemy_ui_id, true)
+        });
+        return {result: true};
     } catch (err) {
-        console.log(err);
-        return false; 
+        logger.error('Failed to edit student', {error: err});
+        return {result: false, error: err.message};
     }
 }
 
@@ -367,23 +346,24 @@ async function deleteStudentById(student_ui_id) {
         WHERE student_ui_id = $1
         RETURNING *;
     `;
+    const functionName = deleteStudentById.name; // Get the name of the current function for logging purposes
+    logger.debug(`Function ${functionName}: Deleting student in the studentDbPlugin with the studentUiId: ${student_ui_id}`);
     try {
         const result = await client.query(query, [student_ui_id]);
         const deletedStudent = result.rows[0];
 
         if (deletedStudent === undefined) {
-            return false;
+            logger.debug('Student not found');
+            throw new Error('Student not found');
         }
-        return true;
+        return {result: true};
     } catch (err) {
-        console.log(err);
-        return false;
+        logger.error('Failed to delete student', {error: err});
+        return {result: false, error: err.message};
     }
 }
 
 module.exports = {
-
-    getAllStudentsByCampus,
     getAllStudents,
     getStudentById,
     getStudentByUiId,

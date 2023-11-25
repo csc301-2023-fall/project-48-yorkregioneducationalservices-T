@@ -7,6 +7,8 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
 import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
+import { fetchDataPOST } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /** 
  * Student Table that displays:
@@ -23,6 +25,7 @@ import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
 }
 **/
 function StudentProfilesTable({ studentData}) {
+    const router = useRouter();
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         student_id: -1,
@@ -59,20 +62,17 @@ function StudentProfilesTable({ studentData}) {
             setEditItem(item);
             setShowEdit(true);
         }
-        const deleteStudent = () =>{
-            console.log(item);
-            const bodyData = new URLSearchParams(
-                {
-                    'student_ui_id': item._student_ui_id, 
-                }).toString();
-            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/deleteStudentById/"), {
-                method: "POST", 
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: bodyData,
-            })
-            window.location.reload(false);
+        const deleteStudent = async () =>{
+            try {
+                await fetchDataPOST(
+                    "/students/deleteStudentById/", 
+                    { student_ui_id: item._student_ui_id }
+                );
+                router.refresh();
+            } catch (err) {
+                //TODO: Display Error in component
+                console.log(err);
+            }
         }
         item.actions = (
             <div className='table-actions'>

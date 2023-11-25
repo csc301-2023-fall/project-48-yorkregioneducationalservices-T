@@ -49,5 +49,26 @@ export function validRelationship(string, field, setError, students) {
  *      input - a string of inputs separated by commas
  */
 export function process_comma_separated_text(input) {
-    return input.split(',').map(s => s.trim().replace(/\s/, ' '));
+    return typeof input === 'string' ? input.split(',').map(s => s.trim().replace(/\s/, ' ')).join() : "";
+}
+
+/**
+ * Helper function to make a POST request. Throws an error if the request fails
+ * or if the request returns a non 200 response.
+ * 
+ * Input:
+ *      route - a string representing the route from the base URI to send this request
+ *      item - the JSON item being sent
+ */
+export async function fetchDataPOST(route, item) {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`;
+    const settings = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item)
+    }
+    const response = await fetch(url, settings);
+    if (response.status !== 200) {
+        throw new Error(`${response.status} Error: Something Wrong Happened!`)
+    }
 }

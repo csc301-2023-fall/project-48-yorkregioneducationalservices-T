@@ -3,9 +3,8 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { process_comma_separated_text } from '../helper';
-import { useRouter } from 'next/navigation'
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
+import { process_comma_separated_text, fetchDataPOST } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /**
  * Editing Modal for Activities
@@ -24,36 +23,26 @@ function ActivityCreate({ currCampus }) {
     const router = useRouter();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        /**
-         * API post request for adding new activity
-         */
-        const new_activity = {
-            name: event.target[0].value,
-            duration: event.target[1].value,
-            type: event.target[3].checked ? "filler" : "common",
-            num_occurences: event.target[4].value,
-            camp_id: currCampus.camp_ids[0],
-            room_ids: [] //process_comma_separated_text(event.target[2].value);
-        }
-
-        fetch(`${URI}/activities/createActivity/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(new_activity)
-        })
-        .then(res => {
-            if (res.status === 200) {
-                router.refresh();
-                return res.json();
-            } else {
-                // Show error alert
-            }
-        }).catch(err => {
+        try {
+            await fetchDataPOST(
+                "/activities/createActivity/",
+                {
+                    name: event.target[0].value,
+                    duration: event.target[1].value,
+                    type: event.target[3].checked ? "filler" : "common",
+                    num_occurences: event.target[4].value,
+                    camp_id: currCampus.camp_ids[0],
+                    room_ids: "" //process_comma_separated_text(event.target[2].value);
+                }
+            )
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
             console.log(err);
-        });
-        handleClose();
+        }
     }
   
     return (

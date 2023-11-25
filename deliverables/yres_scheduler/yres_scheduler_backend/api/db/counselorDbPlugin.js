@@ -1,7 +1,9 @@
 const Counselor = require("../entities/Counselor");
 const uuid = require('uuid');
 const { client } = require('./db');
-
+const logger = require('../../logger');
+const {STATUS_CODES} = require('../entities/ServiceErrors');
+const { log } = require("mathjs");
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Counselor db plugin methods
@@ -38,9 +40,10 @@ async function getAllCounselors() {
         FROM
             Counselor C;
     `;
+    const functionName = getAllCounselors.name;
+    logger.debug(`Function ${functionName}: Getting all counselors from the database.`);
     var counselors;
-    console.log("dick");
-    return new Promise(async (resolve, reject) => {
+    try {
         const result = await new Promise((queryResolve, queryReject) => {
             client.query(query, (err, result) => {
                 if (err) {
@@ -58,9 +61,11 @@ async function getAllCounselors() {
         // Map the rows to Student objects
         counselors = rows.map(mapRowToCounselor);
         // Resolve the promise with the students data
-        resolve(counselors)
-
-    });
+        return { result: counselors, status:  STATUS_CODES.SUCCESS}
+    } catch (error) {
+        logger.error(`Function ${functionName}`, error);
+        return { result: null, status: STATUS_CODES.FAILED, error: error.message };
+    }
 }
 
 
@@ -80,7 +85,8 @@ async function createCounselor(counselor) {
         VALUES ($1, $2, $3, $4)
         RETURNING counselor_id;
     `;
-
+    const functionName = createCounselor.name;
+    logger.debug(`Function ${functionName}: Creating a new counselor in the database.`);
     try {
         const result = await client.query(query, [
             uuid.v4(), // Assuming counselor_id is a UUID
@@ -88,10 +94,10 @@ async function createCounselor(counselor) {
             counselor.lastname,
             counselor.campus_id,
         ]);
-        return true;
+        return { result: true, status: STATUS_CODES.SUCCESS };
     } catch (error) {
-        console.error(error);
-        return false;
+        logger.error(`Function ${functionName}: `, error);
+        return { result: false, status: STATUS_CODES.FAILED, error: error.message };
     }
 }
 
@@ -126,14 +132,14 @@ async function editCounselorById(counselor) {
 
         if (result.rows.length > 0) {
             // The update was successful
-            return true;
+            return { result: true, status: STATUS_CODES.SUCCESS };
         } else {
             // No rows affected, update failed
-            return false;
+            return { result: false, status: STATUS_CODES.FAILED, error: 'No rows affected.'}
         }
     } catch (error) {
-        console.error(error);
-        return false;
+        logger.error(`Function ${editCounselorById.name}: `, error);
+        return { result: false, status: STATUS_CODES.FAILED, error: error.message };
     }
 }
 
@@ -156,15 +162,17 @@ async function deleteCounselorById(counselorId) {
 
     try {
         const result = await client.query(query, [counselorId]);
-        const deletedCounselor = result.rows[0];
 
-        if (deletedCounselor === undefined) {
-            return false;
+        if (result.rows.length > 0) {
+            // The update was successful
+            return { result: true, status: STATUS_CODES.SUCCESS };
+        } else {
+            // No rows affected, update failed
+            return { result: false, status: STATUS_CODES.FAILED, error: 'No rows affected.'}
         }
-        return true;
     } catch (error) {
-        console.error(error);
-        return false;
+        logger.error(`Function ${deleteCounselorById.name}: `, error);
+        return { result: false, status: STATUS_CODES.FAILED, error: error.message };
     }
 }
 

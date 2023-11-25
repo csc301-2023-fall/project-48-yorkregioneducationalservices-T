@@ -4,7 +4,7 @@
 
 
 [Link To Deployed App](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/)
-(Note FloorPlan and View Schedule is currently using dummy data)
+(Note View Schedule is currently using dummy data; however it can be tested on the backend doing: `curl http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:1234/schedule/generate`)
 
 ## Partner Intro
 Partner Contact Information:
@@ -27,9 +27,9 @@ They can search in the table to find the interested profile, then edit through a
  * Campus and floor plan management: Add: Users can add new campus, and for each campus add new floor plans. Each floor plan has an associated image. For each floor plan, users can add classrooms (it is ideal they can do so on the image, but not strictly required). Edit: Users can edit the name of campuses, name and image of floor plans. They can also delete campuses, floor plans, and classrooms of a floor plan.
  * Schedule exportation: Users can filter the generated schedule for each camp or each classroom. Then they can export the filtered or non-filtered schedule into .csv to make slight modifications, or print it as .pdf.
 
-<img width="750" alt="Screenshot 2023-11-17 at 12 52 22 AM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/2ede121e-d1d3-4c3c-9976-d560bbdeb733">
-
+<img width="750" alt="Screenshot 2023-11-20 at 2 54 00 AM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/98041d11-5876-47ad-9ae0-d5ec804e81d8">
 ​
+
 ## Instructions
  * The user lands at the sign up page before they can access the app, where they input a username and password to create an account. If they already have a page, they need to input a valid username-password pair to access the app.
  * Once in the app, they can insert data relating to students and counselors in a csv located in deliverables/yres_scheduler/yres_scheduler_frontend/src/app/data/student_add_data.csv where each student has a unique id. They can also remove and/or update and/or read data that has been inputted previously.
@@ -42,9 +42,10 @@ They can search in the table to find the interested profile, then edit through a
  2. Clone the team repository: `https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git`
  3. Navigate to the './deliverables/yres_scheduler/yres_scheduler_backend' directory and install dependencies: `npm install`.
  4. Start the backend API `node server.js`.
- 5. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install`.
- 6. Then build the frontend application: `npm run build`.
- 7. Finally, start the frontend server: `npm start`.
+ 5. To run the backend tests run: `npm test`.
+ 6. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install`.
+ 7. Then build the frontend application: `npm run build`.
+ 8. Finally, start the frontend server: `npm start`.
 
 We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the db ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: csc301.
   

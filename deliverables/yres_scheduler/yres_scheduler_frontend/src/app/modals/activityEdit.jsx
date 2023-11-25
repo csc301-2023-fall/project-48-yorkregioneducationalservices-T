@@ -1,8 +1,8 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useRouter } from 'next/navigation'
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
+import { fetchDataPOST } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /**
  * Editing Modal for Activities
@@ -21,37 +21,30 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 function ActivityEdit({item, show, setShow }) {
     const router = useRouter();
     const handleClose = () => setShow(false);
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        /**
-         * API post request for adding new activity
-         */
-        const updated_activity = {
-            activity_id: item.activity_id,
-            name: event.target[0].value,
-            duration: event.target[1].value,
-            type: event.target[3].checked ? "filler" : "common",
-            num_occurences: event.target[4].value,
-            camp_id: item.camp_id,
-            room_ids: [] //process_comma_separated_text(event.target[2].value);
-        }
-
-        fetch(`${URI}/activities/editActivityById/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updated_activity)
-        })
-        .then(res => {
-            if (res.status === 200) {
-                router.refresh();
-                return res.json();
-            } else {
-                // Show error alert
-            }
-        }).catch(err => {
+        try {
+            /**
+             * API post request for updating activity
+             */
+            await fetchDataPOST(
+                "/activities/editActivityById/", 
+                {
+                    activity_id: item.activity_id,
+                    name: event.target[0].value,
+                    duration: event.target[1].value,
+                    type: event.target[3].checked ? "filler" : "common",
+                    num_occurences: event.target[4].value,
+                    camp_id: item.camp_id,
+                    room_ids: "" //process_comma_separated_text(event.target[2].value);
+                }
+            )
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            //TODO: Display Error in component
             console.log(err);
-        });
-        handleClose();
+        }
     }
   
     return (
