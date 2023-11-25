@@ -48,8 +48,8 @@ const activityRoutes = (app) => {
     })
     /**
      * Route to delete an activity by its ID.
-     * @name DELETE /actiivty/:activity_id
-     * @memberof module:routes/blockRoutes
+     * @name DELETE /activity/:activity_id
+     * @memberof module:routes/activityRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */

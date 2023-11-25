@@ -1,30 +1,15 @@
 /**
- * Room Controller
+ * This module implements the controller for requests for room service 
+ * operations.
  * 
- * @module roomController
+ * @module api/controllers/roomController
+ * 
+ * @requires api/services/roomService
+ * @requires api/entities/ServiceErrors
  */
 
-const { contentSecurityPolicy } = require('helmet');
-const db = require('../db/roomDbPlugin');
-const uuid = require('uuid');
-
-/**
- * Get all rooms by ID of campus that they belong to.
- * 
- * @param {JSON} req - GET request with query parameter campus_id.
- * @returns {JSON} - JSON representation of all rooms.
- */
-async function getAllRoomsByCampusId(req, res) {
-    const campus_id = req.query.campus_id;
-    if (isNaN(campus_id)) {
-        console.log('getAllRooms - Bad request: missing query parameter');
-        throw Error('getAllRooms - Bad request: missing query parameter');
-    }
-    const all_rooms = await db.getRoomsByCampusId(campus_id);
-    return {
-        rooms: all_rooms
-    };
-}
+const roomService = require('../services/roomService');
+const {RoomServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Get all rooms in the database.
@@ -33,6 +18,7 @@ async function getAllRoomsByCampusId(req, res) {
  */
 async function getAllRooms(req, res) {
     const all_rooms = await db.getAllRooms();
+    res.status(STATUS_CODES.SUCCESS);
     return {
         rooms: all_rooms
     };
@@ -48,10 +34,13 @@ async function createRoom(req, res) {
     const name = req.body.name;
     const campus_id = req.body.campus_id;
     if (!name || !campus_id) {
-        console.log('createRoom - Bad form: missing parameter');
-        throw Error('createRoom - Bad form: missing parameter');
+        throw new RoomServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
-    var succeed = await db.createRoom(uuid.v1(), name, campus_id);
+    var succeed = await roomService.createRoom(uuid.v1(), name, campus_id);
+    res.status(STATUS_CODES.CREATED);
     return {
         status: succeed ? 'Success' : 'failure'
     };
@@ -64,12 +53,18 @@ async function createRoom(req, res) {
  * @returns {Object} - The status of the deletion.
  */
 async function deleteRoomById(req, res) {
-    const room_id = req.body.room_id;
-    if (!uuid.validate(room_id)) {
-        console.log('deleteRoom - Bad form: unexpected room_id');
-        throw Error('deleteRoom - Bad form: unexpected room_id');
+    const room_id = req.params.room_id;
+
+    if (!room_id) {
+        throw new RoomServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
-    const status = await db.deleteRoomById(room_id);
+
+    const status = await roomService.deleteRoomById(room_id);
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         status: status ? 'Success' : 'failure'
@@ -85,7 +80,16 @@ async function deleteRoomById(req, res) {
 async function editRoomsById(req, res) {
     const room = req.body;
 
-    const status = await db.editRoomById(room);
+    if (!room) {
+        throw new RoomServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
+
+    const status = await roomService.editRoomById(room);
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         status: status ? 'Success' : 'failure'
@@ -93,7 +97,6 @@ async function editRoomsById(req, res) {
 }
 
 module.exports = {
-    getAllRoomsByCampusId,
     getAllRooms,
     createRoom,
     deleteRoomById,
