@@ -1,26 +1,58 @@
+/**
+ * This module implements the use case operations for the camp service.
+ * 
+ * @module api/service/campService
+ * 
+ * @requires api/db/campDbPlugin
+ * @requires api/entities/ServiceErrors
+ */
 
 const db = require('../db/campDbPlugin');
+const {CampServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Retrieves a camp object by their ID.
  * @param {string} camp_id - The ID of the camp to retrieve.
  * @returns {object} - The camp object.
  */
-function getCamp(camp_id) {
-    var camp = db.getCampById(camp_id);
+async function getCamp(camp_id) {
 
-    return camp;
+    try {
+        var camp = await db.getCampById(camp_id);
+
+        if (camp == null) {
+            throw new CampServiceError(
+                `Camp resource with ID '${block_id}' not found in DB`,
+                STATUS_CODES.NOT_FOUND
+            );
+        }
+
+        return camp;
+    } catch(err) {
+        throw new CampServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 
 }
 
 /**
  * Retrieves all camps from a campus from the database.
  *
- * @returns {Promise<Array>} - A promise that resolves to an array of camp objects.
+ * @returns {Array<Camp>} - An array of camp objects.
  */
 async function getAllCamps() {
-    var all_camps = await db.getAllCamps();
-    return all_camps;
+
+    try {
+        var all_camps = await db.getAllCamps();
+        return all_camps;
+    } catch(err) {
+        throw new CampServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
@@ -28,11 +60,18 @@ async function getAllCamps() {
  *
  * @param {string} name - The name of the camp object to be created.
  * @param {string} campus_id - The id of the campus to create the new camp object under.
- * @returns {Promise<boolean>} - A promise that resolves to true if it successfully created camp object.
+ * @returns {boolean} - Whether operation was successful.
  */
-function createCamp(name, campus_id) {
-    var camp = db.createCamp(name, campus_id);
-    return camp;
+async function createCamp(name, campus_id) {
+
+    try {
+        return await db.createCamp(name, campus_id);
+    } catch(err) {
+        throw new BlockServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 module.exports = {
