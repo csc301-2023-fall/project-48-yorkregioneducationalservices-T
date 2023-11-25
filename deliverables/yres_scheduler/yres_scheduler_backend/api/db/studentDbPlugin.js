@@ -101,7 +101,7 @@ async function getAllStudents() {
     const functionName = getAllStudents.name; // Get the name of the current function for logging purposes
     logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin`);
     var students;
-    return new Promise(async (resolve, reject) => {
+    return await new Promise(async (resolve, reject) => {
         try {
             const result = await new Promise((queryResolve, queryReject) => {
                 client.query(queryGetAllStudents, (err, result) => {
@@ -112,19 +112,23 @@ async function getAllStudents() {
                     }
                 });
             });
-    
-            // Extract rows from the result
-            const rows = result.rows;
-    
-            // Map the rows to Student objects
-            students = rows.map(mapRowToStudent);
-    
-            // Create an array of promises to wait for all students' preferences to be fetched and categorized
-            for (const student of students) {
-                await getFriendPreferencesAndCategorize(student);
+
+            if (result && result.rowCount > 0) {
+                // Extract rows from the result
+                const rows = result.rows;
+        
+                // Map the rows to Student objects
+                students = rows.map(mapRowToStudent);
+        
+                // Create an array of promises to wait for all students' preferences to be fetched and categorized
+                for (const student of students) {
+                    await getFriendPreferencesAndCategorize(student);
+                }
+                // Resolve the promise with the students data
+                resolve(students);
+            } else {
+                resolve([]);
             }
-            // Resolve the promise with the students data
-            resolve(students);
         } catch (error) {
             logger.error('Error while getting all students:', {error: error});
             return {result: false, error: err.message};
@@ -157,12 +161,15 @@ async function getStudentById(student_id) {
     const functionName = getStudentById.name; // Get the name of the current function for logging purposes
     logger.debug(`Function ${functionName}: Getting all students in the studentDbPlugin with the studentId: ${student_id}`);
     try {
-        const result = client.query(query, [student_id]);
-        const row = result.rows[0];
-        return mapRowToStudent(row);
+        const result = await client.query(query, [student_id]);
+        if (result && result.rowCount > 0) {
+            const row = result.rows[0];
+            return mapRowToStudent(row);
+        } else {
+            return null;
+        }
     } catch (err) {
-        logger.error('Failed to getStudentById', {error: err});
-        return {result: false, error: err.message};
+        throw new Error(err);
     }
 }
 
@@ -259,8 +266,7 @@ async function createStudent(student) {
         });
         return {result: true};
     } catch (err) {
-        logger.error('Failed to create student', {error: err});
-        return {result: false, error: err.message};
+        throw new Error(err);
     }
 }
 
