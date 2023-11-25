@@ -72,3 +72,17 @@ export async function fetchDataPOST(route, item) {
         throw new Error(`${response.status} Error: Something Wrong Happened!`)
     }
 }
+
+export function sort_table_data(keyCol, data){
+    var data_display;
+    if(keyCol === "_student_ui_id"){
+        data_display = [...data].sort((a,b) => a._student_ui_id - b._student_ui_id); 
+      } 
+    else if(keyCol === "_counselor_id"){
+        data_display = [...data].sort((a,b) => (a._counselor_id < b._counselor_id ? -1 : 1)); 
+    }
+    else{
+        data_display = data;
+    }
+    return data_display;
+}

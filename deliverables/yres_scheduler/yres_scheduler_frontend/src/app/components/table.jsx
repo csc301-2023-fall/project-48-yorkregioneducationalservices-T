@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import React from 'react';
 import Loading from './loading';
-
+import { sort_table_data } from '../helper';
 /** 
  * Primary table we used to display everything
  * Props: 
@@ -16,6 +16,7 @@ function YresTable(props) {
   const { keyCol, data, columns, rowEvents_const, disableHover } = props;
   let rowEvents = rowEvents_const;
   const TCols = columns.map((item) => item.dataField);
+  var data_display = sort_table_data(keyCol, data);
   if (rowEvents === undefined) {
     rowEvents = { onClick: (_) => {} };
   }
@@ -36,7 +37,7 @@ function YresTable(props) {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, rowIndex) => 
+          {data_display.map((row, rowIndex) => 
             <tr key={row[keyCol]} onClick={() => rowEvents.onClick(row, rowIndex)}>
             {TCols.map((colName) => {
                 if (Array.isArray(row[colName])) {
