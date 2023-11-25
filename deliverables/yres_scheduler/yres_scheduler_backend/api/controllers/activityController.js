@@ -1,10 +1,15 @@
 /**
- * @fileoverview This file contains the controller functions for managing activities in the database.
- * @module activityController
+ * This module implements the controller for requests for activity service 
+ * operations.
+ * 
+ * @module api/controllers/activityController
+ * 
+ * @requires api/services/activityService
+ * @requires api/entities/ServiceErrors
  */
 
-const db = require('../db/activityDbPlugin');
-const uuid = require('uuid');
+const activityService = require('../services/activityService');
+const {ActivityServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Get all activities in the database.
@@ -14,7 +19,8 @@ const uuid = require('uuid');
  * @returns {Object} - JSON representation of all activities.
  */
 async function getAllActivities(req, res) {
-    const all_activities = await db.getAllActivities();
+    const all_activities = await activityService.getAllActivities();
+    res.status(STATUS_CODES.SUCCESS);
     return {
         activities: all_activities
     };
@@ -36,11 +42,15 @@ async function createActivity(req, res) {
     const camp_id = req.body.camp_id;
 
     if (!name || !duration || !type || !num_occurences || !camp_id) {
-        console.log('createActivity - Bad form: missing parameter');
-        throw Error('createActivity - Bad form: missing parameter');
+        throw new ActivityServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
-    var succeed = await db.createActivity(uuid.v1(), name, duration, type, num_occurences, camp_id, room_ids);
-    console.log(succeed);
+    var succeed = await activityService.createActivity(name, duration, type, num_occurences, camp_id, room_ids);
+
+    res.status(STATUS_CODES.CREATED);
+
     return {
         status: succeed ? 'Success' : 'failure'
     };
@@ -55,9 +65,32 @@ async function createActivity(req, res) {
  */
 async function editActivityById(req, res) {
 
-    const activity = req.body;
+    const activity_id = req.params.activity_id;
+    const name = req.body.name;
+    const duration = parseInt(req.body.duration);
+    const type = req.body.type;
+    const num_occurences = parseInt(req.body.num_occurences);
+    const room_ids = req.body.room_ids;
+    const camp_id = req.body.camp_id;
 
-    const status = await db.editActivityById(activity);
+    if (!activity_id || !name || !duration || !type || !num_occurences || !camp_id) {
+        throw new ActivityServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
+
+    const status = await activityService.editActivityById(
+        activity_id,
+        name,
+        duration,
+        type, 
+        num_occurences, 
+        camp_id, 
+        room_ids
+    );
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         status: status ? 'Success' : 'failure'
@@ -72,12 +105,18 @@ async function editActivityById(req, res) {
  * @returns {Object} - If the deletion succeeded.
  */
 async function deleteActivityById(req, res) {
-    const activity_id = req.body.activity_id;
-    if (!uuid.validate(activity_id)) {
-        console.log('deleteActivity - Bad form: unexpected uuid');
-        throw Error('deleteActivity - Bad form: unexpected uuid');
+    const activity_id = req.params.activity_id;
+    
+    if (!activity_id ) {
+        throw new ActivityServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
-    const status = await db.deleteActivityById(activity_id);
+
+    const status = await activityService.deleteActivityById(activity_id);
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         status: status ? 'Success' : 'failure'

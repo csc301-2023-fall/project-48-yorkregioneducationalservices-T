@@ -9,7 +9,7 @@
  */
 
 const blockService = require('../services/blockService');
-const {STATUS_CODES} = require('../entities/ServiceErrors');
+const {BlockServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Retrieves a block by ID.
@@ -19,6 +19,14 @@ const {STATUS_CODES} = require('../entities/ServiceErrors');
  */
 async function getBlock(req, res) {
     const block_id = req.params.block_id;
+
+    // Check paramaters are valid
+    if (!block_id) {
+        throw new BlockServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
 
     const block = await blockService.getBlock(block_id)
 
@@ -63,6 +71,14 @@ async function createBlock(req, res) {
     const activity_id = req.body.activity_id;
     const start_time = req.body.start_time;
     const end_time = req.body.end_time;
+
+    // Check paramaters are valid
+    if (!schedule_id || !room_id || !activity_id || !start_time || !end_time) {
+        throw new BlockServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
     
 
     const status = await blockService.createBlock(schedule_id, room_id, activity_id, start_time, end_time);
