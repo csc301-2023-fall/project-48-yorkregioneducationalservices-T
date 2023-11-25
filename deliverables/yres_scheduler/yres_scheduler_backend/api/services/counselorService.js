@@ -8,7 +8,7 @@
  */
 
 const db = require('../db/counselorDbPlugin');
-const { CounselorServiceError } = require('../entities/ServiceErrors');
+const { CounselorServiceError, STATUS_CODES } = require('../entities/ServiceErrors');
 
 /**
  * Retrieves all counselors by campus ID.

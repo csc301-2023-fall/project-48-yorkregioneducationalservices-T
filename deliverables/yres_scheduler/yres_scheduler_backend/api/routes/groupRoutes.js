@@ -1,38 +1,46 @@
-const groupService = require('../controllers/groupController');
+/**
+ * This module specifies the routes for request endpoints in the group service.
+ * 
+ * @param {Object} [app] The express application
+ * 
+ * @module api/routes/groupRoutes
+ * @requires api/controllers/groupController
+ */
+const groupController = require('../controllers/groupController');
 
 module.exports = (app) => {
 
     /**
-     * Route to get a group by id.
-     * @name GET /group/get/
-     * @function
-     * @memberof module:routes/groupRoutes
-     * @param {Object} req - The Express request object.
-     * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the getGroup function.
-     */
-    app.get('/group/get/', async (req, res) => {
-        const group = await groupService.getGroup(req, res);
-        res.send(group);
-    })
-
-    /**
      * Route to get all groups.
-     * @name GET /group/getAll/
+     * @name GET /group/all/
      * @function
      * @memberof module:routes/groupRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllGroups function.
      */
-    .get('/group/getAll/', async (req, res) => {
-        const all_groups = await groupService.getAllGroups(req, res);
+    app.get('/group/all/', async (req, res) => {
+        const all_groups = await groupController.getAllGroups(req, res);
         res.send(all_groups);
     })
 
     /**
+     * Route to get a group by id.
+     * @name GET /group/:group_id
+     * @function
+     * @memberof module:routes/groupRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     * @returns {Promise} A Promise that resolves to the result of the getGroup function.
+     */
+    .get('/group/:group_id', async (req, res) => {
+        const group = await groupController.getGroup(req, res);
+        res.send(group);
+    })
+
+    /**
      * Route to create a new group.
-     * @name GET /group/create/
+     * @name POST /group/create/
      * @function
      * @memberof module:routes/groupRoutes
      * @param {Object} req - The Express request object.
@@ -40,8 +48,8 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves to the result of the createGroup function.
      */
     .post('/group/create/', async (req, res) => {
-        const status = await groupService.createGroup(req, res);
-        res.status(200).send(status);
+        const status = await groupController.createGroup(req, res);
+        res.send(status);
     })
 
     /**
@@ -54,7 +62,7 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves to the result of the deleteAllGroups function.
      */
     .delete('/group/deleteAll/', async (req, res) => {
-        const status = await groupService.deleteAllGroups(req, res);
-        res.status(200).send(status);
+        const status = await groupController.deleteAllGroups(req, res);
+        res.send(status);
     });
 };
