@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
  */
 async function getAdminUserByName(username) {
     var password;
-    const query = `SELECT * FROM LoginInfo WHERE username = '${username}';`
+    const query = `SELECT * FROM LoginInfo WHERE username = '${username}';`;
     try {
         const result = await client.query(query);
 

@@ -37,7 +37,7 @@ const activityRoutes = (app) => {
 
     /**
      * Route to edit an activity by its ID.
-     * @name POST /activity/create/
+     * @name POST /activity/:activity_id/edit
      * @memberof module:routes/activityRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
