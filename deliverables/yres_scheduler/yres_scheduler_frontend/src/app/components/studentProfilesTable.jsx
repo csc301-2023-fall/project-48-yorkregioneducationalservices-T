@@ -24,7 +24,7 @@ import { useRouter } from 'next/navigation';
         studentData - a list of student objects with above attributes
 }
 **/
-function StudentProfilesTable({ studentData}) {
+function StudentProfilesTable({studentData}) {
     const router = useRouter();
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
