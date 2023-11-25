@@ -111,10 +111,34 @@ async function deleteRoomById(room_id) {
     }
 }
 
+async function editRoomById(room) {
+    const query = `
+        UPDATE Room
+        SET name = $2
+        WHERE room_id = $1
+        RETURNING *;
+    `;
+    try {
+        const result = await client.query(query, [room.room_id, room.name]);
+        const edited_room = result.rows[0];
+
+        if (edited_room === undefined) {
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false;
+    }
+}
+
+
+
 
 module.exports = {
     createRoom,
     getRoomsByCampusId,
     getAllRooms,
-    deleteRoomById
+    deleteRoomById,
+    editRoomById
 }

@@ -1,4 +1,7 @@
 const counselorService = require('../controllers/counselorController');
+const { STATUS_CODES } = require('../entities/ServiceErrors');
+const logger = require('../../logger');
+const { log } = require('mathjs');
 
 /**
  * Defines the routes for counselor-related API endpoints.
@@ -15,14 +18,14 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves with the retrieved counselors or rejects with an error.
      */
     app.get('/counselors/getAllCounselors/', async (req, res) => {
-        console.log("dick");
-        const result = await counselorService.getAllCounselors(req, res);
-        res.send(result);
+        logger.info(`GET /counselors/getAllCounselors/`);
         try{
-
+            const result = await counselorService.getAllCounselors(req, res);
+            res.status(STATUS_CODES.SUCCESS).send(result);
         }
         catch(error){
-            res.status(500).send(error);
+            logger.error(`Error in GET /counselors/getAllCounselors/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }   
     })
     /**
@@ -36,16 +39,14 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves with a success message or rejects with an error.
      */
     .post('/counselors/createCounselor/', async (req, res) => {
+        logger.info(`POST /counselors/createCounselor/`);
         try {
-            const resp = await counselorService.createCounselor(req, res);
-            if (resp === true){
-                res.status(200).send('Success');
-            } else {
-                res.status(200).send('Failure');
-            }
+            const result = await counselorService.createCounselor(req, res);
+            res.status(STATUS_CODES.SUCCESS).send(result);
             
         } catch (error) {
-            res.status(500).send(error);
+            logger.error(`Error in POST /counselors/createCounselor/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }
     })
     /**
@@ -59,13 +60,13 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves with the edited counselor or rejects with an error.
      */
     .post('/counselors/editCounselorById/', async (req, res) => {
+        logger.info(`POST /counselors/editCounselorById/`);
         try {
-            const resp = await counselorService.editCounselorById(req, res);
-            res.send(resp);
-            
+            const result = await counselorService.editCounselorById(req, res);
+            res.status(STATUS_CODES.SUCCESS).send(result);
         } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
+            logger.error(`Error in POST /counselors/editCounselorById/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }
     })
     /**
@@ -79,13 +80,13 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves with a success message or rejects with an error.
      */
     .post('/counselors/deleteCounselorById/', async (req, res) => {
+        logger.info(`POST /counselors/deleteCounselorById/`);
         try {
-            const resp = await counselorService.deleteCounselorById(req, res);
-            res.send(resp);
-            
+            const result = await counselorService.deleteCounselorById(req, res);
+            res.status(STATUS_CODES.SUCCESS).send(result);
         } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
+            logger.error(`Error in POST /counselors/deleteCounselorById/: `, error);
+            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
         }
     })
 

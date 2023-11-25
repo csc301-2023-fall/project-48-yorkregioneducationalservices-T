@@ -22,11 +22,9 @@ module.exports = (app) => {
     .post('/rooms/createRoom/', async (req, res) => {
         try {
             const resp = await roomService.createRoom(req, res);
-            if (resp === true){
-                res.status(200).send('Success');
-            } else {
-                res.status(200).send('Failure');
-            }
+
+            res.status(200).send('Success');
+
             
         } catch (error) {
             res.status(500).send(error);
@@ -38,6 +36,16 @@ module.exports = (app) => {
     .post('/rooms/deleteRoomById/', async (req, res) => {
         try {
             const resp = await roomService.deleteRoomById(req, res);
+            res.send(resp);
+            
+        } catch (error) {
+            console.log(error);
+            res.status(500).send(error);
+        }
+    })
+    .post('/rooms/editRoomById/', async (req, res) => {
+        try {
+            const resp = await roomService.editRoomsById(req, res);
             res.send(resp);
             
         } catch (error) {

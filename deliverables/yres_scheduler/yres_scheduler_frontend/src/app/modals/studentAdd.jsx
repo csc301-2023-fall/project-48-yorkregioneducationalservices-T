@@ -3,7 +3,8 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
-import { validRelationship } from '@/app/helper';
+import { validRelationship, process_comma_separated_text, fetchDataPOST  } from '@/app/helper';
+import { useRouter } from 'next/navigation';
 
 /**
  * Addition Modal for Students
@@ -24,36 +25,35 @@ import { validRelationship } from '@/app/helper';
  * */
 function StudentAdd({show, setShow, item, students}) {
     const [error, setError] = useState(<></>);
+    const router = useRouter();
     const handleClose = () => {
         setError(<></>)
         setShow(false)
     };
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         let friends = event.target[5].value;
         let enemies = event.target[6].value;
-        if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){    
-            const bodyData = new URLSearchParams(
-                {
-                    'student_ui_id': event.target[0].value, 
-                    'firstname': event.target[1].value, 
-                    'lastname': event.target[2].value, 
-                    'age': parseInt(event.target[3].value), 
-                    'sex': event.target[4].value,
-                    'friend_ids': event.target[5].value.split(',').map(s => s.trim().replace(/\s/, ' ')),
-                    'enemy_ids': event.target[6].value.split(',').map(s => s.trim().replace(/\s/, ' '))
-                }).toString();
-
-            console.log(bodyData);
-            fetch(process.env.NEXT_PUBLIC_BACKEND_URI.concat("/students/createStudent/"), {
-                method: "POST", 
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: bodyData,
-            })
-            window.location.reload(false);
-            handleClose()
+        if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
+            try {
+                await fetchDataPOST(
+                    "/students/createStudent/", 
+                    {
+                        student_ui_id: event.target[0].value, 
+                        firstname: event.target[1].value, 
+                        lastname: event.target[2].value, 
+                        age: event.target[3].value, 
+                        sex: event.target[4].value,
+                        friend_ids: process_comma_separated_text(event.target[5].value),
+                        enemy_ids: process_comma_separated_text(event.target[6].value),
+                    }
+                )
+                router.refresh();
+                handleClose()
+            } catch (err) {
+                //TODO: Display Error in component
+                console.log(err);
+            }
         }
     }
   

@@ -1,4 +1,5 @@
 const Activity = require("../entities/Activity");
+const accountRoutes = require("../routes/accountRoutes");
 const { client } = require('./db')
 
 /**
@@ -43,6 +44,7 @@ async function getAllActivities() {
         if (all_activities === undefined) {
             resolve(all_activities);
         }
+
         for (var i=0; i<all_activities.length; i++) {
             result = await new Promise((queryResolve, queryReject) => {
                 client.query(rquery, [all_activities[i].activity_id], (err, result) => {
@@ -58,9 +60,11 @@ async function getAllActivities() {
                 continue;
             }
             for (var j=0; j<rows.length; j++) {
-                all_activities[i].room_ids?.push(rows[j][0]);
+
+                all_activities[i].rooms.push(rows[j].room_id);
             }
         }
+
         resolve(all_activities);
     });
 }
@@ -94,7 +98,7 @@ async function createActivity(activity_id, name, duration, type, num_occurences,
         if (room_ids === undefined || room_ids.length === 0) {
             return true;
         }
-        ids = room_ids.split(',')
+        ids = room_ids.split(',').filter(id => id !== '');
         for (id of ids) {
             try {
                 createRoomActivities(activity_id, id);
@@ -157,7 +161,7 @@ async function editActivityById(activity) {
                 // First delete all RoomActivity related to this activity.
                 clearRoomActivities(activity.activity_id);
                 // Then insert the new ones
-                ids = activity.room_ids.split(',')
+                ids = activity.room_ids.split(',').filter(id => id !== '');
                 for (id of ids) {
                     try {
                         createRoomActivities(activity.activity_id, id);
