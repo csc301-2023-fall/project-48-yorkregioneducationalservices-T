@@ -2,6 +2,7 @@ import Table from 'react-bootstrap/Table';
 import React from 'react';
 import Loading from './loading';
 import { sort_table_data } from '../helper';
+import {useState, useEffect} from 'react';
 /** 
  * Primary table we used to display everything
  * Props: 
@@ -14,9 +15,10 @@ import { sort_table_data } from '../helper';
 **/
 function YresTable(props) {
   const { keyCol, data, columns, rowEvents_const, disableHover } = props;
+  const [search, setSearch] = useState("");
   let rowEvents = rowEvents_const;
   const TCols = columns.map((item) => item.dataField);
-  var data_display = sort_table_data(keyCol, data);
+  var data_display = sort_table_data(search, keyCol, data);
   if (rowEvents === undefined) {
     rowEvents = { onClick: (_) => {} };
   }
@@ -28,8 +30,16 @@ function YresTable(props) {
 		// Returns null on first render, so the client and server match
 		return <Loading/>;
 	}
+  const handleSearch = (event) => {
+    console.log("here");
+    setSearch(event.target.value);
+  };
   return (
     <div className='table-container'>
+      <label htmlFor="search">
+        Search:
+        <input id="search" type="text" onChange={handleSearch} />
+      </label>
       <Table striped bordered hover={!disableHover }>
         <thead className='table-header'>
           <tr>
