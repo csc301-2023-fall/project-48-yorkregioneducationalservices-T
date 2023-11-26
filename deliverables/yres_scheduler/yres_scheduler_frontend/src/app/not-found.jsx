@@ -14,7 +14,6 @@ const NotFound = () => {
       </p>
     </div>
     } />
-    
   );
 };
 
