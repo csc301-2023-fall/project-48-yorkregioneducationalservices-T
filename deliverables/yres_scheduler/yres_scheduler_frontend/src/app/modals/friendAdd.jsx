@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 import FriendSearchTable from '../components/friendSearchTable';
-import FriendListTable from '../components/friendListTable';
 function FriendsCreate({show, setShow, studentData}) {
     const router = useRouter();
     const [friendsList, setFriendsList] = useState([]);
@@ -14,25 +13,35 @@ function FriendsCreate({show, setShow, studentData}) {
         setFriendsList([]);
     }
     const handleSubmit = async (event) => {
-        // event.preventDefault();
-        // try {
-        //     await fetchDataPOST(
-        //         "/activities/createActivity/",
-        //         {
-        //             name: event.target[0].value,
-        //             duration: event.target[1].value,
-        //             type: event.target[3].checked ? "filler" : "common",
-        //             num_occurences: event.target[4].value,
-        //             camp_id: currCampus.camp_ids[0],
-        //             room_ids: "" //process_comma_separated_text(event.target[2].value);
-        //         }
-        //     )
-            router.refresh();
-            handleClose();
-        // } catch (err) {
-        //     //TODO: Display Error in component
-        //     console.log(err);
-        // }
+        event.preventDefault();
+        
+        if(friendsList.length < 2){
+            //throw error
+            
+        }
+        else{
+            
+        for(let i = 0; i < friendsList.length - 1; i++){
+            for(let j = i + 1; j < friendsList.length; j++){
+                try {
+                    console.log(friendsList);
+                    await fetchDataPOST(
+                        "/students/createFriends/",
+                        {   
+                            student_id: friendsList[i]._student_id,
+                            other_student_ui_id: friendsList[j]._student_ui_id
+                        }
+                    )
+                } catch (err) {
+                    //TODO: Display Error in component
+                    console.log(err);
+                }
+            }
+        }
+        }
+        router.refresh();
+        handleClose();
+
     }
     return (
         <>

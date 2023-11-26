@@ -20,7 +20,7 @@ import FormLabel from 'react-bootstrap/FormLabel'
 **/
 function FriendSearchTable({friends, setFriends, studentData}) {
     const router = useRouter();
-    const studentFriendData = studentData.map((item) => ({_student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
+    const studentFriendData = studentData.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
     const columns = [{
         dataField: '_student_ui_id',
         text: 'ID'
@@ -36,8 +36,8 @@ function FriendSearchTable({friends, setFriends, studentData}) {
     }]
     studentFriendData.forEach(item => {
         const addToList = () =>{
-            var updatedList = friends.map((item) => ({_student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
-            updatedList.push({_student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname});
+            var updatedList = friends.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
+            updatedList.push({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname});
             setFriends(updatedList);
         }
         item.actions = (

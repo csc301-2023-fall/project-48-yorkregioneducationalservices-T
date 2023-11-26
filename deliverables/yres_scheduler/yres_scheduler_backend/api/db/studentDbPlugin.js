@@ -369,5 +369,6 @@ module.exports = {
     getStudentByUiId,
     createStudent,
     editStudentById,
+    insertFriendPreferences,
     deleteStudentById
 }

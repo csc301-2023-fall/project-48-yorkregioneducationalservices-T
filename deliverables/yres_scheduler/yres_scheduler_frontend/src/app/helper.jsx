@@ -32,7 +32,6 @@ export function validRelationship(string, field, setError, students) {
     }
     const studentNames = students.map(student => {return student._student_ui_id})
     const names = string.split(',').map(s => s.trim().replace(/\s/, ' '));
-    console.log(names)
     for (const name of names) {
         if (!studentNames.includes(parseInt(name))){
             setError(<Alert simpleMessage={field + " field invalid, " + name + " isn't a known student"}/>)
@@ -76,7 +75,6 @@ export async function fetchDataPOST(route, item) {
 export function sort_table_data(search, keyCol, data){
     var data_display = data;
     var search = search.toLowerCase();
-    console.log(data[0]);
     if(keyCol === "_student_ui_id"){
         if(search !== ""){
             data_display = data_display.filter((item)=> item._student_ui_id.toString().includes(search) || item.firstname.toLowerCase().includes(search) || item.lastname.toLowerCase().includes(search));
