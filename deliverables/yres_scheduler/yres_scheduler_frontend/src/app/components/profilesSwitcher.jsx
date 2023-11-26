@@ -8,6 +8,7 @@ import StudentAdd from '@/app/modals/studentAdd'
 import CounselorAdd from '@/app/modals/counselorAdd'
 import { useState } from 'react';
 import StudentCSV from '@/app/components/importStudentCSV';
+import FriendsCreate from '../modals/friendAdd';
 
 const PROFILE_TYPES = ['Student', 'Counselor']
 
@@ -24,6 +25,10 @@ function ProfilesSwitcher({ studentData, counselorData }) {
     const handleShow = () => {
         setShow(true);
     };
+    const [showFriends, setShowFriends] = useState(false);
+    const handleShowFriends = () => {
+        setShowFriends(true);
+    };
     return (
         <>
             <div id='profiles-header'>
@@ -33,6 +38,17 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                     groups={PROFILE_TYPES}
                 />
                 <StudentCSV type={currType}/>
+                {currType === PROFILE_TYPES[0] 
+                    ?
+                    <div className='right-align'>
+                        <Button variant="primary" onClick={handleShowFriends}>Add Friends</Button>
+                        <FriendsCreate
+                            show={showFriends}
+                            setShow={setShowFriends}
+                            studentData={studentData}
+                        />
+                    </div>
+                    :<></>}
                 <div className='right-align'>
                     <Button variant="primary" onClick={handleShow}>Add {currType}</Button>
                     {currType === PROFILE_TYPES[0] 

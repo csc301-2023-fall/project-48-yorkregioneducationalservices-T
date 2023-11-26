@@ -185,6 +185,13 @@
   overflow: scroll;
   clear:both;
 }
+.friend-table-container{
+  background-color: #ffffff;
+  border-radius: 20px;
+  max-height: 50vh;
+  overflow: scroll;
+  clear:both;
+}
 
 .half-table-container{
   height: 35vh;
