@@ -10,45 +10,35 @@ const { log } = require('mathjs');
 module.exports = (app) => {
     /**
      * Route to get all students.
-     * @name GET /students/getAllStudents/
+     * @name GET /student/all/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllStudents function.
      */
-    app.get('/students/getAllStudents/', async (req, res) => {
-        try {
-            logger.info(`GET /students/getAllStudents/`);
-            const resp = await studentService.getAllStudents(req, res);
-            res.status(resp.status).send(resp);
-        } catch (error) {
-            logger.error(`Error in GET /students/getAllStudents/: `, error);
-            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message });
-        }
+    app.get('/student/all/', async (req, res) => {
+        logger.info(`GET /student/all/`);
+        const resp = await studentService.getAllStudents(req, res);
+        res.send(resp);
     })
     /**
      * Route to get a student by ID.
-     * @name GET /students/getStudentById/
+     * @name GET /student/:student_id/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getStudentById function.
      */
-    .get('/students/getStudentById/', async (req, res) => {
-        try {
-            logger.info(`GET /students/getStudentById/`);
-            const resp = await studentService.getStudentById(req, res);    
-            res.status(resp.status).send(resp);
-        } catch (error) {
-            logger.error(`Error in GET /students/getStudentById/: `, error);
-            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message });
-        }
+    .get('/student/:student_id/', async (req, res) => {
+        logger.info(`GET /student/:student_id/`);
+        const resp = await studentService.getStudentById(req, res);    
+        res.send(resp);
     })
     /**
      * Route to get a student by UI ID.
-     * @name GET /students/getStudentByUiId/
+     * @name GET /student/ui/:student_id
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
@@ -56,34 +46,24 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves to the result of the getStudentByUiId function.
      */
 
-    .get('/students/getStudentByUiId/', async (req, res) => {
-        try {
-            logger.info(`GET /students/getStudentByUiId/`);
-            const resp = await studentService.getStudentByUiId(req, res);    
-            res.status(resp.status).send(resp);
-        } catch (error) {
-            logger.error(`Error in GET /students/getStudentByUiId/: `, error);
-            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
-        }
+    .get('/student/ui/:student_id/', async (req, res) => {
+        logger.info(`GET /student/ui/:student_id/`);
+        const resp = await studentService.getStudentByUiId(req, res);    
+        res.send(resp);
     })
     /**
      * Route to create a new student.
-     * @name POST /students/createStudent/
+     * @name POST /student/create/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to a string indicating success or failure.
      */
-    .post('/students/createStudent/', async (req, res) => {
-        try {
-            logger.info(`POST /students/createStudent/`);
-            const resp = await studentService.createStudent(req, res);    
-            res.status(resp.status).send(resp);
-        } catch (error) {
-            logger.error(`Error in GET /students/getStudentByUiId/: `, error);
-            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
-        }
+    .post('/student/create/', async (req, res) => {
+        logger.info(`POST /student/create/`);
+        const resp = await studentService.createStudent(req, res);    
+        res.send(resp);
     })
 
 /**
@@ -108,41 +88,31 @@ module.exports = (app) => {
 
     /**
      * Route to edit a student by ID.
-     * @name POST /students/editStudentById/
+     * @name POST /student/edit/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the editStudentById function.
      */
-    .post('/students/editStudentById/', async (req, res) => {
-        try {
-            logger.info(`POST /students/editStudentById/`);
-            const resp = await studentService.editStudentById(req, res);
-            res.status(resp.status).send(resp);
-        } catch (error) {
-            logger.error('Error in POST /students/editStudentById/: ', error);
-            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
-        }
+    .post('/student/edit/', async (req, res) => {
+        logger.info(`POST /student/edit/`);
+        const resp = await studentService.editStudentById(req, res);
+        res.send(resp);
     })
     /**
      * Route to delete a student by ID.
-     * @name POST /students/deleteStudentById/
+     * @name POST /student/:student_id/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the deleteStudentById function.
      */
-    .post('/students/deleteStudentById/', async (req, res) => {
-        try {
-            logger.info(`POST /students/deleteStudentById/`);
-            const resp = await studentService.deleteStudentById(req, res);
-            res.status(resp.status).send(resp);
-        } catch (error) {
-            logger.error(`Error in POST /students/deleteStudentById/:`, error);
-            res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
-        }
+    .delete('/student/:student_id/', async (req, res) => {
+        logger.info(`POST /student/:student_id/`);
+        const resp = await studentService.deleteStudentById(req, res);
+        res.send(resp);
     })
 
 };
