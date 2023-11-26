@@ -4,27 +4,41 @@ import ActivitiesTable from '../../components/activitiesTable';
 import ActivityCreate from '@/app/modals/activityCreate';
 import RoomsCreate from '@/app/modals/roomsCreate';
 import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
+import Alert from '@/app/components/alert';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
+let errorDisplay = <></>
 
 // GET rooms frontend server side
 async function getRooms() {
-    const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
-    const data = await res.json();
-    return data.rooms;
+    try {
+        const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
+        const data = await res.json();
+        return data.rooms;
+    } catch (error) {
+        errorDisplay = <Alert simpleMessage={error._status_code} complexMessage={error.message}/>
+    }
 }
 
 // GET activities frontend server side
 async function getActivities() {
-    const res = await fetch(`${URI}/activities/getAllActivities/`, { cache: 'no-store' });
-    const data = await res.json();
-    return data.activities;
+    try {
+        const res = await fetch(`${URI}/activities/getAllActivities/`, { cache: 'no-store' });
+        const data = await res.json();
+        return data.activities;
+    } catch (error) {
+        errorDisplay = <Alert simpleMessage={error._status_code} complexMessage={error.message}/>
+    }
 }
 
 // GET current campus frontend server side
 async function getCurrCampus() {
-    const res = await fetch(`${URI}/campus/getAll/`);
-    const data = await res.json();
-    return data.campuses[0];
+    try {
+        const res = await fetch(`${URI}/campus/getAll/`);
+        const data = await res.json();
+        return data.campuses[0];
+    } catch (error) {
+        errorDisplay = <Alert simpleMessage={error._status_code} complexMessage={error.message}/>
+    }
 }
 
 async function Floorplan() {
@@ -38,6 +52,7 @@ async function Floorplan() {
                 <FloorplanCanvas/>
             </div>
             <div className='right'>
+                {errorDisplay}
                 <div className='right-align'>
                     <h3 className='header-title'>Rooms</h3>
                     <RoomsCreate currCampus={curr_campus}/>
