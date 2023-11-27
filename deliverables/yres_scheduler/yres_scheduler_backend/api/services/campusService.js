@@ -2,7 +2,7 @@ const db = require('../db/campusDbPlugin');
 
 /**
  * Retrieves a campus object by their ID.
- * @param {string} campus_id - The ID of the campus to retrieve.
+ * @param {number} campus_id - The ID of the campus to retrieve.
  * @returns {object} - The campus object.
  */
 async function getCampus(campus_id) {

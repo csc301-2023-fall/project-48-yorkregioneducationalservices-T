@@ -11,10 +11,12 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getBlock function.
      */
+    /*
     app.get('/block/get/', async (req, res) => {
         const block = await blockService.getBlock(req, res);
         res.send(block);
     })
+    */
 
     /**
      * Route to get all blocks.
@@ -25,7 +27,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllBlocks function.
      */
-    .get('/block/getAll/', async (req, res) => {
+    app.get('/block/getAll/', async (req, res) => {
         const all_blocks = await blockService.getAllBlocks(req, res);
         res.send(all_blocks);
     })

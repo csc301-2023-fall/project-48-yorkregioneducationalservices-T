@@ -39,7 +39,7 @@ async function createActivity(req, res) {
         console.log('createActivity - Bad form: missing parameter');
         throw Error('createActivity - Bad form: missing parameter');
     }
-    var succeed = await db.createActivity(uuid.v1(), name, duration, type, num_occurences, camp_id, room_ids);
+    var succeed = await db.createActivity(name, duration, type, num_occurences, camp_id, room_ids);
     console.log(succeed);
     return {
         status: succeed ? 'Success' : 'failure'
@@ -73,10 +73,12 @@ async function editActivityById(req, res) {
  */
 async function deleteActivityById(req, res) {
     const activity_id = req.body.activity_id;
+    /*
     if (!uuid.validate(activity_id)) {
         console.log('deleteActivity - Bad form: unexpected uuid');
         throw Error('deleteActivity - Bad form: unexpected uuid');
     }
+    */
     const status = await db.deleteActivityById(activity_id);
 
     return {

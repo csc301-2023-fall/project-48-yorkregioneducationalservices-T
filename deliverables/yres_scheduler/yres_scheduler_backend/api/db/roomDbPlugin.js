@@ -17,7 +17,7 @@ function mapRowToRoom(row) {
 
 /** Get a list of all Room objects of a given campus.
  * 
- *  @param {string} campus_id - ID of the campus from which to get all rooms.
+ *  @param {number} campus_id - ID of the campus from which to get all rooms.
  *  @returns an array of Room objects with the given campus_id. Empty array is returned if the campus_id does not exist.
  */
 async function getRoomsByCampusId(campus_id) {
@@ -70,19 +70,18 @@ async function getAllRooms() {
 
 /** Write a Room to database.
  * 
- * @param {string} room_id - room UUID.
  * @param {string} name - room name.
- * @param {string} campus_id - ID of campus this room belongs to.
+ * @param {number} campus_id - ID of campus this room belongs to.
  * @returns true if written successfully.
  */
-async function createRoom(room_id, name, campus_id) {
+async function createRoom(name, campus_id) {
     const query = `
-        INSERT INTO Room (room_id, name, campus_id)
-        VALUES ($1, $2, $3)
+        INSERT INTO Room (name, campus_id)
+        VALUES ($1, $2)
         RETURNING room_id;
     `;
     try {
-        const result = await client.query(query, [room_id, name, campus_id]);
+        const result = await client.query(query, [name, campus_id]);
         return true;
     } catch (err) {
         console.log(err);
@@ -92,7 +91,7 @@ async function createRoom(room_id, name, campus_id) {
 
 /** Delete a Room from database with given room_id.
  * 
- * @param {string} room_id - room UUID.
+ * @param {number} room_id - room id number.
  * @returns true if deleted successfully.
  */
 async function deleteRoomById(room_id) {

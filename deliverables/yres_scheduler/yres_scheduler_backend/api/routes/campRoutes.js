@@ -11,10 +11,12 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getCamp function.
      */
+    /*
     app.get('/camp/get/', async (req, res) => {
         const camp = await campService.getCamp(req, res);
         res.send(camp);
     })
+    */
 
     /**
      * Route to get all camps.
@@ -25,7 +27,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllCamps function.
      */
-    .get('/camp/getAll/', async (req, res) => {
+    app.get('/camp/getAll/', async (req, res) => {
         const all_camps = await campService.getAllCamps(req, res);
         res.send(all_camps);
     })

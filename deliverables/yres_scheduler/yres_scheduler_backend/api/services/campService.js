@@ -3,7 +3,7 @@ const db = require('../db/campDbPlugin');
 
 /**
  * Retrieves a camp object by their ID.
- * @param {string} camp_id - The ID of the camp to retrieve.
+ * @param {number} camp_id - The ID of the camp to retrieve.
  * @returns {object} - The camp object.
  */
 function getCamp(camp_id) {
@@ -27,7 +27,7 @@ async function getAllCamps() {
  * Creates a new camp in the database.
  *
  * @param {string} name - The name of the camp object to be created.
- * @param {string} campus_id - The id of the campus to create the new camp object under.
+ * @param {number} campus_id - The id of the campus to create the new camp object under.
  * @returns {Promise<boolean>} - A promise that resolves to true if it successfully created camp object.
  */
 function createCamp(name, campus_id) {

@@ -35,7 +35,7 @@ function editCounselorById(counselor) {
 
 /**
  * Deletes a counselor by their unique ID.
- * @param {string} counselor_ui_id - The unique ID of the counselor to be deleted.
+ * @param {number} counselor_ui_id - The unique ID of the counselor to be deleted.
  * @returns {Promise<boolean>} - A Promise that resolves to a boolean indicating whether the deletion was successful.
  */
 function deleteCounselorById(counselor_ui_id) {

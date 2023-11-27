@@ -2,7 +2,7 @@ const db = require('../db/blockDbPlugin');
 
 /**
  * Retrieves a block object by their ID.
- * @param {string} block_id - The ID of the block to retrieve.
+ * @param {number} block_id - The ID of the block to retrieve.
  * @returns {object} - The block object.
  */
 async function getBlock(block_id) {
@@ -26,9 +26,9 @@ async function getAllBlocks() {
  * Creates a new block record in the database.
  * @async
  * @function createBlock
- * @param {string} schedule_id - The unique identifier of the schedule this block is in (can be null).
- * @param {string} room_id - The unique identifier of the room this block is held in.
- * @param {string} activity_id - The unique identifier of the activity this block is hosting.
+ * @param {number} schedule_id - The unique identifier of the schedule this block is in (can be excluded).
+ * @param {number} room_id - The unique identifier of the room this block is held in.
+ * @param {number} activity_id - The unique identifier of the activity this block is hosting.
  * @param {string} start_time - The start time of the block as a string (e.g.: '8:00', '12:00').
  * @param {string} end_time - The end time of the block as a string (e.g.: '8:00', '12:00').
  * @returns {Promise<boolean>} - A promise that resolves to true if the block was created successfully.

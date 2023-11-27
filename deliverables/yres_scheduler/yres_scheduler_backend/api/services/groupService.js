@@ -2,7 +2,7 @@ const db = require('../db/groupDbPlugin');
 
 /**
  * Retrieves a group object by their ID.
- * @param {string} group_id - The ID of the group to retrieve.
+ * @param {number} group_id - The ID of the group to retrieve.
  * @returns {object} - The group object.
  */
 function getGroup(group_id) {
@@ -25,7 +25,7 @@ async function getAllGroups() {
 /**
  * Creates a new group in the database.
  *
- * @param {string} camp_id - The id of the camp under which the group object is to be created.
+ * @param {number} camp_id - The id of the camp under which the group object is to be created.
  * @returns {Promise<boolean>} - A promise that resolves to true if the creation succeeded.
  */
 function createGroup(camp_id) {

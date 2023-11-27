@@ -51,7 +51,7 @@ async function createRoom(req, res) {
         console.log('createRoom - Bad form: missing parameter');
         throw Error('createRoom - Bad form: missing parameter');
     }
-    var succeed = await db.createRoom(uuid.v1(), name, campus_id);
+    var succeed = await db.createRoom(name, campus_id);
     return {
         status: succeed ? 'Success' : 'failure'
     };
@@ -65,10 +65,12 @@ async function createRoom(req, res) {
  */
 async function deleteRoomById(req, res) {
     const room_id = req.body.room_id;
+    /*
     if (!uuid.validate(room_id)) {
         console.log('deleteRoom - Bad form: unexpected room_id');
         throw Error('deleteRoom - Bad form: unexpected room_id');
     }
+    */
     const status = await db.deleteRoomById(room_id);
 
     return {

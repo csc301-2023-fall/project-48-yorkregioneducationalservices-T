@@ -1,7 +1,7 @@
 const groupService = require('../controllers/groupController');
 
 module.exports = (app) => {
-
+    
     /**
      * Route to get a group by id.
      * @name GET /group/get/
@@ -11,10 +11,12 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getGroup function.
      */
+    /*
     app.get('/group/get/', async (req, res) => {
         const group = await groupService.getGroup(req, res);
         res.send(group);
     })
+    */
 
     /**
      * Route to get all groups.
@@ -25,7 +27,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllGroups function.
      */
-    .get('/group/getAll/', async (req, res) => {
+    app.get('/group/getAll/', async (req, res) => {
         const all_groups = await groupService.getAllGroups(req, res);
         res.send(all_groups);
     })

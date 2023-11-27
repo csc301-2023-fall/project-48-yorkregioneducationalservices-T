@@ -11,10 +11,12 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getCampus function.
      */
+    /*
     app.get('/campus/get/', async (req, res) => {
         const campus = await campusService.getCampus(req, res);
         res.send(campus);
     })
+    */
     
     /**
      * Route to get all campuses.
@@ -25,7 +27,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllCampuses function.
      */
-    .get('/campus/getAll/', async (req, res) => {
+    app.get('/campus/getAll/', async (req, res) => {
         const all_campuses = await campusService.getAllCampuses(req, res);
         res.send(all_campuses);
     })

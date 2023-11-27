@@ -19,7 +19,7 @@ function mapRowToCamp(row) {
 /**
  * Retrieves a camp from the database by their ID.
  *
- * @param {string} camp_id - The ID of the camp to retrieve.
+ * @param {number} camp_id - The ID of the camp to retrieve.
  * @returns {Promise<Camp>} A Promise that resolves with the retrieved camp object.
  * @throws {Error} If there was an error retrieving the camp from the database.
  */
@@ -55,7 +55,7 @@ async function getCampById(camp_id) {
  * @async
  * @function getActivityIds
  * @param {Object} camp - The camp object for which to retrieve and store activity ids.
- * @param {string} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
+ * @param {number} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
  * @throws {Error} Throws an error if there was an issue fetching activity ids from the database.
  */
 async function getActivityIds(camp) {  
@@ -115,14 +115,14 @@ async function getAllCamps() {
  * @async
  * @function createCamp
  * @param {string} name - The name of the camp object to be created in the database.
- * @param {string} campus_id - The id of the campus to store the camp object to be created in the database.
+ * @param {number} campus_id - The id of the campus to store the camp object to be created in the database.
  * @returns {Promise<boolean>} - A promise that resolves to true if the camp was created successfully.
  */
 async function createCamp(name, campus_id) {
-    camp_id = uuid.v1()
+    //camp_id = uuid.v1()
 
     return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO Camp(camp_id, name, campus_id) VALUES('${camp_id}', '${name}', '${campus_id}');`, function (err, result) {
+        client.query(`INSERT INTO Camp(name, campus_id) VALUES('${name}', '${campus_id}');`, function (err, result) {
             if (err){
                 reject(err);
             }

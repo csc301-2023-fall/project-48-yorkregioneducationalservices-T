@@ -27,7 +27,7 @@ function mapRowToCounselor(row) {
 
 /**
  * Retrieves all counselors belonging to a specific campus.
- * @param {string} campusId - The ID of the campus to retrieve counselors for.
+ * @param {number} campusId - The ID of the campus to retrieve counselors for.
  * @returns {Array} An array of Counselor objects.
  */
 async function getAllCounselors() {
@@ -76,20 +76,19 @@ async function getAllCounselors() {
  * @param {Object} counselor - The counselor object to be created in the database.
  * @param {string} counselor.firstname - The first name of the counselor.
  * @param {string} counselor.lastname - The last name of the counselor.
- * @param {string} counselor.campus_id - The ID of the campus the counselor is associated with.
+ * @param {number} counselor.campus_id - The ID of the campus the counselor is associated with.
  * @returns {Promise<boolean>} - A promise that resolves to true if the counselor was created successfully, false otherwise.
  */
 async function createCounselor(counselor) {
     const query = `
-        INSERT INTO Counselor (counselor_id, firstname, lastname, campus_id)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO Counselor (firstname, lastname, campus_id)
+        VALUES ($1, $2, $3)
         RETURNING counselor_id;
     `;
     const functionName = createCounselor.name;
     logger.debug(`Function ${functionName}: Creating a new counselor in the database.`);
     try {
         const result = await client.query(query, [
-            uuid.v4(), // Assuming counselor_id is a UUID
             counselor.firstname,
             counselor.lastname,
             counselor.campus_id,
@@ -109,7 +108,7 @@ async function createCounselor(counselor) {
  * @param {Object} counselor - The counselor object with updated information.
  * @param {string} counselor.firstname - The updated first name of the counselor.
  * @param {string} counselor.lastname - The updated last name of the counselor.
- * @param {string} counselor.counselor_id - The unique ID of the counselor to be updated.
+ * @param {number} counselor.counselor_id - The unique ID of the counselor to be updated.
  * @returns {Promise<boolean>} - Returns a promise that resolves to true if the update was successful, false otherwise.
  */
 async function editCounselorById(counselor) {
@@ -148,7 +147,7 @@ async function editCounselorById(counselor) {
  * Deletes a counselor from the database by their ID.
  * @async
  * @function deleteCounselorById
- * @param {string} counselorId - The ID of the counselor to be deleted.
+ * @param {number} counselorId - The ID of the counselor to be deleted.
  * @returns {Promise<boolean>} - Returns a Promise that resolves to a boolean indicating whether the counselor was successfully deleted.
  * If the counselor was deleted, the Promise resolves to true. If the counselor was not found, the Promise resolves to false.
  * If an error occurs while deleting the counselor, the Promise rejects with the error.

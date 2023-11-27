@@ -30,7 +30,7 @@ function mapRowToSchedule(row) {
  * @async
  * @function getGroupId
  * @param {Object} schedule - The schedule object for which to retrieve and store the group id.
- * @param {string} schedule.schedule_id - The ID of the schedule for which to retrieve and store the group id.
+ * @param {number} schedule.schedule_id - The ID of the schedule for which to retrieve and store the group id.
  * @throws {Error} Throws an error if there was an issue fetching group ids from the database.
  */
 async function getGroupId(schedule) {  
@@ -59,7 +59,7 @@ async function getGroupId(schedule) {
  * @async
  * @function getBlocks
  * @param {Object} schedule - The schedule object for which to retrieve and store blocks.
- * @param {string} schedule.schedule_id - The ID of the schedule for which to retrieve and store blocks.
+ * @param {number} schedule.schedule_id - The ID of the schedule for which to retrieve and store blocks.
  * @throws {Error} Throws an error if there was an issue fetching blocks from the database.
  */
   async function getBlocks(schedule) {  
