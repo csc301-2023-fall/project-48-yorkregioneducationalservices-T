@@ -5,9 +5,11 @@
  * 
  * @module api/routes/counselorRoutes
  * @requires api/controllers/counselorController
+ * @requires api/middleware/authHandler
  */
 
 const counselorController = require('../controllers/counselorController');
+const auth = require('../middleware/authHandler');
 const logger = require('../../logger');
 
 const counselorRoutes = (app) => {
@@ -18,7 +20,7 @@ const counselorRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    app.get('/counselor/all/', async (req, res) => {
+    app.get('/counselor/all/', auth, async (req, res) => {
         logger.info(`GET /counselor/all/`);
         const result = await counselorController.getAllCounselors(req, res);
         res.send(result);
@@ -31,7 +33,7 @@ const counselorRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/counselor/create/', async (req, res) => {
+    .post('/counselor/create/', auth, async (req, res) => {
         logger.info(`POST /counselors/createCounselor`);
         const result = await counselorController.createCounselor(req, res);
         res.send(result);
@@ -44,7 +46,7 @@ const counselorRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/counselor/edit', async (req, res) => {
+    .post('/counselor/edit', auth, async (req, res) => {
         logger.info(`POST /counselor/edit/`);
         const result = await counselorController.editCounselorById(req, res);
         res.send(result);
@@ -57,7 +59,7 @@ const counselorRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .delete('/counselor/:counselor_id', async (req, res) => {
+    .delete('/counselor/:counselor_id', auth, async (req, res) => {
         logger.info(`POST /counselors/deleteCounselorById/`);
         const result = await counselorController.deleteCounselorById(req, res);
         res.send(result);

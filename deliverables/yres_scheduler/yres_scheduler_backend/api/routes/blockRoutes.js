@@ -5,9 +5,11 @@
  * 
  * @module api/routes/blockRoutes
  * @requires api/controllers/blockController
+ * @requires api/middleware/authHandler
  */
 
 const blockController = require('../controllers/blockController');
+const auth = require('../middleware/authHandler');
 
 const blockRoutes = (app) => {
 
@@ -18,7 +20,7 @@ const blockRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    app.get('/block/all', async (req, res) => {
+    app.get('/block/all', auth, async (req, res) => {
         const all_blocks = await blockController.getAllBlocks(req, res);
         res.send(all_blocks);
     })
@@ -30,7 +32,7 @@ const blockRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .get('/block/:block_id', async (req, res) => {
+    .get('/block/:block_id', auth, async (req, res) => {
         const block = await blockController.getBlock(req, res);
         res.send(block);
     })
@@ -42,7 +44,7 @@ const blockRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/block/create/', async (req, res) => {
+    .post('/block/create/', auth, async (req, res) => {
         const status = await blockController.createBlock(req, res);
         res.send(status);
     })
@@ -54,7 +56,7 @@ const blockRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .delete('/block/all/', async (req, res) => {
+    .delete('/block/all/', auth, async (req, res) => {
         const status = await blockController.deleteAllBlocks(req, res);
         res.send(status);
     });

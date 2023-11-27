@@ -12,6 +12,7 @@
   "auth": {
     "SECRET": "pqJJZdJ^k4pFM)Wz?/GGBK=B&F`0,i=bGYR,/;Bq+PropvWa7=9$}fSX{Vqk-7V",
     "EXPIRATION": "1d",
-    "SALT_ROUNDS": 10
+    "SALT_ROUNDS": 10,
+    "IS_ON": true
   }
 }

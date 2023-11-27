@@ -1,13 +1,18 @@
-const studentService = require('../controllers/studentController');
-const logger = require('../../logger');
-const {STATUS_CODES} = require('../entities/ServiceErrors');
-const { log } = require('mathjs');
-
 /**
- * Defines the routes for student-related API endpoints.
- * @param {Object} app - The Express application object.
+ * This module specifies the routes for request endpoints in the student service.
+ * 
+ * @param {Object} [app] The express application
+ * 
+ * @module api/routes/studentRoutes
+ * @requires api/controllers/studentController
+ * @requires api/middleware/authHandler
  */
-module.exports = (app) => {
+
+const studentController = require('../controllers/studentController');
+const logger = require('../../logger');
+const auth = require('../middleware/authHandler');
+
+const studentRoutes = (app) => {
     /**
      * Route to get all students.
      * @name GET /student/all/
@@ -17,9 +22,9 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllStudents function.
      */
-    app.get('/student/all/', async (req, res) => {
+    app.get('/student/all/', auth, async (req, res) => {
         logger.info(`GET /student/all/`);
-        const resp = await studentService.getAllStudents(req, res);
+        const resp = await studentController.getAllStudents(req, res);
         res.send(resp);
     })
     /**
@@ -31,9 +36,9 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getStudentById function.
      */
-    .get('/student/:student_id/', async (req, res) => {
+    .get('/student/:student_id/', auth, async (req, res) => {
         logger.info(`GET /student/:student_id/`);
-        const resp = await studentService.getStudentById(req, res);    
+        const resp = await studentController.getStudentById(req, res);    
         res.send(resp);
     })
     /**
@@ -46,9 +51,9 @@ module.exports = (app) => {
      * @returns {Promise} A Promise that resolves to the result of the getStudentByUiId function.
      */
 
-    .get('/student/ui/:student_id/', async (req, res) => {
+    .get('/student/ui/:student_id/', auth, async (req, res) => {
         logger.info(`GET /student/ui/:student_id/`);
-        const resp = await studentService.getStudentByUiId(req, res);    
+        const resp = await studentController.getStudentByUiId(req, res);    
         res.send(resp);
     })
     /**
@@ -60,9 +65,9 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to a string indicating success or failure.
      */
-    .post('/student/create/', async (req, res) => {
+    .post('/student/create/', auth, async (req, res) => {
         logger.info(`POST /student/create/`);
-        const resp = await studentService.createStudent(req, res);    
+        const resp = await studentController.createStudent(req, res);    
         res.send(resp);
     })
 
@@ -75,10 +80,10 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to a string indicating success or failure.
      */
-    .post('/students/createStudentsFromList/', async (req, res) => {
+    .post('/students/createStudentsFromList/', auth, async (req, res) => {
         try {
             logger.info(`POST /students/createStudentsFromList/`);
-            const resp = await studentService.createStudentsFromList(req, res);    
+            const resp = await studentController.createStudentsFromList(req, res);    
             res.status(resp.status).send(resp);
         } catch (error) {
             logger.error(`Error in GET /students/createStudentsFromList/: `, error);
@@ -95,9 +100,9 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the editStudentById function.
      */
-    .post('/student/edit/', async (req, res) => {
+    .post('/student/edit/', auth, async (req, res) => {
         logger.info(`POST /student/edit/`);
-        const resp = await studentService.editStudentById(req, res);
+        const resp = await studentController.editStudentById(req, res);
         res.send(resp);
     })
     /**
@@ -109,10 +114,12 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the deleteStudentById function.
      */
-    .delete('/student/:student_id/', async (req, res) => {
+    .delete('/student/:student_id/', auth, async (req, res) => {
         logger.info(`POST /student/:student_id/`);
-        const resp = await studentService.deleteStudentById(req, res);
+        const resp = await studentController.deleteStudentById(req, res);
         res.send(resp);
     })
 
 };
+
+module.exports = studentRoutes;

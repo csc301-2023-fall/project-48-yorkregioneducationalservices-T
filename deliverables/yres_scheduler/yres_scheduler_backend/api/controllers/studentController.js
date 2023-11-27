@@ -1,3 +1,13 @@
+/**
+ * This module implements the controller for requests for student service 
+ * operations.
+ * 
+ * @module api/controllers/studentController
+ * 
+ * @requires api/services/studentService
+ * @requires api/entities/ServiceErrors
+ */
+
 const c = require('config');
 const studentService = require('../services/studentService');
 const {StudentServiceError, STATUS_CODES} = require('../entities/ServiceErrors');

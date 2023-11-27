@@ -5,10 +5,12 @@
  * 
  * @module api/routes/groupRoutes
  * @requires api/controllers/groupController
+ * @requires api/middleware/authHandler
  */
 const groupController = require('../controllers/groupController');
+const auth = require('../middleware/authHandler');
 
-module.exports = (app) => {
+const groupRoutes = (app) => {
 
     /**
      * Route to get all groups.
@@ -19,7 +21,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getAllGroups function.
      */
-    app.get('/group/all/', async (req, res) => {
+    app.get('/group/all/', auth, async (req, res) => {
         const all_groups = await groupController.getAllGroups(req, res);
         res.send(all_groups);
     })
@@ -33,7 +35,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the getGroup function.
      */
-    .get('/group/:group_id', async (req, res) => {
+    .get('/group/:group_id', auth, async (req, res) => {
         const group = await groupController.getGroup(req, res);
         res.send(group);
     })
@@ -47,7 +49,7 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the createGroup function.
      */
-    .post('/group/create/', async (req, res) => {
+    .post('/group/create/', auth, async (req, res) => {
         const status = await groupController.createGroup(req, res);
         res.send(status);
     })
@@ -61,8 +63,10 @@ module.exports = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the deleteAllGroups function.
      */
-    .delete('/group/deleteAll/', async (req, res) => {
+    .delete('/group/deleteAll/', auth, async (req, res) => {
         const status = await groupController.deleteAllGroups(req, res);
         res.send(status);
     });
 };
+
+module.exports = groupRoutes;

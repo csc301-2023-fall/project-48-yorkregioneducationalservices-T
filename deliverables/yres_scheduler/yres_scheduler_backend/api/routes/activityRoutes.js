@@ -8,6 +8,7 @@
  */
 
 const activityController = require('../controllers/activityController');
+const auth = require('../middleware/authHandler');
 
 const activityRoutes = (app) => {
 
@@ -18,7 +19,7 @@ const activityRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    app.get('/activity/all', async (req, res) => {
+    app.get('/activity/all', auth, async (req, res) => {
         const all_activities = await activityController.getAllActivities(req, res);    
         res.send(all_activities);
     })
@@ -30,7 +31,7 @@ const activityRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/activity/create', async (req, res) => {
+    .post('/activity/create', auth, async (req, res) => {
         const resp = await activityController.createActivity(req, res);
         res.send(resp);
     })
@@ -42,7 +43,7 @@ const activityRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/activity/:activity_id/edit', async (req, res) => {
+    .post('/activity/:activity_id/edit', auth, async (req, res) => {
         const resp = await activityController.editActivityById(req, res);
         res.send(resp);
     })
@@ -53,7 +54,7 @@ const activityRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .delete('/activity/:activity_id', async (req, res) => {
+    .delete('/activity/:activity_id', auth, async (req, res) => {
         const resp = await activityController.deleteActivityById(req, res);
         res.send(resp);
     });

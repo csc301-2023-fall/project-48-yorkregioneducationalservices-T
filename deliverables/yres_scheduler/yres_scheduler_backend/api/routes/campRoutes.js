@@ -8,6 +8,7 @@
  */
 
 const campController = require('../controllers/campController');
+const auth = require('../middleware/authHandler');
 
 const campRoutes = (app) => {
 
@@ -18,7 +19,7 @@ const campRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    app.get('/camp/all', async (req, res) => {
+    app.get('/camp/all', auth, async (req, res) => {
         const all_camps = await campController.getAllCamps(req, res);
         res.send(all_camps);
     })
@@ -30,7 +31,7 @@ const campRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .get('/camp/:camp_id', async (req, res) => {
+    .get('/camp/:camp_id', auth, async (req, res) => {
         const camp = await campController.getCamp(req, res);
         res.send(camp);
     })
@@ -42,7 +43,7 @@ const campRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/camp/create', async (req, res) => {
+    .post('/camp/create', auth, async (req, res) => {
         const status = await campController.createCamp(req, res);
         res.send(status);
     });
