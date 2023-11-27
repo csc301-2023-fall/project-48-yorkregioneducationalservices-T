@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
 import { validRelationship, process_comma_separated_text, fetchDataPOST  } from '@/app/helper';
+import { FaMinus } from 'react-icons/fa';
 import { OverlayTrigger } from 'react-bootstrap';
 import { Tooltip } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
@@ -58,6 +59,7 @@ function StudentEdit({item, show, setShow, students}) {
                 <div className='table-actions'>
                     <OverlayTrigger placement="right-start" overlay={<Tooltip>Remove From Friends</Tooltip>}>
                         <Button variant="danger" onClick={removeFriend} className='action-button'>
+                            <FaMinus/>
                         </Button>
                     </OverlayTrigger>
                 </div>

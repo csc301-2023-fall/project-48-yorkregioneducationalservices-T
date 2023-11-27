@@ -3,6 +3,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import YresTable from './table'
 import { useRouter } from 'next/navigation';
+import { FaPlus } from 'react-icons/fa';
+import { FaMinus } from 'react-icons/fa';
 import FormLabel from 'react-bootstrap/FormLabel'
 /** 
  * Student Table that displays:
@@ -44,6 +46,7 @@ function FriendSearchTable({friends, setFriends, studentData, enemy}) {
             <div className='table-actions'>
                 <OverlayTrigger placement="right-start" overlay={enemy ? <Tooltip>Add to enemy group</Tooltip>: <Tooltip>Add to friend group</Tooltip>}>
                     <Button variant="success" onClick={addToList} className='action-button'>
+                    <FaPlus/>
                     </Button>
                 </OverlayTrigger>
             </div>
@@ -61,6 +64,7 @@ function FriendSearchTable({friends, setFriends, studentData, enemy}) {
             <div className='table-actions'>
                 <OverlayTrigger placement="right-start" overlay={<Tooltip>Remove</Tooltip>}>
                     <Button variant="danger" onClick={removeFromList} className='action-button'>
+                        <FaMinus/>
                     </Button>
                 </OverlayTrigger>
             </div>
