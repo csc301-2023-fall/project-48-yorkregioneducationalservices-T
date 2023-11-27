@@ -9,6 +9,7 @@ import CounselorAdd from '@/app/modals/counselorAdd'
 import { useState } from 'react';
 import StudentCSV from '@/app/components/importStudentCSV';
 import FriendsCreate from '../modals/friendAdd';
+import EnemiesCreate from '../modals/enemyAdd';
 
 const PROFILE_TYPES = ['Student', 'Counselor']
 
@@ -29,6 +30,10 @@ function ProfilesSwitcher({ studentData, counselorData }) {
     const handleShowFriends = () => {
         setShowFriends(true);
     };
+    const [showEnemies, setShowEnemies] = useState(false);
+    const handleShowEnemies = () => {
+        setShowEnemies(true);
+    };
     return (
         <>
             <div id='profiles-header'>
@@ -39,7 +44,7 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                 />
                 <StudentCSV type={currType}/>
                 {currType === PROFILE_TYPES[0] 
-                    ?
+                    ?<>
                     <div className='right-align'>
                         <Button variant="primary" onClick={handleShowFriends}>Add Friends</Button>
                         <FriendsCreate
@@ -48,6 +53,15 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                             studentData={studentData}
                         />
                     </div>
+                    <div className='right-align'>
+                        <Button variant="primary" onClick={handleShowEnemies}>Add Enemies</Button>
+                        <EnemiesCreate
+                            show={showEnemies}
+                            setShow={setShowEnemies}
+                            studentData={studentData}
+                        />
+                    </div>
+                    </>
                     :<></>}
                 <div className='right-align'>
                     <Button variant="primary" onClick={handleShow}>Add {currType}</Button>

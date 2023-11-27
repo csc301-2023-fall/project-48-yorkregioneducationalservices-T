@@ -19,13 +19,15 @@ import YresTable from '../components/table';
  * */
 function StudentEdit({item, show, setShow, students}) {
     const [error, setError] = useState(<></>);
-    const [removeFriends, setremoveFriends] = useState([]);
+    const [removeFriends, setRemoveFriends] = useState([]);
+    const [removeEnemies, setRemoveEnemies] = useState([]);
     const router = useRouter();
     const studentFriendData = students.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
     const handleClose = () => {
         setError(<></>)
         setShow(false)
-        setremoveFriends([]);
+        setRemoveFriends([]);
+        setRemoveEnemies([]);
     };
     const columns = [{
         dataField: '_student_ui_id',
@@ -41,21 +43,16 @@ function StudentEdit({item, show, setShow, students}) {
         text: 'Actions'
     }]
     var init_friend_table;
-    if(item.friend_ids){
-        init_friend_table = studentFriendData.filter((student) => item.friend_ids.includes(student._student_id) && !removeFriends.includes(student._student_ui_id));
-    }
-    else{
-        init_friend_table = []
-    }
-    
+    (item.friend_ids) ? init_friend_table = 
+    studentFriendData.filter((student) => item.friend_ids.includes(student._student_id) && !removeFriends.includes(student._student_ui_id)) 
+    : init_friend_table = [];
     const friend_table = init_friend_table;
-    console.log("this is the freind table".concat(friend_table));
     if(friend_table.length > 0){
         friend_table.forEach(friend => {
             const removeFriend = () =>{ 
                 var updatedList = removeFriends.map((item) => item);
                 updatedList.push(friend._student_ui_id)
-                setremoveFriends(updatedList);
+                setRemoveFriends(updatedList);
             }
             friend.actions = (
                 <div className='table-actions'>
@@ -67,9 +64,31 @@ function StudentEdit({item, show, setShow, students}) {
             )
         })
     }
+
+    var init_enemy_table;
+    (item.enemy_ids) ? init_enemy_table = 
+    studentFriendData.filter((student) => item.enemy_ids.includes(student._student_id) && !removeEnemies.includes(student._student_ui_id)) 
+    : init_enemy_table = [];
+    const enemy_table = init_enemy_table;
+    if(enemy_table.length > 0){
+        enemy_table.forEach(enemy => {
+            const removeEnemy = () =>{ 
+                var updatedList = removeEnemies.map((item) => item);
+                updatedList.push(enemy._student_ui_id)
+                setRemoveEnemies(updatedList);
+            }
+            enemy.actions = (
+                <div className='table-actions'>
+                    <OverlayTrigger placement="right-start" overlay={<Tooltip>Remove From Enemies</Tooltip>}>
+                        <Button variant="danger" onClick={removeEnemy} className='action-button'>
+                        </Button>
+                    </OverlayTrigger>
+                </div>
+            )
+        })
+    }
     const handleSubmit = async (event) => {
         event.preventDefault()
-        let enemies = event.target[6].value;
         try {
             await fetchDataPOST(
                 "/students/editStudentById/", 
@@ -81,7 +100,7 @@ function StudentEdit({item, show, setShow, students}) {
                     age: event.target[3].value, 
                     sex: event.target[4].value,
                     friend_ids: friend_table.map((friend) => friend._student_ui_id),
-                    enemy_ids: process_comma_separated_text(enemies),
+                    enemy_ids: enemy_table.map((enemy) => enemy._student_ui_id)
                 }
             )
             router.refresh();
@@ -152,20 +171,11 @@ function StudentEdit({item, show, setShow, students}) {
                     />
                     </Form.Group>
 
-                    <Form.Label>Friends (please seperate by commas)</Form.Label>
-                    <YresTable keyCol={'_student_ui_id'} data={friend_table} columns={columns} disableHover={true} friend_table={true}/>
+                    <Form.Label>Friends</Form.Label>
+                    <YresTable keyCol={'_student_ui_id'} data={friend_table} columns={columns} disableHover={true} friend_table={true} disablesearch={true}/>
                     
-                    <Form.Group
-                    className="mb-3"
-                    controlId="studentForm.ControlEnemies"
-                    >
-                    <Form.Label>Enemies (please seperate by commas)</Form.Label>
-                    <Form.Control
-                        type="text"
-                        defaultValue={item.enemy_ids}
-                        disabled
-                    />
-                    </Form.Group>
+                    <Form.Label>Enemies</Form.Label>
+                    <YresTable keyCol={'_student_ui_id'} data={enemy_table} columns={columns} disableHover={true} friend_table={true} disablesearch={true}/>
                     {error}
                     <Button variant="secondary" onClick={handleClose}>
                         Close

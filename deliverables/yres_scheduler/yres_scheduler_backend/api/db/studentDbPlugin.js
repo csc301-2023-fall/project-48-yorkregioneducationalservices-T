@@ -335,7 +335,7 @@ async function editStudentById(student) {
         student.friend_ids.forEach(async (friend_ui_id) => {
             await insertFriendPreferences(student_id, friend_ui_id, false);
         });
-        student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+        student.enemy_ids.forEach(async (enemy_ui_id) => {
             await insertFriendPreferences(student_id, enemy_ui_id, true)
         });
         return {result: true};

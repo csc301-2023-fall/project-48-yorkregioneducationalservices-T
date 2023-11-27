@@ -18,7 +18,7 @@ import FormLabel from 'react-bootstrap/FormLabel'
         studentData - a list of student objects with above attributes
 }
 **/
-function FriendSearchTable({friends, setFriends, studentData}) {
+function FriendSearchTable({friends, setFriends, studentData, enemy}) {
     const router = useRouter();
     const studentFriendData = studentData.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
     const columns = [{
@@ -42,7 +42,7 @@ function FriendSearchTable({friends, setFriends, studentData}) {
         }
         item.actions = (
             <div className='table-actions'>
-                <OverlayTrigger placement="right-start" overlay={<Tooltip>Add to friend group</Tooltip>}>
+                <OverlayTrigger placement="right-start" overlay={enemy ? <Tooltip>Add to enemy group</Tooltip>: <Tooltip>Add to friend group</Tooltip>}>
                     <Button variant="success" onClick={addToList} className='action-button'>
                     </Button>
                 </OverlayTrigger>
@@ -71,7 +71,7 @@ function FriendSearchTable({friends, setFriends, studentData}) {
         <>
             <YresTable keyCol={'_student_ui_id'} data={studentFriendData} columns={columns} disableHover={true} friend_table={true}/>
             <FormLabel>Friend Group</FormLabel>
-            <YresTable keyCol={'noSearch'} data={friendList} columns={columns} disableHover={true} friend_table={true}/>
+            <YresTable keyCol={'_student_ui_id'} data={friendList} columns={columns} disableHover={true} friend_table={true} disableSearch={true}/>
         </>
     )   
 }
