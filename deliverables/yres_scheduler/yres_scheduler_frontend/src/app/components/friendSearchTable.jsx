@@ -39,8 +39,14 @@ function FriendSearchTable({friends, setFriends, studentData, enemy}) {
     studentFriendData.forEach(item => {
         const addToList = () =>{
             var updatedList = friends.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
-            updatedList.push({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname});
-            setFriends(updatedList);
+            const item_object = {_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname};
+            if(updatedList.some((friend) => friend._student_id === item_object._student_id)){
+                //Friend is already in list
+            }
+            else{
+                updatedList.push({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname});
+                setFriends(updatedList);
+            }
         }
         item.actions = (
             <div className='table-actions'>
