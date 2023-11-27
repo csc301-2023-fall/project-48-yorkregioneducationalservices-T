@@ -5,6 +5,7 @@
  * 
  * @module api/routes/campRoutes
  * @requires api/controllers/campController
+ * @requires api/middleware/authHandler
  */
 
 const campController = require('../controllers/campController');

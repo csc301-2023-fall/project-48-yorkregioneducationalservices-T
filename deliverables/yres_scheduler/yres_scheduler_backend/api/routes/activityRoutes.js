@@ -5,6 +5,7 @@
  * 
  * @module api/routes/activityRoutes
  * @requires api/controllers/activityController
+ * @requires api/middleware/authHandler
  */
 
 const activityController = require('../controllers/activityController');
