@@ -71,7 +71,7 @@ function FriendSearchTable({friends, setFriends, studentData, enemy}) {
         <>
             <YresTable keyCol={'_student_ui_id'} data={studentFriendData} columns={columns} disableHover={true} friend_table={true}/>
             <FormLabel>Friend Group</FormLabel>
-            <YresTable keyCol={'_student_ui_id'} data={friendList} columns={columns} disableHover={true} friend_table={true} disableSearch={true}/>
+            <YresTable keyCol={'_student_ui_id'} data={friendList} columns={columns} disableHover={true} friend_table={true} disablesearch={true}/>
         </>
     )   
 }
