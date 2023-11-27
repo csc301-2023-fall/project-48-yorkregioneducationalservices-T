@@ -113,7 +113,6 @@ function generateGroups(counselors, students) {
 	// Step 2. Generate groups for each camp type
 	for (let t = 0; t < camp_types.length; t++) {
 		console.log("Generate groups for camp type", camp_types[t]);
-		groups.push([]);
 		// 2.1. Put friends that need to be together in lists
 		var added = []; // A list to record the students included in friend lists
 		var friend_lists = []; // A list of friend groups
@@ -141,7 +140,7 @@ function generateGroups(counselors, students) {
 				}
 				// Locate this student in a list in friend lists, including if just added
 				for (let fl = 0; fl < friend_lists.length; fl++) {
-					if(friend_lists[fl].indexOf(students_by_type[t][s].student_id) >= 0) {
+					if (friend_lists[fl].indexOf(students_by_type[t][s].student_id) >= 0) {
 						fl_index = fl;
 						break;
 					}
@@ -268,79 +267,83 @@ function generateGroups(counselors, students) {
 	return groups;
 }
 
+function group_dummy_test() {
+	// DUMMY DATA STARTS HERE
+	var DUMMY_STUDENTS = [];
+	for (let i = 1; i < 21; i++) {
+		DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C1'));
+	}
+	for (let i = 21; i < 41; i++) {
+		DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C1'));
+	}
+	for (let i = 41; i < 61; i++) {
+		DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C2'));
+	}
+	for (let i = 61; i < 81; i++) {
+		DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C2'));
+	}
 
-// DUMMY DATA STARTS HERE
-const DUMMY_STUDENTS = [];
-for (let i = 1; i < 21; i++) {
-	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C1'));
-}
-for (let i = 21; i < 41; i++) {
-	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C1'));
-}
-for (let i = 41; i < 61; i++) {
-	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C2'));
-}
-for (let i = 61; i < 81; i++) {
-	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C2'));
-}
+	// Test for friend preferences handling:
+	// Following 5 students must appear in the same group
+	DUMMY_STUDENTS[3].friends.push('5');
+	DUMMY_STUDENTS[3].friends.push('6');
+	DUMMY_STUDENTS[3].friends.push('21');
+	DUMMY_STUDENTS[5].friends.push('3');
+	DUMMY_STUDENTS[5].friends.push('6');
+	DUMMY_STUDENTS[5].friends.push('25');
+	// Following 3 students must appear in the same group
+	DUMMY_STUDENTS[8].friends.push('10');
+	DUMMY_STUDENTS[9].friends.push('8');
+	DUMMY_STUDENTS[10].friends.push('9');
+	// Following should raise a warning
+	DUMMY_STUDENTS[8].friends.push('50');
+	// Following should raise a warning, while 7 students should be in the same group
+	DUMMY_STUDENTS[22].friends.push('30');
+	DUMMY_STUDENTS[22].friends.push('31');
+	DUMMY_STUDENTS[22].friends.push('32');
+	DUMMY_STUDENTS[22].friends.push('33');
+	DUMMY_STUDENTS[22].friends.push('34');
+	DUMMY_STUDENTS[22].friends.push('35');
+	DUMMY_STUDENTS[22].friends.push('36');
 
-// Test for friend preferences handling:
-// Following 5 students must appear in the same group
-DUMMY_STUDENTS[3].friends.push('5');
-DUMMY_STUDENTS[3].friends.push('6');
-DUMMY_STUDENTS[3].friends.push('21');
-DUMMY_STUDENTS[5].friends.push('3');
-DUMMY_STUDENTS[5].friends.push('6');
-DUMMY_STUDENTS[5].friends.push('25');
-// Following 3 students must appear in the same group
-DUMMY_STUDENTS[8].friends.push('10');
-DUMMY_STUDENTS[9].friends.push('8');
-DUMMY_STUDENTS[10].friends.push('9');
-// Following should raise a warning
-DUMMY_STUDENTS[8].friends.push('50');
-// Following should raise a warning, while 7 students should be in the same group
-DUMMY_STUDENTS[22].friends.push('30');
-DUMMY_STUDENTS[22].friends.push('31');
-DUMMY_STUDENTS[22].friends.push('32');
-DUMMY_STUDENTS[22].friends.push('33');
-DUMMY_STUDENTS[22].friends.push('34');
-DUMMY_STUDENTS[22].friends.push('35');
-DUMMY_STUDENTS[22].friends.push('36');
+	// Test for different male/female ratio: OK
+	// for (let i = 1; i < 11; i++) {
+	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C1'));
+	// }
+	// for (let i = 11; i < 41; i++) {
+	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C1'));
+	// }
+	// for (let i = 41; i < 71; i++) {
+	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C2'));
+	// }
+	// for (let i = 71; i < 81; i++) {
+	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C2'));
+	// }
 
-// Test for different male/female ratio: OK
-// for (let i = 1; i < 11; i++) {
-// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C1'));
-// }
-// for (let i = 11; i < 41; i++) {
-// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C1'));
-// }
-// for (let i = 41; i < 71; i++) {
-// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C2'));
-// }
-// for (let i = 71; i < 81; i++) {
-// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C2'));
-// }
+	var DUMMY_COUNSELORS = [];
+	for (let c = 1; c < 4; c++) {
+		DUMMY_COUNSELORS.push(new Counselor(c.toString(), 'C1'));
+	}
+	for (let c = 4; c < 8; c++) {
+		DUMMY_COUNSELORS.push(new Counselor(c.toString(), 'C2'));
+	}
+	for (let c = 8; c < 13; c++) {
+		DUMMY_COUNSELORS.push(new Counselor(c.toString(), ''));
+	}
+	// Test for no enough counselors: OK
+	// for (let c = 8; c < 11; c++) {
+	// 	DUMMY_COUNSELORS.push(new Counselor(c.toString(), ''));
+	// }
 
-const DUMMY_COUNSELORS = [];
-for (let c = 1; c < 4; c++) {
-	DUMMY_COUNSELORS.push(new Counselor(c.toString(), 'C1'));
+	return generateGroups(DUMMY_COUNSELORS, DUMMY_STUDENTS);
 }
-for (let c = 4; c < 8; c++) {
-	DUMMY_COUNSELORS.push(new Counselor(c.toString(), 'C2'));
-}
-for (let c = 8; c < 13; c++) {
-	DUMMY_COUNSELORS.push(new Counselor(c.toString(), ''));
-}
-// Test for no enough counselors: OK
-// for (let c = 8; c < 11; c++) {
-// 	DUMMY_COUNSELORS.push(new Counselor(c.toString(), ''));
-// }
 
 // Test with dummy data
-generateGroups(DUMMY_COUNSELORS, DUMMY_STUDENTS);
+console.log(group_dummy_test());
 
 module.exports = {
 	Group,
 	generateGroups,
-	getErrno
+	getErrno,
+	group_dummy_test
 }
