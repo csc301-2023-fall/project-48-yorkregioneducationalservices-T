@@ -279,6 +279,20 @@ async function clearFriendPreferencesById(student_id) {
   
   }
 
+  async function removeFriendPreference(student_id, other_id, enemy) {
+    const queryDeleteFriendPreferences = `Delete From FriendPreference where student_id1 = $1 or student_id2 = $1;`;  
+  
+    const values = [student_id];
+    try {
+        const result = await client.query(queryDeleteFriendPreferences, values);
+  
+    } catch (error) {
+        // Handle errors appropriately
+        console.error('Error while deleting FriendPreferences:', {error: error});
+        throw new Error('Failed to delete FriendPreferences');
+    }
+  
+  }
 /**
  * Edits a student record in the database by ID.
  * @async
@@ -318,7 +332,7 @@ async function editStudentById(student) {
         clearFriendPreferencesById(student.student_id);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
-        student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
+        student.friend_ids.forEach(async (friend_ui_id) => {
             await insertFriendPreferences(student_id, friend_ui_id, false);
         });
         student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {

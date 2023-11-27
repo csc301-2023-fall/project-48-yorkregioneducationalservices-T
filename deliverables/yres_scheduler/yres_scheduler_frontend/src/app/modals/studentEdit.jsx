@@ -4,7 +4,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
 import { validRelationship, process_comma_separated_text, fetchDataPOST  } from '@/app/helper';
+import { OverlayTrigger } from 'react-bootstrap';
+import { Tooltip } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
+import YresTable from '../components/table';
 
 /**
  * Editing Modal for Students
@@ -16,14 +19,56 @@ import { useRouter } from 'next/navigation';
  * */
 function StudentEdit({item, show, setShow, students}) {
     const [error, setError] = useState(<></>);
+    const [removeFriends, setremoveFriends] = useState([]);
     const router = useRouter();
+    const studentFriendData = students.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
     const handleClose = () => {
         setError(<></>)
         setShow(false)
+        setremoveFriends([]);
     };
+    const columns = [{
+        dataField: '_student_ui_id',
+        text: 'ID'
+    },{
+        dataField: 'firstname',
+        text: 'First Name'
+    },{
+        dataField: 'lastname',
+        text: 'Last Name'
+    },{
+        dataField: 'actions',
+        text: 'Actions'
+    }]
+    var init_friend_table;
+    if(item.friend_ids){
+        init_friend_table = studentFriendData.filter((student) => item.friend_ids.includes(student._student_id) && !removeFriends.includes(student._student_ui_id));
+    }
+    else{
+        init_friend_table = []
+    }
+    
+    const friend_table = init_friend_table;
+    console.log("this is the freind table".concat(friend_table));
+    if(friend_table.length > 0){
+        friend_table.forEach(friend => {
+            const removeFriend = () =>{ 
+                var updatedList = removeFriends.map((item) => item);
+                updatedList.push(friend._student_ui_id)
+                setremoveFriends(updatedList);
+            }
+            friend.actions = (
+                <div className='table-actions'>
+                    <OverlayTrigger placement="right-start" overlay={<Tooltip>Remove From Friends</Tooltip>}>
+                        <Button variant="danger" onClick={removeFriend} className='action-button'>
+                        </Button>
+                    </OverlayTrigger>
+                </div>
+            )
+        })
+    }
     const handleSubmit = async (event) => {
         event.preventDefault()
-        let friends = event.target[5].value;
         let enemies = event.target[6].value;
         try {
             await fetchDataPOST(
@@ -35,8 +80,8 @@ function StudentEdit({item, show, setShow, students}) {
                     lastname: event.target[2].value, 
                     age: event.target[3].value, 
                     sex: event.target[4].value,
-                    friend_ids: process_comma_separated_text(friends.value),
-                    enemy_ids: process_comma_separated_text(enemies.value),
+                    friend_ids: friend_table.map((friend) => friend._student_ui_id),
+                    enemy_ids: process_comma_separated_text(enemies),
                 }
             )
             router.refresh();
@@ -106,17 +151,10 @@ function StudentEdit({item, show, setShow, students}) {
                         defaultValue={item.sex}
                     />
                     </Form.Group>
-                    <Form.Group
-                    className="mb-3"
-                    controlId="studentForm.ControlFriends"
-                    >
+
                     <Form.Label>Friends (please seperate by commas)</Form.Label>
-                    <Form.Control
-                        type="text"
-                        defaultValue={item.friend_ids}
-                        disabled
-                    />
-                    </Form.Group>
+                    <YresTable keyCol={'_student_ui_id'} data={friend_table} columns={columns} disableHover={true} friend_table={true}/>
+                    
                     <Form.Group
                     className="mb-3"
                     controlId="studentForm.ControlEnemies"
