@@ -279,20 +279,6 @@ async function clearFriendPreferencesById(student_id) {
   
   }
 
-  async function removeFriendPreference(student_id, other_id, enemy) {
-    const queryDeleteFriendPreferences = `Delete From FriendPreference where student_id1 = $1 or student_id2 = $1;`;  
-  
-    const values = [student_id];
-    try {
-        const result = await client.query(queryDeleteFriendPreferences, values);
-  
-    } catch (error) {
-        // Handle errors appropriately
-        console.error('Error while deleting FriendPreferences:', {error: error});
-        throw new Error('Failed to delete FriendPreferences');
-    }
-  
-  }
 /**
  * Edits a student record in the database by ID.
  * @async
