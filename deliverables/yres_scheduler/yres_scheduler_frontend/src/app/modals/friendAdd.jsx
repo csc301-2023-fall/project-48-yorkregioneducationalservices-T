@@ -23,19 +23,21 @@ function FriendsCreate({show, setShow, studentData}) {
             
         for(let i = 0; i < friendsList.length - 1; i++){
             for(let j = i + 1; j < friendsList.length; j++){
-                try {
-                    console.log(friendsList);
-                    await fetchDataPOST(
-                        "/students/createFriends/",
-                        {   
-                            student_id: friendsList[i]._student_id,
-                            other_student_ui_id: friendsList[j]._student_ui_id,
-                            enemy: false
-                        }
-                    )
-                } catch (err) {
-                    //TODO: Display Error in component
-                    console.log(err);
+                if(!studentData.find((student) => student._student_id === friendsList[i]._student_id).friend_ids.includes(friendsList[j]._student_id)){
+                    try {
+                        console.log(friendsList);
+                        await fetchDataPOST(
+                            "/students/createFriends/",
+                            {   
+                                student_id: friendsList[i]._student_id,
+                                other_student_ui_id: friendsList[j]._student_ui_id,
+                                enemy: false
+                            }
+                        )
+                    } catch (err) {
+                        //TODO: Display Error in component
+                        console.log(err);
+                    }
                 }
             }
         }
