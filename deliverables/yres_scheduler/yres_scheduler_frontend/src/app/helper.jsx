@@ -72,3 +72,34 @@ export async function fetchDataPOST(route, item) {
         throw new Error(`${response.status} Error: Something Wrong Happened!`)
     }
 }
+
+export function sort_table_data(search, keyCol, data){
+    var data_display = data;
+    var search = search.toLowerCase();
+    console.log(data[0]);
+    if(keyCol === "_student_ui_id"){
+        if(search !== ""){
+            data_display = data_display.filter((item)=> item._student_ui_id.toString().includes(search) || item.firstname.toLowerCase().includes(search) || item.lastname.toLowerCase().includes(search));
+        }
+        data_display = [...(data_display)].sort((a,b) => a._student_ui_id - b._student_ui_id); 
+      } 
+    else if(keyCol === "_counselor_id"){
+        if(search !== ""){
+            data_display = data_display.filter((item)=> item.firstname.toLowerCase().includes(search) || item.lastname.toLowerCase().includes(search));
+        }
+        data_display = [...data_display].sort((a,b) => (a._counselor_id < b._counselor_id ? -1 : 1)); 
+    }
+    else if(keyCol === "activity_id"){
+        if(search !== ""){
+            data_display = data_display.filter((item)=> (item.name).toLowerCase().includes(search));
+        }
+        data_display = [...data_display].sort((a,b) => (a.activity_id < b.activity_id ? -1 : 1)); 
+    }
+    else if(keyCol === "room_id"){
+        if(search !== ""){
+            data_display = data_display.filter((item)=> (item.name).toLowerCase().includes(search));
+        }
+        data_display = [...data_display].sort((a,b) => (a.room_id < b.room_id ? -1 : 1)); 
+    }
+    return data_display;
+}

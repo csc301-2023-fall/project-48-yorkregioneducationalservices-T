@@ -162,6 +162,12 @@
   margin-top: 1vh;
   width: 95vw;
 }
+#profiles-page {
+  width: 100vw;
+  padding: 2vh;
+  min-height: 85vh;
+  overflow: scroll;
+}
 
 .action-button{
   margin-top: -0.5rem;
