@@ -24,8 +24,8 @@ class Activity {
 // THESE MIGHT BE REMOVED OR MOVED TO CONFIG LATER
 const DAY = 5;
 const TIME = 8;
-const MAX_BIG_ATTEMPT = 100000;
-const MAX_SUB_ATTEMPT = 100000;
+const MAX_BIG_ATTEMPT = 50000;
+const MAX_SUB_ATTEMPT = 50000;
 
 /* ============ HERE STARTS THE SCHEDULE CALL ================ */
 /** The short function for API calls.
@@ -104,14 +104,14 @@ function scheduleAlgorithm(groups, activities, rooms) {
         console.log(`Camp type: ${camp_types[t]}`);
         var time_sum = 0;
         for (var a = 0; a < activities_by_type[t].length; a++) {
-            time_sum += activities_by_type[t][a].duration * activities_by_type[t][a].num_occurences;
-            if (time_sum > DAY * TIME) {
-                console.log("scheduleAlgorithm - Warning: total hour greater than schedule length, some activities are dropped.");
-                break;
-            }
-            if (activities_by_type[t][a].duration <= 0 || activities_by_type[t][a].duration > time) {
+            if (activities_by_type[t][a].duration <= 0 || activities_by_type[t][a].duration > TIME) {
                 console.log("scheduleAlgorithm - Unexpected activity duration: non-positive or longer than maximum hours per day.");
                 throw Error("scheduleAlgorithm - Unexpected activity duration: non-positive or longer than maximum hours per day.");
+            }
+            time_sum += activities_by_type[t][a].duration * activities_by_type[t][a].num_occurences;
+            if (time_sum > DAY * TIME) {
+                console.log("scheduleAlgorithm - Too many activities: total hour greater than schedule length.");
+                throw Error("scheduleAlgorithm - Too many activities: total hour greater than schedule length.");
             }
             if (activities_by_type[t][a].type === "common")
                 commons[t].push(activities_by_type[t][a]);
@@ -130,6 +130,9 @@ function scheduleAlgorithm(groups, activities, rooms) {
         console.log("Activity sum:", time_sum);
         var filler_hours = DAY * TIME - time_sum;
         console.log(filler_hours, "hours of fillers will be added");
+        // 1.5. Sort activities by descending duration, this is to increase efficiency and possibility to converge
+        activities_by_type[t].sort((a, b) => {return b.duration - a.duration;});
+
         // Create a list of blocks
         for (var a = 0; a < activities_by_type[t].length; a++) {
             for (var i = 0; i < activities_by_type[t][a].num_occurences; i++) {
@@ -193,7 +196,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
                         if (selected_room_id === "") { continue; } // Go on to the next sub attempt
                         // 2.5.4. Schedule and room are both available, can now insert blocks
                         for (var j = time; j < time + all_blocks[t][b].activity.duration; j++) {
-                            // console.log("Inserting", all_blocks[t][b].activity.name, "at day", day, "time", j);
+                            console.log("Inserting", all_blocks[t][b].activity.name, "at day", day, "time", j);
                             all_blocks[t][b].day = day;
                             all_blocks[t][b].time = time;
                             all_blocks[t][b].room_id = selected_room_id;
@@ -266,21 +269,21 @@ function schedule_dummy_test() {
     DUMMY_ACTIVITIES.push(new Activity('1', 'Special', 2, 'common', 5, ['6', '7', '8', '9', '10'], 'C1'));
     DUMMY_ACTIVITIES.push(new Activity('1', 'Special', 2, 'common', 5, ['6', '7', '8', '9', '10'], 'C2'));
     // Test for no enough activities: OK
-    // Test for mandatory fillers:
+    // Test for mandatory fillers: OK
     DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
     DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
-    // Test for non-mandatory fillers:
-    // DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 0, ['6', '7'], 'C1'));
-    // DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 0, ['6', '7'], 'C2'));
-    // Test for invalid activities:
+    // Test for non-mandatory fillers: OK
+    // DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 0, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 0, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
+    // Test for invalid activities: OK
     // Case 1:
-    // DUMMY_ACTIVITIES.push(new Activity('3', 'Error', -1, 'common', 1, ['0', '1', '2', '3', '4', '5'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new Activity('3', 'Error', -1, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
     // Case 2:
-    // DUMMY_ACTIVITIES.push(new Activity('3', 'Error', 10, 'common', 1, ['0', '1', '2', '3', '4', '5'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new Activity('3', 'Error', 10, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
     // Test for too many activities:
     // DUMMY_ACTIVITIES.push(new Activity('3', 'Many', 2, 'common', 10, ['0', '1', '2', '3', '4', '5'], 'C1'));
     // Test for extreme cases:
-    // DUMMY_ACTIVITIES.push(new Activity('3', 'Long', 8, 'common', 1, ['0', '1', '2', '3', '4', '5'], 'C1'));
+    DUMMY_ACTIVITIES.push(new Activity('3', 'Long', 8, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
 
     var DUMMY_ROOMS = [];
     for (var r = 0; r < 20; r++) {
