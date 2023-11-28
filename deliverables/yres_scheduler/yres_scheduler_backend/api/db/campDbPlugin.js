@@ -61,7 +61,7 @@ async function getCampById(camp_id) {
  * @async
  * @function getActivityIds
  * @param {Object} camp - The camp object for which to retrieve and store activity ids.
- * @param {string} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
+ * @param {number} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
  * @throws {Error} Throws an error if there was an issue fetching activity ids from the database.
  */
 async function getActivityIds(camp) {  
@@ -124,8 +124,7 @@ async function getAllCamps() {
  * @returns {boolean} - Whether operation succeeded or not
  */
 async function createCamp(name, campus_id) {
-    const camp_id = uuid.v1()
-    const query = `INSERT INTO Camp(camp_id, name, campus_id) VALUES('${camp_id}', '${name}', '${campus_id}');`;
+    const query = `INSERT INTO Camp(name, campus_id) VALUES('${name}', '${campus_id}');`;
 
     try {
         await client.query(query);

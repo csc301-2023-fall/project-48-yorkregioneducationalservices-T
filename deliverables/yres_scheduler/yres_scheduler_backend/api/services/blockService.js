@@ -12,7 +12,7 @@ const {BlockServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Retrieves a block object by their ID.
- * @param {string} block_id - The ID of the block to retrieve.
+ * @param {number} block_id - The ID of the block to retrieve.
  * @returns {object} - The block object.
  */
 async function getBlock(block_id) {
@@ -54,7 +54,6 @@ async function getAllBlocks() {
 
 /**
  * Creates a new block record in the database.
- * 
  * @param {string} schedule_id - The unique identifier of the schedule this block is in (can be null).
  * @param {string} room_id - The unique identifier of the room this block is held in.
  * @param {string} activity_id - The unique identifier of the activity this block is hosting.

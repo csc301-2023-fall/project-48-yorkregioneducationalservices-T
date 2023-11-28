@@ -67,7 +67,7 @@ async function getGroupById(group_id) {
  * @async
  * @function getStudentIds
  * @param {Object} group - The group object for which to retrieve and store student ids.
- * @param {string} group.group_id - The ID of the group for which to retrieve and store student ids.
+ * @param {number} group.group_id - The ID of the group for which to retrieve and store student ids.
  * @throws {Error} Throws an error if there was an issue fetching student ids from the database.
  */
 async function getStudentIds(group) {  
@@ -96,7 +96,7 @@ async function getStudentIds(group) {
  * @async
  * @function getCounselorIds
  * @param {Object} group - The group object for which to retrieve and store counselor ids.
- * @param {string} group.group_id - The ID of the group for which to retrieve and store counselor ids.
+ * @param {number} group.group_id - The ID of the group for which to retrieve and store counselor ids.
  * @throws {Error} Throws an error if there was an issue fetching counselor ids from the database.
  */
   async function getCounselorIds(group) {  
@@ -165,14 +165,14 @@ async function getAllGroups() {
  * Creates a new group record in the database.
  * @async
  * @function createGroup
- * @param {string} camp_id - The id of the camp in which to create the group object in the database.
+ * @param {number} camp_id - The id of the camp in which to create the group object in the database.
  * @returns {Promise<boolean>} - A promise that resolves to true if the group was created successfully.
  */
 async function createGroup(camp_id) {
-    group_id = uuid.v1();
+    //group_id = uuid.v1();
 
     return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO CampGroup(camp_group_id, camp_id) VALUES('${group_id}', '${camp_id}');`, function (err, result) {
+        client.query(`INSERT INTO CampGroup(camp_id) VALUES('${camp_id}');`, function (err, result) {
             if (err){
                 reject(err);
             }

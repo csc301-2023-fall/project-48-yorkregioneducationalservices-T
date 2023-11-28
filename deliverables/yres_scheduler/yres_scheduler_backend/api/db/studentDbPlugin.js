@@ -35,7 +35,7 @@ function mapRowToStudent(row) {
  * @async
  * @function getFriendPreferencesAndCategorize
  * @param {Object} student - The student object for which to retrieve and categorize friend preferences.
- * @param {string} student.student_id - The ID of the student for which to retrieve and categorize friend preferences.
+ * @param {number} student.student_id - The ID of the student for which to retrieve and categorize friend preferences.
  * @throws {Error} Throws an error if there was an issue fetching friend preferences from the database.
  */
 async function getFriendPreferencesAndCategorize(student) {
@@ -241,15 +241,14 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
 async function createStudent(student) {
 
     const query = `
-        INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO Student (student_ui_id, firstname, lastname, age, sex)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING student_id;
     `;
     const functionName = createStudent.name; // Get the name of the current function for logging purposes
     logger.debug(`Function ${functionName}: Creating student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
-            uuid.v1(),
             student.student_ui_id,
             student.firstname,
             student.lastname,
@@ -257,7 +256,7 @@ async function createStudent(student) {
             student.sex,
         ]);
         //Insert student friend preferences
-        const student_id = result.rows[0].student_id;
+        const student_id = parseInt(result.rows[0].student_id);
         student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
             insertFriendPreferences(student_id, friend_ui_id, false);
         });
@@ -323,7 +322,7 @@ async function editStudentById(student) {
         ]);
         clearFriendPreferencesById(student.student_id);
         //Insert student friend preferences
-        const student_id = result.rows[0].student_id;
+        const student_id = parseInt(result.rows[0].student_id);
         student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
             await insertFriendPreferences(student_id, friend_ui_id, false);
         });

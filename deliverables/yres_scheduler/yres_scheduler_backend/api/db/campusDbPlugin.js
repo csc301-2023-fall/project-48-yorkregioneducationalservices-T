@@ -19,7 +19,7 @@ function mapRowToCampus(row) {
 /**
  * Retrieves a campus from the database by their ID.
  *
- * @param {string} campus_id - The ID of the campus to retrieve.
+ * @param {number} campus_id - The ID of the campus to retrieve.
  * @returns {Promise<Campus>} A Promise that resolves with the retrieved campus object.
  * @throws {Error} If there was an error retrieving the campus from the database.
  */
@@ -60,7 +60,7 @@ async function getCampusById(campus_id) {
  * @async
  * @function getCampIds
  * @param {Object} campus - The campus object for which to retrieve and store camp ids.
- * @param {string} campus.campus_id - The ID of the campus for which to retrieve and store camp ids.
+ * @param {number} campus.campus_id - The ID of the campus for which to retrieve and store camp ids.
  * @throws {Error} Throws an error if there was an issue fetching camp ids from the database.
  */
 async function getCampIds(campus) {  
@@ -89,7 +89,7 @@ async function getCampIds(campus) {
  * @async
  * @function getRoomIds
  * @param {Object} campus - The campus object for which to retrieve and store room ids.
- * @param {string} campus.campus_id - The ID of the campus for which to retrieve and store room ids.
+ * @param {number} campus.campus_id - The ID of the campus for which to retrieve and store room ids.
  * @throws {Error} Throws an error if there was an issue fetching room ids from the database.
  */
   async function getRoomIds(campus) {  
@@ -153,10 +153,10 @@ async function getAllCampuses() {
  * @returns {Promise<boolean>} - A promise that resolves to true if the campus was created successfully.
  */
 async function createCampus(name) {
-    campus_id = uuid.v1();
+    //campus_id = uuid.v1();
     
     return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO Campus(campus_id, name) VALUES('${campus_id}', '${name}');`, function (err, result) {
+        client.query(`INSERT INTO Campus(name) VALUES('${name}');`, function (err, result) {
             if (err){
                 reject(err);
             }

@@ -27,7 +27,7 @@ async function getAllRooms(req, res) {
 /**
  * Create a room data row in the database with given information.
  * 
- * @param {JSON} req - POST request with body containing name and campus_id of the room.
+ * @param {JSON} req - Request with body containing name and campus_id of the room.
  * @returns {Object} - If the insertion succeeded.
  */
 async function createRoom(req, res) {
@@ -39,8 +39,10 @@ async function createRoom(req, res) {
             STATUS_CODES.INVALID
         );
     }
+
     var succeed = await roomService.createRoom(uuid.v1(), name, campus_id);
     res.status(STATUS_CODES.CREATED);
+
     return {
         status: succeed ? 'Success' : 'failure'
     };
@@ -49,7 +51,7 @@ async function createRoom(req, res) {
 /**
  * Delete a room data row in the database with given room_id.
  * 
- * @param {JSON} req - POST request with body containing the room_id for room to be deleted.
+ * @param {JSON} req - Request with parameters containing the room_id for room to be deleted.
  * @returns {Object} - The status of the deletion.
  */
 async function deleteRoomById(req, res) {
@@ -74,7 +76,7 @@ async function deleteRoomById(req, res) {
 /**
  * Edit a room data row in the database with given room object.
  * 
- * @param {JSON} req - POST request with body containing the updated room object.
+ * @param {JSON} req - Request with body containing the updated room object.
  * @returns {Object} - The status of the edit operation.
  */
 async function editRoomsById(req, res) {

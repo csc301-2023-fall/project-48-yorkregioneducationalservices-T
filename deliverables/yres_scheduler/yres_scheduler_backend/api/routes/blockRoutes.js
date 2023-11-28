@@ -25,6 +25,7 @@ const blockRoutes = (app) => {
         res.send(all_blocks);
     })
 
+
     /**
      * Route to get a block by id.
      * @name GET /block/:block_id
@@ -36,6 +37,7 @@ const blockRoutes = (app) => {
         const block = await blockController.getBlock(req, res);
         res.send(block);
     })
+    
 
     /**
      * Route to create a new block.

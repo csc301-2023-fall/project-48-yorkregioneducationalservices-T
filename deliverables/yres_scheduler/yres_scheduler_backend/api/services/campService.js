@@ -12,7 +12,7 @@ const {CampServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Retrieves a camp object by their ID.
- * @param {string} camp_id - The ID of the camp to retrieve.
+ * @param {number} camp_id - The ID of the camp to retrieve.
  * @returns {object} - The camp object.
  */
 async function getCamp(camp_id) {

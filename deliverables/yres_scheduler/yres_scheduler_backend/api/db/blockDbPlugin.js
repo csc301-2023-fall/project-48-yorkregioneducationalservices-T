@@ -116,21 +116,20 @@ async function getAllBlocks() {
  * Creates a new block record in the database.
  * @async
  * @function createBlock
- * @param {string} schedule_id - The unique identifier of the schedule this block is in (can be null).
- * @param {string} room_id - The unique identifier of the room this block is held in.
- * @param {string} activity_id - The unique identifier of the activity this block is hosting.
+ * @param {number} schedule_id - The unique identifier of the schedule this block is in (can be null).
+ * @param {number} room_id - The unique identifier of the room this block is held in.
+ * @param {number} activity_id - The unique identifier of the activity this block is hosting.
  * @param {string} start_time - The start time of the block as a string (e.g.: '8:00', '12:00').
  * @param {string} end_time - The end time of the block as a string (e.g.: '8:00', '12:00').
  * @returns {boolean} - Returns true if operation is successful.
  */
 async function createBlock(schedule_id, room_id, activity_id, start_time, end_time) {
-    var block_id = uuid.v1();
     var query;
 
     if (schedule_id === undefined) {
-        query = `INSERT INTO Block(block_id, room_id, activity_id, start_time, end_time) VALUES('${block_id}', '${room_id}', '${activity_id}', '${start_time}', '${end_time}');`;
+        query = `INSERT INTO Block(room_id, activity_id, start_time, end_time) VALUES('${room_id}', '${activity_id}', '${start_time}', '${end_time}');`;
     } else {
-        query = `INSERT INTO Block(block_id, room_id, activity_id, start_time, end_time, schedule_id) VALUES('${block_id}', '${room_id}', '${activity_id}', '${start_time}', '${end_time}', '${schedule_id}');`;
+        query = `INSERT INTO Block(room_id, activity_id, start_time, end_time, schedule_id) VALUES('${room_id}', '${activity_id}', '${start_time}', '${end_time}', '${schedule_id}');`;
     }
     try {
         await client.query(query);

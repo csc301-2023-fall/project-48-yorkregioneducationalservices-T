@@ -120,21 +120,21 @@ async function createRoomActivities(activity_id, room_id) {
 /** Write an Activity to database.
  * 
  */
-async function createActivity(activity_id, name, duration, type, num_occurences, camp_id, room_ids) {
+async function createActivity(name, duration, type, num_occurences, camp_id, room_ids) {
     const query = `
-        INSERT INTO Activity (activity_id, name, duration, type, num_occurences, camp_id)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO Activity (name, duration, type, num_occurences, camp_id)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING activity_id;
     `;
     try {
-        var result = await client.query(query, [activity_id, name, duration, type, num_occurences, camp_id]);
+        var result = await client.query(query, [name, duration, type, num_occurences, camp_id]);
         if (room_ids === undefined || room_ids.length === 0) {
             return true;
         }
         ids = room_ids.split(',').filter(id => id !== '');
         for (id of ids) {
             try {
-                createRoomActivities(activity_id, id);
+                createRoomActivities(parseInt(result.rows[0].activity_id), id);
             }
             catch (err) {
                 console.log(err);
@@ -220,7 +220,7 @@ async function editActivityById(activity) {
 
 /** Delete an Activity from database with given activity_id.
  * 
- * @param {string} activity_id - activity UUID.
+ * @param {number} activity_id - activity id number.
  * @returns true if deleted successfully.
  */
 async function deleteActivityById(activity_id) {

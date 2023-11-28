@@ -11,7 +11,6 @@ const groupController = require('../controllers/groupController');
 const auth = require('../middleware/authHandler');
 
 const groupRoutes = (app) => {
-
     /**
      * Route to get all groups.
      * @name GET /group/all/

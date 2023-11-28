@@ -12,7 +12,7 @@ const { GroupServiceError, STATUS_CODES } = require('../entities/ServiceErrors')
 
 /**
  * Retrieves a group object by their ID.
- * @param {string} group_id - The ID of the group to retrieve.
+ * @param {number} group_id - The ID of the group to retrieve.
  * @returns {object} - The group object.
  */
 async function getGroup(group_id) {
