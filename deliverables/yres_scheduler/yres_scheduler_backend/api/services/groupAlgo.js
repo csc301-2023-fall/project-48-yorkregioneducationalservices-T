@@ -386,7 +386,7 @@ function group_dummy_test() {
 }
 
 // Test with dummy data
-console.log(group_dummy_test());
+// console.log(group_dummy_test());
 
 module.exports = {
 	GroupL,

@@ -318,6 +318,7 @@ function schedule_dummy_test() {
     return scheduleAlgorithm(groups, DUMMY_ACTIVITIES, DUMMY_ROOMS);
 }
 // Test with dummy data
+/*
 var DUMMY_RESULT = schedule_dummy_test();
 console.log(DUMMY_RESULT);
 for (var t = 0; t < DUMMY_RESULT.length; t++) {
@@ -335,7 +336,7 @@ for (var t = 0; t < DUMMY_RESULT.length; t++) {
         }
     }
 }
-
+*/
 module.exports = {
     scheduleAlgorithm,
     scheduleCall
