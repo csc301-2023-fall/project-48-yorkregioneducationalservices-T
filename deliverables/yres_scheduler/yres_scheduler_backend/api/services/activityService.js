@@ -48,7 +48,7 @@ async function createActivity(
     room_ids) {
 
     try {
-        return await db.createActivity(uuid.v1(), name, duration, type, num_occurences, camp_id, room_ids);
+        return await db.createActivity(name, duration, type, num_occurences, camp_id, room_ids);
     } catch(err) {
         throw new ActivityServiceError(
             `DB Operation Failure: ${err}`,
@@ -79,18 +79,8 @@ async function editActivityById(
     camp_id, 
     room_ids) {
 
-    var activity = {
-        activity_id: activity_id,
-        name: name,
-        duration: duration,
-        type: type,
-        num_occurences,
-        camp_id: camp_id,
-        room_ids: room_ids
-    }
-
     try {
-        return await db.editActivityById(activity);
+        return await db.editActivityById(activity_id, name, duration, type, num_occurences, camp_id, room_ids);
     } catch(err) {
         throw new ActivityServiceError(
             `DB Operation Failure: ${err}`,

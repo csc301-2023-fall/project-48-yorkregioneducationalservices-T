@@ -1,3 +1,13 @@
+/**
+ * This module implements DB operations for the account service.
+ * 
+ * @module api/db/accountDbPlugin
+ * 
+ * @requires api/entities/AdminUser
+ * @requires api/db/db
+ * @requires bcrypt
+ */
+
 const AdminUser = require("../entities/AdminUser");
 const { client } = require('./db');
 const bcrypt = require('bcrypt');
@@ -74,7 +84,6 @@ async function existsUser(username) {
 }
 
 module.exports = {
-
     checkLogin,
     existsUser,
     createAdminUser,

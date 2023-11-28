@@ -1,6 +1,13 @@
-const { all } = require("mathjs");
+/**
+ * This module implements DB operations for the account service.
+ * 
+ * @module api/db/activityDbPlugin
+ * 
+ * @requires api/entities/Activity
+ * @requires api/db/db
+ */
+
 const Activity = require("../entities/Activity");
-const accountRoutes = require("../routes/accountRoutes");
 const { client } = require('./db')
 
 /**
@@ -61,64 +68,39 @@ async function getAllActivities() {
     } catch (err){
         throw new Error(err);
     }
-    return new Promise(async (resolve, reject) => {
-        var result = await new Promise((queryResolve, queryReject) => {
-            client.query(query, (err, result) => {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
-        var rows = result.rows;
-        
-        all_activities = rows.map(mapRowToActivity);
-        if (all_activities === undefined) {
-            resolve(all_activities);
-        }
-
-        for (var i=0; i<all_activities.length; i++) {
-            result = await new Promise((queryResolve, queryReject) => {
-                client.query(rquery, [all_activities[i].activity_id], (err, result) => {
-                    if (err) {
-                        queryReject(err);
-                    } else {
-                        queryResolve(result);
-                    }
-                });
-            });
-            rows = result.rows;
-            if (rows === undefined) {
-                continue;
-            }
-            for (var j=0; j<rows.length; j++) {
-
-                all_activities[i].rooms.push(rows[j].room_id);
-            }
-        }
-
-        resolve(all_activities);
-    });
 }
 
+/**
+ * Create room/activity pair resource in DB
+ * 
+ * @param {string} activity_id the activity ID
+ * @param {string} room_id the room ID
+ * @returns true if the operation is successful
+ */
 async function createRoomActivities(activity_id, room_id) {
-  const queryCreateRoomActivity = `Insert into RoomActivity values ($1, $2);`;  
+  const query = `Insert into RoomActivity values ($1, $2);`;  
 
   const values = [activity_id, room_id];
   try {
-      const result = await client.query(queryCreateRoomActivity, values);
+      const result = await client.query(query, values);
+      return true;
 
-  } catch (error) {
-      // Handle errors appropriately
-      console.error('Error while creating RoomActivities:', error);
-      throw new Error('Failed to create RoomActivities');
+  } catch (err) {
+        throw new Error(err);
   }
 
 }
 
-/** Write an Activity to database.
+/**
+ * Creates a new activity resource in the DB.
  * 
+ * @param {string} name Name of activity
+ * @param {number} duration Duration of activity in hours
+ * @param {number} type Whether the activity is a FILLER_TYPE or COMMON_TYPE
+ * @param {number} num_occurences The number of occurences of the activity
+ * @param {string} camp_id The associated camp ID of the activity
+ * @param {set} room_ids The room IDs associated witht the activity
+ * @returns true if the operation is successful
  */
 async function createActivity(name, duration, type, num_occurences, camp_id, room_ids) {
     const query = `
@@ -134,38 +116,48 @@ async function createActivity(name, duration, type, num_occurences, camp_id, roo
         ids = room_ids.split(',').filter(id => id !== '');
         for (id of ids) {
             try {
-                createRoomActivities(parseInt(result.rows[0].activity_id), id);
+                await createRoomActivities(activity_id, id);
             }
             catch (err) {
-                console.log(err);
-                return false;
+                throw new Error(err);
             }
         }
         return true;
     } catch (err) {
-        console.log(err);
-        return false; 
+        throw new Error(err);
     }
-    // TODO: write the list of rooms of this activity
-    //
 }
 
+/**
+ * Deletes all room/activity pairs with the given activity ID.
+ * 
+ * @param {string} activity_id The activity ID for the room activity pair to be deleted.
+ * @returns true if operation is successful
+ */
 async function clearRoomActivities(activity_id) {
-  const queryCreateRoomActivity = `Delete From RoomActivity where activity_id = $1;`;  
+  const query = `Delete From RoomActivity where activity_id = $1;`;  
 
   const values = [activity_id];
   try {
-      const result = await client.query(queryCreateRoomActivity, values);
-
-  } catch (error) {
-      // Handle errors appropriately
-      console.error('Error while deleting RoomActivities:', error);
-      throw new Error('Failed to delete RoomActivities');
+      const result = await client.query(query, values);
+      return true;
+  } catch (err) {
+        throw new Error(err);
   }
-
 }
 
-async function editActivityById(activity) {
+/**
+ * Edit an existing activity entity with the given activity ID.
+ * 
+ * @param {string} activity_id The ID corresponding to the activity to be edited
+ * @param {string} name Name of activity
+ * @param {number} duration Duration of activity in hours
+ * @param {number} type Whether the activity is a FILLER_TYPE or COMMON_TYPE
+ * @param {number} num_occurences The number of occurences of the activity
+ * @param {string} camp_id The associated camp ID of the activity
+ * @returns true if operation is successful
+ */
+async function editActivityById(activity_id, name, duration, type, num_occurences, camp_id, room_ids) {
     const query = `
         UPDATE Activity
         SET
@@ -178,50 +170,47 @@ async function editActivityById(activity) {
         activity_id = $6
         RETURNING *;
     `;
-    console.log(activity);
+
     try {
         await client.query(query, [
-            activity.name,
-            activity.duration,
-            activity.type,
-            activity.num_occurences,
-            activity.camp_id,
-            activity.activity_id,
+            name,
+            duration,
+            type,
+            num_occurences,
+            camp_id,
+            activity_id,
         ]);
 
-        if (activity.room_ids !== undefined) {
+        if (room_ids !== undefined) {
             try {
                 // First delete all RoomActivity related to this activity.
-                clearRoomActivities(activity.activity_id);
+                clearRoomActivities(activity_id);
                 // Then insert the new ones
-                ids = activity.room_ids.split(',').filter(id => id !== '');
+                ids = room_ids.split(',').filter(id => id !== '');
                 for (id of ids) {
                     try {
-                        createRoomActivities(activity.activity_id, id);
+                        await createRoomActivities(activity_id, id);
                     }
                     catch (err) {
-                        console.log(err);
-                        return false;
+                        throw new Error(err);
                     }
                 }
             }
             catch (err) {
-                console.log(err);
-                return false;
+                throw new Error(err);
             }
         }
         return true;
     } catch (err) {
-        console.log(err);
-        return false; 
+        throw new Error(err);
     }
 
 }
 
-/** Delete an Activity from database with given activity_id.
+/** Delete an activity from database with given activity ID..
  * 
- * @param {number} activity_id - activity id number.
- * @returns true if deleted successfully.
+ * @param {string} activity_id The corresponding activity ID
+ * @returns true if operation is successful
  */
 async function deleteActivityById(activity_id) {
     const query = `DELETE FROM Activity WHERE activity_id = $1 RETURNING *;`;
@@ -235,8 +224,7 @@ async function deleteActivityById(activity_id) {
                 return true;
             }
             catch (err) {
-                console.log(err);
-                return false;
+                throw new Error(err);
             }
         }
         if (deleted === undefined) {
@@ -244,8 +232,7 @@ async function deleteActivityById(activity_id) {
         }
         return true;
     } catch (err) {
-        console.log(err);
-        return false;
+        throw new Error(err);
     }
 }
 
