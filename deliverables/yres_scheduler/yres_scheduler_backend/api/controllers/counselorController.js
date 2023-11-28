@@ -19,9 +19,11 @@ const {CounselorServiceError, STATUS_CODES} = require('../entities/ServiceErrors
  * @returns {Object} - An object containing an array of counselors.
  */
 async function getAllCounselors(req, res) {
-    const result = await counselorService.getAllCounselors();
+    const counselors = await counselorService.getAllCounselors();
     res.status(STATUS_CODES.SUCCESS);
-    return result;
+    return {
+        result: counselors
+    };
 
 }
 
@@ -43,11 +45,13 @@ async function createCounselor(req, res) {
         );
     }
 
-    const result = await counselorService.createCounselor(counselor);
+    const status = await counselorService.createCounselor(counselor);
 
     res.status(STATUS_CODES.CREATED);
 
-    return result;
+    return {
+        result: status
+    };
 }
 
 /**
@@ -68,11 +72,13 @@ async function editCounselorById(req, res) {
         );
     }
 
-    const result = await counselorService.editCounselorById(counselor);
+    const status = await counselorService.editCounselorById(counselor);
 
     res.status(STATUS_CODES.SUCCESS);
 
-    return result;
+    return {
+        result: status
+    };
 }
 
 /**
@@ -93,11 +99,13 @@ async function deleteCounselorById(req, res) {
         );
     }
 
-    const result = await counselorService.deleteCounselorById(counselor_ui_id);
+    const status = await counselorService.deleteCounselorById(counselor_ui_id);
 
     res.status(STATUS_CODES.SUCCESS);
 
-    return result; 
+    return {
+        result: status
+    }; 
 }
 
 module.exports = {

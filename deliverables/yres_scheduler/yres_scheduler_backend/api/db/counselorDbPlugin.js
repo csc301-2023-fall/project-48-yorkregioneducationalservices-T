@@ -1,14 +1,14 @@
+/**
+ * This module implements DB operations for the counselor service.
+ * 
+ * @module api/db/counselorDbPlugin
+ * 
+ * @requires api/entities/Counselor
+ * @requires api/db/db
+ */
 const Counselor = require("../entities/Counselor");
-const uuid = require('uuid');
 const { client } = require('./db');
 const logger = require('../../logger');
-const {STATUS_CODES} = require('../entities/ServiceErrors');
-const { log } = require("mathjs");
-
-///////////////////////////////////////////////////////////////////////////////////
-// Counselor db plugin methods
-///////////////////////////////////////////////////////////////////////////////////
-
 
 /**
  * Maps a row from the counselor table to a Counselor object.
@@ -24,10 +24,9 @@ function mapRowToCounselor(row) {
     );
 }
 
-
 /**
- * Retrieves all counselors belonging to a specific campus.
- * @param {number} campusId - The ID of the campus to retrieve counselors for.
+ * Retrieves all counselors from DB.
+ * 
  * @returns {Array} An array of Counselor objects.
  */
 async function getAllCounselors() {
@@ -61,23 +60,20 @@ async function getAllCounselors() {
         // Map the rows to Student objects
         counselors = rows.map(mapRowToCounselor);
         // Resolve the promise with the students data
-        return { result: counselors, status:  STATUS_CODES.SUCCESS}
-    } catch (error) {
-        logger.error(`Function ${functionName}`, error);
-        return { result: null, status: STATUS_CODES.FAILED, error: error.message };
+        return counselors
+    } catch (err) {
+        throw new Error(err);
     }
 }
 
-
 /**
  * Creates a new counselor record in the database.
- * @async
- * @function createCounselor
+ * 
  * @param {Object} counselor - The counselor object to be created in the database.
  * @param {string} counselor.firstname - The first name of the counselor.
  * @param {string} counselor.lastname - The last name of the counselor.
  * @param {number} counselor.campus_id - The ID of the campus the counselor is associated with.
- * @returns {Promise<boolean>} - A promise that resolves to true if the counselor was created successfully, false otherwise.
+ * @returns {boolean} - true if the counselor was created successfully
  */
 async function createCounselor(counselor) {
     const query = `
@@ -93,23 +89,21 @@ async function createCounselor(counselor) {
             counselor.lastname,
             counselor.campus_id,
         ]);
-        return { result: true, status: STATUS_CODES.SUCCESS };
-    } catch (error) {
-        logger.error(`Function ${functionName}: `, error);
-        return { result: false, status: STATUS_CODES.FAILED, error: error.message };
+        return true;
+    } catch (err) {
+        throw new Error(err);
     }
 }
 
 
 /**
  * Edits a counselor record in the database by ID.
- * @async
- * @function editCounselorById
+ * 
  * @param {Object} counselor - The counselor object with updated information.
  * @param {string} counselor.firstname - The updated first name of the counselor.
  * @param {string} counselor.lastname - The updated last name of the counselor.
  * @param {number} counselor.counselor_id - The unique ID of the counselor to be updated.
- * @returns {Promise<boolean>} - Returns a promise that resolves to true if the update was successful, false otherwise.
+ * @returns {boolean} - true if the update was successful, false otherwise.
  */
 async function editCounselorById(counselor) {
     const query = `
@@ -131,26 +125,23 @@ async function editCounselorById(counselor) {
 
         if (result.rows.length > 0) {
             // The update was successful
-            return { result: true, status: STATUS_CODES.SUCCESS };
+            return true;
         } else {
             // No rows affected, update failed
-            return { result: false, status: STATUS_CODES.FAILED, error: 'No rows affected.'}
+            throw new Error("No rows affected by update operation.");
         }
-    } catch (error) {
-        logger.error(`Function ${editCounselorById.name}: `, error);
-        return { result: false, status: STATUS_CODES.FAILED, error: error.message };
+    } catch (err) {
+        throw new Error(err);
     }
 }
 
 
 /**
  * Deletes a counselor from the database by their ID.
- * @async
- * @function deleteCounselorById
+ * 
  * @param {number} counselorId - The ID of the counselor to be deleted.
- * @returns {Promise<boolean>} - Returns a Promise that resolves to a boolean indicating whether the counselor was successfully deleted.
- * If the counselor was deleted, the Promise resolves to true. If the counselor was not found, the Promise resolves to false.
- * If an error occurs while deleting the counselor, the Promise rejects with the error.
+ * @returns {boolean} - Boolean indicating whether the counselor was successfully deleted.
+ * 
  */
 async function deleteCounselorById(counselorId) {
     const query = `
@@ -164,14 +155,13 @@ async function deleteCounselorById(counselorId) {
 
         if (result.rows.length > 0) {
             // The update was successful
-            return { result: true, status: STATUS_CODES.SUCCESS };
+            return true;
         } else {
             // No rows affected, update failed
-            return { result: false, status: STATUS_CODES.FAILED, error: 'No rows affected.'}
+            throw new Error("No rows affected by update operation.");
         }
     } catch (error) {
-        logger.error(`Function ${deleteCounselorById.name}: `, error);
-        return { result: false, status: STATUS_CODES.FAILED, error: error.message };
+        throw new Error(err);
     }
 }
 

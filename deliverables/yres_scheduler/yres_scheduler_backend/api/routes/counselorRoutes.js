@@ -29,7 +29,6 @@ const counselorRoutes = (app) => {
      * POST endpoint that creates a new counselor.
      * @name POST /counselor/createCounselor
      * @memberof module:/routes/counselorRoutes
-     * @async
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
