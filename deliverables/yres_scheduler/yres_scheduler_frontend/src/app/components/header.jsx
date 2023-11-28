@@ -12,7 +12,7 @@ import { signOut } from 'next-auth/react';
 **/
 function Header() {
   const pathname = usePathname();
-  const user_name = "User";
+  const user_name = "User"
 
   return (
     <Navbar expand="lg" className="nav-header">

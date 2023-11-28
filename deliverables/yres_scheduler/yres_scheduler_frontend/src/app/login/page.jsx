@@ -3,10 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {signIn} from 'next-auth/react'
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 
 // Login page body
 function Login() {
   const router = useRouter();
+  const [showErr, setShowErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
   const onSubmit = async (e) => {
     e.preventDefault();
     const response = await signIn("credentials", {
@@ -15,9 +19,19 @@ function Login() {
       redirect: false,
     });
     if (response.ok) {
-      router.push("/");
+      // Redirect to a previous page the user was on
+      const res_url = new URL(response.url);
+      const callback = res_url.searchParams.get("callbackUrl")
+      if (callback) {
+        const callback_url = new URL(callback);
+        router.push(callback_url.pathname);
+      } else {
+        // ...or default to profiles
+        router.push("/profiles");
+      }
     } else {
-      console.log(response)
+      setShowErr(true);
+      setErrMsg(response.error);
     }
     
   }
@@ -28,6 +42,9 @@ function Login() {
           This is a YRES Internal Tool<br/>
           Login to proceed
       </div>
+      <Alert show={showErr} variant="danger" onClose={() => setShowErr(false)} dismissible>
+        {errMsg}
+      </Alert>
       <Form onSubmit={onSubmit} id='login-form'>
         <Form.Group className="mb-3" controlId="username">
             <Form.Label>Username</Form.Label>
