@@ -195,22 +195,26 @@ function getStudentByUiId(student_ui_id) {
 
 async function insertFriendPreferences(student_id, other_student_ui_id, is_apart) {
   
+    // Check that the other student exists
     const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
-    if (result_other_friend.rows.length !== 0) {
+    // Check if the friend preferences already exist  
+    let larger_id, smaller_id;
+    if (student_id > other_student_id) {
+        larger_id = student_id;
+        smaller_id = other_student_id;
+    } else {
+        larger_id = other_student_id;
+        smaller_id = student_id;
+    }
+    const result_friend_preferences = await client.query('SELECT * FROM FriendPreference WHERE student_id1 = $1 AND student_id2 = $2', [larger_id, smaller_id]);
+
+    if (result_other_friend.rows.length !== 0 && result_friend_preferences.rows.length === 0) {
         logger.debug('inserting friend preferences');
         const other_student_id = result_other_friend.rows[0].student_id;
         const queryInsertFriendPreferences = `
             INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
             VALUES ($1, $2, $3)
         `;
-        let larger_id, smaller_id;
-        if (student_id > other_student_id) {
-            larger_id = student_id;
-            smaller_id = other_student_id;
-            } else {
-            larger_id = other_student_id;
-            smaller_id = student_id;
-            }
         await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
     } else {
         logger.debug('other student not found');
