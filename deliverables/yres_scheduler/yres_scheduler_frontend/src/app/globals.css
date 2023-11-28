@@ -28,6 +28,16 @@
   margin-bottom: 1vh;
 }
 
+#dropdown-arrow {
+  margin:0;
+  padding:0;
+  padding-right: 0.4rem;
+}
+
+.btn-secondary.dropdown-toggle::after {
+  margin-left: 0.4rem;
+}
+
 /* Generic Helper Styles */
 
 .center-align {
@@ -68,7 +78,33 @@
   max-width: 48vw;
 }
 
+/* 404 Page Styling */
+.notFound-container {
+  font-family: 'Arial, sans-serif';
+  text-align: center;
+  padding: 4rem;
+  color: grey;
+}
 
+.notFound-heading {
+  font-size: 8rem;
+  margin-bottom: 1rem;
+  color: #3D96AB;
+  font-weight: bold; 
+}
+
+.notFound-text {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.notFound-link {
+  color: #3D96AB;
+}
+
+.notFound-link:hover {
+  color: blue;
+}
 
 /* App Header Styling */
 .nav-header {

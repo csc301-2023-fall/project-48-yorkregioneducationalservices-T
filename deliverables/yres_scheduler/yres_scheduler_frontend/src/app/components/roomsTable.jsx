@@ -9,9 +9,11 @@ import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
 import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation'
+import Alert from 'react-bootstrap/Alert';
 
 function RoomsTable({ roomData }) {
     const router = useRouter();
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         room_id: -1,
@@ -35,8 +37,9 @@ function RoomsTable({ roomData }) {
             );
             router.refresh();
         } catch (err) {
-            //TODO: Display Error in component
-            console.log(err);
+            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+            <p>{"Error: " + err.message}</p>
+            </Alert>)
         }
     }
 
@@ -60,9 +63,9 @@ function RoomsTable({ roomData }) {
             </div>
         )
     })
-
     return (
         <>
+            {errorDisplay}
             <YresTable keyCol={'room_id'} data={roomData} columns={columns} disableHover={true}/>
             <RoomsEdit item={editItem} show={showEdit} setShow={setShowEdit}/>
         </>
