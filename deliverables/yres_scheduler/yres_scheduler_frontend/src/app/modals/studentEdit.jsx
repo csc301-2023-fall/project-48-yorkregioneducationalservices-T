@@ -83,6 +83,7 @@ function StudentEdit({item, show, setShow, students}) {
                 <div className='table-actions'>
                     <OverlayTrigger placement="right-start" overlay={<Tooltip>Remove From Enemies</Tooltip>}>
                         <Button variant="danger" onClick={removeEnemy} className='action-button'>
+                        <FaMinus/>
                         </Button>
                     </OverlayTrigger>
                 </div>

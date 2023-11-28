@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
+import { process_comma_separated_text } from '../helper';
 
 function AddStudents(profiles, type){
   if(type === "Student"){
@@ -17,8 +18,8 @@ function AddStudents(profiles, type){
             lastname: student.lastname, 
             age: student.age, 
             sex: student.sex,
-            friend_ids: "",
-            enemy_ids: "",
+            friend_ids: process_comma_separated_text(student.friend_ids),
+            enemy_ids: process_comma_separated_text(student.enemy_ids),
         })
       })
       .catch(err => {
