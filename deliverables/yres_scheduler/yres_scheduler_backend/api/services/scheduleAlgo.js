@@ -9,7 +9,7 @@ class Block {
         this.time = time;
     }
 }
-class Activity {
+class ActivityL {
     constructor(activity_id, name, duration, type, num_occurences, room_ids, camp_type) {
         this.activity_id = activity_id;
         this.name = name;
@@ -20,7 +20,27 @@ class Activity {
         this.camp_type = camp_type;
     }
 }
-
+/** Converter between Counselor entity class and local CounselorL class.
+ * 
+ * @param {Array} counselors - list of Counselor entities.
+ */
+function convertFromActivities(activities) {
+	var activityLs = [];
+	if (activities === undefined) {
+		console.log("scheduleAlgo - Undefined: list of activities is undefined.");
+		throw Error("scheduleAlgo - Undefined: list of activities is undefined.");
+	}
+	for (var a = 0; a < counselors.length; a++) {
+		if (activities[a].activity_id === undefined || activities[a].name === undefined || activities[a].duration === undefined || 
+            activities[a].type === undefined || activities[a].num_occurences === undefined || activities[a].camp_id === undefined ||
+            activities[a].rooms === undefined) { // TODO: to be replaced by camp_type
+			console.log("scheduleAlgo - Incomplete data: required attributes is missing in an activity object.");
+			throw Error("scheduleAlgo - Incomplete data: required attributes is missing in an activity object.");
+		}
+		activityLs.push(new ActivityL(activities[a].activity_id, activities[a].name, activities[a].duration, activities[a].type,
+            activities[a].num_occurences, activities[a].rooms, activities[a].camp_id));
+	}
+}
 // THESE MIGHT BE REMOVED OR MOVED TO CONFIG LATER
 const DAY = 5;
 const TIME = 8;
@@ -37,9 +57,10 @@ const MAX_SUB_ATTEMPT = 50000;
  */
 async function scheduleCall(students, counselors, activities, rooms) {
     console.log("Start grouping algorithm...");
-    var groups = await gs.generateGroups(counselors, students);
+    var groups = await gs.groupCall(counselors, students);
     console.log("Grouping complete");
     console.log("Start scheduling algorithm...");
+    var activityLs = convertFromActivities(activities);
     var room_ids = [];
     for (let r = 0; r < rooms.length; r++) {
         room_ids.push(rooms[r].room_id);
@@ -259,31 +280,35 @@ function scheduleAlgorithm(groups, activities, rooms) {
     return groups;
 }
 
+/** Test function with dummy data.
+ * 
+ * @returns The list of groups with schedule properly set.
+ */
 function schedule_dummy_test() {
     var groups = gs.group_dummy_test();
 
     // DUMMY DATA STARTS HERE
     var DUMMY_ACTIVITIES = [];
-    DUMMY_ACTIVITIES.push(new Activity('0', 'Class', 1, 'common', 20, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
-    DUMMY_ACTIVITIES.push(new Activity('0', 'Class', 1, 'common', 20, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
-    DUMMY_ACTIVITIES.push(new Activity('1', 'Special', 2, 'common', 5, ['6', '7', '8', '9', '10'], 'C1'));
-    DUMMY_ACTIVITIES.push(new Activity('1', 'Special', 2, 'common', 5, ['6', '7', '8', '9', '10'], 'C2'));
+    DUMMY_ACTIVITIES.push(new ActivityL('0', 'Class', 1, 'common', 20, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    DUMMY_ACTIVITIES.push(new ActivityL('0', 'Class', 1, 'common', 20, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
+    DUMMY_ACTIVITIES.push(new ActivityL('1', 'Special', 2, 'common', 5, ['6', '7', '8', '9', '10'], 'C1'));
+    DUMMY_ACTIVITIES.push(new ActivityL('1', 'Special', 2, 'common', 5, ['6', '7', '8', '9', '10'], 'C2'));
     // Test for no enough activities: OK
     // Test for mandatory fillers: OK
-    DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
-    DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
+    DUMMY_ACTIVITIES.push(new ActivityL('2', 'Other', 1, 'filler', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    DUMMY_ACTIVITIES.push(new ActivityL('2', 'Other', 1, 'filler', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
     // Test for non-mandatory fillers: OK
-    // DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 0, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
-    // DUMMY_ACTIVITIES.push(new Activity('2', 'Other', 1, 'filler', 0, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
+    // DUMMY_ACTIVITIES.push(new ActivityL('2', 'Other', 1, 'filler', 0, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new ActivityL('2', 'Other', 1, 'filler', 0, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C2'));
     // Test for invalid activities: OK
     // Case 1:
-    // DUMMY_ACTIVITIES.push(new Activity('3', 'Error', -1, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new ActivityL('3', 'Error', -1, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
     // Case 2:
-    // DUMMY_ACTIVITIES.push(new Activity('3', 'Error', 10, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new ActivityL('3', 'Error', 10, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
     // Test for too many activities:
-    // DUMMY_ACTIVITIES.push(new Activity('3', 'Many', 2, 'common', 10, ['0', '1', '2', '3', '4', '5'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new ActivityL('3', 'Many', 2, 'common', 10, ['0', '1', '2', '3', '4', '5'], 'C1'));
     // Test for extreme cases:
-    DUMMY_ACTIVITIES.push(new Activity('3', 'Long', 8, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    DUMMY_ACTIVITIES.push(new ActivityL('3', 'Long', 8, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
 
     var DUMMY_ROOMS = [];
     for (var r = 0; r < 20; r++) {

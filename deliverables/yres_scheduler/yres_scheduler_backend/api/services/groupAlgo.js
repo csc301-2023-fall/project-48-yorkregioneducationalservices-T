@@ -2,8 +2,7 @@ const uuid = require('uuid');
 
 const MAX_STUDENT = 7;
 const NUM_COUNSELOR = 1;
-var errno = 0;
-class Group {
+class GroupL {
 	constructor(group_id, name, schedule_id, students, counselors, camp_type) {
 		this.group_id = group_id;
 		this.name = name;
@@ -14,7 +13,7 @@ class Group {
 		this.schedule = undefined;
 	}
 }
-class Student {
+class StudentL {
 	constructor(student_id, gender, friends, camp_type) {
 		this.student_id = student_id;
 		this.gender = gender;
@@ -22,15 +21,60 @@ class Student {
 		this.camp_type = camp_type;
 	}
 }
-class Counselor {
+class CounselorL {
 	constructor(counselor_id, camp_type) {
 		this.counselor_id = counselor_id;
 		this.camp_type = camp_type;
 	}
 }
 
-function getErrno() {
-	return errno;
+/** Converter between Counselor entity class and local StudentL class.
+ * 
+ * @param {Array} students - list of Student entities.
+ */
+function convertFromStudents(students) {
+	var studentLs = [];
+	if (students === undefined) {
+		console.log("groupAlgo - Undefined: list of students is undefined.");
+		throw Error("groupAlgo - Undefined: list of students is undefined.");
+	}
+	for (var s = 0; s < students.length; s++) {
+		if (students[s].student_id === undefined || students[s].sex === undefined || students[s].friend_ids === undefined || students[s].campus_id === undefined) {
+			console.log("groupAlgo - Incomplete data: required attributes is missing in a student object.");
+			throw Error("groupAlgo - Incomplete data: required attributes is missing in a student object.");
+		}
+		studentLs.push(new StudentL(students[s].student_id, students[s].sex, students[s].friend_ids, students[s].campus_id)); // TODO: TODO: to be replaced by camp_type
+	}
+}
+
+/** Converter between Counselor entity class and local CounselorL class.
+ * 
+ * @param {Array} counselors - list of Counselor entities.
+ */
+function convertFromCounselors(counselors) {
+	var counselorLs = [];
+	if (counselors === undefined) {
+		console.log("groupAlgo - Undefined: list of counselors is undefined.");
+		throw Error("groupAlgo - Undefined: list of counselors is undefined.");
+	}
+	for (var c = 0; c < counselors.length; c++) {
+		if (counselors[c].counselor_id === undefined || counselors[c].campus_id === undefined) { // TODO: to be replaced by camp_type
+			console.log("groupAlgo - Incomplete data: required attributes is missing in a counselor object.");
+			throw Error("groupAlgo - Incomplete data: required attributes is missing in a counselor object.");
+		}
+		counselorLs.push(new CounselorL(counselors[c].counselor_id, counselors[c].campus_id));
+	}
+}
+// =============== GROUPING API CALL ========================
+/** Schedule algorithm calls this function to generate group first
+ * 
+ * @param {Array} counselors - list of Counselor entities.
+ * @param {Array} students - list of Student entities.
+ */
+function groupCall(counselors, students) {
+	var counselorLs = convertFromCounselors(counselors);
+	var studentLs = convertFromStudents(students);
+	generateGroups(counselorLs, studentLs);
 }
 
 // =============== GROUPING ALGORITHM STARTS HERE ========================
@@ -89,8 +133,7 @@ function generateGroups(counselors, students) {
 			// No counselor is available to fill, raise error
 			if (fill === undefined) {
 				console.log("generateGroups: Error -1, no enough counselors.");
-				errno = -1;
-				return undefined;
+				throw Error("generateGroups: Error -1, no enough counselors.");
 			}
 			counselors_by_type[t].push(fill);
 		}
@@ -221,7 +264,7 @@ function generateGroups(counselors, students) {
 
 		// 2.4. Assign counselors randomly, assign students by friends first, and fill ones without friend preferences if needed
 		for (let i = 0; i < num_groups_per_type[t]; i++) {
-			const new_group = new Group(uuid.v1(), `Camp ${camp_types[t]} Group ${i}`, '', [], [], camp_types[t]);
+			const new_group = new GroupL(uuid.v1(), `Camp ${camp_types[t]} Group ${i}`, '', [], [], camp_types[t]);
 			for (let c = 0; c < NUM_COUNSELOR; c++) {
 				new_group.counselors.push(counselors_by_type[t][i * NUM_COUNSELOR + c]);
 			}
@@ -267,20 +310,24 @@ function generateGroups(counselors, students) {
 	return groups;
 }
 
+/** Test function with dummy data.
+ * 
+ * @returns The list of groups returned by generateGroups.
+ */
 function group_dummy_test() {
 	// DUMMY DATA STARTS HERE
 	var DUMMY_STUDENTS = [];
 	for (let i = 1; i < 21; i++) {
-		DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C1'));
+		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'M', [], 'C1'));
 	}
 	for (let i = 21; i < 41; i++) {
-		DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C1'));
+		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'F', [], 'C1'));
 	}
 	for (let i = 41; i < 61; i++) {
-		DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C2'));
+		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'M', [], 'C2'));
 	}
 	for (let i = 61; i < 81; i++) {
-		DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C2'));
+		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'F', [], 'C2'));
 	}
 
 	// Test for friend preferences handling:
@@ -308,31 +355,31 @@ function group_dummy_test() {
 
 	// Test for different male/female ratio: OK
 	// for (let i = 1; i < 11; i++) {
-	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C1'));
+	// 	DUMMY_STUDENTS.push(new StudentL(i.toString(), 'M', [], 'C1'));
 	// }
 	// for (let i = 11; i < 41; i++) {
-	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C1'));
+	// 	DUMMY_STUDENTS.push(new StudentL(i.toString(), 'F', [], 'C1'));
 	// }
 	// for (let i = 41; i < 71; i++) {
-	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'M', [], 'C2'));
+	// 	DUMMY_STUDENTS.push(new StudentL(i.toString(), 'M', [], 'C2'));
 	// }
 	// for (let i = 71; i < 81; i++) {
-	// 	DUMMY_STUDENTS.push(new Student(i.toString(), 'F', [], 'C2'));
+	// 	DUMMY_STUDENTS.push(new StudentL(i.toString(), 'F', [], 'C2'));
 	// }
 
 	var DUMMY_COUNSELORS = [];
 	for (let c = 1; c < 4; c++) {
-		DUMMY_COUNSELORS.push(new Counselor(c.toString(), 'C1'));
+		DUMMY_COUNSELORS.push(new CounselorL(c.toString(), 'C1'));
 	}
 	for (let c = 4; c < 8; c++) {
-		DUMMY_COUNSELORS.push(new Counselor(c.toString(), 'C2'));
+		DUMMY_COUNSELORS.push(new CounselorL(c.toString(), 'C2'));
 	}
 	for (let c = 8; c < 13; c++) {
-		DUMMY_COUNSELORS.push(new Counselor(c.toString(), ''));
+		DUMMY_COUNSELORS.push(new CounselorL(c.toString(), ''));
 	}
 	// Test for no enough counselors: OK
 	// for (let c = 8; c < 11; c++) {
-	// 	DUMMY_COUNSELORS.push(new Counselor(c.toString(), ''));
+	// 	DUMMY_COUNSELORS.push(new CounselorL(c.toString(), ''));
 	// }
 
 	return generateGroups(DUMMY_COUNSELORS, DUMMY_STUDENTS);
@@ -342,8 +389,8 @@ function group_dummy_test() {
 console.log(group_dummy_test());
 
 module.exports = {
-	Group,
+	GroupL,
+	groupCall,
 	generateGroups,
-	getErrno,
 	group_dummy_test
 }
