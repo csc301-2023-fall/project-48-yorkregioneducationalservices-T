@@ -67,7 +67,6 @@ async function getAllCamps(req, res) {
 async function createCamp(req, res) {
     const name = req.body.name;
     const campus_id = req.body.campus_id;
-    const status = await campService.createCamp(name, campus_id);
 
     // Check paramaters are valid
     if (!name || !campus_id) {
@@ -76,6 +75,10 @@ async function createCamp(req, res) {
             STATUS_CODES.INVALID
         );
     }
+
+    const status = await campService.createCamp(name, campus_id);
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         status: status ? 'Success' : 'failure'

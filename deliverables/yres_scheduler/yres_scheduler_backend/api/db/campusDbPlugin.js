@@ -39,7 +39,10 @@ async function getCampusById(campus_id) {
     try {
         return await new Promise((resolve, reject) => {
             client.query(`Select * from Campus where campus_id = '${campus_id}';`, (err, result)=>{
-    
+                
+                if (!(result && result.rowCount > 0)) {
+                    resolve(null);
+                };
                 name = result.rows[0].name;
         
                 if (err){

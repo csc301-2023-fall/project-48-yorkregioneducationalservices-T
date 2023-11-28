@@ -9,50 +9,46 @@
  * @requires api/middleware/authHandler
  */
 
-const campusService = require('../controllers/campusController');
+const campusController = require('../controllers/campusController');
 const auth = require('../middleware/authHandler');
 
-module.exports = (app) => {
+const campusRoutes = (app) => {
+
+    /**
+     * Route to get all campuses.
+     * @name GET /campus/all
+     * @memberof module:routes/campusRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     */
+    app.get('/campus/all', auth, async (req, res) => {
+        const all_campuses = await campusController.getAllCampuses(req, res);
+        res.send(all_campuses);
+    })
 
     /**
      * Route to get a campus by id.
-     * @name GET /campus/get/
-     * @function
+     * @name GET /campus/:campus_id
      * @memberof module:routes/campusRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the getCampus function.
      */
-    app.get('/campus/get/', auth, async (req, res) => {
-        const campus = await campusService.getCampus(req, res);
+    .get('/campus/:campus_id', auth, async (req, res) => {
+        const campus = await campusController.getCampus(req, res);
         res.send(campus);
-    })
-    
-    /**
-     * Route to get all campuses.
-     * @name GET /campus/getAll/
-     * @function
-     * @memberof module:routes/campusRoutes
-     * @param {Object} req - The Express request object.
-     * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the getAllCampuses function.
-     */
-    .get('/campus/getAll/', auth, async (req, res) => {
-        const all_campuses = await campusService.getAllCampuses(req, res);
-        res.send(all_campuses);
     })
    
     /**
      * Route to create a new campus.
      * @name GET /campus/create/
-     * @function
      * @memberof module:routes/campusRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the createCampus function.
      */
     .post('/campus/create/', auth, async (req, res) => {
-        const status = await campusService.createCampus(req, res);
-        res.status(200).send(status);
+        const status = await campusController.createCampus(req, res);
+        res.send(status);
     });
 };
+
+module.exports = campusRoutes;

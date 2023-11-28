@@ -1,25 +1,56 @@
+/**
+ * This module implements the use case operations for the campus service.
+ * 
+ * @module api/service/campusService
+ * 
+ * @requires api/db/campusDbPlugin
+ * @requires api/entities/ServiceErrors
+ */
+
 const db = require('../db/campusDbPlugin');
+const {CampusServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Retrieves a campus object by their ID.
- * @param {number} campus_id - The ID of the campus to retrieve.
+ * 
+ * @param {number} campus_id The ID for the campus.
  * @returns {object} - The campus object.
  */
 async function getCampus(campus_id) {
-    var campus = await db.getCampusById(campus_id);
 
-    return campus;
+    try {
+        var campus = await db.getCampusById(campus_id);
 
+        if (campus == null) {
+            throw new CampusServiceError(
+                `Campus resource with ID '${block_id}' not found in DB`,
+                STATUS_CODES.NOT_FOUND
+            );
+        }
+
+        return campus;
+    } catch(err) {
+        throw new CampusServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
  * Retrieves all campuses from the database.
  *
- * @returns {Promise<Array>} - A promise that resolves to an array of campus objects.
+ * @returns {Array<Campus>} - An array of campus objects.
  */
 async function getAllCampuses() {
-    var all_campuses = await db.getAllCampuses();
-    return all_campuses;
+    try {
+        return await db.getAllCampuses();
+    } catch(err) {
+        throw new CampusServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
@@ -28,9 +59,15 @@ async function getAllCampuses() {
  * @param {string} name - The name of the campus object to be created.
  * @returns {Promise<boolean>} - A promise that resolves to true if the campus object was created.
  */
-function createCampus(name) {
-    var campus = db.createCampus(name);
-    return campus;
+async function createCampus(name) {
+    try {
+        return await db.createCampus(name);
+    } catch(err) {
+        throw new CampusServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+        }
 }
 
 module.exports = {
