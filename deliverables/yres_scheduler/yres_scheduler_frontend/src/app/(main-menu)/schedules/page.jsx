@@ -2,7 +2,7 @@ import * as React from 'react';
 import Schedule from '../../components/scheduleTable'
 import GroupsTable from '../../components/groupsTable'
 import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
-import ScheduleTable from '@/app/components/scheduleTimetable';
+import ScheduleTimetable from '@/app/components/scheduleTimetable';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 
@@ -61,7 +61,7 @@ export default async function Schedules() {
     return (
         <div className='split-page'>
             <div className='left'>
-                <ScheduleTable/>
+                <ScheduleTimetable/>
             </div>
             <div className='right'>
                 <h3 className='header-title '>Groups</h3>

@@ -1,15 +1,9 @@
-import * as React from 'react'
-import Timetable from 'react-timetable-events'
+'use client';
+import React from 'react';
+import Timetable from 'react-timetable-events';
 
-function ScheduleTable() {
-    return (
-        <Timetable {... prop attributes} />
-    )
-}
-
-export default ScheduleTable;
-export const Example () => <Timetable 
-  events={{
+export default function ScheduleTimetable(schedule) {
+  const events = {
     monday: [
       {
         id: 1,
@@ -23,6 +17,11 @@ export const Example () => <Timetable
     wednesday: [],
     thursday: [],
     friday: [],
-  }}
-  style={{ height: '500px' }}
-/>
+  };
+
+  const style = { height: '500px' };
+
+  return (
+    <Timetable events={events} style={style} />
+  );
+}
