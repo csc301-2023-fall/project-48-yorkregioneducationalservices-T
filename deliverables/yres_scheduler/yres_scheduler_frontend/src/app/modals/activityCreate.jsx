@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
+import Alert from 'react-bootstrap/Alert';
 
 /**
  * Editing Modal for Activities
@@ -21,6 +22,7 @@ import { useRouter } from 'next/navigation';
  * */
 function ActivityCreate({ currCampus }) {
     const router = useRouter();
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleSubmit = async (event) => {
@@ -40,11 +42,11 @@ function ActivityCreate({ currCampus }) {
             router.refresh();
             handleClose();
         } catch (err) {
-            //TODO: Display Error in component
-            console.log(err);
+            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+            <p>{"Error: " + err.message}</p>
+            </Alert>)
         }
     }
-  
     return (
         <>
             <Button onClick={() => setShow(true)} 
@@ -56,6 +58,7 @@ function ActivityCreate({ currCampus }) {
                 <Modal.Title>{"Add new Activity"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {errorDisplay}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group
                         className="mb-3"
