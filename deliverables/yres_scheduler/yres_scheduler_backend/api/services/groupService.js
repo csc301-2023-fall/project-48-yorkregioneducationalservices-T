@@ -1,46 +1,88 @@
+/**
+ * This module implements the use case operations for the group service.
+ * 
+ * @module api/service/groupService
+ * 
+ * @requires api/db/groupDbPlugin
+ * @requires api/entities/ServiceErrors
+ */
+
 const db = require('../db/groupDbPlugin');
+const { GroupServiceError, STATUS_CODES } = require('../entities/ServiceErrors');
 
 /**
  * Retrieves a group object by their ID.
  * @param {number} group_id - The ID of the group to retrieve.
  * @returns {object} - The group object.
  */
-function getGroup(group_id) {
-    var group = db.getGroupById(group_id);
+async function getGroup(group_id) {
+    try {
+        var group = await db.getGroupById(group_id);
 
-    return group;
+        if (group == null) {
+            throw new GroupServiceError(
+                `Group resource with ID '${group_id}' not found in DB`,
+                STATUS_CODES.NOT_FOUND
+            );
+        }
+
+        return block;
+    } catch(err) {
+        throw new GroupServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 
 }
 
 /**
  * Retrieves all groups under a given campus from the database.
  *
- * @returns {Promise<Array>} - A promise that resolves to an array of group objects.
+ * @returns {Array<Group>} - A promise that resolves to an array of group objects.
  */
 async function getAllGroups() {
-    var all_groups = await db.getAllGroups();
-    return all_groups;
+    try {
+        return await db.getAllGroups();
+    } catch(err) {
+        throw new GroupServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
  * Creates a new group in the database.
  *
- * @param {number} camp_id - The id of the camp under which the group object is to be created.
- * @returns {Promise<boolean>} - A promise that resolves to true if the creation succeeded.
+ * @param {string} camp_id - The id of the camp under which the group object is to be created.
+ * @returns {boolean} - A boolean that is true if the creation succeeded.
  */
-function createGroup(camp_id) {
-    var group = db.createGroup(camp_id);
-    return group;
+async function createGroup(camp_id) {
+    try {
+        return await db.createGroup(camp_id);
+    } catch(err) {
+        throw new GroupServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
  * Deletes all groups in the database.
  *
- * @returns {Promise<boolean>} - A promise that resolves to true if the deletion succeeded.
+ * @returns {boolean} - A boolean that is true if the deletion succeeded.
  */
-function deleteAllGroups() {
-    var group = db.deleteAllGroups();
-    return group;
+async function deleteAllGroups() {
+    try {
+        return await db.deleteAllBlocks();
+    } catch(err) {
+        throw new GroupServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 

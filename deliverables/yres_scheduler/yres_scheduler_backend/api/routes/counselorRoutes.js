@@ -1,93 +1,70 @@
-const counselorService = require('../controllers/counselorController');
-const { STATUS_CODES } = require('../entities/ServiceErrors');
-const logger = require('../../logger');
-const { log } = require('mathjs');
-
 /**
- * Defines the routes for counselor-related API endpoints.
- * @param {Object} app - The Express application object.
+ * This module specifies the routes for request endpoints in the counselor service.
+ * 
+ * @param {Object} [app] The express application
+ * 
+ * @module api/routes/counselorRoutes
+ * @requires api/controllers/counselorController
+ * @requires api/middleware/authHandler
  */
-module.exports = (app) => {
+
+const counselorController = require('../controllers/counselorController');
+const auth = require('../middleware/authHandler');
+const logger = require('../../logger');
+
+const counselorRoutes = (app) => {
     /**
      * GET endpoint that retrieves all counselors by campus.
-     * @name GET/counselors/getAllCounselors
-     * @function
+     * @name GET /counselor/all
      * @memberof module:/routes/counselorRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves with the retrieved counselors or rejects with an error.
      */
-    app.get('/counselors/getAllCounselors/', async (req, res) => {
-        logger.info(`GET /counselors/getAllCounselors/`);
-        try{
-            const result = await counselorService.getAllCounselors(req, res);
-            res.status(STATUS_CODES.SUCCESS).send(result);
-        }
-        catch(error){
-            logger.error(`Error in GET /counselors/getAllCounselors/: `, error);
-            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
-        }   
+    app.get('/counselor/all/', auth, async (req, res) => {
+        logger.info(`GET /counselor/all/`);
+        const result = await counselorController.getAllCounselors(req, res);
+        res.send(result);
     })
     /**
      * POST endpoint that creates a new counselor.
-     * @name POST/counselors/createCounselor
-     * @function
+     * @name POST /counselor/createCounselor
      * @memberof module:/routes/counselorRoutes
      * @async
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves with a success message or rejects with an error.
      */
-    .post('/counselors/createCounselor/', async (req, res) => {
-        logger.info(`POST /counselors/createCounselor/`);
-        try {
-            const result = await counselorService.createCounselor(req, res);
-            res.status(STATUS_CODES.SUCCESS).send(result);
-            
-        } catch (error) {
-            logger.error(`Error in POST /counselors/createCounselor/: `, error);
-            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
-        }
+    .post('/counselor/create/', auth, async (req, res) => {
+        logger.info(`POST /counselors/createCounselor`);
+        const result = await counselorController.createCounselor(req, res);
+        res.send(result);
     })
     /**
      * POST endpoint that edits an existing counselor by ID.
-     * @name POST/counselors/editCounselorById
-     * @function
+     * @name POST /counselor/edit/
      * @memberof module:/routes/counselorRoutes
      * @async
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves with the edited counselor or rejects with an error.
      */
-    .post('/counselors/editCounselorById/', async (req, res) => {
-        logger.info(`POST /counselors/editCounselorById/`);
-        try {
-            const result = await counselorService.editCounselorById(req, res);
-            res.status(STATUS_CODES.SUCCESS).send(result);
-        } catch (error) {
-            logger.error(`Error in POST /counselors/editCounselorById/: `, error);
-            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
-        }
+    .post('/counselor/edit', auth, async (req, res) => {
+        logger.info(`POST /counselor/edit/`);
+        const result = await counselorController.editCounselorById(req, res);
+        res.send(result);
     })
     /**
      * POST endpoint that deletes an existing counselor by ID.
-     * @name POST/counselors/deleteCounselorById
-     * @function
+     * @name DELETE /counselor/:counselor_id
      * @memberof module:/routes/counselorRoutes
      * @async
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves with a success message or rejects with an error.
      */
-    .post('/counselors/deleteCounselorById/', async (req, res) => {
+    .delete('/counselor/:counselor_id', auth, async (req, res) => {
         logger.info(`POST /counselors/deleteCounselorById/`);
-        try {
-            const result = await counselorService.deleteCounselorById(req, res);
-            res.status(STATUS_CODES.SUCCESS).send(result);
-        } catch (error) {
-            logger.error(`Error in POST /counselors/deleteCounselorById/: `, error);
-            res.status(STATUS_CODES.FAILED).send( { result: null, status: STATUS_CODES.FAILED, error: error.message } );
-        }
+        const result = await counselorController.deleteCounselorById(req, res);
+        res.send(result);
     })
 
 };
+
+module.exports = counselorRoutes;

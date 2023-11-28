@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
  */
 async function getAdminUserByName(username) {
     var password;
-    const query = `SELECT * FROM logininfo WHERE username = '${username}';`
+    const query = `SELECT * FROM LoginInfo WHERE username = '${username}';`;
     try {
         const result = await client.query(query);
 
@@ -19,7 +19,6 @@ async function getAdminUserByName(username) {
                 username,
                 password);
         } else {
-
             return null;
         }
 
@@ -36,7 +35,7 @@ async function getAdminUserByName(username) {
  * @returns true if written successfully.
  */
 async function createAdminUser(username, hashed_password) {
-    const query = `INSERT INTO logininfo(username, password) VALUES('${username}', '${hashed_password}');`
+    const query = `INSERT INTO LoginInfo(username, password) VALUES('${username}', '${hashed_password}');`
     try {
         const result = await client.query(query);
 

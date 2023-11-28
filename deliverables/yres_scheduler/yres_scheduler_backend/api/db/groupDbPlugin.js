@@ -21,7 +21,7 @@ function mapRowToGroup(row) {
  * Retrieves a group from the database by their ID.
  *
  * @param {string} group_id - The ID of the group to retrieve.
- * @returns {Promise<Group>} A Promise that resolves with the retrieved group object.
+ * @returns {Promise<Group>} A retrieved group object
  * @throws {Error} If there was an error retrieving the group from the database.
  */
 async function getGroupById(group_id) {
@@ -31,14 +31,18 @@ async function getGroupById(group_id) {
     var counselor_ids = new Set();
     var camp_id;
 
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
         client.query(`Select * from CampGroup where camp_group_id = '${group_id}';`, (err, result)=>{
-
-            schedule_id = result.rows[0].schedule_id;
-            camp_id = result.rows[0].camp_id;
-
+            
             if (err){
                 reject(err);
+            }
+
+            if (result && result.rowCount > 0) {
+                schedule_id = result.rows[0].schedule_id;
+                camp_id = result.rows[0].camp_id;
+            } else {
+                resolve(null);
             }
         });
 

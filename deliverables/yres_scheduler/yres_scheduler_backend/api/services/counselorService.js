@@ -1,4 +1,14 @@
+/**
+ * This module implements the use case operations for the counselor service.
+ * 
+ * @module api/service/counselorService
+ * 
+ * @requires api/db/counselorDbPlugin
+ * @requires api/entities/ServiceErrors
+ */
+
 const db = require('../db/counselorDbPlugin');
+const { CounselorServiceError, STATUS_CODES } = require('../entities/ServiceErrors');
 
 /**
  * Retrieves all counselors by campus ID.
@@ -7,8 +17,14 @@ const db = require('../db/counselorDbPlugin');
  * @returns {Array} - An array of counselor objects.
  */
 async function getAllCounselors() {
-    var counselors = await db.getAllCounselors();
-    return counselors;
+    try {
+        return await db.getAllCounselors();
+    } catch(err) {
+        throw new CounselorServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 
 }
 
@@ -17,9 +33,15 @@ async function getAllCounselors() {
  * @param {Object} counselor - The counselor object to be created.
  * @returns {Object} - The response object from the database.
  */
-function createCounselor(counselor) {
-    const resp = db.createCounselor(counselor);
-    return resp;
+async function createCounselor(counselor) {
+    try {
+        return await db.createCounselor(counselor);
+    } catch(err) {
+        throw new CounselorServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
@@ -28,19 +50,31 @@ function createCounselor(counselor) {
  * @param {Object} counselor - The counselor object to be edited.
  * @returns {Object} - The response object from the database.
  */
-function editCounselorById(counselor) {
-    const resp = db.editCounselorById(counselor);
-    return resp;
+async function editCounselorById(counselor) {
+    try {
+        return await db.editCounselorById(counselor);
+    } catch(err) {
+        throw new CounselorServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
  * Deletes a counselor by their unique ID.
- * @param {number} counselor_ui_id - The unique ID of the counselor to be deleted.
- * @returns {Promise<boolean>} - A Promise that resolves to a boolean indicating whether the deletion was successful.
+ * @param {string} counselor_ui_id - The unique ID of the counselor to be deleted.
+ * @returns {boolean} - Whether the DB operation was successful
  */
-function deleteCounselorById(counselor_ui_id) {
-    const resp = db.deleteCounselorById(counselor_ui_id);
-    return resp;
+async function deleteCounselorById(counselor_ui_id) {
+    try {
+        return await db.deleteCounselorById(counselor_ui_id);
+    } catch(err) {
+        throw new CounselorServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 module.exports = {

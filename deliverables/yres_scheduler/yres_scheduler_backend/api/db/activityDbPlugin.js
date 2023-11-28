@@ -1,3 +1,4 @@
+const { all } = require("mathjs");
 const Activity = require("../entities/Activity");
 const accountRoutes = require("../routes/accountRoutes");
 const { client } = require('./db')
@@ -26,8 +27,40 @@ function mapRowToActivity(row) {
 async function getAllActivities() {
     const query = `SELECT * FROM Activity;`;
     const rquery = `SELECT room_id FROM RoomActivity WHERE activity_id = $1;`;
-    
     var all_activities;
+
+    try {
+        var result = await client.query(query);
+
+        if (result && result.rowCount > 0) {
+            var rows = result.rows;
+        
+            all_activities = rows.map(mapRowToActivity);
+            if (all_activities === undefined) {
+                return all_activities;
+            }
+
+            for (var i=0; i<all_activities.length; i++) {
+                result = await client.query(rquery, [all_activities[i].activity_id]);
+                rows = result.rows;
+                if (rows === undefined) {
+                    continue;
+                }
+                for (var j=0; j<rows.length; j++) {
+    
+                    all_activities[i].rooms.push(rows[j].room_id);
+                }
+            }
+            
+            return all_activities;
+
+        } else {
+            return [];
+        }
+
+    } catch (err){
+        throw new Error(err);
+    }
     return new Promise(async (resolve, reject) => {
         var result = await new Promise((queryResolve, queryReject) => {
             client.query(query, (err, result) => {

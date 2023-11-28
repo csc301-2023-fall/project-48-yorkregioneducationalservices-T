@@ -1,3 +1,13 @@
+/**
+ * This module implements the DB operations associated with the Block Service.
+ * 
+ * @module api/db/blockDbPlugin
+ * 
+ * @requires api/entities/Block
+ * @requires uuid
+ * @requires api/db/db
+ */
+
 const Block = require("../entities/Block");
 const uuid = require('uuid');
 const { client } = require('./db');
@@ -29,8 +39,8 @@ function mapRowToBlock(row) {
 /**
  * Retrieves a block from the database by their ID.
  *
- * @param {number} block_id - The ID of the block to retrieve.
- * @returns {Promise<Block>} A Promise that resolves with the retrieved block object.
+ * @param {string} block_id - The ID of the block to retrieve.
+ * @returns {Block} A corresponding block entity or null if none is found for the block_id.
  * @throws {Error} If there was an error retrieving the block from the database.
  */
 async function getBlockById(block_id) {
@@ -41,9 +51,11 @@ async function getBlockById(block_id) {
     var start_time;
     var end_time;
 
-    return new Promise((resolve, reject) => {
-        client.query(`Select * from Block where block_id = '${block_id}';`, (err, result)=>{
+    const query = `Select * from Block where block_id = '${block_id}';`;
+    try {
+        const result = await client.query(query);
 
+        if (result && result.rowCount > 0) {
             schedule_id = result.rows[0].schedule_id;
             room_id = result.rows[0].room_id;
             activity_id = result.rows[0].activity_id;
@@ -57,40 +69,47 @@ async function getBlockById(block_id) {
             end_minutes = result.rows[0].end_time.slice(3, 5);
             end_time = new Date(2023, 1, 1, parseInt(end_hours), parseInt(end_minutes));
 
-            if (err){
-                reject(err);
-            }
-        });
+            return new Block(
+                block_id,
+                schedule_id,
+                room_id,
+                activity_id,
+                start_time,
+                end_time);
 
-        resolve(new Block(block_id, schedule_id, room_id, activity_id, start_time, end_time));
-    });
+        } else {
+            return null;
+        }
+
+    } catch (err){
+        console.log(err);
+        throw new Error(err);
+    }
 }
 
 /**
  * Retrieves all Blocks from the database and maps them to Block objects.
  * 
- * @returns {Promise<Array<Block>>} A promise that resolves with an array of Block objects.
+ * @returns {Array<Block>} An array of Block entities.
  */
 async function getAllBlocks() {
 
     var all_blocks;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(`SELECT * FROM Block;`, function (err, result) {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
+    const query = `SELECT * FROM Block;`;
+    try {
+        const result = await client.query(query);
 
-        const rows = result.rows;
+        if (result && result.rowCount > 0) {
+            const rows = result.rows;
+            all_blocks = rows.map(mapRowToBlock);
+            return all_blocks;
+        } else {
+            return [];
+        }
 
-        all_blocks = rows.map(mapRowToBlock);
-
-        resolve(all_blocks);
-    });
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 /**
@@ -102,44 +121,39 @@ async function getAllBlocks() {
  * @param {number} activity_id - The unique identifier of the activity this block is hosting.
  * @param {string} start_time - The start time of the block as a string (e.g.: '8:00', '12:00').
  * @param {string} end_time - The end time of the block as a string (e.g.: '8:00', '12:00').
- * @returns {Promise<boolean>} - A promise that resolves to true if the block was created successfully.
+ * @returns {boolean} - Returns true if operation is successful.
  */
 async function createBlock(schedule_id, room_id, activity_id, start_time, end_time) {
-    //block_id = uuid.v1();
-    
-    return new Promise((resolve, reject) => {
-        if (schedule_id === undefined) {
-            client.query(`INSERT INTO Block(room_id, activity_id, start_time, end_time) VALUES('${room_id}', '${activity_id}', '${start_time}', '${end_time}');`, function (err, result) {
-                if (err){
-                    reject(err);
-                }
-            });
-            resolve(true);
-        }
-        client.query(`INSERT INTO Block(room_id, activity_id, start_time, end_time, schedule_id) VALUES('${room_id}', '${activity_id}', '${start_time}', '${end_time}', '${schedule_id}');`, function (err, result) {
-            if (err){
-                reject(err);
-            }
-        });
-        resolve(true);
-    });
+    var query;
+
+    if (schedule_id === undefined) {
+        query = `INSERT INTO Block(room_id, activity_id, start_time, end_time) VALUES('${room_id}', '${activity_id}', '${start_time}', '${end_time}');`;
+    } else {
+        query = `INSERT INTO Block(room_id, activity_id, start_time, end_time, schedule_id) VALUES('${room_id}', '${activity_id}', '${start_time}', '${end_time}', '${schedule_id}');`;
+    }
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 /**
  * Deletes all Blocks in the database.
  * @async
  * @function deleteAllBlocks
- * @returns {Promise<boolean>} - Returns a Promise that resolves to true if the deletion succeeded.
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
  */
 async function deleteAllBlocks() {
-    return new Promise((resolve, reject) => {
-        client.query(`DELETE FROM Block;`, function (err, result) {
-            if (err) {
-                reject(err);
-            }
-        });
-        resolve(true);
-    });
+
+    const query = `DELETE FROM Block;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 module.exports = {
