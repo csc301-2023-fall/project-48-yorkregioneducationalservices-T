@@ -1,6 +1,13 @@
 import * as React from 'react'
 import Timetable from 'react-timetable-events'
 
+function ScheduleTable() {
+    return (
+        <Timetable {... prop attributes} />
+    )
+}
+
+export default ScheduleTable;
 export const Example () => <Timetable 
   events={{
     monday: [
