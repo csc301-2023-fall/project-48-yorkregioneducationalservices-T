@@ -1,27 +1,66 @@
 'use client';
-import React from 'react';
-import Timetable from 'react-timetable-events';
+import React, { Component } from "react";
+import TimeTable from "react-timetable-events";
+import moment from "moment";
+import { events } from "./data";
 
-export default function ScheduleTimetable(schedule) {
-  const events = {
-    monday: [
-      {
-        id: 1,
-        name: "Custom Event 1",
-        type: "custom",
-        startTime: new Date("2018-02-23T11:30:00"),
-        endTime: new Date("2018-02-23T13:30:00"),
-      },
-    ],
-    tuesday: [],
-    wednesday: [],
-    thursday: [],
-    friday: [],
+const Hour = ({ hour, defaultAttributes, classNames }) => {
+  return (
+    <div
+      {...defaultAttributes}
+      key={hour}
+      style={{
+        textAlign: "center",
+        textDecoration: "underline"
+      }}
+    >
+      {hour}
+    </div>
+  );
+  
+};
+
+
+const Event = ({ event, defaultAttributes, classNames }) => {
+  const { id, name, startTime, endTime } = event;
+  const start = moment(startTime).format("HH:mm");
+  const end = moment(endTime).format("HH:mm");
+
+  const openEventModal = () => {
+    alert(`${name}\n${start} - ${end}`);
   };
 
-  const style = { height: '500px' };
+
 
   return (
-    <Timetable events={events} style={style} />
+    React.createElement(
+      "div",
+      {
+        ...defaultAttributes,
+        title: name,
+        key: id,
+        className: `${defaultAttributes.className} event`,
+        onClick: openEventModal
+      },
+      React.createElement("span", { className: classNames.event_info }, name),
+      React.createElement(
+        "span",
+        { className: classNames.event_info },
+        `${start} - ${end}`
+      )
+    )
   );
+};
+
+
+function ScheduleTimetable () {
+  return (<TimeTable 
+    hoursInterval={{ from: 7, to: 19 }}
+    events={events}
+    style={{ height: '750px', borderRadius: '5px'}}
+    // renderHour={Hour}
+    renderEvent={Event}
+  />)
 }
+
+export default ScheduleTimetable;

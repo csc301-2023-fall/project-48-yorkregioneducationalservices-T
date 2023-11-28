@@ -148,6 +148,25 @@
   gap: 12px;
 }
 
+.hour{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hour:nth-of-type(2n){
+  filter: brightness(1.2);
+}
+
+.event{
+  border-radius: 5px;
+  width: calc(100% - 2px);
+  border: 1px solid;
+  cursor: pointer;
+  background-color: #FFF !important;
+  color: #000;
+}
+
 /* Profiles Specific Styles */
 #profiles-header {
   padding: 2.5%;
