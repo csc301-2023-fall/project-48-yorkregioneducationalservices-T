@@ -1,5 +1,13 @@
+/**
+ * This module implements the DB operations for the camp service.
+ * 
+ * @module api/db/campDbPlugin
+ * 
+ * @requires api/entities/Camp
+ * @requires api/db/db
+ */
+
 const Camp = require("../entities/Camp");
-const uuid = require('uuid');
 const { client } = require('./db');
 
 /**
@@ -58,11 +66,10 @@ async function getCampById(camp_id) {
 
 /**
  * Retrieves activity ids from the database and adds them to the set of activity ids for a given camp.
- * @async
- * @function getActivityIds
+ * 
  * @param {Object} camp - The camp object for which to retrieve and store activity ids.
  * @param {number} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
- * @throws {Error} Throws an error if there was an issue fetching activity ids from the database.
+ * @returns the updated camp object if successful
  */
 async function getActivityIds(camp) {  
     const queryGetActivityIds = `Select activity_id from Activity where camp_id = $1;`;  
@@ -76,13 +83,11 @@ async function getActivityIds(camp) {
         });
 
         await Promise.all(promises);
+        return camp;
 
-    } catch (error) {
-        // Handle errors appropriately
-        console.error('Error while fetching activity ids:', error);
-        throw new Error('Failed to fetch activity ids');
+    } catch (err) {
+        throw new Error(err);
     }
-
   }
 
 /**
@@ -117,8 +122,7 @@ async function getAllCamps() {
 
 /**
  * Creates a new camp record in the database.
- * @async
- * @function createCamp
+ * 
  * @param {string} name - The name of the camp object to be created in the database.
  * @param {string} campus_id - The id of the campus to store the camp object to be created in the database.
  * @returns {boolean} - Whether operation succeeded or not

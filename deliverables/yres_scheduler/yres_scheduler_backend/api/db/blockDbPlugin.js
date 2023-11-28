@@ -1,15 +1,13 @@
 /**
- * This module implements the DB operations associated with the Block Service.
+ * This module implements the DB operations for the block service.
  * 
  * @module api/db/blockDbPlugin
  * 
  * @requires api/entities/Block
- * @requires uuid
  * @requires api/db/db
  */
 
 const Block = require("../entities/Block");
-const uuid = require('uuid');
 const { client } = require('./db');
 
 /**
@@ -82,7 +80,6 @@ async function getBlockById(block_id) {
         }
 
     } catch (err){
-        console.log(err);
         throw new Error(err);
     }
 }
