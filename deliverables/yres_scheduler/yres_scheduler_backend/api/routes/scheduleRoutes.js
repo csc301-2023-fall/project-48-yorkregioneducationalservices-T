@@ -3,7 +3,7 @@ const scheduleService = require('../controllers/scheduleController');
 module.exports = (app) => {
     /**
      * Route to generate a new schedule.
-     * @name POST /schedule/generate/
+     * @name GET /schedule/generate/
      * @function
      * @memberof module:routes/scheduleRoutes
      * @param {Object} req - The Express request object.
@@ -18,6 +18,11 @@ module.exports = (app) => {
             res.status(500).send({error: err.message});
         }
         res.send(result);
+    })
+
+    .get('/schedule/getCurrent/', async (req, res) => {
+        const current_schedule = await scheduleService.getCurrentSchedule(req, res);
+        res.send(current_schedule);
     })
 
     /**

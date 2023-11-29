@@ -1,6 +1,8 @@
+const config = require("config");
 const Activity = require("../entities/Activity");
 const accountRoutes = require("../routes/accountRoutes");
-const { client } = require('./db')
+const { client } = require('./db');
+const CAMPUS_ID = config.get('campus');
 
 /**
  * Maps a row from the activity table to an Activity object.
@@ -94,7 +96,7 @@ async function createActivity(activity_id, name, duration, type, num_occurences,
         RETURNING activity_id;
     `;
     try {
-        var result = await client.query(query, [activity_id, name, duration, type, num_occurences, camp_id]);
+        var result = await client.query(query, [activity_id, name, duration, type, num_occurences, CAMPUS_ID]);
         if (room_ids === undefined || room_ids.length === 0) {
             return true;
         }

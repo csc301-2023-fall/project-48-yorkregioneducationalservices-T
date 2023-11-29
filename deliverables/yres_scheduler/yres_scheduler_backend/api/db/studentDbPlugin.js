@@ -4,6 +4,7 @@ const { client } = require('./db');
 const logger = require('../../logger');
 const c = require("config");
 const e = require("express");
+const CAMPUS_ID = c.get('campus');
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -243,8 +244,8 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
 async function createStudent(student) {
 
     const query = `
-        INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO Student (student_id, student_ui_id, firstname, lastname, age, sex, campus_id)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING student_id;
     `;
     const functionName = createStudent.name; // Get the name of the current function for logging purposes
@@ -257,6 +258,7 @@ async function createStudent(student) {
             student.lastname,
             student.age,
             student.sex,
+            CAMPUS_ID
         ]);
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
