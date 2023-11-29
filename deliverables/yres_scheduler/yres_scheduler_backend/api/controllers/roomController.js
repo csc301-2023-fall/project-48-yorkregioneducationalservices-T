@@ -17,7 +17,7 @@ const {RoomServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
  * @returns {JSON} - JSON representation of all rooms.
  */
 async function getAllRooms(req, res) {
-    const all_rooms = await db.getAllRooms();
+    const all_rooms = await roomService.getAllRooms();
     res.status(STATUS_CODES.SUCCESS);
     return {
         rooms: all_rooms
