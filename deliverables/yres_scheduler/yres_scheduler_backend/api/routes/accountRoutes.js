@@ -6,7 +6,6 @@
  * @module api/routes/accountRoutes
  * @requires api/controllers/accountController
  * @requires api/middleware/errorHandler
- * @requires api/middleware/authHandler
  */
 
 const accountController = require('../controllers/accountController');
