@@ -93,8 +93,8 @@ async function createStudent(
     lastname,
     age,
     sex,
-    enemy_ids,
-    friend_ids) {
+    friend_ids,
+    enemy_ids) {
     try {
         const resp = await db.createStudent(
             student_id,
@@ -103,8 +103,8 @@ async function createStudent(
             lastname,
             age,
             sex,
-            enemy_ids,
-            friend_ids);
+            friend_ids,
+            enemy_ids);
         return resp;
     } catch(err) {
         throw new StudentServiceError(
@@ -126,8 +126,8 @@ async function editStudentById(
     lastname,
     age,
     sex,
-    enemy_ids,
-    friend_ids) {
+    friend_ids,
+    enemy_ids) {
     try {
         const resp = await db.editStudentById(student_id,
             student_ui_id,
@@ -135,8 +135,8 @@ async function editStudentById(
             lastname,
             age,
             sex,
-            enemy_ids,
-            friend_ids);
+            friend_ids,
+            enemy_ids);
         return resp;
     } catch(err) {
         throw new StudentServiceError(

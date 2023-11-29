@@ -233,13 +233,13 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
  * Inserts a new student into the database along with their friend and enemy preferences.
  * 
  * @param {Object} student - The student object to be inserted into the database.
- * @param {string} student.student_ui_id - The unique identifier for the student.
- * @param {string} student.firstname - The first name of the student.
- * @param {string} student.lastname - The last name of the student.
- * @param {number} student.age - The age of the student.
- * @param {string} student.sex - The gender of the student.
- * @param {Array<string>} student.friend_ids - An array of unique identifiers for the student's friends.
- * @param {Array<string>} student.enemy_ids - An array of unique identifiers for the student's enemies.
+ * @param {string} student_ui_id - The unique identifier for the student.
+ * @param {string} firstname - The first name of the student.
+ * @param {string} lastname - The last name of the student.
+ * @param {number} age - The age of the student.
+ * @param {string} sex - The gender of the student.
+ * @param {Array<string>} friend_ids - An array of unique identifiers for the student's friends.
+ * @param {Array<string>} enemy_ids - An array of unique identifiers for the student's enemies.
  * @returns {boolean} - true if the student was successfully inserted into the database, or false otherwise.
  */
 async function createStudent(
@@ -248,8 +248,8 @@ async function createStudent(
     lastname,
     age,
     sex,
-    enemy_ids,
-    friend_ids
+    friend_ids,
+    enemy_ids
 ) {
 
     const query = `
@@ -307,11 +307,11 @@ async function clearFriendPreferencesById(student_id) {
  * Edits a student record in the database by ID.
  * 
  * @param {Object} student - The student object to be updated.
- * @param {string} student.firstname - The first name of the student.
- * @param {string} student.lastname - The last name of the student.
- * @param {number} student.age - The age of the student.
- * @param {string} student.sex - The sex of the student.
- * @param {string} student.student_ui_id - The unique ID of the student.
+ * @param {string} firstname - The first name of the student.
+ * @param {string} lastname - The last name of the student.
+ * @param {number} age - The age of the student.
+ * @param {string} sex - The sex of the student.
+ * @param {string} student_ui_id - The unique ID of the student.
  * @returns {boolean} - true if the update was successful
  */
 async function editStudentById(
@@ -321,8 +321,8 @@ async function editStudentById(
     lastname,
     age,
     sex,
-    enemy_ids,
-    friend_ids) {
+    friend_ids,
+    enemy_ids) {
     const query = `
         UPDATE Student
         SET
