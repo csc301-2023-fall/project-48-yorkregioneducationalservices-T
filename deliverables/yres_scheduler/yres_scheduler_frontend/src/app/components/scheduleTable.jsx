@@ -115,7 +115,7 @@ export default function Schedule({schedule}) {
                 Export to CSV
             </CSVLink>
             </div>
-            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
+            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } disablesearch={true}/>
             <SideBarWrapper/>
         </div>
     );
