@@ -10,7 +10,7 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 // GET rooms frontend server side
 async function getRooms() {
     try {
-        const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
+        const res = await fetch(`${URI}/room/all/`, { cache: 'no-store' });
         const data = await res.json();
         return {
             error: false,
@@ -29,7 +29,7 @@ async function getRooms() {
 // GET activities frontend server side
 async function getActivities() {
     try {
-        const res = await fetch(`${URI}/activities/getAllActivities/`, { cache: 'no-store' });
+        const res = await fetch(`${URI}/activity/all/`, { cache: 'no-store' });
         const data = await res.json();
         return {
             error: false,
@@ -48,7 +48,7 @@ async function getActivities() {
 // GET current campus frontend server side
 async function getCurrCampus() {
     try {
-        const res = await fetch(`${URI}/campus/getAll/`);
+        const res = await fetch(`${URI}/campus/all/`);
         const data = await res.json();
         return {
             error: false,

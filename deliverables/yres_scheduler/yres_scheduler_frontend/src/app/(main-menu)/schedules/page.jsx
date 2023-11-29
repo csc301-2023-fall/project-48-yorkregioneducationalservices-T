@@ -7,7 +7,7 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 // GET rooms frontend server side
 async function getRooms() {
-    const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
+    const res = await fetch(`${URI}/room/all/`, { cache: 'no-store' });
     const data = await res.json();
     return data.rooms;
 }

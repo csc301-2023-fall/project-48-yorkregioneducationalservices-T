@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import ActivityEdit from '../modals/activityEdit';
-import { fetchDataPOST } from '../helper';
+import { fetchDataDELETE } from '../helper';
 import { useRouter } from 'next/navigation';
 import Alert from 'react-bootstrap/Alert';
 
