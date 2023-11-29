@@ -396,6 +396,23 @@ async function deleteStudentById(student_ui_id) {
     }
 }
 
+/**
+ * Deletes all Students in the database.
+ * @async
+ * @function deleteAllStudents
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllStudents() {
+
+    const query = `DELETE FROM Student;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     getAllStudents,
     getStudentById,
@@ -403,5 +420,6 @@ module.exports = {
     createStudent,
     editStudentById,
     insertFriendPreferences,
-    deleteStudentById
+    deleteStudentById,
+    deleteAllStudents
 }

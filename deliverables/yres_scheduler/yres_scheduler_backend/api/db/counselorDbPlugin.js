@@ -173,10 +173,27 @@ async function deleteCounselorById(counselorId) {
     }
 }
 
+/**
+ * Deletes all Counselors in the database.
+ * @async
+ * @function deleteAllCounselors
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllCounselors() {
+
+    const query = `DELETE FROM Counselor;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
 
 module.exports = {
     getAllCounselors,
     createCounselor,
     editCounselorById,
-    deleteCounselorById
+    deleteCounselorById,
+    deleteAllCounselors
 }

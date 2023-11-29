@@ -129,6 +129,24 @@ async function getAllSchedules() {
         
 }
 
+/**
+ * Deletes all Schedules in the database.
+ * @async
+ * @function deleteAllSchedules
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllSchedules() {
+
+    const query = `DELETE FROM Schedule;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
-    getAllSchedules
+    getAllSchedules,
+    deleteAllSchedules
 }

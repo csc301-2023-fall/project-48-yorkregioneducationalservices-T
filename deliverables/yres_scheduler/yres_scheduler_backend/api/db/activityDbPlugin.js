@@ -239,10 +239,28 @@ async function deleteActivityById(activity_id) {
     }
 }
 
+/**
+ * Deletes all Activities in the database.
+ * @async
+ * @function deleteAllActivities
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllActivities() {
+
+    const query = `DELETE FROM Activity;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 
 module.exports = {
     createActivity,
     editActivityById,
     getAllActivities,
-    deleteActivityById
+    deleteActivityById,
+    deleteAllActivities
 }

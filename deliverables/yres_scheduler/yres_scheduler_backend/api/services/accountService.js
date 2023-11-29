@@ -12,6 +12,15 @@
  */
 
 const db = require('../db/accountDbPlugin');
+
+const activityDB = require('../db/activityDbPlugin');
+const counselorDB = require('../db/counselorDbPlugin');
+const roomDB = require('../db/roomDbPlugin');
+const scheduleDB = require('../db/scheduleDbPlugin');
+const studentDB = require('../db/studentDbPlugin');
+const groupDB = require('../db/groupDbPlugin');
+const blockDB = require('../db/blockDbPlugin');
+
 const bcrypt = require('bcrypt');
 const {AccountServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 const config = require('config');
@@ -98,9 +107,31 @@ async function getLoginStatus(token) {
     }
 }
 
+/**
+ * Delete all non campus/camp/account entities in the database.
+ *  * 
+ * @returns {boolean} - Whether operation succeeded
+ */
+async function clearDatabase() {
+    try {
+        var status = await activityDB.deleteAllActivities();
+        status = await counselorDB.deleteAllCounselors() && status;
+        status = await roomDB.deleteAllRooms() && status;
+        status = await scheduleDB.deleteAllSchedules() && status;
+        status = await studentDB.deleteAllStudents() && status;
+        status = await groupDB.deleteAllGroups() && status;
+        return await blockDB.deleteAllBlocks() && status;
+    } catch(err) {
+        throw new AccountServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
+}
 
 module.exports = {
     login,
     signup,
-    getLoginStatus
+    getLoginStatus,
+    clearDatabase
 }
