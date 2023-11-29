@@ -28,9 +28,8 @@ function CounselorEdit({item, show, setShow}) {
         event.preventDefault()
         try {
             await fetchDataPOST(
-                "/counselors/editCounselorById/",
+                `/counselors/${item._counselor_id}/edit/`,
                 {
-                    counselor_id: item._counselor_id,
                     firstname: event.target[0].value,
                     lastname: event.target[1].value
                 }

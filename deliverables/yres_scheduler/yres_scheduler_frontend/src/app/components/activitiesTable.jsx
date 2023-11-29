@@ -56,9 +56,8 @@ function ActivitiesTable({ activityData }) {
 
     const deleteActivity = async (id) => {
         try {
-            await fetchDataPOST(
-                "/activities/deleteActivityById/",
-                { activity_id: id }
+            await fetchDataDELETE(
+                `/activity/${id}/`
             );
             router.refresh();
         } catch (err) {

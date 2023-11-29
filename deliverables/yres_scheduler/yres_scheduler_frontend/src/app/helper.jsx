@@ -72,6 +72,26 @@ export async function fetchDataPOST(route, item) {
     }
 }
 
+/**
+ * Helper function to make a DELETE request. Throws an error if the request fails
+ * or if the request returns a non 200 response.
+ * 
+ * Input:
+ *      route - a string representing the route from the base URI to send this request
+ *      item - the JSON item being sent
+ */
+export async function fetchDataDELETE(route) {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`;
+    const settings = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    }
+    const response = await fetch(url, settings);
+    if (response.status !== 200) {
+        throw new Error(`${response.status} Error: Something Wrong Happened!`)
+    }
+}
+
 export function sort_table_data(search, keyCol, data){
     var data_display = data;
     var search = search.toLowerCase();

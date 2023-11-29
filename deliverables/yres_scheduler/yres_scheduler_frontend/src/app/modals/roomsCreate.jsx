@@ -26,7 +26,7 @@ function RoomsCreate({ currCampus }) {
         e.preventDefault();
         try {
             await fetchDataPOST(
-                "/rooms/createRoom/",
+                "/room/create/",
                 {
                     name: e.target[0].value,
                     campus_id: currCampus.campus_id

@@ -94,7 +94,7 @@ function StudentEdit({item, show, setShow, students}) {
         event.preventDefault()
         try {
             await fetchDataPOST(
-                "/students/editStudentById/", 
+                `/student/${item._student_id}/edit`, 
                 {
                     student_id: item._student_id,
                     student_ui_id: event.target[0].value, 

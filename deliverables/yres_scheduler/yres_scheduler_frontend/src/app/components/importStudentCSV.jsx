@@ -10,7 +10,7 @@ function AddStudents(profiles, type){
     const addPreferences = async (prefs, type) => {
       for(const pref of prefs){
         console.log(pref);
-        await fetchDataPOST("/students/createFriends/",
+        await fetchDataPOST("/student/create/friends/",
         {   
             student_id: pref[0],
             other_student_ui_id: pref[1],
@@ -21,7 +21,7 @@ function AddStudents(profiles, type){
     }
     const addStudent = (student) =>{
         try {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/students/createStudent/"}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/"}`;
         const settings = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -51,7 +51,7 @@ function AddStudents(profiles, type){
   else{
     const counselors = profiles;
     counselors.forEach((counselor) => {
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/counselors/createCounselor/`, {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/counselor/create/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
