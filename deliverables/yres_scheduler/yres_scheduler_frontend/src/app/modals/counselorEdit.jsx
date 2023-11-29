@@ -19,7 +19,11 @@ import { useRouter } from 'next/navigation';
  **/
 function CounselorEdit({item, show, setShow}) {
     const router = useRouter();
-    const handleClose = () => setShow(false);
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    const handleClose = () => {
+        setErrorDisplay(<></>);
+        setShow(false)
+    };
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
@@ -34,7 +38,9 @@ function CounselorEdit({item, show, setShow}) {
             router.refresh();
             handleClose()
         } catch (err) {
-            //TODO: Display Error in component
+            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+            <p>{err}</p>
+            </Alert>)
             console.log(err);
         }
     }
@@ -44,6 +50,7 @@ function CounselorEdit({item, show, setShow}) {
             <Modal.Header closeButton>
             <Modal.Title>{"Edit Counselor"}</Modal.Title>
             </Modal.Header>
+            {errorDisplay}
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group
