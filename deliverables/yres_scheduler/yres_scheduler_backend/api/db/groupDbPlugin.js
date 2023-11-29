@@ -1,5 +1,12 @@
+/**
+ * This module implements DB operations for the group service.
+ * 
+ * @module api/db/groupDbPlugin
+ * 
+ * @requires api/entities/Group
+ * @requires api/db/db
+ */
 const Group = require("../entities/Group");
-const uuid = require('uuid');
 const { client } = require('./db');
 
 /**
@@ -21,8 +28,7 @@ function mapRowToGroup(row) {
  * Retrieves a group from the database by their ID.
  *
  * @param {string} group_id - The ID of the group to retrieve.
- * @returns {Promise<Group>} A retrieved group object
- * @throws {Error} If there was an error retrieving the group from the database.
+ * @returns {Group} A retrieved group object
  */
 async function getGroupById(group_id) {
 
@@ -31,35 +37,32 @@ async function getGroupById(group_id) {
     var counselor_ids = new Set();
     var camp_id;
 
-    return await new Promise((resolve, reject) => {
-        client.query(`Select * from CampGroup where camp_group_id = '${group_id}';`, (err, result)=>{
-            
-            if (err){
-                reject(err);
-            }
-
+    try {
+            var result = await client.query(`Select * from CampGroup where camp_group_id = '${group_id}';`);
+                
             if (result && result.rowCount > 0) {
                 schedule_id = result.rows[0].schedule_id;
                 camp_id = result.rows[0].camp_id;
             } else {
-                resolve(null);
+                return null;
             }
-        });
 
-        client.query(`Select student_id from Student where camp_group_id = '${group_id}';`, (err, result)=>{
+            result = await client.query(`Select student_id from Student where camp_group_id = '${group_id}';`);
+
             for (var i=0; i  < result.length; i++) {
                 student_ids.add(result.rows[i].student_id);
             }
-        });
 
-        client.query(`Select counselor_id from Counselor where camp_group_id = '${group_id}';`, (err, result)=>{
+            result = await client.query(`Select counselor_id from Counselor where camp_group_id = '${group_id}';`);
             for (var i=0; i  < result.length; i++) {
                 counselor_ids.add(result.rows[i].counselor_id);
             }
-        });
 
-        resolve(new Group(group_id, schedule_id, student_ids, counselor_ids, camp_id));
-    });
+
+            return new Group(group_id, schedule_id, student_ids, counselor_ids, camp_id);
+    } catch(err) {
+        throw new Error(err);
+    }
 }
 
 /**
@@ -68,7 +71,7 @@ async function getGroupById(group_id) {
  * @function getStudentIds
  * @param {Object} group - The group object for which to retrieve and store student ids.
  * @param {number} group.group_id - The ID of the group for which to retrieve and store student ids.
- * @throws {Error} Throws an error if there was an issue fetching student ids from the database.
+ * @returns true if operation is successful
  */
 async function getStudentIds(group) {  
     const queryGetStudentIds = `Select student_id from Student where camp_group_id = $1;`;  
@@ -82,22 +85,20 @@ async function getStudentIds(group) {
         });
 
         await Promise.all(promises);
+        return true;
 
-    } catch (error) {
-        // Handle errors appropriately
-        console.error('Error while fetching student ids:', error);
-        throw new Error('Failed to fetch student ids');
+    } catch (err) {
+        throw new Error(err);
     }
 
   }
 
 /**
  * Retrieves counselor ids from the database and adds them to the set of counselor ids for a given group.
- * @async
- * @function getCounselorIds
+ * 
  * @param {Object} group - The group object for which to retrieve and store counselor ids.
  * @param {number} group.group_id - The ID of the group for which to retrieve and store counselor ids.
- * @throws {Error} Throws an error if there was an issue fetching counselor ids from the database.
+ * @returns true if operation is successful
  */
   async function getCounselorIds(group) {  
       const queryGetCounselorIds = `Select counselor_id from Counselor where camp_group_id = $1;`;  
@@ -111,11 +112,10 @@ async function getStudentIds(group) {
           });
   
           await Promise.all(promises);
+          return true;
   
-      } catch (error) {
-          // Handle errors appropriately
-          console.error('Error while fetching counselor ids:', error);
-          throw new Error('Failed to fetch counselor ids');
+      } catch (err) {
+          throw new Error(err);
       }
   
     }
@@ -123,21 +123,12 @@ async function getStudentIds(group) {
 /**
  * Retrieves all CampGroups from the database and maps them to Group objects.
  * 
- * @returns {Promise<Array<Group>>} A promise that resolves with an array of Group objects.
+ * @returns {Array<Group>} An array of Group objects.
  */
-/* OLD QUERY IN CASE WE DO GET BY CAMPUS ID AGAIN
-`SELECT * 
-            FROM CampGroup 
-            WHERE EXISTS (
-                SELECT *
-                FROM Camp
-                WHERE CampGroup.camp_id = Camp.camp_id AND Camp.campus_id = '${campus_id}'
-                );`
-*/
 async function getAllGroups() {
 
     var all_groups;
-    return new Promise(async (resolve, reject) => {
+    try {
         const result = await new Promise((queryResolve, queryReject) => {
             client.query(`SELECT * FROM CampGroup;`, function (err, result) {
                 if (err) {
@@ -157,8 +148,10 @@ async function getAllGroups() {
             await getCounselorIds(group);
         }
 
-        resolve(all_groups);
-    });
+        return all_groups;
+    } catch(err) {
+        throw new Error(err);
+    }
 }
 
 /**
@@ -166,37 +159,38 @@ async function getAllGroups() {
  * @async
  * @function createGroup
  * @param {number} camp_id - The id of the camp in which to create the group object in the database.
- * @returns {Promise<boolean>} - A promise that resolves to true if the group was created successfully.
+ * @returns {boolean} - true if the group was created successfully.
  */
 async function createGroup(camp_id) {
-    //group_id = uuid.v1();
 
-    return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO CampGroup(camp_id) VALUES('${camp_id}');`, function (err, result) {
-            if (err){
-                reject(err);
-            }
+    try {
+        const result = await new Promise((resolve, reject) => {
+            client.query(`INSERT INTO CampGroup(camp_id) VALUES('${camp_id}');`, function (err, result) {
+                if (err){
+                    reject(err);
+                }
+                resolve(true);
+            });
         });
-
-        resolve(true);
-    });
+        return true;
+    } catch (err) {
+        throw new Error(err);
+    }
 }
 
 /**
  * Deletes all CampGroups in the database.
- * @async
- * @function deleteAllGroups
- * @returns {Promise<boolean>} - Returns a Promise that resolves to true if the deletion succeeded.
+ * 
+ * @returns {boolean} - Returns a Promise that resolves to true if the deletion succeeded.
  */
 async function deleteAllGroups() {
-    return new Promise((resolve, reject) => {
-        client.query(`DELETE FROM CampGroup;`, function (err, result) {
-            if (err){
-                reject(err);
-            }
-        });
-        resolve(true);
-    });
+    try {
+        await client.query(`DELETE * FROM CampGroup;`);
+        return true;
+    } catch(err) {
+        throw new Error(err);
+    }
+    
 }
 
 

@@ -41,7 +41,7 @@ async function createRoom(
     campus_id) {
 
     try {
-        return await db.createRoom(uuid.v1(), name, campus_id);
+        return await db.createRoom(name, campus_id);
     } catch(err) {
         throw new RoomServiceError(
             `DB Operation Failure: ${err}`,

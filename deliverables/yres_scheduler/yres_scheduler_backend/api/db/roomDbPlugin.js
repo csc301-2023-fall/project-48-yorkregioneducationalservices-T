@@ -1,5 +1,14 @@
+/**
+ * This module implements the DB operations for the room service.
+ * 
+ * @module api/db/roomDbPlugin
+ * 
+ * @requires api/entities/Room
+ * @requires api/db/db
+ */
+
 const Room = require("../entities/Room");
-const { client } = require('./db')
+const { client } = require('./db');
 
 /**
  * Maps a row from the room table to a Room object.
@@ -21,25 +30,20 @@ function mapRowToRoom(row) {
  *  @returns an array of Room objects with the given campus_id. Empty array is returned if the campus_id does not exist.
  */
 async function getRoomsByCampusId(campus_id) {
-    const queryGetAllRooms = `SELECT * FROM Room WHERE campus_id = $1;`;
+    const query = `SELECT * FROM Room WHERE campus_id = $1;`;
     
-    var all_rooms;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(queryGetAllRooms, [campus_id], (err, result) => {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
+    try {
+        var all_rooms;
+        const result = await client.query(query, [campus_id]);
         const rows = result.rows;
 
         all_rooms = rows.map(mapRowToRoom);
 
-        resolve(all_rooms);
-    });
+        return all_rooms;
+    } catch(err) {
+        throw new Error(err);
+    }
+        
 }
 
 /** Get all rooms from the database.
@@ -47,25 +51,20 @@ async function getRoomsByCampusId(campus_id) {
  * @returns an array of all Room objects in the database.
  */
 async function getAllRooms() {
-    const queryGetAllRooms = `SELECT * FROM Room;`;
+    const query = `SELECT * FROM Room;`;
     
-    var all_rooms;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(queryGetAllRooms, (err, result) => {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
+    try {
+        var all_rooms;
+        const result = await client.query(query);
         const rows = result.rows;
 
         all_rooms = rows.map(mapRowToRoom);
 
-        resolve(all_rooms)
-    });
+        return all_rooms;
+    } catch(err) {
+        throw new Error(err);
+    }
+        
 }
 
 /** Write a Room to database.
@@ -84,8 +83,7 @@ async function createRoom(name, campus_id) {
         const result = await client.query(query, [name, campus_id]);
         return true;
     } catch (err) {
-        console.log(err);
-        return false; 
+        throw new Error(err);
     }
 }
 
@@ -105,11 +103,15 @@ async function deleteRoomById(room_id) {
         }
         return true;
     } catch (err) {
-        console.log(err);
-        return false;
+        throw new Error(err);
     }
 }
 
+/** Delete a Room from database with given room_id.
+ * 
+ * @param {number} room_id - room id number.
+ * @returns true if deleted successfully.
+ */
 async function editRoomById(room) {
     const query = `
         UPDATE Room
@@ -126,8 +128,7 @@ async function editRoomById(room) {
         }
         return true;
     } catch (err) {
-        console.log(err);
-        return false;
+        throw new Error(err);
     }
 }
 
