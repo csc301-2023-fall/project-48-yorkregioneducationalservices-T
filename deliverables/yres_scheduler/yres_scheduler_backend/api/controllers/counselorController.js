@@ -39,14 +39,14 @@ async function createCounselor(req, res) {
     const lastname = req.body.lastname;
 
     // Check paramaters are valid
-    if (!campus_id || !firstname || !lastname) {
+    if (!firstname || !lastname) {
         throw new CounselorServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
         );
     }
 
-    const status = await counselorService.createCounselor(firstname, lastname, campus_id);
+    const status = await counselorService.createCounselor(firstname, lastname);
 
     res.status(STATUS_CODES.CREATED);
 
