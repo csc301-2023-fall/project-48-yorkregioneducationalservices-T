@@ -75,7 +75,7 @@ async function getAllCounselors() {
  * @param {number} counselor.campus_id - The ID of the campus the counselor is associated with.
  * @returns {boolean} - true if the counselor was created successfully
  */
-async function createCounselor(counselor) {
+async function createCounselor(firstname, lastname, campus_id) {
     const query = `
         INSERT INTO Counselor (firstname, lastname, campus_id)
         VALUES ($1, $2, $3)
@@ -85,9 +85,9 @@ async function createCounselor(counselor) {
     logger.debug(`Function ${functionName}: Creating a new counselor in the database.`);
     try {
         const result = await client.query(query, [
-            counselor.firstname,
-            counselor.lastname,
-            counselor.campus_id,
+            firstname,
+            lastname,
+            campus_id,
         ]);
         return true;
     } catch (err) {

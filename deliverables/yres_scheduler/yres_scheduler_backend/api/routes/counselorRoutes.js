@@ -46,7 +46,7 @@ const counselorRoutes = (app) => {
      * @param {Object} res - The Express response object.
      */
     .post('/counselor/:counselor_id/edit', auth, async (req, res) => {
-        logger.info(`POST /counselor/edit/`);
+        logger.info(`POST /counselor/:counselor_id/edit/`);
         const result = await counselorController.editCounselorById(req, res);
         res.send(result);
     })
@@ -59,7 +59,7 @@ const counselorRoutes = (app) => {
      * @param {Object} res - The Express response object.
      */
     .delete('/counselor/:counselor_id', auth, async (req, res) => {
-        logger.info(`POST /counselors/deleteCounselorById/`);
+        logger.info(`POST /counselors/:counselor_id`);
         const result = await counselorController.deleteCounselorById(req, res);
         res.send(result);
     })

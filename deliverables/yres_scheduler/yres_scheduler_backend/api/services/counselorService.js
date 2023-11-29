@@ -33,9 +33,9 @@ async function getAllCounselors() {
  * @param {Object} counselor - The counselor object to be created.
  * @returns {Object} - The response object from the database.
  */
-async function createCounselor(counselor) {
+async function createCounselor(firstname, lastname, campus_id) {
     try {
-        return await db.createCounselor(counselor);
+        return await db.createCounselor(firstname, lastname, campus_id);
     } catch(err) {
         throw new CounselorServiceError(
             `DB Operation Failure: ${err}`,

@@ -35,17 +35,19 @@ async function getAllCounselors(req, res) {
  */
 async function createCounselor(req, res) {
     
-    const counselor = req.body;
+    const campus_id = req.params.campus_id;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
 
     // Check paramaters are valid
-    if (!counselor) {
+    if (!campus_id || !firstname || !lastname) {
         throw new CounselorServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
         );
     }
 
-    const status = await counselorService.createCounselor(counselor);
+    const status = await counselorService.createCounselor(firstname, lastname, campus_id);
 
     res.status(STATUS_CODES.CREATED);
 
@@ -66,7 +68,7 @@ async function editCounselorById(req, res) {
     const lastname = req.body.lastname;
 
     // Check paramaters are valid
-    if (!counselor) {
+    if (!counselor_id || !firstname || !lastname) {
         throw new CounselorServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
