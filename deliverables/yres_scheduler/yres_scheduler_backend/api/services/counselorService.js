@@ -50,9 +50,9 @@ async function createCounselor(counselor) {
  * @param {Object} counselor - The counselor object to be edited.
  * @returns {Object} - The response object from the database.
  */
-async function editCounselorById(counselor) {
+async function editCounselorById(counselor_id, firstname, lastname) {
     try {
-        return await db.editCounselorById(counselor);
+        return await db.editCounselorById(counselor_id, firstname, lastname);
     } catch(err) {
         throw new CounselorServiceError(
             `DB Operation Failure: ${err}`,

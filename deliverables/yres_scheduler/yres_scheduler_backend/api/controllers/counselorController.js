@@ -61,8 +61,9 @@ async function createCounselor(req, res) {
  * @returns {Object} - An object containing the status of the operation.
  */
 async function editCounselorById(req, res) {
-
-    const counselor = req.body;
+    const counselor_id = req.params.counselor_id;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
 
     // Check paramaters are valid
     if (!counselor) {
@@ -72,7 +73,7 @@ async function editCounselorById(req, res) {
         );
     }
 
-    const status = await counselorService.editCounselorById(counselor);
+    const status = await counselorService.editCounselorById(counselor_id, firstname, lastname);
 
     res.status(STATUS_CODES.SUCCESS);
 

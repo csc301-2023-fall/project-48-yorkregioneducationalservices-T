@@ -39,13 +39,13 @@ const counselorRoutes = (app) => {
     })
     /**
      * POST endpoint that edits an existing counselor by ID.
-     * @name POST /counselor/edit/
+     * @name POST /counselor/:counselor_id/edit
      * @memberof module:/routes/counselorRoutes
      * @async
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/counselor/edit', auth, async (req, res) => {
+    .post('/counselor/:counselor_id/edit', auth, async (req, res) => {
         logger.info(`POST /counselor/edit/`);
         const result = await counselorController.editCounselorById(req, res);
         res.send(result);

@@ -105,7 +105,7 @@ async function createCounselor(counselor) {
  * @param {number} counselor.counselor_id - The unique ID of the counselor to be updated.
  * @returns {boolean} - true if the update was successful, false otherwise.
  */
-async function editCounselorById(counselor) {
+async function editCounselorById(counselor_id, firstname, lastname) {
     const query = `
         UPDATE Counselor
         SET

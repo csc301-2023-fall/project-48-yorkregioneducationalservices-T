@@ -1,6 +1,17 @@
-const scheduleService = require('../controllers/scheduleController');
+/**
+ * This module specifies the routes for request endpoints in the campus Service.
+ * 
+ * @param {Object} [app] The express application
+ * 
+ * @module api/routes/campusRoutes
+ * @requires api/controllers/campusController
+ * @requires api/middleware/errorHandler
+ * @requires api/middleware/authHandler
+ */
+const scheduleController = require('../controllers/scheduleController');
+const auth = require('../middleware/authHandler');
 
-module.exports = (app) => {
+const scheduleRoutes = (app) => {
     /**
      * Route to generate a new schedule.
      * @name POST /schedule/generate/
@@ -8,12 +19,11 @@ module.exports = (app) => {
      * @memberof module:routes/scheduleRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the generateSchedule function.
      */
-    app.get('/schedule/generate/', async (req, res) => {
+    app.get('/schedule/generate/', auth, async (req, res) => {
         var result;
         try {
-            result = await scheduleService.generateSchedule(req, res)
+            result = await scheduleController.generateSchedule(req, res)
         } catch(err) {
             res.status(500).send({error: err.message});
         }
@@ -22,15 +32,16 @@ module.exports = (app) => {
 
     /**
      * Route to get all schedules (should be only one).
-     * @name GET /schedule/getAll/
+     * @name GET /schedule/all/
      * @function
      * @memberof module:routes/scheduleRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the getAllSchedules function.
      */
-    .get('/schedule/getAll/', async (req, res) => {
-        const all_schedules = await scheduleService.getAllSchedules(req, res);
+    .get('/schedule/all/', auth, async (req, res) => {
+        const all_schedules = await scheduleController.getAllSchedules(req, res);
         res.send(all_schedules);
     });
 };
+
+module.exports = scheduleRoutes;

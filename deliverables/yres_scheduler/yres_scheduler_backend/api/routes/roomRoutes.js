@@ -56,7 +56,7 @@ const roomRoutes = (app) => {
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      */
-    .post('/rooms/edit', auth, async (req, res) => {
+    .post('/room/:room_id/edit', auth, async (req, res) => {
         const resp = await roomController.editRoomsById(req, res);
         res.send(resp);
     });
