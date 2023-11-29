@@ -55,7 +55,7 @@ async function createRoom(
  *
  * @returns {boolean} - Whether operation succeeded
  */
-async function editRoomById(oom_id, room_name) {
+async function editRoomById(room_id, room_name) {
 
     try {
         return await db.editRoomById(oom_id, room_name);

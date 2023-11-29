@@ -132,9 +132,6 @@ async function editRoomById(room_id, room_name) {
     }
 }
 
-
-
-
 module.exports = {
     createRoom,
     getRoomsByCampusId,
