@@ -1,5 +1,7 @@
+const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
+// const tempTest = require("./temptest");
 
 class Block {
     constructor(room_id, activity, day, time) {
@@ -40,6 +42,7 @@ function convertFromActivities(activities) {
 		activityLs.push(new ActivityL(activities[a].activity_id, activities[a].name, activities[a].duration, activities[a].type,
             activities[a].num_occurences, activities[a].rooms, activities[a].camp_id));
 	}
+    return activityLs;
 }
 // THESE MIGHT BE REMOVED OR MOVED TO CONFIG LATER
 const DAY = 5;
@@ -60,7 +63,7 @@ async function scheduleCall(students, counselors, activities, rooms) {
     var groups = await gs.groupCall(counselors, students);
     console.log("Grouping complete");
     console.log("Start scheduling algorithm...");
-    var activityLs = convertFromActivities(activities);
+    var activityLs = await convertFromActivities(activities);
     var room_ids = [];
     for (let r = 0; r < rooms.length; r++) {
         room_ids.push(rooms[r].room_id);

@@ -84,7 +84,6 @@ create table Student (
     sex text not null,
     camp_group_id uuid references CampGroup,
     campus_id uuid references Campus
-    
 );
 
 
@@ -171,3 +170,5 @@ create table Block (
     schedule_id uuid references Schedule 
 );
 
+insert into Campus (campus_id, name) values ('2d81de06-86b2-4bf4-84d2-8b002898936b', 'Campus 1');
+insert into Camp (camp_id, name, campus_id) values ('2d81de06-86b2-4bf4-84d2-8b002898936b', 'Camp 1', '2d81de06-86b2-4bf4-84d2-8b002898936b');

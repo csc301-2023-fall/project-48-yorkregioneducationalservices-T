@@ -45,6 +45,7 @@ function convertFromStudents(students) {
 		}
 		studentLs.push(new StudentL(students[s].student_id, students[s].sex, students[s].friend_ids, students[s].campus_id)); // TODO: TODO: to be replaced by camp_type
 	}
+	return studentLs;
 }
 
 /** Converter between Counselor entity class and local CounselorL class.
@@ -64,6 +65,7 @@ function convertFromCounselors(counselors) {
 		}
 		counselorLs.push(new CounselorL(counselors[c].counselor_id, counselors[c].campus_id));
 	}
+	return counselorLs;
 }
 // =============== GROUPING API CALL ========================
 /** Schedule algorithm calls this function to generate group first
@@ -71,9 +73,9 @@ function convertFromCounselors(counselors) {
  * @param {Array} counselors - list of Counselor entities.
  * @param {Array} students - list of Student entities.
  */
-function groupCall(counselors, students) {
-	var counselorLs = convertFromCounselors(counselors);
-	var studentLs = convertFromStudents(students);
+async function groupCall(counselors, students) {
+	var counselorLs = await convertFromCounselors(counselors);
+	var studentLs = await convertFromStudents(students);
 	generateGroups(counselorLs, studentLs);
 }
 
@@ -127,7 +129,7 @@ function generateGroups(counselors, students) {
 	}
 	// 1.3. Auto-fill process
 	for (let t = 0; t < camp_types.length; t++) {
-		// Fill counselors to the type of camp until enough
+		// Fill counselors to the type of camp until enough)
 		while (counselors_by_type[t].length < num_groups_per_type[t] * NUM_COUNSELOR) {
 			const fill = tbd.pop();
 			// No counselor is available to fill, raise error
