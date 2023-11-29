@@ -102,10 +102,10 @@ async function createStudent(req, res) {
     const lastname = req.body.lastname;
     const age = req.body.age;
     const sex = req.body.sex;
-    const friend_ids = req.body.friend_ids;
-    const enemy_ids = req.body.enemy_ids;
+    const friend_ids = req.body.friend_ids || "";
+    const enemy_ids = req.body.enemy_ids || "";
 
-    if (!student) {
+    if (!student_ui_id || !firstname || !lastname || !age || !sex) {
         throw new StudentServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
@@ -141,6 +141,13 @@ async function createStudentsFromList(req, res) {
     const students = req.body;
     logger.debug(`createStudentsFromList: `, students);
 
+    if (!students) {
+        throw new StudentServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
+
     const failed_students = []; // Initialize an array to store failed student IDs
 
     await Promise.all(students.map(async student => {
@@ -175,10 +182,10 @@ async function editStudentById(req, res) {
     const lastname = req.body.lastname;
     const age = req.body.age;
     const sex = req.body.sex;
-    const enemy_ids = req.body.enemy_ids;
-    const friend_ids = req.body.friend_ids;
+    const enemy_ids = req.body.enemy_ids || "";
+    const friend_ids = req.body.friend_ids || "";
 
-    if (!student_id || !student_ui_id || !firstname || !lastname || !age || !sex || !enemy_ids || !friend_ids) {
+    if (!student_id || !student_ui_id || !firstname || !lastname || !age || !sex) {
         throw new StudentServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID

@@ -37,7 +37,7 @@ jobs:
             npm install
             # Start the server and wait until a specific output is available
             nohup sudo node server.js > /dev/null 2>&1 &
-            while ! curl -s http://localhost:1234/students/getAllStudents >/dev/null; do sleep 1; done
+            while ! curl -s http://localhost:1234/student/all >/dev/null; do sleep 1; done
       
       - name: Wait for backend server deployment to Complete
         run: sleep 5s
@@ -49,5 +49,5 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            curl -I http://localhost:1234/students/getAllStudents/
+            curl -I http://localhost:1234/student/all/
 

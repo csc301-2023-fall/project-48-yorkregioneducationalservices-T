@@ -267,7 +267,7 @@ async function createStudent(
     `;
 
     const functionName = createStudent.name; // Get the name of the current function for logging purposes
-    logger.debug(`Function ${functionName}: Creating student in the studentDbPlugin`, { student_id });
+    logger.debug(`Function ${functionName}: Creating student in the studentDbPlugin`, { student_ui_id });
     
     try {
         const result = await client.query(query, [
@@ -281,7 +281,7 @@ async function createStudent(
         //Insert student friend preferences
         const student_id = parseInt(result.rows[0].student_id);
         friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
-            insertFriendPreferences(student_id, friend_ui_id, false);
+            await insertFriendPreferences(student_id, friend_ui_id, false);
         });
         enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
         });

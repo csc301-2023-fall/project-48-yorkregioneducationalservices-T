@@ -73,20 +73,20 @@ const studentRoutes = (app) => {
 
 /**
      * Route to create a new student from a json list.
-     * @name POST /students/create/fromlist/
+     * @name POST /student/create/fromlist/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to a string indicating success or failure.
      */
-    .post('/students/create/fromlist/', auth, async (req, res) => {
+    .post('/student/create/fromlist/', auth, async (req, res) => {
         try {
-            logger.info(`POST /students/create/fromlist/`);
+            logger.info(`POST /student/create/fromlist/`);
             const resp = await studentController.createStudentsFromList(req, res);    
             res.status(resp.status).send(resp);
         } catch (error) {
-            logger.error(`Error in GET /students/fromlist/: `, error);
+            logger.error(`Error in GET /student/fromlist/: `, error);
             res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
@@ -108,14 +108,14 @@ const studentRoutes = (app) => {
 
     /**
      * Route to add a friend preference by Id.
-     * @name POST /students/editStudentById/
+     * @name POST /student/editStudentById/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the editStudentById function.
      */
-    .post('/students/create/friends/', async (req, res) => {
+    .post('/student/create/friends/', async (req, res) => {
         logger.info(`POST /student/create/friends/`);
         const resp = await studentController.addFriendPreference(req, res);
         res.send(resp);

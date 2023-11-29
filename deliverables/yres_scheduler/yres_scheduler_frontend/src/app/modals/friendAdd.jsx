@@ -29,7 +29,7 @@ function FriendsCreate({show, setShow, studentData}) {
                         try {
                             console.log(friendsList);
                             await fetchDataPOST(
-                                "/students/create/friends/",
+                                "/student/create/friends/",
                                 {   
                                     student_id: friendsList[i]._student_id,
                                     other_student_ui_id: friendsList[j]._student_ui_id,
