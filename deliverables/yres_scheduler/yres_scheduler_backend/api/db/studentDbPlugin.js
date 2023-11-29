@@ -247,7 +247,9 @@ async function createStudent(
     firstname,
     lastname,
     age,
-    sex
+    sex,
+    enemy_ids,
+    friend_ids
 ) {
 
     const query = `
@@ -265,7 +267,7 @@ async function createStudent(
             firstname,
             lastname,
             age,
-            sex,
+            sex
         ]);
         //Insert student friend preferences
         const student_id = parseInt(result.rows[0].student_id);

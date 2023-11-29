@@ -87,18 +87,24 @@ async function getStudentByUiId(student_ui_id) {
  * @returns {Object} - The newly created student object.
  */
 async function createStudent(
+    student_id,
     student_ui_id,
     firstname,
     lastname,
     age,
-    sex) {
+    sex,
+    enemy_ids,
+    friend_ids) {
     try {
         const resp = await db.createStudent(
+            student_id,
             student_ui_id,
             firstname,
             lastname,
             age,
-            sex);
+            sex,
+            enemy_ids,
+            friend_ids);
         return resp;
     } catch(err) {
         throw new StudentServiceError(
