@@ -87,7 +87,6 @@ async function getStudentByUiId(student_ui_id) {
  * @returns {Object} - The newly created student object.
  */
 async function createStudent(
-    student_id,
     student_ui_id,
     firstname,
     lastname,
@@ -97,7 +96,6 @@ async function createStudent(
     enemy_ids) {
     try {
         const resp = await db.createStudent(
-            student_id,
             student_ui_id,
             firstname,
             lastname,

@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import { fetchDataPOST } from '../helper';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 /**
  * Editing Modal for Counselors
  *class Counselor {
