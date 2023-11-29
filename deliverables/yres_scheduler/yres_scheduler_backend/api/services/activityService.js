@@ -9,7 +9,6 @@
 
 const db = require('../db/activityDbPlugin');
 const {ActivityServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
-const uuid = require('uuid');
 
 /**
  * Retrieves all activity entities from the database.

@@ -40,7 +40,7 @@ async function createRoom(req, res) {
         );
     }
 
-    var succeed = await roomService.createRoom(uuid.v1(), name, campus_id);
+    var succeed = await roomService.createRoom(name, campus_id);
     res.status(STATUS_CODES.CREATED);
 
     return {
