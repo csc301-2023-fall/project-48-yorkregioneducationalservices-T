@@ -5,12 +5,10 @@
  * 
  * @requires api/db/roomDbPlugin
  * @requires api/entities/ServiceErrors
- * @requires uuid
  */
 
 const db = require('../db/roomDbPlugin');
 const {RoomServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
-const uuid = require('uuid');
 
 /**
  * Retrieves all room entities from the database.

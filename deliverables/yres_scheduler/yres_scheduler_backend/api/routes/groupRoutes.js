@@ -55,14 +55,14 @@ const groupRoutes = (app) => {
 
     /**
      * Route to delete all groups.
-     * @name GET /group/deleteAll/
+     * @name GET /group/all/
      * @function
      * @memberof module:routes/groupRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the deleteAllGroups function.
      */
-    .delete('/group/deleteAll/', auth, async (req, res) => {
+    .delete('/group/all/', auth, async (req, res) => {
         const status = await groupController.deleteAllGroups(req, res);
         res.send(status);
     });
