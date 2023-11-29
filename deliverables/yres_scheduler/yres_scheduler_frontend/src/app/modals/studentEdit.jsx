@@ -7,9 +7,6 @@ import { validRelationship, process_comma_separated_text, fetchDataPOST  } from 
 import { FaMinus } from 'react-icons/fa';
 import { OverlayTrigger } from 'react-bootstrap';
 import { Tooltip } from 'react-bootstrap';
-import { FaMinus } from 'react-icons/fa';
-import { OverlayTrigger } from 'react-bootstrap';
-import { Tooltip } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
 import YresTable from '../components/table';
 

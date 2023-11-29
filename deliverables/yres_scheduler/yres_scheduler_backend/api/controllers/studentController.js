@@ -259,30 +259,6 @@ async function addFriendPreference(req, res){
     };
 }
 
-/**
- * Adds a friend preference by UI ID.
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @returns {Object} - An object containing a status message.
- */
-async function addFriendPreference(req, res){
-    const friends = req.body
-    if (!friends) {
-        throw new StudentServiceError(
-            `Invalid paramaters provided for request`,
-            STATUS_CODES.INVALID
-        );
-    }
-
-    const status = await studentService.addFriendPreference(friends);
-
-    res.status(STATUS_CODES.SUCCESS);
-
-    return {
-        status: status
-    };
-}
-
 module.exports = {
     getAllStudents,
     getStudentById,
