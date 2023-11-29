@@ -105,6 +105,22 @@ const studentRoutes = (app) => {
         const resp = await studentController.editStudentById(req, res);
         res.send(resp);
     })
+
+    /**
+     * Route to add a friend preference by Id.
+     * @name POST /students/editStudentById/
+     * @function
+     * @memberof module:routes/studentRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     * @returns {Promise} A Promise that resolves to the result of the editStudentById function.
+     */
+    .post('/students/createFriends/', async (req, res) => {
+        logger.info(`POST /student/createFriends/`);
+        const resp = await studentService.addFriendPreference(req, res);
+        res.send(resp);
+    })
+
     /**
      * Route to delete a student by ID.
      * @name POST /student/:student_id/

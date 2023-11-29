@@ -3,6 +3,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 
 /**
  * Editing Modal for Rooms
@@ -22,6 +24,7 @@ import { useRouter } from 'next/navigation';
  * */
 function RoomsEdit({item, show, setShow}) {
     const router = useRouter();
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
     const handleClose = () => setShow(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,17 +44,18 @@ function RoomsEdit({item, show, setShow}) {
             router.refresh();
             handleClose()
         } catch (err) {
-            //TODO: Display Error in component
-            console.log(err);
+            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+            <p>{"Error: " + err.message}</p>
+            </Alert>)
         }
     }
-  
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
             <Modal.Title>{"Edit Room"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {errorDisplay}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group
                     className="mb-3"

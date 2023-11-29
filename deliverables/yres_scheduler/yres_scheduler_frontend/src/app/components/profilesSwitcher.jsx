@@ -7,7 +7,9 @@ import RefinedDropdown from '@/app/components/refinedDropDowns';
 import StudentAdd from '@/app/modals/studentAdd'
 import CounselorAdd from '@/app/modals/counselorAdd'
 import { useState } from 'react';
-import StudentCSV from '@/app/components/importStudentCSV';
+import StudentImport from '../modals/importStudent';
+import FriendsCreate from '../modals/friendAdd';
+import EnemiesCreate from '../modals/enemyAdd';
 
 const PROFILE_TYPES = ['Student', 'Counselor']
 
@@ -15,15 +17,49 @@ const PROFILE_TYPES = ['Student', 'Counselor']
  * Toggles profile page to show either Students or Counselors
 **/
 function ProfilesSwitcher({ studentData, counselorData }) {
-    const [currType, setCurrType] = React.useState(PROFILE_TYPES[0]);
+    const [currType, setCurrType] = useState(PROFILE_TYPES[0]);
     const handleSelectType = (e) => {
         setCurrType(e);
     }
-    
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(true);
     };
+    const [showFriends, setShowFriends] = useState(false);
+    const handleShowFriends = () => {
+        setShowFriends(true);
+    };
+    const [showEnemies, setShowEnemies] = useState(false);
+    const handleShowEnemies = () => {
+        setShowEnemies(true);
+    };
+    const [showCSV, setShowCSV] = useState(false);
+    const handleShowCSV = () => {
+        setShowCSV(true);
+    };
+
+    const handleActionsSelect = (e) => {
+        switch(e){
+            case "New Student":
+                handleShow();
+                break;
+            case "Create Friends":
+                handleShowFriends();
+                break;
+            case "Create Enemies":
+                handleShowEnemies();
+                break;
+            case "New Counselor":
+                handleShow();
+                break;
+            case "Import from CSV":
+                console.log("item");
+                handleShowCSV();
+                break;
+        }
+    }
+    const profile_actions = ["New Student", "Create Friends", "Create Enemies", "Import from CSV"];
+    const profile_actions_counselor = ["New Counselor"];
     return (
         <>
             <div id='profiles-header'>
@@ -32,21 +68,47 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                     displayText={currType}
                     groups={PROFILE_TYPES}
                 />
-                <StudentCSV type={currType}/>
+                <StudentImport 
+                    show={showCSV}
+                    setShow={setShowCSV}
+                    type={currType}
+                />
                 <div className='right-align'>
-                    <Button variant="primary" onClick={handleShow}>Add {currType}</Button>
                     {currType === PROFILE_TYPES[0] 
-                    ? <StudentAdd
+                    ? <>
+                    <RefinedDropdown
+                    handleSelect={handleActionsSelect}
+                    displayText = "Manage Profiles"
+                    groups = {profile_actions}   
+                    />
+                    <StudentAdd
                         show={show}
                         setShow={setShow}
                         item={{}}
                         students={studentData}
                         />
-                    : <CounselorAdd
+                        <FriendsCreate
+                        show={showFriends}
+                        setShow={setShowFriends}
+                        studentData={studentData}
+                        />
+                        <EnemiesCreate
+                        show={showEnemies}
+                        setShow={setShowEnemies}
+                        studentData={studentData}
+                        />
+                    </>
+                    : <>
+                        <CounselorAdd
                         show={show}
                         setShow={setShow}
                         item={{}}
-                        />}
+                        />
+                        <RefinedDropdown
+                        handleSelect={handleActionsSelect}
+                        displayText = "Manage Profiles"
+                        groups = {profile_actions_counselor}   
+                        /></>}
                     
                 </div>
             </div>

@@ -14,7 +14,9 @@ import {useState, useEffect} from 'react';
 }
 **/
 function YresTable(props) {
-  const { keyCol, data, columns, rowEvents_const, disableHover } = props;
+  const { keyCol, data, columns, rowEvents_const, disableHover, friend_table, disablesearch} = props;
+  var container_type = "";
+  friend_table ? container_type = "friend-table-container" :  container_type = "table-container";
   const [search, setSearch] = useState("");
   let rowEvents = rowEvents_const;
   const TCols = columns.map((item) => item.dataField);
@@ -31,15 +33,16 @@ function YresTable(props) {
 		return <Loading/>;
 	}
   const handleSearch = (event) => {
-    console.log("here");
     setSearch(event.target.value);
   };
   return (
-    <div className='table-container'>
-      <label htmlFor="search">
-        Search:
-        <input id="search" type="text" onChange={handleSearch} />
-      </label>
+    <div className={container_type}>
+      {!disablesearch ?
+          <label htmlFor="search">
+            Search:
+            <input id="search" type="text" onChange={handleSearch} />
+        </label>:<></>
+    }
       <Table striped bordered hover={!disableHover }>
         <thead className='table-header'>
           <tr>

@@ -99,7 +99,7 @@ export default function Schedule({schedule, generateSchedule}) {
                 Export to CSV
             </CSVLink>
             </div>
-            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } />
+            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } disablesearch={true}/>
             <SideBarWrapper/>
         </div>
     );

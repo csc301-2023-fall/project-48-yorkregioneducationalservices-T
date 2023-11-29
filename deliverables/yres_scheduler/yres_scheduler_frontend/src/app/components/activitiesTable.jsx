@@ -9,6 +9,7 @@ import { BsTrash } from 'react-icons/bs';
 import ActivityEdit from '../modals/activityEdit';
 import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
+import Alert from 'react-bootstrap/Alert';
 
 /** 
  * Activities Table that displays:
@@ -22,6 +23,7 @@ import { useRouter } from 'next/navigation';
 */
 function ActivitiesTable({ activityData }) {
     const router = useRouter();
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         activity_id: -1,
@@ -60,8 +62,9 @@ function ActivitiesTable({ activityData }) {
             );
             router.refresh();
         } catch (err) {
-            //TODO: Display Error in component
-            console.log(err);
+            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+            <p>{"Error: " + err.message}</p>
+            </Alert>)
         }
     }
 
@@ -94,6 +97,7 @@ function ActivitiesTable({ activityData }) {
     });
     return (
         <>
+            {errorDisplay}
             <YresTable keyCol={'activity_id'} data={activityData} columns={columns} disableHover={true}/>
             <ActivityEdit
                 item={editItem}

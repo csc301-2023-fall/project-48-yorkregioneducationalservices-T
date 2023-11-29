@@ -24,18 +24,19 @@ import { useRouter } from 'next/navigation';
         students - a list of all student objects with attributes described above
  * */
 function StudentAdd({show, setShow, item, students}) {
-    const [error, setError] = useState(<></>);
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
     const router = useRouter();
     const handleClose = () => {
-        setError(<></>)
+        setErrorDisplay(<></>)
         setShow(false)
     };
     const handleSubmit = async (event) => {
         event.preventDefault()
-        let friends = event.target[5].value;
-        let enemies = event.target[6].value;
-        if (validRelationship(friends, "Friends", setError, students) && validRelationship(enemies, "Enemies", setError, students)){
             try {
+                if(parseInt(event.target[3].value) < 1){
+                    throw "Age too small.";
+                }
+                else{
                 await fetchDataPOST(
                     "/students/createStudent/", 
                     {
@@ -44,17 +45,19 @@ function StudentAdd({show, setShow, item, students}) {
                         lastname: event.target[2].value, 
                         age: event.target[3].value, 
                         sex: event.target[4].value,
-                        friend_ids: process_comma_separated_text(event.target[5].value),
-                        enemy_ids: process_comma_separated_text(event.target[6].value),
+                        friend_ids: "",
+                        enemy_ids: "",
                     }
                 )
+                }
                 router.refresh();
                 handleClose()
             } catch (err) {
-                //TODO: Display Error in component
                 console.log(err);
+                setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+                <p>{err.message}</p>
+                </Alert>);
             }
-        }
     }
   
     return (
@@ -62,6 +65,7 @@ function StudentAdd({show, setShow, item, students}) {
             <Modal.Header closeButton>
             <Modal.Title>{"Add a Student"}</Modal.Title>
             </Modal.Header>
+            {errorDisplay}
             <Modal.Body>
                <Form onSubmit={handleSubmit}>
                     <Form.Group
@@ -115,27 +119,6 @@ function StudentAdd({show, setShow, item, students}) {
                         defaultValue={item.sex}
                     />
                     </Form.Group>
-                    <Form.Group
-                    className="mb-3"
-                    controlId="studentForm.ControlFriends"
-                    >
-                    <Form.Label>Friend IDs (please seperate by commas)</Form.Label>
-                    <Form.Control
-                        type="text"
-                        defaultValue={item.friends_id}
-                    />
-                    </Form.Group>
-                    <Form.Group
-                    className="mb-3"
-                    controlId="studentForm.ControlEnemies"
-                    >
-                    <Form.Label>Enemie IDs (please seperate by commas)</Form.Label>
-                    <Form.Control
-                        type="text"
-                        defaultValue={item.enemy_id}
-                    />
-                    </Form.Group>
-                    {error}
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
