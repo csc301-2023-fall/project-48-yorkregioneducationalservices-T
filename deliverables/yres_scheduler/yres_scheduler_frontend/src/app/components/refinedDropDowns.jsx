@@ -11,8 +11,8 @@ function RefinedDropdown({handleSelect, displayText, groups}) {
   
     return (
       <Dropdown onSelect={handleSelect}>
+        <Button variant="light" className="black-border"> {displayText}</Button>
           <Dropdown.Toggle split variant="secondary" className="black-border" id="dropdown-arrow">
-            <Button variant="light" className="black-border"> {displayText}</Button>
           </Dropdown.Toggle>
           <Dropdown.Menu>
               {Array.from(groups).map((val) => {

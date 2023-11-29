@@ -3,16 +3,26 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 // GET students frontend server side
 async function getStudents() {
+    try{
     const res = await fetch(`${URI}/students/getAllStudents/`, { cache: 'no-store' });
     const data = await res.json();
     return data.result;
+    }
+    catch{
+        return [];
+    }
 }
 
 // GET counselors frontend server side
 async function getCounselors() {
+    try{
     const res = await fetch(`${URI}/counselors/getAllCounselors/`, { cache: 'no-store' });
     const data = await res.json();
     return data.result;
+    }
+    catch{
+        return [];
+    }
 }
 
 

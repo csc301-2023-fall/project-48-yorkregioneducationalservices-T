@@ -55,7 +55,7 @@ function StudentAdd({show, setShow, item, students}) {
             } catch (err) {
                 console.log(err);
                 setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <p>{err.message}</p>
+                <p>{"Error: " + err.message}</p>
                 </Alert>);
             }
     }

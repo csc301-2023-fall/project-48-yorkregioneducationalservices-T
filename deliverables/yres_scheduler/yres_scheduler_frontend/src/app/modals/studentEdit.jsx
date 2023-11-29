@@ -110,7 +110,7 @@ function StudentEdit({item, show, setShow, students}) {
             handleClose();
         } catch (err) {
             setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <p>{err}</p>
+                <p>{"Error: " + err.message}</p>
                 </Alert>);
         }
     }

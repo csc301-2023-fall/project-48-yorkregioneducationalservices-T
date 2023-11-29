@@ -39,7 +39,7 @@ function EnemiesCreate({show, setShow, studentData}) {
                             )
                         } catch (err) {
                             setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                            <p>{err}</p>
+                            <p>{"Error: " + err.message}</p>
                             </Alert>)
                             erred = true;
                         }
