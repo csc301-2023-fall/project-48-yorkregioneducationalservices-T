@@ -20,12 +20,12 @@ const CAMPUS_ID = config.get('campus');
  */
 function mapRowToActivity(row) {
     return new Activity(
-        row.activity_id,
+        row.activity_id.toString(),
         row.name,
-        row.duration,
+        row.duration.toString(),
         row.type,
-        row.num_occurences,
-        row.camp_id,
+        row.num_occurences.toString(),
+        row.camp_id.toString(),
         new Array()
     );
 }

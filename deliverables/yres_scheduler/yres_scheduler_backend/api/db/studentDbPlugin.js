@@ -27,13 +27,13 @@ const CAMPUS_ID = c.get('campus');
  */
 function mapRowToStudent(row) {
     return new Student(
-        row.student_id,
-        row.student_ui_id,
+        row.student_id.toString(),
+        row.student_ui_id.toString(),
         row.lastname,
         row.firstname,
-        row.age,
+        row.age.toString(),
         row.sex,
-        row.campus_id,
+        row.campus_id.toString(),
         new Set(),
         new Set()
     );
@@ -61,15 +61,15 @@ async function getFriendPreferencesAndCategorize(student) {
         promises = result.rows.map(async (row) => {
             if (row.is_apart) {
                 if (row.student_id1 !== student.student_id) {
-                    await student.addEnemy(row.student_id1);
+                    await student.addEnemy(row.student_id1.toString());
                 } else {
-                    await student.addEnemy(row.student_id2);
+                    await student.addEnemy(row.student_id2.toString());
                 }
             } else {
                 if (row.student_id1 !== student.student_id) {
-                    await student.addFriend(row.student_id1);
+                    await student.addFriend(row.student_id1.toString());
                 } else {
-                    await student.addFriend(row.student_id2);
+                    await student.addFriend(row.student_id2.toString());
                 }
             }
         });

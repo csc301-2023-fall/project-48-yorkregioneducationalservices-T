@@ -19,9 +19,9 @@ const CAMPUS_ID = config.get('campus');
  */
 function mapRowToRoom(row) {
     return new Room(
-        row.room_id,
+        row.room_id.toString(),
         row.name,
-        row.campus_id
+        row.campus_id.toString()
     );
 }
 

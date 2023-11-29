@@ -17,10 +17,10 @@ const { client } = require('./db');
  */
 function mapRowToCamp(row) {
     return new Camp(
-        row.camp_id,
+        row.camp_id.toString(),
         row.name,
         new Set(),
-        row.campus_id
+        row.campus_id.toString()
     );
 }
 
@@ -79,7 +79,7 @@ async function getActivityIds(camp) {
         const result = await client.query(queryGetActivityIds, values);
  
         promises = result.rows.map(async (row) => {
-            camp.activity_ids.add(row.activity_id);
+            camp.activity_ids.add(row.activity_id.toString());
         });
 
         await Promise.all(promises);

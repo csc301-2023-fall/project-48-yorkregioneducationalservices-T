@@ -54,6 +54,7 @@ function AddStudents(profiles, type){
             sex: student.sex,
             friend_ids: "",
             enemy_ids: ""
+            enemy_ids: ""
         })
       }
       const response = fetch(url, settings);

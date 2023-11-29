@@ -25,10 +25,10 @@ const CAMPUS_ID = config.get('campus');
  */
 function mapRowToCounselor(row) {
     return new Counselor(
-        row.counselor_id,
+        row.counselor_id.toString(),
         row.lastname,
         row.firstname,
-        row.campus_id
+        row.campus_id.toString()
     );
 }
 

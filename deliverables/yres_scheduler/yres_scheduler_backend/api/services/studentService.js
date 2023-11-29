@@ -167,6 +167,16 @@ function addFriendPreference(friends) {
 }
 
 /**
+ * Adds a friend preference by the students's ui ID.
+ * @param {Object} friends - The friends object to make friends.
+ * @returns {Object} - The response from the database.
+ */
+function addFriendPreference(friends) {
+    const resp = db.insertFriendPreferences(friends.student_id, friends.other_student_ui_id, friends.enemy, friends.id_ui);
+    return resp;
+}
+
+/**
  * Deletes a student by their UI ID.
  * @param {string} student_ui_id - The UI ID of the student to delete.
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating whether the student was successfully deleted.

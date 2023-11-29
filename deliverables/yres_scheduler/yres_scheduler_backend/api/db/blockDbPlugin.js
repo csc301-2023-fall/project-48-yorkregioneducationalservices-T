@@ -25,10 +25,10 @@ function mapRowToBlock(row) {
     var end_time = new Date(2023, 1, 1, parseInt(end_hours), parseInt(end_minutes));
     
     return new Block(
-        row.block_id,
-        row.schedule_id,
-        row.room_id,
-        row.activity_id,
+        row.block_id.toString(),
+        row.schedule_id.toString(),
+        row.room_id.toString(),
+        row.activity_id.toString(),
         start_time,
         end_time
     );

@@ -16,11 +16,11 @@ const { client } = require('./db');
  */
 function mapRowToGroup(row) {
     return new Group(
-        row.camp_group_id,
-        row.schedule_id,
+        row.camp_group_id.toString(),
+        row.schedule_id.toString(),
         new Set(),
         new Set(),
-        row.camp_id
+        row.camp_id.toString()
     );
 }
 
@@ -81,7 +81,7 @@ async function getStudentIds(group) {
         const result = await client.query(queryGetStudentIds, values);
  
         promises = result.rows.map(async (row) => {
-            group.student_ids.add(row.student_id);
+            group.student_ids.add(row.student_id.toString());
         });
 
         await Promise.all(promises);
@@ -108,7 +108,7 @@ async function getStudentIds(group) {
           const result = await client.query(queryGetCounselorIds, values);
    
           promises = result.rows.map(async (row) => {
-              group.counselor_ids.add(row.counselor_id);
+              group.counselor_ids.add(row.counselor_id.toString());
           });
   
           await Promise.all(promises);
