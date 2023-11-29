@@ -4,6 +4,8 @@ const { client } = require('./db');
 const logger = require('../../logger');
 const {STATUS_CODES} = require('../entities/ServiceErrors');
 const { log } = require("mathjs");
+const config = require('config');
+const CAMPUS_ID = config.get('campus');
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Counselor db plugin methods
@@ -92,7 +94,7 @@ async function createCounselor(counselor) {
             uuid.v4(), // Assuming counselor_id is a UUID
             counselor.firstname,
             counselor.lastname,
-            counselor.campus_id,
+            CAMPUS_ID
         ]);
         return { result: true, status: STATUS_CODES.SUCCESS };
     } catch (error) {
