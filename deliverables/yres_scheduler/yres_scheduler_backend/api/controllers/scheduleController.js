@@ -16,7 +16,9 @@ async function generateSchedule(req, res) {
     const counselors = await counselorService.getAllCounselors();
     const rooms = await roomService.getAllRooms();
     const activities = await activitiesService.getAllActivities();
-    new_schedule = await schedService.generateSchedule(students, counselors.result, activities.activities, rooms.rooms);
+    const new_schedule = await schedService.generateSchedule(students, counselors.result, activities.activities, rooms.rooms);
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         schedule: new_schedule
@@ -25,6 +27,8 @@ async function generateSchedule(req, res) {
 
 async function getCurrentSchedule(req, res) {
     const current_schedule = await schedService.getCurrentSchedule();
+
+    res.status(STATUS_CODES.SUCCESS);
     
     return {
         schedule: current_schedule
@@ -39,6 +43,8 @@ async function getCurrentSchedule(req, res) {
  */
 async function getAllSchedules(req, res) {
     const allschedules = await schedService.getAllSchedules();
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         schedules: allschedules.map((schedule) => { 
