@@ -189,23 +189,42 @@ body, html{
   gap: 12px;
 }
 
-.hour{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.timetable-header {
+  background-color: #3D96AB !important;
 }
 
-.hour:nth-of-type(2n){
-  filter: brightness(1.2);
-}
-
-.event{
+.timetable-event {
   border-radius: 5px;
   width: calc(100% - 2px);
-  border: 1px solid;
+  border: 1px solid grey;
   cursor: pointer;
-  background-color: #FFF !important;
-  color: #000;
+  background-color: #FFF;
+  color: #000000;
+
+  position: absolute;
+  font-size: .7em;
+  font-weight: 300;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.timetable-event-info {
+  line-height: initial;
+  text-align: center;
+}
+
+.timetable-hour {
+  background-color: #3f97aadc;
+  font-size: 12px;
+  text-align: center;
+  width: 5rem;
+  flex-grow: 1;
+  border-bottom: 1px solid #3D96AB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Profiles Specific Styles */

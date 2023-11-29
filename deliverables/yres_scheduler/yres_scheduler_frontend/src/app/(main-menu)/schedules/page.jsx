@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Schedule from '../../components/scheduleTable'
 import GroupsTable from '../../components/groupsTable'
-import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import ScheduleTimetable from '@/app/components/scheduleTimetable';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
