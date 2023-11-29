@@ -73,16 +73,16 @@ const studentRoutes = (app) => {
 
 /**
      * Route to create a new student from a json list.
-     * @name POST /students/createStudentsFromList/
+     * @name POST /students/create/fromlist/
      * @function
      * @memberof module:routes/studentRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to a string indicating success or failure.
      */
-    .post('/students/createStudentsFromList/', auth, async (req, res) => {
+    .post('/students/create/fromlist/', auth, async (req, res) => {
         try {
-            logger.info(`POST /students/createStudentsFromList/`);
+            logger.info(`POST /students/create/fromlist/`);
             const resp = await studentController.createStudentsFromList(req, res);    
             res.status(resp.status).send(resp);
         } catch (error) {
@@ -100,7 +100,7 @@ const studentRoutes = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the editStudentById function.
      */
-    .post('/student/edit/', auth, async (req, res) => {
+    .post('/student/:student_id/', auth, async (req, res) => {
         logger.info(`POST /student/edit/`);
         const resp = await studentController.editStudentById(req, res);
         res.send(resp);

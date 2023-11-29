@@ -150,16 +150,28 @@ async function createStudentsFromList(req, res) {
  */
 async function editStudentById(req, res) {
 
-    const student = req.body;
+    const student_id = req.params.student_id;
+    const student_ui_id = req.body.student_ui_id;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const age = req.body.age;
+    const sex = req.body.sex;
 
-    if (!student) {
+    if (!student_id || !student_ui_id || !firstname || !lastname || !age || !sex) {
         throw new StudentServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
         );
     }
 
-    const status = await studentService.editStudentById(student);
+    const status = await studentService.editStudentById(
+        student_id,
+        student_ui_id,
+        firstname,
+        lastname,
+        age,
+        sex
+    );
 
     res.status(STATUS_CODES.SUCCESS);
 

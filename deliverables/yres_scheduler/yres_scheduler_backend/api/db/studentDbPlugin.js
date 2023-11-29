@@ -306,7 +306,13 @@ async function clearFriendPreferencesById(student_id) {
  * @param {string} student.student_ui_id - The unique ID of the student.
  * @returns {boolean} - true if the update was successful
  */
-async function editStudentById(student) {
+async function editStudentById(
+    student_id,
+    student_ui_id,
+    firstname,
+    lastname,
+    age,
+    sex) {
     const query = `
         UPDATE Student
         SET
@@ -323,12 +329,12 @@ async function editStudentById(student) {
     logger.debug(`Function ${functionName}: Editing student in the studentDbPlugin`, { student: student });
     try {
         const result = await client.query(query, [
-            student.student_ui_id,
-            student.firstname,
-            student.lastname,
-            student.age,
-            student.sex,
-            student.student_id
+            student_ui_id,
+            firstname,
+            lastname,
+            age,
+            sex,
+            student_id
         ]);
         clearFriendPreferencesById(student.student_id);
         //Insert student friend preferences
