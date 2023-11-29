@@ -1,5 +1,3 @@
-
-const scheduleService = require('../services/schedulingService');
 const schedService = require('../services/scheduleService');
 const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
@@ -17,19 +15,19 @@ async function generateSchedule(req, res) {
     const students = await studentService.getAllStudents();
     const counselors = await counselorService.getAllCounselors();
     const rooms = await roomService.getAllRooms();
-    var room_ids = [];
-    rooms.rooms.forEach(room => {
-        room_ids.push(room.room_id);
-    });
-
     const activities = await activitiesService.getAllActivities();
+    new_schedule = await schedService.generateSchedule(students, counselors.result, activities.activities, rooms.rooms);
 
-    console.log(activities);
-    const new_schedule = await scheduleService.scheduleCall(students, counselors, activities, room_ids);
-    
-    // const new_schedule = scheduleService();
     return {
         schedule: new_schedule
+    }
+}
+
+async function getCurrentSchedule(req, res) {
+    const current_schedule = await schedService.getCurrentSchedule();
+    
+    return {
+        schedule: current_schedule
     }
 }
 
@@ -62,5 +60,6 @@ async function getAllSchedules(req, res) {
 
 module.exports = {
     generateSchedule,
-    getAllSchedules
+    getAllSchedules,
+    getCurrentSchedule
 }

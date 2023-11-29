@@ -1,5 +1,7 @@
 const Room = require("../entities/Room");
 const { client } = require('./db')
+const config = require('config');
+const CAMPUS_ID = config.get('campus');
 
 /**
  * Maps a row from the room table to a Room object.
@@ -82,7 +84,7 @@ async function createRoom(room_id, name, campus_id) {
         RETURNING room_id;
     `;
     try {
-        const result = await client.query(query, [room_id, name, campus_id]);
+        const result = await client.query(query, [room_id, name, CAMPUS_ID]);
         return true;
     } catch (err) {
         console.log(err);

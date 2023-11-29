@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation';
 **/
 function StudentProfilesTable({studentData}) {
     const router = useRouter();
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
         student_id: -1,
@@ -70,8 +71,9 @@ function StudentProfilesTable({studentData}) {
                 );
                 router.refresh();
             } catch (err) {
-                //TODO: Display Error in component
-                console.log(err);
+                setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+                <p>{err.message}</p>
+                </Alert>);
             }
         }
         item.actions = (
@@ -92,6 +94,7 @@ function StudentProfilesTable({studentData}) {
 
     return (
         <>
+            {errorDisplay}
             <YresTable keyCol={'_student_ui_id'} data={studentData} columns={columns} disableHover={true}/>
             <StudentEdit
                 item={editItem}

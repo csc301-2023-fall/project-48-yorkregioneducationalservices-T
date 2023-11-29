@@ -1,14 +1,49 @@
-"use client"
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
+import { fetchDataPOST, process_comma_separated_text } from '../helper';
 
+/** 
+ * Function that allows the mass import of students or counselor from a CSV:
+ * class Student {
+   *student_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    age (int) 			// <UI>
+    sex (string) 		// <UI>
+    friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
+    enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
+}
+*class Counselor {
+   *counselor_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
+}
+ * Props: 
+        profiles - a list of student or counselor objects depending on type attribute below
+        type - either "Student" or "Counselor"
+**/
 function AddStudents(profiles, type){
   if(type === "Student"){
     const students = profiles;
-    students.forEach((student) => {
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/students/createStudent/`, {
+    const addPreferences = async (prefs, type) => {
+      for(const pref of prefs){
+        console.log(pref);
+        await fetchDataPOST("/students/createFriends/",
+        {   
+            student_id: pref[0],
+            other_student_ui_id: pref[1],
+            enemy: type,
+            id_ui: true
+        })
+      }
+    }
+    const addStudent = (student) =>{
+        try {
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/students/createStudent/"}`;
+        const settings = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -18,12 +53,20 @@ function AddStudents(profiles, type){
             age: student.age, 
             sex: student.sex,
             friend_ids: "",
-            enemy_ids: "",
+            enemy_ids: ""
         })
-      })
-      .catch(err => {
-          console.log(err);
-      });
+      }
+      const response = fetch(url, settings);
+      if (response.status !== 200) {
+          throw new Error(`${response.status} Error: Something Wrong Happened!`)
+      }
+      }
+      catch{
+        
+      }
+    }
+    students.forEach((student) => {
+      addStudent(student);
     });
   }
   else{

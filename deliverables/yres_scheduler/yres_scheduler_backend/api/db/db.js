@@ -11,9 +11,9 @@ const client = new Pool({
     port: dbConfig.PORT,
     password: dbConfig.PASSWORD,
     database: dbConfig.DATABASE,
-    max: 20, 
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000
+    max: dbConfig.MAX_CONNECTIONS, 
+    idleTimeoutMillis: dbConfig.IDLE_TIMEOUT_MILLIS,
+    connectionTimeoutMillis: dbConfig.CONNECTION_TIMEOUT_MILLIS
 });
 
 /**
