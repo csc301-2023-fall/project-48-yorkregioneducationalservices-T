@@ -97,7 +97,7 @@ function StudentEdit({item, show, setShow, students}) {
             result = result + array[0];
         }
         for (var i=1; i<array.length; i++) {
-            result = "," + result + array[i];
+            result = result + "," + array[i];
         }
         return result;
     }
