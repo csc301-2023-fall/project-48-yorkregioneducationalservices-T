@@ -2,6 +2,7 @@ import * as React from 'react';
 import Schedule from '../../components/scheduleTable'
 import GroupsTable from '../../components/groupsTable'
 import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
+import jsonData from './sample.json';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 
@@ -33,8 +34,21 @@ async function getGroups() {
             }
         }
     };
-    const data = await res.json();
-    return data.groups;
+    //fetch data
+    const data = jsonData.schedule;
+    //const data = await res.json().schedule;
+    const allGroups = []
+    data.forEach(camp => {
+        camp.forEach(group => {
+            const student_ids = group.students.map(student => student.student_id)
+            const counselor_ids = group.counselors.map(counselor => counselor.counselor_id)
+            group.student_ids = student_ids
+            group.counselor_ids = counselor_ids
+            allGroups.push(group)
+        })
+      });
+
+    return allGroups
 }
 
 // GET schedule frontend server side
