@@ -4,6 +4,27 @@ import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
 
+/** 
+ * Function that allows the mass import of students or counselor from a CSV:
+ * class Student {
+   *student_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    age (int) 			// <UI>
+    sex (string) 		// <UI>
+    friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
+    enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
+}
+*class Counselor {
+   *counselor_id (string) 	// The auto generated unique ID
+    firstname (string) 		// <UI>
+    lastname (string) 		// <UI>
+    campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
+}
+ * Props: 
+        profiles - a list of student or counselor objects depending on type attribute below
+        type - either "Student" or "Counselor"
+**/
 function AddStudents(profiles, type){
   if(type === "Student"){
     const students = profiles;
