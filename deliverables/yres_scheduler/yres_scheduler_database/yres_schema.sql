@@ -84,7 +84,6 @@ create table Student (
     sex text not null,
     camp_group_id integer references CampGroup,
     campus_id integer references Campus
-    
 );
 
 
@@ -171,3 +170,5 @@ create table Block (
     schedule_id integer references Schedule 
 );
 
+insert into Campus (name) values ('Campus 1');
+insert into Camp (name, campus_id) values ('Camp 1', '1');

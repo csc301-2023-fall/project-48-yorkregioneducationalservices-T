@@ -10,6 +10,14 @@
 const Student = require("../entities/Student");
 const { client } = require('./db');
 const logger = require('../../logger');
+const c = require("config");
+const e = require("express");
+const CAMPUS_ID = c.get('campus');
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// Student db plugin methods
+///////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Maps a row from the student table to a Student object.
@@ -253,8 +261,8 @@ async function createStudent(
 ) {
 
     const query = `
-        INSERT INTO Student (student_ui_id, firstname, lastname, age, sex)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO Student (student_ui_id, firstname, lastname, age, sex, campus_id)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING student_id;
     `;
 
@@ -267,7 +275,8 @@ async function createStudent(
             firstname,
             lastname,
             age,
-            sex
+            sex,
+            CAMPUS_ID
         ]);
         //Insert student friend preferences
         const student_id = parseInt(result.rows[0].student_id);

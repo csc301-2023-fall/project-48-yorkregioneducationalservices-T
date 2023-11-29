@@ -1,3 +1,4 @@
+const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
 
@@ -30,7 +31,7 @@ function convertFromActivities(activities) {
 		console.log("scheduleAlgo - Undefined: list of activities is undefined.");
 		throw Error("scheduleAlgo - Undefined: list of activities is undefined.");
 	}
-	for (var a = 0; a < counselors.length; a++) {
+	for (var a = 0; a < activities.length; a++) {
 		if (activities[a].activity_id === undefined || activities[a].name === undefined || activities[a].duration === undefined || 
             activities[a].type === undefined || activities[a].num_occurences === undefined || activities[a].camp_id === undefined ||
             activities[a].rooms === undefined) { // TODO: to be replaced by camp_type
@@ -40,6 +41,7 @@ function convertFromActivities(activities) {
 		activityLs.push(new ActivityL(activities[a].activity_id, activities[a].name, activities[a].duration, activities[a].type,
             activities[a].num_occurences, activities[a].rooms, activities[a].camp_id));
 	}
+    return activityLs;
 }
 // THESE MIGHT BE REMOVED OR MOVED TO CONFIG LATER
 const DAY = 5;
@@ -60,12 +62,12 @@ async function scheduleCall(students, counselors, activities, rooms) {
     var groups = await gs.groupCall(counselors, students);
     console.log("Grouping complete");
     console.log("Start scheduling algorithm...");
-    var activityLs = convertFromActivities(activities);
+    var activityLs = await convertFromActivities(activities);
     var room_ids = [];
     for (let r = 0; r < rooms.length; r++) {
         room_ids.push(rooms[r].room_id);
     }
-    const result = await scheduleAlgorithm(groups, activities.activities, room_ids);
+    const result = await scheduleAlgorithm(groups, activityLs, room_ids);
     console.log("Scheduling complete");
     return result;
 }
@@ -92,6 +94,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
             }
         }
     }
+
     // 1.2. Initialize all schedules to empty
     for (var c = 0; c < groups.length; c++) {
         for (var g = 0; g < groups[c].length; g++) {
