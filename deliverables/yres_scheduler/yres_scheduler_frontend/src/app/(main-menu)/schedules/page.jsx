@@ -4,7 +4,6 @@ import GroupsTable from '../../components/groupsTable'
 import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import { Button } from 'react-bootstrap';
 import { fetchDataPOST } from '@/app/helper';
-const sched = require('./sample.json');
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 
