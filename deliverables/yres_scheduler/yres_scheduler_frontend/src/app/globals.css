@@ -1,3 +1,6 @@
+body, html{
+  overflow-x: hidden;
+}
 /* General App Wide Styles */
 #menu-layout {
   display: flex;
@@ -12,8 +15,10 @@
 #footer {
   flex: 0 1 5vh;
   background-color: #3D96AB;
+  align-content: center;
   justify-content: center;
   display: flex;
+  color: white;
 }
 
 .loading {

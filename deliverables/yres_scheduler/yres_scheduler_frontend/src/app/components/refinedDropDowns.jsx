@@ -6,7 +6,11 @@ import Button from 'react-bootstrap/Button';
 
 /**
  * Better looking dropdown component that matches the prototype
- **/
+ * Props: 
+        handleSelect - what happens when one of the dropdown's options is selected
+        displayText - the text displayed before clicking
+        groups - the options available in the dropdown to choose from
+**/
 function RefinedDropdown({handleSelect, displayText, groups}) {
   
     return (
