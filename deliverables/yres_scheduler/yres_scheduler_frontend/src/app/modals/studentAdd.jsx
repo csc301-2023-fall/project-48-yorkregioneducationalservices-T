@@ -38,7 +38,7 @@ function StudentAdd({show, setShow, item, students}) {
                 }
                 else{
                 await fetchDataPOST(
-                    "/students/create/", 
+                    "/student/create/", 
                     {
                         student_ui_id: event.target[0].value, 
                         firstname: event.target[1].value, 
