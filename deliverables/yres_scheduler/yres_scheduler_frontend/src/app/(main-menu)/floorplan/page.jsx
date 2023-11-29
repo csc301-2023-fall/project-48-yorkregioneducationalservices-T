@@ -7,7 +7,10 @@ import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import Alert from '@/app/components/alert';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
-// GET rooms frontend server side
+/**
+ * GET rooms frontend server side
+ * returns object with boolean to indicate error, error message and rooms list if sucessful
+ **/
 async function getRooms() {
     try {
         const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
@@ -26,7 +29,10 @@ async function getRooms() {
     }
 }
 
-// GET activities frontend server side
+/**
+ * GET activities frontend server side
+ * returns object with boolean to indicate error, error message and activites list if sucessful
+ **/
 async function getActivities() {
     try {
         const res = await fetch(`${URI}/activities/getAllActivities/`, { cache: 'no-store' });
@@ -45,7 +51,10 @@ async function getActivities() {
     }
 }
 
-// GET current campus frontend server side
+/**
+ * GET campuses frontend server side
+ * returns object with boolean to indicate error, error message and campus list if sucessful
+ **/
 async function getCurrCampus() {
     try {
         const res = await fetch(`${URI}/campus/getAll/`);
@@ -64,6 +73,10 @@ async function getCurrCampus() {
     }
 }
 
+/**
+ * FloorPlan page
+ * Fetches data through helper function, error checks then creates activities and rooms tables
+ **/
 async function Floorplan() {
     const rooms_object = await getRooms();
     const activities_object = await getActivities();

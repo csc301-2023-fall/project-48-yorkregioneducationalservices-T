@@ -1,6 +1,9 @@
 import React from 'react';
 import MenuLayout from '@/app/(main-menu)/layout.jsx';
 
+/**
+ * 404 Page that displays if the page that is being retrieved is unknown
+ */
 const NotFound = () => {
   return (
     <MenuLayout>
