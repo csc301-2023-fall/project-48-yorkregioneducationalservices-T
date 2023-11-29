@@ -1,3 +1,12 @@
+/**
+ * This module implements the DB operations for the room service.
+ * 
+ * @module api/db/roomDbPlugin
+ * 
+ * @requires api/entities/Room
+ * @requires api/db/db
+ */
+
 const Room = require("../entities/Room");
 const { client } = require('./db')
 const config = require('config');
@@ -19,29 +28,24 @@ function mapRowToRoom(row) {
 
 /** Get a list of all Room objects of a given campus.
  * 
- *  @param {string} campus_id - ID of the campus from which to get all rooms.
+ *  @param {number} campus_id - ID of the campus from which to get all rooms.
  *  @returns an array of Room objects with the given campus_id. Empty array is returned if the campus_id does not exist.
  */
 async function getRoomsByCampusId(campus_id) {
-    const queryGetAllRooms = `SELECT * FROM Room WHERE campus_id = $1;`;
+    const query = `SELECT * FROM Room WHERE campus_id = $1;`;
     
-    var all_rooms;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(queryGetAllRooms, [campus_id], (err, result) => {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
+    try {
+        var all_rooms;
+        const result = await client.query(query, [campus_id]);
         const rows = result.rows;
 
         all_rooms = rows.map(mapRowToRoom);
 
-        resolve(all_rooms);
-    });
+        return all_rooms;
+    } catch(err) {
+        throw new Error(err);
+    }
+        
 }
 
 /** Get all rooms from the database.
@@ -49,52 +53,45 @@ async function getRoomsByCampusId(campus_id) {
  * @returns an array of all Room objects in the database.
  */
 async function getAllRooms() {
-    const queryGetAllRooms = `SELECT * FROM Room;`;
+    const query = `SELECT * FROM Room;`;
     
-    var all_rooms;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(queryGetAllRooms, (err, result) => {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
+    try {
+        var all_rooms;
+        const result = await client.query(query);
         const rows = result.rows;
 
         all_rooms = rows.map(mapRowToRoom);
 
-        resolve(all_rooms)
-    });
+        return all_rooms;
+    } catch(err) {
+        throw new Error(err);
+    }
+        
 }
 
 /** Write a Room to database.
  * 
- * @param {string} room_id - room UUID.
  * @param {string} name - room name.
- * @param {string} campus_id - ID of campus this room belongs to.
+ * @param {number} campus_id - ID of campus this room belongs to.
  * @returns true if written successfully.
  */
-async function createRoom(room_id, name, campus_id) {
+async function createRoom(name, campus_id) {
     const query = `
-        INSERT INTO Room (room_id, name, campus_id)
-        VALUES ($1, $2, $3)
+        INSERT INTO Room (name, campus_id)
+        VALUES ($1, $2)
         RETURNING room_id;
     `;
     try {
-        const result = await client.query(query, [room_id, name, CAMPUS_ID]);
+        const result = await client.query(query, [name, CAMPUS_ID]);
         return true;
     } catch (err) {
-        console.log(err);
-        return false; 
+        throw new Error(err);
     }
 }
 
 /** Delete a Room from database with given room_id.
  * 
- * @param {string} room_id - room UUID.
+ * @param {number} room_id - room id number.
  * @returns true if deleted successfully.
  */
 async function deleteRoomById(room_id) {
@@ -108,12 +105,16 @@ async function deleteRoomById(room_id) {
         }
         return true;
     } catch (err) {
-        console.log(err);
-        return false;
+        throw new Error(err);
     }
 }
 
-async function editRoomById(room) {
+/** Delete a Room from database with given room_id.
+ * 
+ * @param {number} room_id - room id number.
+ * @returns true if deleted successfully.
+ */
+async function editRoomById(room_id, room_name) {
     const query = `
         UPDATE Room
         SET name = $2
@@ -121,7 +122,7 @@ async function editRoomById(room) {
         RETURNING *;
     `;
     try {
-        const result = await client.query(query, [room.room_id, room.name]);
+        const result = await client.query(query, [room_id, room_name]);
         const edited_room = result.rows[0];
 
         if (edited_room === undefined) {
@@ -129,13 +130,9 @@ async function editRoomById(room) {
         }
         return true;
     } catch (err) {
-        console.log(err);
-        return false;
+        throw new Error(err);
     }
 }
-
-
-
 
 module.exports = {
     createRoom,

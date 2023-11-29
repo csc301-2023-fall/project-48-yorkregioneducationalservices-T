@@ -1,7 +1,7 @@
 /**
- * This module implements the use case operations for the account service operations.
+ * This module implements the use case operations for the account service.
  * 
- * @module api/service/AccountService
+ * @module api/service/accountService
  * 
  * @requires api/db/psqlDbPlugin
  * @requires crypto

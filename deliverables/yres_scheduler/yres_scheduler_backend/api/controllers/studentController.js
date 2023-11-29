@@ -1,7 +1,18 @@
+/**
+ * This module implements the controller for requests for student service 
+ * operations.
+ * 
+ * @module api/controllers/studentController
+ * 
+ * @requires api/services/studentService
+ * @requires api/entities/ServiceErrors
+ */
+
 const c = require('config');
 const studentService = require('../services/studentService');
-const {STATUS_CODES} = require('../entities/ServiceErrors');
+const {StudentServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 const logger = require('../../logger');
+
 /**
  * Retrieves all students.
  * @param {Object} req - The request object.
@@ -10,30 +21,19 @@ const logger = require('../../logger');
  */
 async function getAllStudents(req, res) {
     
-    try {
-        const all_students = await studentService.getAllStudents();
-        if (all_students?.result === false) {
+    const all_students = await studentService.getAllStudents();
+
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        result: all_students.map((student) => { 
             return {
-                status: STATUS_CODES.FAILED,
-                error: all_students.error
+                ...student,
+                friend_ids: student.getFriendIds(),
+                enemy_ids: student.getEnemyIds()
             };
-        }
-        return {
-            status: STATUS_CODES.SUCCESS,
-            result: all_students.map((student) => { 
-                return {
-                    ...student,
-                    friend_ids: student.getFriendIds(),
-                    enemy_ids: student.getEnemyIds()
-                };
-            })
-        };
-    } catch (error) {
-        return {
-            status: STATUS_CODES.FAILED,
-            error: error.message
-        };
-    }
+        })
+    };
     
 }
 
@@ -45,26 +45,23 @@ async function getAllStudents(req, res) {
  */
 function getStudentById(req, res) {
 
-    try {
-        const student_id = req.body.student_id;
+    const student_id = req.body.student_id;
 
-        const student = studentService.getStudentById(student_id);
-        if (student?.result === false) {
-            return {
-                status: STATUS_CODES.FAILED,
-                error: student.error
-            };
-        }
-        return {
-            result: student,
-            status: STATUS_CODES.SUCCESS
-        };
-    } catch (error) {
-        return {
-            status: STATUS_CODES.FAILED,
-            error: error.message
-        };
+    // Check paramaters are valid
+    if (!student_id) {
+        throw new StudentServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
+
+    const student = studentService.getStudentById(student_id);
+
+    res.status(STATUS_CODES.SUCCESS);
+    
+    return {
+        result: student
+    };
 }
 
 /**
@@ -74,26 +71,22 @@ function getStudentById(req, res) {
  * @returns {Object} - An object containing a student.
  */
 function getStudentByUiId(req, res) {
-    try {
-        const stduent_ui_id = req.body.stduent_ui_id;
+    const student_ui_id = req.params.student_id;
 
-        const student = studentService.getStudentByUiId(stduent_ui_id);
-        if (student?.result === false) {
-            return {
-                status: STATUS_CODES.FAILED,
-                error: student.error
-            };
-        }
-        return {
-            status: STATUS_CODES.SUCCESS,
-            result: student
-        };
-    } catch (error) {
-        return {
-            status: STATUS_CODES.FAILED,
-            error: error.message
-        };
+    if (!student_ui_id) {
+        throw new StudentServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
+
+    const student = studentService.getStudentByUiId(student_ui_id);
+
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        result: student
+    };
 }
 
 /**
@@ -104,27 +97,37 @@ function getStudentByUiId(req, res) {
  */
 async function createStudent(req, res) {
     
-    const student = req.body;
+    const student_ui_id = req.body.student_ui_id;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const age = req.body.age;
+    const sex = req.body.sex;
+    const friend_ids = req.body.friend_ids || "";
+    const enemy_ids = req.body.enemy_ids || "";
 
-    try {
-        const status = await studentService.createStudent(student);
-        
-        if (status?.result === false) {
-            return {
-                status: STATUS_CODES.FAILED,
-                error: status.error
-            };
-        } else {
-            return {
-                status: STATUS_CODES.SUCCESS,
-            };
-        }
-    } catch (error) {
-        return {
-            status: STATUS_CODES.FAILED,
-            error: error.message
-        };
+    if (!student_ui_id || !firstname || !lastname || !age || !sex) {
+        throw new StudentServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
+
+    const status = await studentService.createStudent(
+        student_ui_id,
+        firstname,
+        lastname,
+        age,
+        sex,
+        friend_ids,
+        enemy_ids
+    );
+
+    res.status(STATUS_CODES.SUCCESS);
+    
+    return {
+        status: status
+    };
+
 }
 
 /**
@@ -138,19 +141,31 @@ async function createStudentsFromList(req, res) {
     const students = req.body;
     logger.debug(`createStudentsFromList: `, students);
 
+    if (!students) {
+        throw new StudentServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
+
     const failed_students = []; // Initialize an array to store failed student IDs
 
     await Promise.all(students.map(async student => {
-        const status = await studentService.createStudent(student);
-        if (status?.result === false) {
-            logger.error(`createStudentsFromList: Failed to create student ${student.student_ui_id} with error: ${status.error}`)
-            failed_students.push(student.student_ui_id); 
-        }
+        const status = await studentService.createStudent(
+            student.student_ui_id,
+            student.firstname,
+            student.lastname,
+            student.age,
+            student.sex,
+            student.friend_ids,
+            student.enemy_ids
+        );
     }));
 
+    res.status(STATUS_CODES.SUCCESS);
+
     return {
-        status: failed_students.length === 0 ? STATUS_CODES.SUCCESS : STATUS_CODES.FAILED,
-        error: { failed_students: failed_students} // Return the list of failed student IDs
+        result: true
     };
 }
 /**
@@ -161,27 +176,38 @@ async function createStudentsFromList(req, res) {
  */
 async function editStudentById(req, res) {
 
-    try {
-        const student = req.body;
+    const student_id = req.params.student_id;
+    const student_ui_id = req.body.student_ui_id;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const age = req.body.age;
+    const sex = req.body.sex;
+    const enemy_ids = req.body.enemy_ids || "";
+    const friend_ids = req.body.friend_ids || "";
 
-        const status = await studentService.editStudentById(student);
-
-        if (status?.result === false) {
-            return {
-                status: STATUS_CODES.FAILED,
-                error: status.error
-            };
-        } else {
-            return {
-                status: STATUS_CODES.SUCCESS,
-            };
-        }
-    } catch (error) {
-        return {
-            status: STATUS_CODES.FAILED,
-            error: error.message
-        };
+    if (!student_id || !student_ui_id || !firstname || !lastname || !age || !sex) {
+        throw new StudentServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
+
+    const status = await studentService.editStudentById(
+        student_id,
+        student_ui_id,
+        firstname,
+        lastname,
+        age,
+        sex,
+        friend_ids,
+        enemy_ids
+    );
+
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        status: status
+    };
 }
 
 /**
@@ -191,27 +217,22 @@ async function editStudentById(req, res) {
  * @returns {Object} - An object containing a status message.
  */
 async function deleteStudentById(req, res) {
-    try {
-        const student_ui_id = req.body.student_ui_id;
+    const student_ui_id = req.params.student_id;
 
-        const status = await studentService.deleteStudentById(student_ui_id);
-
-        if (status?.result === false) {
-            return {
-                status: STATUS_CODES.FAILED,
-                error: status.error
-            };
-        } else {
-            return {
-                status: STATUS_CODES.SUCCESS,
-            };
-        }
-    } catch (error) {
-        return {
-            status: STATUS_CODES.FAILED,
-            error: error.message
-        };
+    if (!student_ui_id) {
+        throw new StudentServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
     }
+
+    const status = await studentService.deleteStudentById(student_ui_id);
+
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        status: status
+    };
 }
 
 /**

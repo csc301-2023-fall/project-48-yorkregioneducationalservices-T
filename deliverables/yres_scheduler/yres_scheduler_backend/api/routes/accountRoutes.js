@@ -6,7 +6,6 @@
  * @module api/routes/accountRoutes
  * @requires api/controllers/accountController
  * @requires api/middleware/errorHandler
- * @requires api/middleware/authHandler
  */
 
 const accountController = require('../controllers/accountController');
@@ -14,22 +13,34 @@ const accountController = require('../controllers/accountController');
 const accountRoutes = (app) => {
 
     /**
-     * Route serving 'Login Admin User' request.
-     * @name post/account/login
-     * @function
+     * Route to login admin account
+     * @name POST /account/login/
      * @memberof module:api/routes/accountRoutes
-     * @inner
-     * @param {string} path - Endpoint path
-     * @param {callback} middleware - Endpoint middleware
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
      */
     app.post('/account/login/', async (req, res) => {
         res.send(await accountController.login(req, res));
     });
 
+    /**
+     * Route to create new admin account
+     * @name POST /account/signup/
+     * @memberof module:api/routes/accountRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     */
     app.post('/account/signup/', async (req, res) => {
         res.send(await accountController.signup(req, res));
     });
 
+    /**
+     * Route to check login status
+     * @name GET /account/login/
+     * @memberof module:api/routes/accountRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     */
     app.get('/account/login/', async (req, res) => {
         res.send(await accountController.getLoginStatus(req, res));
     });

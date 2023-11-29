@@ -5,6 +5,7 @@ import Sidebar from '../components/sidebar';
 import YresTable from './table'
 import { CSVLink } from "react-csv";
 import Button from 'react-bootstrap/Button';
+import GroupsTable from './groupsTable';
 import RefinedDropdown from './refinedDropDowns'
 import Alert from './alert'
 import { sort_times } from '@/app/helper';
@@ -17,7 +18,13 @@ import { sort_times } from '@/app/helper';
         These are matched to columns in the table
         generateSchedule - a function that makes the necesary calls and computation to create schedule
 **/
-export default function Schedule({schedule, generateSchedule}) {
+async function generateSchedule() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+    const data = await res.json();
+    return data.result;
+}
+
+export default function Schedule({schedule}) {
     const groups = new Set();
     groups.add("Master Sched"); // Holds the possible camp groups to be displayed in the dropdown
     schedule.forEach((row) => groups.add(row.classNum));
@@ -38,6 +45,12 @@ export default function Schedule({schedule, generateSchedule}) {
         setDisplaySched(e);
     }
 
+    const handleGenerate = async () => {
+        try {
+            data = generateSchedule();
+        } catch (err) {
+        }
+    }
     // handling function for opening and closing the sidebar
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -84,6 +97,9 @@ export default function Schedule({schedule, generateSchedule}) {
     }
     return (
         <div>  
+            <h3 className='header-title '>Groups</h3>
+            <GroupsTable data={schedule}/>
+            <h3 className='header-title '>Schedule</h3>
             <div className='float-child'>
             <RefinedDropdown 
                 handleSelect={handleSelect}
@@ -92,7 +108,7 @@ export default function Schedule({schedule, generateSchedule}) {
             />
             </div>
             <div>
-            <Button className="right-btn" variant="primary" onClick={generateSchedule}>
+            <Button className="right-btn" variant="primary" onClick={handleGenerate}>
                             Generate Schedule
             </Button>
             <CSVLink className="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>

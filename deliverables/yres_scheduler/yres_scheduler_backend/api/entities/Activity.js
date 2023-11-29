@@ -13,12 +13,12 @@ class Activity {
 
     /**
      * Create an Activity entity.
-     * @param {uuid} activity_id - UUID to identify unique activity
+     * @param {number} activity_id - number to identify unique activity
      * @param {string} name - The name of the activity
      * @param {number} duration - The duration of the activity
      * @param {string} type - The type of activity ("common"/"filler")
      * @param {number} num_occurences - How many instances of the activity should be included in the schedule (or minimum if FILLER_TYPE)
-     * @param {uuid} camp_id - UUID of the camp this activity belongs to
+     * @param {number} camp_id - int of the camp this activity belongs to
      */
     constructor(activity_id, name, duration, type, num_occurences, camp_id) {
         this.activity_id = activity_id;

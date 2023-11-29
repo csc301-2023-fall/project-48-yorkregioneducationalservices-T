@@ -3,14 +3,14 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 // GET students frontend server side
 async function getStudents() {
-    const res = await fetch(`${URI}/students/getAllStudents/`, { cache: 'no-store' });
+    const res = await fetch(`${URI}/student/all/`, { cache: 'no-store' });
     const data = await res.json();
     return data.result;
 }
 
 // GET counselors frontend server side
 async function getCounselors() {
-    const res = await fetch(`${URI}/counselors/getAllCounselors/`, { cache: 'no-store' });
+    const res = await fetch(`${URI}/counselor/all/`, { cache: 'no-store' });
     const data = await res.json();
     return data.result;
 }

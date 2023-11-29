@@ -9,7 +9,7 @@
  */
 
 const accountService = require('../services/accountService');
-const {STATUS_CODES} = require('../entities/ServiceErrors');
+const {AccountServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Controller function for login operation.
@@ -21,6 +21,14 @@ const {STATUS_CODES} = require('../entities/ServiceErrors');
 async function login(req, res) {
     const username = req.body.username;
     const password = req.body.password;
+
+    // Check paramaters are valid
+    if (!username || !password) {
+        throw new AccountServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
 
     const token = await accountService.login(username, password);
 
@@ -42,6 +50,14 @@ async function login(req, res) {
 async function signup(req, res) {
     const username = req.body.username;
     const password = req.body.password;
+
+    // Check paramaters are valid
+    if (!username || !password) {
+        throw new AccountServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
 
     const token = await accountService.signup(username, password);
 
