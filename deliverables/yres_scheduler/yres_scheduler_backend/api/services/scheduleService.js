@@ -1,30 +1,29 @@
 
 const db = require('../db/psqlDbPlugin');
 const schedb = require('../db/scheduleDbPlugin');
-const Schedule = require('../entities/Schedule');
-const crypto = require('crypto');
+const scheduleAlgo = require('../services/scheduleAlgo');
+const { saveJsonToFile, getJsonFromFile } = require('../utils/saveJsonToFile.js');
+const FILE_PATH = 'deliverables/yres_scheduler/yres_scheduler_backend/api/schedules/schedule.json';
 
-function generateSchedule(camp_id, start_time, name) {
-    var activities = db.getCampActivities(camp_id);
+async function generateSchedule(students, counselors, activities, rooms) {
 
-    const schedule_id = crypto.randomUUID();
-
-    var new_schedule = new Schedule(schedule_id,
-                                    camp_id,
-                                    start_time,
-                                    name);
-
-    // Construct random schedule
-    while (activities.length > 0) {
-        const rand = Math.floor(Math.random() * activities.length);
-        var curr_activity = activities.splice(rand, 1)[0];
-        new_schedule.addScheduleBlock(curr_activity);
-    }
-
-    if (db.submitSchedule(new_schedule) == false) throw Error("DB Submission failed");
+    const new_schedule = await scheduleAlgo.scheduleCall(students, counselors, activities, rooms);
+        
+    // Save the schedule to a file
+    saveJsonToFile(new_schedule, FILE_PATH);
 
     return new_schedule;
+}
 
+/**
+ * Retrieves the current schedule.
+ * @returns {Promise<Object>} The current schedule.
+ */
+async function getCurrentSchedule() {
+   
+    const current_schedule = await getJsonFromFile(FILE_PATH);
+
+    return current_schedule;
 }
 
 /**
@@ -39,5 +38,6 @@ async function getAllSchedules() {
 
 module.exports = {
     generateSchedule,
-    getAllSchedules
+    getAllSchedules,
+    getCurrentSchedule
 }

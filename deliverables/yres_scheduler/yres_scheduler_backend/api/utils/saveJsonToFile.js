@@ -15,3 +15,14 @@ export default function saveJsonToFile(json, filePath) {
     }
   });
 }
+
+/**
+ * Retrieves the JSON object from a file.
+ * @param {string} filePath - The path of the file to retrieve the JSON from.
+ * @returns {Object} - The JSON object retrieved from the file.
+ */
+export default function getJsonFromFile(filePath) {
+  const fileData = fs.readFileSync(filePath, 'utf-8');
+  const jsonObject = JSON.parse(fileData);
+  return jsonObject;
+}

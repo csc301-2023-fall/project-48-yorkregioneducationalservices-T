@@ -1,12 +1,8 @@
-
-const scheduleAlgo = require('../services/scheduleAlgo');
 const schedService = require('../services/scheduleService');
 const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
 const roomService = require('../controllers/roomController');
-const activitiesService = require('../controllers/activityController');
-const saveJsonToFile = require('../utils/saveJsonToFile.js');
-const FILE_PATH = 'deliverables/yres_scheduler/yres_scheduler_backend/api/schedules/schedule.json';
+const activitiesService = require('../controllers/activityController');\
 
 /**
  * Generates a new schedule.
@@ -22,12 +18,17 @@ async function generateSchedule(req, res) {
     const activities = await activitiesService.getAllActivities();
 
     const new_schedule = await scheduleAlgo.scheduleCall(students, counselors, activities, rooms);
-    
-    // Save the schedule to a file
-    saveJsonToFile(new_schedule, FILE_PATH);
 
     return {
         schedule: new_schedule
+    }
+}
+
+async function getCurrentSchedule(req, res) {
+    const current_schedule = await schedService.getCurrentSchedule();
+    
+    return {
+        schedule: current_schedule
     }
 }
 
@@ -60,5 +61,6 @@ async function getAllSchedules(req, res) {
 
 module.exports = {
     generateSchedule,
-    getAllSchedules
+    getAllSchedules,
+    getCurrentSchedule
 }
