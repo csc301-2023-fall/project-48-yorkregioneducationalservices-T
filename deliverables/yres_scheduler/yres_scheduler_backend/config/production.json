@@ -1,0 +1,22 @@
+{
+  "server": {
+    "PORT": 1234
+  },
+  "db": {
+    "HOST": "ec2-18-218-217-198.us-east-2.compute.amazonaws.com",
+    "USER": "yres",
+    "PORT": 5432,
+    "PASSWORD": "csc301",
+    "DATABASE": "yres_db",
+    "MAX_CONNECTIONS": 20,
+    "IDLE_TIMEOUT_MILLIS": 30000,
+    "CONNECTION_TIMEOUT_MILLIS": 10000
+  },
+  "auth": {
+    "SECRET": "pqJJZdJ^k4pFM)Wz?/GGBK=B&F`0,i=bGYR,/;Bq+PropvWa7=9$}fSX{Vqk-7V",
+    "EXPIRATION": "1d",
+    "SALT_ROUNDS": 10,
+    "IS_ON": true
+  },
+  "campus": "1"
+}

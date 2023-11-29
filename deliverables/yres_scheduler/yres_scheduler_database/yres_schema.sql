@@ -9,7 +9,7 @@ set search_path to yres;
     -- campus_id : The auto generated unique ID
     -- name : <UI> The name of the campus
 create table Campus (
-    campus_id uuid primary key,
+    campus_id serial primary key,
     name text not null
 );
 
@@ -20,9 +20,9 @@ create table Campus (
     -- name : <UI> The name of the camp
     -- campus_id : Foredign key constraint
 create table Camp (
-    camp_id uuid primary key,
+    camp_id serial primary key,
     name text not null,
-    campus_id uuid references Campus
+    campus_id integer references Campus
 );
 
 -- Represents the generated schedule of a group
@@ -31,7 +31,7 @@ create table Camp (
     -- start_time :  The start moment of this schedule
     -- end_time : The end moment of this schedule
 create table Schedule (
-    schedule_id uuid primary key,
+    schedule_id serial primary key,
     start_time time not null, 
     end_time time not null 
 );
@@ -43,9 +43,9 @@ create table Schedule (
     -- schedule_id : The ID of the schedule of this group
     -- camp_id : The ID of the camp this group belongs to
 create table CampGroup (
-    camp_group_id uuid primary key,		
-    schedule_id uuid references Schedule,  
-    camp_id uuid references Camp 		   
+    camp_group_id serial primary key,		
+    schedule_id integer references Schedule,  
+    camp_id integer references Camp 		   
 );
 
 
@@ -57,11 +57,11 @@ create table CampGroup (
     -- campus_id : <UI> The ID of the campus this counselor will teach in
     -- camp_group_id : The foreign key constraint
 create table Counselor (
-    counselor_id uuid primary key,
+    counselor_id serial primary key,
     firstname text not null,
     lastname text not null, 
-    campus_id uuid references Campus,  
-    camp_group_id uuid references CampGroup  
+    campus_id integer references Campus,  
+    camp_group_id integer references CampGroup  
 );
 
 
@@ -76,14 +76,14 @@ create table Counselor (
     -- camp_group_id : Foreign key constraint
     -- campus_id : Foreign Key constraint
 create table Student (
-    student_id uuid primary key,           
+    student_id serial primary key,           
     student_ui_id int unique not null, 
     firstname text not null,
     lastname text not null,
     age integer not null,
     sex text not null,
-    camp_group_id uuid references CampGroup,
-    campus_id uuid references Campus
+    camp_group_id integer references CampGroup,
+    campus_id integer references Campus
 );
 
 
@@ -93,8 +93,8 @@ create table Student (
     -- student_id2 : The student id of the second friend 
     -- is_apart : If the students should be apart
 create table FriendPreference (
-    student_id1 uuid not null references Student(student_id) on delete cascade, 
-    student_id2 uuid not null references Student(student_id) on delete cascade, 
+    student_id1 integer not null references Student(student_id) on delete cascade, 
+    student_id2 integer not null references Student(student_id) on delete cascade, 
     is_apart bool not null,     
     primary key (student_id1, student_id2), -- Primary key 
     check (student_id1 > student_id2) -- Make sure they are not duplicates
@@ -117,9 +117,9 @@ create table LoginInfo (
     -- name : <UI> The name of the room
     -- campus_id : Foreign key constraint
 create table Room (
-    room_id uuid primary key,
+    room_id serial primary key,
     name text not null,
-    campus_id uuid references Campus 
+    campus_id integer references Campus 
 );
 
 
@@ -133,12 +133,12 @@ create table Room (
     -- num_occurences <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
     -- camp_id : Foreign Key constraint
 create table Activity (
-    activity_id uuid primary key,	
+    activity_id serial primary key,	
     name text not null, 		
     duration integer not null,
     type text not null,
     num_occurences integer not null,
-    camp_id uuid references Camp
+    camp_id integer references Camp
 );
 
 
@@ -147,8 +147,8 @@ create table Activity (
     -- room_id : The id of the room
     -- activty_id : The id of the activity
 create table RoomActivity (	
-    activity_id uuid references Activity on delete cascade,
-    room_id uuid references Room on delete cascade,
+    activity_id integer references Activity on delete cascade,
+    room_id integer references Room on delete cascade,
     primary key (activity_id, room_id)
 );
 
@@ -162,13 +162,13 @@ create table RoomActivity (
     -- end_time : The end moment of this block
     -- schedule_id : Foreign key constraint    
 create table Block (
-    block_id uuid primary key,		
-    room_id uuid not null references Room,
-    activity_id uuid not null references Activity,
+    block_id serial primary key,		
+    room_id integer not null references Room,
+    activity_id integer not null references Activity,
     start_time time not null,
     end_time time not null,
-    schedule_id uuid references Schedule 
+    schedule_id integer references Schedule 
 );
 
-insert into Campus (campus_id, name) values ('2d81de06-86b2-4bf4-84d2-8b002898936b', 'Campus 1');
-insert into Camp (camp_id, name, campus_id) values ('2d81de06-86b2-4bf4-84d2-8b002898936b', 'Camp 1', '2d81de06-86b2-4bf4-84d2-8b002898936b');
+insert into Campus (name) values ('Campus 1');
+insert into Camp (name, campus_id) values ('Camp 1', '1');

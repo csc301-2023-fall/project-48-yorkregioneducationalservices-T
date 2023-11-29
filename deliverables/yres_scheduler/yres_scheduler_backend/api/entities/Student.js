@@ -5,13 +5,13 @@ module.exports = class Student {
     /**
      * Create a new student profile.
      * 
-     * @param {string} student_id - The unique ID of this student.
+     * @param {number} student_id - The unique ID of this student.
      * @param {number} student_ui_id - The unique ID of this student for the UI
      * @param {string} lastname
      * @param {string} firstname 
      * @param {number} age 
      * @param {string} sex 
-     * @param {string} campus_id  -- Campus id that the student belongs to
+     * @param {number} campus_id  -- Campus id that the student belongs to
      * @param {Set<string>} friend_ids - A set of student IDs that this student prefers to work with.
      * @param {Set<string>} enemy_ids - A set of student IDs that this student doesn't want to work with.
     */
@@ -67,7 +67,7 @@ module.exports = class Student {
 
     /**
      * Add a friend ID to the set of friends.
-     * @param {string} friendId - The ID of the friend to add.
+     * @param {number} friendId - The ID of the friend to add.
      */
     addFriend(friendId) {
         this.friend_ids.add(friendId);
@@ -75,7 +75,7 @@ module.exports = class Student {
 
     /**
      * Remove a friend ID from the set of friends.
-     * @param {string} friendId - The ID of the friend to remove.
+     * @param {number} friendId - The ID of the friend to remove.
      */
     removeFriend(friendId) {
         this.friend_ids.delete(friendId);
@@ -83,7 +83,7 @@ module.exports = class Student {
 
     /**
      * Add an enemy ID to the set of enemies.
-     * @param {string} enemyId - The ID of the enemy to add.
+     * @param {number} enemyId - The ID of the enemy to add.
      */
     addEnemy(enemyId) {
         this.enemy_ids.add(enemyId);
@@ -91,7 +91,7 @@ module.exports = class Student {
 
     /**
      * Remove an enemy ID from the set of enemies.
-     * @param {string} enemyId - The ID of the enemy to remove.
+     * @param {number} enemyId - The ID of the enemy to remove.
      */
     removeEnemy(enemyId) {
         this.enemy_ids.delete(enemyId);

@@ -29,7 +29,7 @@ function ActivityCreate({ currCampus }) {
         event.preventDefault();
         try {
             await fetchDataPOST(
-                "/activities/createActivity/",
+                "/activity/create/",
                 {
                     name: event.target[0].value,
                     duration: event.target[1].value,

@@ -6,10 +6,10 @@ module.exports = class Counselor {
     /**
      * Create a new counselor profile.
      * 
-     * @param {string} counselor_id - The unique ID of this counselor.
+     * @param {number} counselor_id - The unique ID of this counselor.
      * @param {string} lastname
      * @param {string} firstname
-     * @param {string} campus_id - The ID of the campus this counselor registers.
+     * @param {number} campus_id - The ID of the campus this counselor registers.
      */
     constructor (counselor_id, lastname, firstname, campus_id) {
         this.counselor_id = counselor_id;

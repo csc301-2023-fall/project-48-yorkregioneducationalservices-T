@@ -55,5 +55,5 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            curl -I http://localhost:1234/students/getAllStudents/
+            curl -I http://localhost:1234/student/all/
 

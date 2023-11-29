@@ -31,9 +31,8 @@ function ActivityEdit({item, show, setShow }) {
              * API post request for updating activity
              */
             await fetchDataPOST(
-                "/activities/editActivityById/", 
+                `/activity/${item.activity_id}/edit/`, 
                 {
-                    activity_id: item.activity_id,
                     name: event.target[0].value,
                     duration: event.target[1].value,
                     type: event.target[3].checked ? "filler" : "common",

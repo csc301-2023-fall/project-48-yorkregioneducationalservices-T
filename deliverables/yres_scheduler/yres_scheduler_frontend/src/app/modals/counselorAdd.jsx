@@ -28,10 +28,11 @@ function CounselorAdd({show, setShow, item}) {
         try {
             event.preventDefault()
             await fetchDataPOST(
-                "/counselors/createCounselor/",
+                "/counselor/create/",
                 {
                     firstname: event.target[0].value,
-                    lastname: event.target[1].value
+                    lastname: event.target[1].value,
+                    campus_id: 1
                 }
             );
             router.refresh();

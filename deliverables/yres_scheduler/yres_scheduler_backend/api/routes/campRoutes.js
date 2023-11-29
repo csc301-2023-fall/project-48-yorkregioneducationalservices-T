@@ -1,46 +1,53 @@
-const campService = require('../controllers/campController');
+/**
+ * This module specifies the routes for request endpoints in the camp Service.
+ * 
+ * @param {Object} [app] The express application
+ * 
+ * @module api/routes/campRoutes
+ * @requires api/controllers/campController
+ * @requires api/middleware/authHandler
+ */
 
-module.exports = (app) => {
+const campController = require('../controllers/campController');
+const auth = require('../middleware/authHandler');
 
-    /**
-     * Route to get a camp by id.
-     * @name GET /camp/get/
-     * @function
-     * @memberof module:routes/campRoutes
-     * @param {Object} req - The Express request object.
-     * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the getCamp function.
-     */
-    app.get('/camp/get/', async (req, res) => {
-        const camp = await campService.getCamp(req, res);
-        res.send(camp);
-    })
+const campRoutes = (app) => {
 
     /**
      * Route to get all camps.
-     * @name GET /camp/getAll/
-     * @function
+     * @name GET /camp/all
      * @memberof module:routes/campRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the getAllCamps function.
      */
-    .get('/camp/getAll/', async (req, res) => {
-        const all_camps = await campService.getAllCamps(req, res);
+    app.get('/camp/all', auth, async (req, res) => {
+        const all_camps = await campController.getAllCamps(req, res);
         res.send(all_camps);
+    })
+
+    /**
+     * Route to get a camp by id.
+     * @name GET /camp/:camp_id/
+     * @memberof module:routes/campRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     */
+    .get('/camp/:camp_id', auth, async (req, res) => {
+        const camp = await campController.getCamp(req, res);
+        res.send(camp);
     })
 
     /**
      * Route to create a new camp.
      * @name GET /camp/create/
-     * @function
      * @memberof module:routes/campRoutes
      * @param {Object} req - The Express request object.
      * @param {Object} res - The Express response object.
-     * @returns {Promise} A Promise that resolves to the result of the createCamp function.
      */
-    .post('/camp/create/', async (req, res) => {
-        const status = await campService.createCamp(req, res);
-        res.status(200).send(status);
+    .post('/camp/create', auth, async (req, res) => {
+        const status = await campController.createCamp(req, res);
+        res.send(status);
     });
 };
+
+module.exports = campRoutes;

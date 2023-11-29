@@ -18,8 +18,8 @@ class Schedule {
 
     /**
      * Create a Schedule entity.
-     * @param {string} [schedule_id] UUID to identify unique schedule
-     * @param {string} [group_id] UUID for the corresponding Group entity
+     * @param {number} [schedule_id] UUID to identify unique schedule
+     * @param {number} [group_id] UUID for the corresponding Group entity
      * @param {list[Block]} [blocks] The ordered block entities that constitute the schedule
      * @param {Date} [start_time] The start time of the schedule
      * @param {Date} [end_time] The end time of the schedule
@@ -80,7 +80,7 @@ class Schedule {
 
     /**
      * Set the schedule id for this schedule
-     * @param {string} schedule_id - The new schedule id for this schedule
+     * @param {number} schedule_id - The new schedule id for this schedule
      */
     set_schedule_id(schedule_id) {
         this.schedule_id = schedule_id;
@@ -89,7 +89,7 @@ class Schedule {
 
     /**
      * Set the group ID for this schedule
-     * @param {string} group_id - The new group Id for this schedule
+     * @param {number} group_id - The new group Id for this schedule
      */
     set_group_id(group_id) {
         this.group_id = group_id;

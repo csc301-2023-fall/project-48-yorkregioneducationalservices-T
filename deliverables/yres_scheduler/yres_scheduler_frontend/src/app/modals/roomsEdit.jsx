@@ -34,11 +34,9 @@ function RoomsEdit({item, show, setShow}) {
              * use event.target[0] to index through the fields
              */
             await fetchDataPOST(
-                "/rooms/editRoomById/",
+                `/room/${item.room_id}/edit/`,
                 {
-                    room_id: item.room_id,
-                    name: e.target[0].value,
-                    campus_id: item.campus_id
+                    name: e.target[0].value
                 }
             );
             router.refresh();

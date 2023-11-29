@@ -1,3 +1,13 @@
+/**
+ * This module implements DB operations for the account service.
+ * 
+ * @module api/db/accountDbPlugin
+ * 
+ * @requires api/entities/AdminUser
+ * @requires api/db/db
+ * @requires bcrypt
+ */
+
 const AdminUser = require("../entities/AdminUser");
 const { client } = require('./db');
 const bcrypt = require('bcrypt');
@@ -9,7 +19,7 @@ const bcrypt = require('bcrypt');
  */
 async function getAdminUserByName(username) {
     var password;
-    const query = `SELECT * FROM logininfo WHERE username = '${username}';`
+    const query = `SELECT * FROM LoginInfo WHERE username = '${username}';`;
     try {
         const result = await client.query(query);
 
@@ -19,7 +29,6 @@ async function getAdminUserByName(username) {
                 username,
                 password);
         } else {
-
             return null;
         }
 
@@ -36,7 +45,7 @@ async function getAdminUserByName(username) {
  * @returns true if written successfully.
  */
 async function createAdminUser(username, hashed_password) {
-    const query = `INSERT INTO logininfo(username, password) VALUES('${username}', '${hashed_password}');`
+    const query = `INSERT INTO LoginInfo(username, password) VALUES('${username}', '${hashed_password}');`
     try {
         const result = await client.query(query);
 
@@ -75,7 +84,6 @@ async function existsUser(username) {
 }
 
 module.exports = {
-
     checkLogin,
     existsUser,
     createAdminUser,

@@ -1,3 +1,13 @@
+/**
+ * This module implements the DB operations for the schedule service.
+ * 
+ * @module api/db/scheduleDbPlugin
+ * 
+ * @requires api/entities/Schedule
+ * @requires api/entities/Block
+ * @requires api/db/db
+ */
+
 const Schedule = require("../entities/Schedule");
 const Block = require("../entities/Block");
 const { client } = require('./db');
@@ -27,10 +37,9 @@ function mapRowToSchedule(row) {
 
 /**
  * Retrieves the singular (or the last if there is an issue) group id from the database and sets it to the group id for a given Schedule.
- * @async
- * @function getGroupId
+ * 
  * @param {Object} schedule - The schedule object for which to retrieve and store the group id.
- * @param {string} schedule.schedule_id - The ID of the schedule for which to retrieve and store the group id.
+ * @param {number} schedule.schedule_id - The ID of the schedule for which to retrieve and store the group id.
  * @throws {Error} Throws an error if there was an issue fetching group ids from the database.
  */
 async function getGroupId(schedule) {  
@@ -46,10 +55,8 @@ async function getGroupId(schedule) {
 
         await Promise.all(promises);
 
-    } catch (error) {
-        // Handle errors appropriately
-        console.error('Error while fetching group id:', error);
-        throw new Error('Failed to fetch group ids');
+    } catch (err) {
+        throw new Error(err);
     }
 
   }
@@ -59,8 +66,8 @@ async function getGroupId(schedule) {
  * @async
  * @function getBlocks
  * @param {Object} schedule - The schedule object for which to retrieve and store blocks.
- * @param {string} schedule.schedule_id - The ID of the schedule for which to retrieve and store blocks.
- * @throws {Error} Throws an error if there was an issue fetching blocks from the database.
+ * @param {number} schedule.schedule_id - The ID of the schedule for which to retrieve and store blocks.
+ * @returns {Schedule} The updated schedule
  */
   async function getBlocks(schedule) {  
         //Blocks are added in random order (order given from sql query). Add ORDER BY in query (or something else) to sort
@@ -70,7 +77,7 @@ async function getGroupId(schedule) {
       try {
           const result = await client.query(queryGetBlocks, values);
    
-          promises = result.rows.map(async (row) => {
+            promises = result.rows.map(async (row) => {
             var block_id = row.block_id;
             var room_id = row.room_id;
             var activity_id = row.activity_id;
@@ -87,11 +94,10 @@ async function getGroupId(schedule) {
           });
   
           await Promise.all(promises);
+          return schedule;
   
-      } catch (error) {
-          // Handle errors appropriately
-          console.error('Error while fetching blocks:', error);
-          throw new Error('Failed to fetch blocks');
+      } catch (err) {
+            throw new Error('Failed to fetch blocks');
       }
   
     }
@@ -99,21 +105,13 @@ async function getGroupId(schedule) {
 /**
  * Retrieves all Schedules (should only be one) from the database and maps them to Schedule objects.
  * 
- * @returns {Promise<Array<Group>>} A promise that resolves with an array of Schedule objects.
+ * @returns {Array<Group>} An array of Schedule objects.
  */
 async function getAllSchedules() {
 
     var all_schedules;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(`SELECT * FROM Schedule;`, function (err, result) {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
+    try {
+        const result = await client.query(`SELECT * FROM Schedule;`);
 
         const rows = result.rows;
 
@@ -124,8 +122,11 @@ async function getAllSchedules() {
             await getBlocks(schedule);
         }
 
-        resolve(all_schedules);
-    });
+        return all_schedules;
+    } catch(err) {
+        throw new Error(err);
+    }
+        
 }
 
 module.exports = {
