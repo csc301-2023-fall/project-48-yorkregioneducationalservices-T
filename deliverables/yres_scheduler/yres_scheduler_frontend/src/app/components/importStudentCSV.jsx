@@ -57,7 +57,7 @@ function AddStudents(profiles, type){
         })
       }
       const response = fetch(url, settings);
-      if (response.status !== 200) {
+      if (!(200 <= response.status <= 299)) {
           throw new Error(`${response.status} Error: Something Wrong Happened!`)
       }
       }

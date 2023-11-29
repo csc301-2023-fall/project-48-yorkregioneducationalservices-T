@@ -90,7 +90,7 @@ async function editRoomsById(req, res) {
         );
     }
 
-    const status = await roomService.editRoomById(oom_id, room_name);
+    const status = await roomService.editRoomById(room_id, room_name);
 
     res.status(STATUS_CODES.SUCCESS);
 
