@@ -1,9 +1,9 @@
-const studentDB = require("./api/db/studentDbPlugin");
-const counselorDB = require("./api/db/counselorDbPlugin");
-const activityDB = require("./api/db/activityDbPlugin");
-const roomDB = require("./api/db/roomDbPlugin");
-const Student = require("./api/entities/Student");
-const Counselor = require("./api/entities/Counselor");
+const studentDB = require("../db/studentDbPlugin");
+const counselorDB = require("../db/counselorDbPlugin");
+const activityDB = require("../db/activityDbPlugin");
+const roomDB = require("../db/roomDbPlugin");
+const Student = require("../entities/Student");
+const Counselor = require("../entities/Counselor");
 const uuid = require('uuid');
 
 async function prepration() {
