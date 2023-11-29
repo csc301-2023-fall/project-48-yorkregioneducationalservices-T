@@ -53,9 +53,9 @@ function StudentAdd({show, setShow, item, students}) {
                 router.refresh();
                 handleClose()
             } catch (err) {
-                console.log(err);
+                console.log(err)
                 setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <p>{"Error: " + err.message}</p>
+                err
                 </Alert>);
             }
     }

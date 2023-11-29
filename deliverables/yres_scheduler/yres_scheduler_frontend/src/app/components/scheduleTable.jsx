@@ -9,7 +9,6 @@ import GroupsTable from './groupsTable';
 import RefinedDropdown from './refinedDropDowns'
 import Alert from './alert'
 import { sort_times } from '@/app/helper';
-const sched = require('./sample.json');
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
  * within this function.

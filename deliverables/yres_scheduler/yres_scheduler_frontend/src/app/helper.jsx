@@ -68,7 +68,8 @@ export async function fetchDataPOST(route, item) {
     }
     const response = await fetch(url, settings);
     if (response.status !== 200) {
-        throw new Error(`${response.status} Error: Something Wrong Happened!`)
+        console.log(response)
+        throw new Error(`${response.status} Error: ${response.body.message}}`)
     }
 }
 

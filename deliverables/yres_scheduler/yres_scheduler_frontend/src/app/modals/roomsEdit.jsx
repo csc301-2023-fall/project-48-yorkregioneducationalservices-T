@@ -45,6 +45,7 @@ function RoomsEdit({item, show, setShow}) {
             handleClose()
         } catch (err) {
             setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
             <p>{"Error: " + err.message}</p>
             </Alert>)
         }
