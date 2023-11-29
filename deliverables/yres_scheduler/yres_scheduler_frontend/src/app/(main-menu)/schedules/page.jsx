@@ -4,7 +4,7 @@ import GroupsTable from '../../components/groupsTable'
 import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import { Button } from 'react-bootstrap';
 import { fetchDataPOST } from '@/app/helper';
-//const sched = require('./sample.json');
+const sched = require('./sample.json');
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 
@@ -41,9 +41,14 @@ async function getSchedule() {
 }
 
 async function generateSchedule() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
-    const data = await res.json();
-    return data.result;
+    try{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+        const data = await res.json();
+        return data;
+    }
+    catch(err){
+        return ["error", err];
+    }
 }
 
 async function getRooms(){
@@ -55,9 +60,13 @@ async function getRooms(){
  * Schedules page that generates and displays schedule and groups
 **/
 export default async function Schedules() {
-    const sched = generateSchedule();
+    const sched = await generateSchedule();
+    if(Array.isArray(sched)){
+        return (<Alert variant="danger" dismissible>
+        <p>{"Error: " + sched[1].message}</p>
+        </Alert>)
+    }
     const rooms = await getRooms();
-    console.log(rooms)
     return (
         <div className='split-page'>
             <div className='left'>
@@ -65,7 +74,6 @@ export default async function Schedules() {
             </div>
             <div className='right'>
                 {/* {errorDisplay} */}
-                
                 <Schedule schedule={sched.schedule} rooms={rooms}/>
             </div>
         </div>
