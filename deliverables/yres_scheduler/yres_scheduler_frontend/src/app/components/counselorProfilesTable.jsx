@@ -6,7 +6,7 @@ import CounselorEdit from '../modals/counselorEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
-import { fetchDataPOST } from '../helper';
+import { fetchDataDELETE } from '../helper';
 import { useRouter } from 'next/navigation';
 
 /** 
@@ -51,9 +51,8 @@ function CounselorProfilesTable({ counselorData }) {
         }
         const deleteCounselor = async () =>{
             try {
-                await fetchDataPOST(
-                    "/counselors/deleteCounselorById/", 
-                    { counselor_id: item._counselor_id }
+                await fetchDataDELETE(
+                    `/counselor/${item._counselor_id}/`
                 );
                 router.refresh();
             } catch (err) {

@@ -7,7 +7,7 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 // GET rooms frontend server side
 async function getRooms() {
-    const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
+    const res = await fetch(`${URI}/room/all/`, { cache: 'no-store' });
     const data = await res.json();
     return data.rooms;
 }
@@ -39,34 +39,30 @@ async function getGroups() {
 
 // GET schedule frontend server side
 async function getSchedule() {
-    const res = await { // fetch(`${URI}/schedule/getSchedule/`, { cache: 'no-store' });
-        json: () => {
-            return {
-                schedule: []
-            }
-        }
-    };
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/`, { cache: 'no-store' });
     const data = await res.json();
     return data.schedule;
 }
 
+async function generateSchedule() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+    const data = await res.json();
+    return data.result;
+}
 /** 
  * Schedules page that generates and displays schedule and groups
 **/
 export default async function Schedules() {
-    const groups = await getGroups();
-    const schedule = await getSchedule();
-    
+    //const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let data = [];
     return (
         <div className='split-page'>
             <div className='left'>
                 <ScheduleTimetable/>
             </div>
             <div className='right'>
-                <h3 className='header-title '>Groups</h3>
-                <GroupsTable data={groups}/>
-                <h3 className='header-title '>Schedule</h3>
-                <Schedule schedule={schedule}/>
+                {/* {errorDisplay} */}
+                <Schedule schedule={data}/>
             </div>
         </div>
     );

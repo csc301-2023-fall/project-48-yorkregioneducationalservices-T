@@ -2,8 +2,8 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { fetchDataPOST } from '../helper';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 /**
  * Editing Modal for Counselors
  *class Counselor {
@@ -28,9 +28,8 @@ function CounselorEdit({item, show, setShow}) {
         event.preventDefault()
         try {
             await fetchDataPOST(
-                "/counselors/editCounselorById/",
+                `/counselors/${item._counselor_id}/edit/`,
                 {
-                    counselor_id: item._counselor_id,
                     firstname: event.target[0].value,
                     lastname: event.target[1].value
                 }

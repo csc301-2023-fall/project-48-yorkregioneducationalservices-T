@@ -34,11 +34,6 @@ jobs:
             cd /home/ubuntu/yres/backend/deliverables/yres_scheduler/yres_scheduler_backend
             # Kill the process using port 1234 if it exists
             sudo kill -9 $(sudo lsof -t -i:1234) || echo "No process found on port 1234"
-            # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            # . ~/.nvm/nvm.sh
-            # nvm install 21
-            # nvm use 21
-            # npm install -g npm@latest
             sudo npm install
             # Start the server and wait until a specific output is available
             sudo node -v
@@ -55,5 +50,5 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            curl -I http://localhost:1234/students/getAllStudents/
+            curl -I http://localhost:1234/student/all/
 

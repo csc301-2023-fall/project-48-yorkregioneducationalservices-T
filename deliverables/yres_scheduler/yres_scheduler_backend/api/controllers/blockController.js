@@ -1,4 +1,15 @@
+/**
+ * This module implements the controller for requests for block service 
+ * operations.
+ * 
+ * @module api/controllers/blockController
+ * 
+ * @requires api/services/blockService
+ * @requires api/entities/ServiceErrors
+ */
+
 const blockService = require('../services/blockService');
+const {BlockServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Retrieves a block by ID.
@@ -7,9 +18,19 @@ const blockService = require('../services/blockService');
  * @returns {Object} - An object containing a block.
  */
 async function getBlock(req, res) {
-    const block_id = req.body.block_id;
+    const block_id = req.params.block_id;
+
+    // Check paramaters are valid
+    if (!block_id) {
+        throw new BlockServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
 
     const block = await blockService.getBlock(block_id)
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         block: block
@@ -24,6 +45,8 @@ async function getBlock(req, res) {
  */
 async function getAllBlocks(req, res) {
     const allblocks = await blockService.getAllBlocks();
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         blocks: allblocks.map((block) => { 
@@ -48,9 +71,19 @@ async function createBlock(req, res) {
     const activity_id = req.body.activity_id;
     const start_time = req.body.start_time;
     const end_time = req.body.end_time;
+
+    // Check paramaters are valid
+    if (!schedule_id || !room_id || !activity_id || !start_time || !end_time) {
+        throw new BlockServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
     
 
     const status = await blockService.createBlock(schedule_id, room_id, activity_id, start_time, end_time);
+    
+    res.status(STATUS_CODES.CREATED);
 
     return {
         status: status ? 'Success' : 'failure'
@@ -65,6 +98,8 @@ async function createBlock(req, res) {
  */
 async function deleteAllBlocks(req, res) {
     const status = await blockService.deleteAllBlocks();
+
+    res.status(STATUS_CODES.SUCCESS);
 
     return {
         status: status ? 'Success' : 'failure'

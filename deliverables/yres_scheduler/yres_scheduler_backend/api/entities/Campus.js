@@ -6,7 +6,7 @@ module.exports = class Campus {
     /** 
      * Create a campus with a name, unique ID, a set of camps and a set of rooms.
      * 
-     * @param {string} campus_id - The unique ID assigned by <CONTROLLER>.
+     * @param {number} campus_id - The unique ID assigned by <CONTROLLER>.
      * @param {string} name - The name of the campus from frontend user input.
      * @param {Set} camp_ids - The set of IDs of camps in this campus.
      * @param {Set} room_ids - The set of IDs of rooms in this campus.
@@ -26,7 +26,7 @@ module.exports = class Campus {
     }
 
     /**
-     * @param {string} newRoomID - The new room id to be added to this campus.
+     * @param {number} newRoomID - The new room id to be added to this campus.
      */
     addRoom(newRoomID) {
         this.room_ids.add(newRoomID);
@@ -40,7 +40,7 @@ module.exports = class Campus {
     }
 
     /**
-     * @param {string} newCampID - The new camp id to be added to this campus. 
+     * @param {number} newCampID - The new camp id to be added to this campus. 
      */
     addCamp(newCampID) {
         this.camp_ids.add(newCampID);

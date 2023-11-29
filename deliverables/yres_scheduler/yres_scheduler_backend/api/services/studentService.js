@@ -1,15 +1,29 @@
+/**
+ * This module implements the use case operations for the student service.
+ * 
+ * @module api/service/studentService
+ * 
+ * @requires api/db/studentDbPlugin
+ * @requires api/entities/ServiceErrors
+ */
+
 const db = require('../db/studentDbPlugin');
+const {StudentServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Retrieves all students from the database.
  *
- * @returns {Promise<Array>} A promise that resolves to an array of student objects.
+ * @returns {Array<Student>} An array of student objects.
  */
 async function getAllStudents() {
-    const resp = await db.getAllStudents();
-
-    return resp;
-
+    try {
+        return await db.getAllStudents();
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
@@ -17,10 +31,24 @@ async function getAllStudents() {
  * @param {number} student_id - The ID of the student to retrieve.
  * @returns {object} - The student object.
  */
-function getStudentById(student_id) {
-    const resp = db.getStudentById(student_id);
+async function getStudentById(student_id) {
+    try {
+        const student = await db.getStudentById(student_id);
 
-    return resp;
+        if (student == null) {
+            throw new StudentServiceError(
+                `Student resource with ID '${student_id}' not found in DB`,
+                STATUS_CODES.NOT_FOUND
+            );
+        }
+
+        return student;
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 
 }
 
@@ -30,11 +58,25 @@ function getStudentById(student_id) {
  * @param {string} student_ui_id - The UI ID of the student to retrieve.
  * @returns {object} - The student object retrieved from the database.
  */
-function getStudentByUiId(student_ui_id) {
+async function getStudentByUiId(student_ui_id) {
 
-    const resp = db.getStudentById(student_ui_id);
+    try {
+        const student = await db.getStudentById(student_ui_id);
 
-    return resp;
+        if (student == null) {
+            throw new StudentServiceError(
+                `Student resource with ID '${student_ui_id}' not found in DB`,
+                STATUS_CODES.NOT_FOUND
+            );
+        }
+
+        return student;
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 
 }
 
@@ -42,12 +84,32 @@ function getStudentByUiId(student_ui_id) {
  * Creates a new student in the database.
  *
  * @param {Object} student - The student object to be created.
- * @returns {Promise<Object>} - A promise that resolves to the newly created student object.
+ * @returns {Object} - The newly created student object.
  */
-function createStudent(student) {
-    
-    const resp = db.createStudent(student);
-    return resp;
+async function createStudent(
+    student_ui_id,
+    firstname,
+    lastname,
+    age,
+    sex,
+    friend_ids,
+    enemy_ids) {
+    try {
+        const resp = await db.createStudent(
+            student_ui_id,
+            firstname,
+            lastname,
+            age,
+            sex,
+            friend_ids,
+            enemy_ids);
+        return resp;
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
@@ -55,9 +117,32 @@ function createStudent(student) {
  * @param {Object} student - The student object to edit.
  * @returns {Object} - The response from the database.
  */
-function editStudentById(student) {
-    const resp = db.editStudentById(student);
-    return resp;
+async function editStudentById(
+    student_id,
+    student_ui_id,
+    firstname,
+    lastname,
+    age,
+    sex,
+    friend_ids,
+    enemy_ids) {
+    try {
+        const resp = await db.editStudentById(student_id,
+            student_ui_id,
+            firstname,
+            lastname,
+            age,
+            sex,
+            friend_ids,
+            enemy_ids);
+        return resp;
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
+    
 }
 
 /**
@@ -66,8 +151,19 @@ function editStudentById(student) {
  * @returns {Object} - The response from the database.
  */
 function addFriendPreference(friends) {
-    const resp = db.insertFriendPreferences(friends.student_id, friends.other_student_ui_id, friends.enemy, friends.id_ui);
-    return resp;
+    try {
+        const resp = db.insertFriendPreferences(
+            friends.student_id,
+            friends.other_student_ui_id,
+            friends.enemy,
+            friends.id_ui);
+        return resp;
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**
@@ -75,9 +171,16 @@ function addFriendPreference(friends) {
  * @param {string} student_ui_id - The UI ID of the student to delete.
  * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating whether the student was successfully deleted.
  */
-function deleteStudentById(student_ui_id) {
-    const resp = db.deleteStudentById(student_ui_id);
+async function deleteStudentById(student_ui_id) {
+    try {
+        const resp = await db.deleteStudentById(student_ui_id);
     return resp;
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 module.exports = {

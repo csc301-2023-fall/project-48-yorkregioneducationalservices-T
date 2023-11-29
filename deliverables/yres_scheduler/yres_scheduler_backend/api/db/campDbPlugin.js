@@ -1,5 +1,13 @@
+/**
+ * This module implements the DB operations for the camp service.
+ * 
+ * @module api/db/campDbPlugin
+ * 
+ * @requires api/entities/Camp
+ * @requires api/db/db
+ */
+
 const Camp = require("../entities/Camp");
-const uuid = require('uuid');
 const { client } = require('./db');
 
 /**
@@ -20,7 +28,7 @@ function mapRowToCamp(row) {
  * Retrieves a camp from the database by their ID.
  *
  * @param {string} camp_id - The ID of the camp to retrieve.
- * @returns {Promise<Camp>} A Promise that resolves with the retrieved camp object.
+ * @returns {Camp} The retrieved camp object.
  * @throws {Error} If there was an error retrieving the camp from the database.
  */
 async function getCampById(camp_id) {
@@ -29,34 +37,39 @@ async function getCampById(camp_id) {
     var activity_ids = new Set();
     var campus_id;
 
-    return new Promise((resolve, reject) => {
-        client.query(`Select * from Camp where camp_id = '${camp_id}';`, (err, result)=>{
+    const query_a = `Select * from Camp where camp_id = '${camp_id}';`;
+    const query_b = `Select activity_id from Activity where camp_id = '${camp_id}';`;
 
-            campus_id = result.rows[0].campus_id;
-            name = result.rows[0].name;
+    try {
+        const result_a = await client.query(query_a);
+        if (result_a && result_a.rowCount > 0) {
+            campus_id = result_a.rows[0].campus_id;
+            name = result_a.rows[0].name;
 
-            if (err){
-                reject(err);
+            const result_b = await client.query(query_b);
+            if (result_b && result_b.rowCount > 0) {
+                for (var i=0; i  < result_b.length; i++) {
+                    activity_ids.add(result_b.rows[i].activity_id);
+                }
             }
-        });
 
-        client.query(`Select activity_id from Activity where camp_id = '${camp_id}';`, (err, result)=>{
-            for (var i=0; i  < result.length; i++) {
-                activity_ids.add(result.rows[i].activity_id);
-            }
-        });
+            return new Camp(camp_id, name, activity_ids, campus_id);
+            
+        } else {
+            return null;
+        }
 
-        resolve(new Camp(camp_id, name, activity_ids, campus_id));
-    });
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 /**
  * Retrieves activity ids from the database and adds them to the set of activity ids for a given camp.
- * @async
- * @function getActivityIds
+ * 
  * @param {Object} camp - The camp object for which to retrieve and store activity ids.
- * @param {string} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
- * @throws {Error} Throws an error if there was an issue fetching activity ids from the database.
+ * @param {number} camp.camp_id - The ID of the camp for which to retrieve and store activity ids.
+ * @returns the updated camp object if successful
  */
 async function getActivityIds(camp) {  
     const queryGetActivityIds = `Select activity_id from Activity where camp_id = $1;`;  
@@ -70,13 +83,11 @@ async function getActivityIds(camp) {
         });
 
         await Promise.all(promises);
+        return camp;
 
-    } catch (error) {
-        // Handle errors appropriately
-        console.error('Error while fetching activity ids:', error);
-        throw new Error('Failed to fetch activity ids');
+    } catch (err) {
+        throw new Error(err);
     }
-
   }
 
 /**
@@ -87,48 +98,44 @@ async function getActivityIds(camp) {
 async function getAllCamps() {
 
     var all_camps;
-    return new Promise(async (resolve, reject) => {
-        const result = await new Promise((queryResolve, queryReject) => {
-            client.query(`SELECT * FROM Camp;`, function (err, result) {
-                if (err) {
-                    queryReject(err);
-                } else {
-                    queryResolve(result);
-                }
-            });
-        });
 
-        const rows = result.rows;
+    const query = `SELECT * FROM Camp;`;
+    try {
+        const result = await client.query(query);
 
-        all_camps = rows.map(mapRowToCamp);
+        if (result && result.rowCount > 0) {
+            const rows = result.rows;
+            all_camps = rows.map(mapRowToCamp);
+            for (const camp of all_camps) {
+                await getActivityIds(camp);
+            }
+            return all_camps;
 
-        for (const camp of all_camps) {
-            await getActivityIds(camp);
-        }        
-        
-        resolve(all_camps);
-    });
+        } else {
+            return [];
+        }
+
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 /**
  * Creates a new camp record in the database.
- * @async
- * @function createCamp
+ * 
  * @param {string} name - The name of the camp object to be created in the database.
  * @param {string} campus_id - The id of the campus to store the camp object to be created in the database.
- * @returns {Promise<boolean>} - A promise that resolves to true if the camp was created successfully.
+ * @returns {boolean} - Whether operation succeeded or not
  */
 async function createCamp(name, campus_id) {
-    camp_id = uuid.v1()
+    const query = `INSERT INTO Camp(name, campus_id) VALUES('${name}', '${campus_id}');`;
 
-    return new Promise((resolve, reject) => {
-        client.query(`INSERT INTO Camp(camp_id, name, campus_id) VALUES('${camp_id}', '${name}', '${campus_id}');`, function (err, result) {
-            if (err){
-                reject(err);
-            }
-        });
-        resolve(true);
-    });
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
 }
 
 module.exports = {
