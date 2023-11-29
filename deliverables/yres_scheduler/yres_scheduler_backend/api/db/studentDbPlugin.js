@@ -257,7 +257,7 @@ async function createStudent(
     `;
 
     const functionName = createStudent.name; // Get the name of the current function for logging purposes
-    logger.debug(`Function ${functionName}: Creating student in the studentDbPlugin`, { student: student });
+    logger.debug(`Function ${functionName}: Creating student in the studentDbPlugin`, { student_id });
     
     try {
         const result = await client.query(query, [
@@ -269,10 +269,10 @@ async function createStudent(
         ]);
         //Insert student friend preferences
         const student_id = parseInt(result.rows[0].student_id);
-        student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
+        friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
             insertFriendPreferences(student_id, friend_ui_id, false);
         });
-        student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+        enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
             insertFriendPreferences(student_id, enemy_ui_id, true)
         });
         return true;
@@ -313,11 +313,14 @@ async function clearFriendPreferencesById(student_id) {
  * @returns {boolean} - true if the update was successful
  */
 async function editStudentById(
+    student_id,
     student_ui_id,
     firstname,
     lastname,
     age,
-    sex) {
+    sex,
+    enemy_ids,
+    friend_ids) {
     const query = `
         UPDATE Student
         SET
@@ -331,7 +334,7 @@ async function editStudentById(
         RETURNING *;
     `;
     const functionName = editStudentById.name; // Get the name of the current function for logging purposes
-    logger.debug(`Function ${functionName}: Editing student in the studentDbPlugin`, { student: student });
+    logger.debug(`Function ${functionName}: Editing student in the studentDbPlugin`, { student_id });
     try {
         const result = await client.query(query, [
             student_ui_id,
@@ -339,16 +342,16 @@ async function editStudentById(
             lastname,
             age,
             sex,
-            student_id
+            student_id,
         ]);
-        clearFriendPreferencesById(student.student_id);
+        clearFriendPreferencesById(student_id);
         //Insert student friend preferences
-        const student_id = parseInt(result.rows[0].student_id);
-        student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
-            await insertFriendPreferences(student_id, friend_ui_id, false);
+        const student_id_a = parseInt(result.rows[0].student_id);
+        friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
+            await insertFriendPreferences(student_id_a, friend_ui_id, false);
         });
-        student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
-            await insertFriendPreferences(student_id, enemy_ui_id, true)
+        enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            await insertFriendPreferences(student_id_a, enemy_ui_id, true)
         });
         return true;
     } catch (err) {

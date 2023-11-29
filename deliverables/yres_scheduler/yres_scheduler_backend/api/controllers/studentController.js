@@ -102,6 +102,8 @@ async function createStudent(req, res) {
     const lastname = req.body.lastname;
     const age = req.body.age;
     const sex = req.body.sex;
+    const friend_ids = req.body.friend_ids;
+    const enemy_ids = req.body.enemy_ids;
 
     if (!student) {
         throw new StudentServiceError(
@@ -115,7 +117,9 @@ async function createStudent(req, res) {
         firstname,
         lastname,
         age,
-        sex
+        sex,
+        friend_ids,
+        enemy_ids
     );
 
     res.status(STATUS_CODES.SUCCESS);
@@ -140,16 +144,21 @@ async function createStudentsFromList(req, res) {
     const failed_students = []; // Initialize an array to store failed student IDs
 
     await Promise.all(students.map(async student => {
-        const status = await studentService.createStudent(student);
-        if (status?.result === false) {
-            logger.error(`createStudentsFromList: Failed to create student ${student.student_ui_id} with error: ${status.error}`)
-            failed_students.push(student.student_ui_id); 
-        }
+        const status = await studentService.createStudent(
+            student.student_ui_id,
+            student.firstname,
+            student.lastname,
+            student.age,
+            student.sex,
+            student.friend_ids,
+            student.enemy_ids
+        );
     }));
 
+    res.status(STATUS_CODES.SUCCESS);
+
     return {
-        status: failed_students.length === 0 ? STATUS_CODES.SUCCESS : STATUS_CODES.FAILED,
-        error: { failed_students: failed_students} // Return the list of failed student IDs
+        result: true
     };
 }
 /**
@@ -166,6 +175,8 @@ async function editStudentById(req, res) {
     const lastname = req.body.lastname;
     const age = req.body.age;
     const sex = req.body.sex;
+    const enemy_ids = req.body.enemy_ids;
+    const friend_ids = req.body.friend_ids;
 
     if (!student_id || !student_ui_id || !firstname || !lastname || !age || !sex) {
         throw new StudentServiceError(
@@ -180,7 +191,9 @@ async function editStudentById(req, res) {
         firstname,
         lastname,
         age,
-        sex
+        sex,
+        enemy_ids,
+        friend_ids
     );
 
     res.status(STATUS_CODES.SUCCESS);

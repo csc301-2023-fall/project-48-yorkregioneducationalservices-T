@@ -113,9 +113,24 @@ async function createStudent(
  * @param {Object} student - The student object to edit.
  * @returns {Object} - The response from the database.
  */
-async function editStudentById(student) {
+async function editStudentById(
+    student_id,
+    student_ui_id,
+    firstname,
+    lastname,
+    age,
+    sex,
+    enemy_ids,
+    friend_ids) {
     try {
-        const resp = await db.editStudentById(student);
+        const resp = await db.editStudentById(student_id,
+            student_ui_id,
+            firstname,
+            lastname,
+            age,
+            sex,
+            enemy_ids,
+            friend_ids);
         return resp;
     } catch(err) {
         throw new StudentServiceError(
