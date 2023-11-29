@@ -2,7 +2,12 @@ import * as React from 'react';
 import Footer from '../components/footer';
 import Image from 'react-bootstrap/Image';
 
-// Login Specific Page Layout
+/** 
+ * Login Specific Page Layout
+ * Props: 
+        children - The login component with the required fields
+}
+**/
 export default function LoginLayout({ children }) {
     return (
       <div id='menu-layout'>

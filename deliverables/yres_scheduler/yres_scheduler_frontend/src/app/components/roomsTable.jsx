@@ -11,6 +11,16 @@ import { fetchDataDELETE } from '../helper';
 import { useRouter } from 'next/navigation'
 import Alert from 'react-bootstrap/Alert';
 
+/** 
+ * Table that allows for the display and deletion of Rooms
+ * class Room {
+   *room_id (string) 		// The auto generated unique ID
+    name (string) 		// <UI> The name of the room
+    activity_ids (set<string>) 	// <UI> The IDs of the activities that can take place in this room
+}
+ * Props: 
+        roomData - a list of room objects with above attributes
+**/
 function RoomsTable({ roomData }) {
     const router = useRouter();
     const [errorDisplay, setErrorDisplay] = useState(<></>);
