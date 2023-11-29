@@ -3,7 +3,7 @@ const db = require('../db/psqlDbPlugin');
 const schedb = require('../db/scheduleDbPlugin');
 const scheduleAlgo = require('../services/scheduleAlgo');
 const { saveJsonToFile, getJsonFromFile } = require('../utils/saveJsonToFile.js');
-const FILE_PATH = 'deliverables/yres_scheduler/yres_scheduler_backend/api/schedules/schedule.json';
+const FILE_PATH = './saved_scheduled.json';
 
 async function generateSchedule(students, counselors, activities, rooms) {  
     const new_schedule = await scheduleAlgo.scheduleCall(students, counselors, activities, rooms);

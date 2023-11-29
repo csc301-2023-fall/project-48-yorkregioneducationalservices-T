@@ -68,7 +68,7 @@ async function scheduleCall(students, counselors, activities, rooms) {
     for (let r = 0; r < rooms.length; r++) {
         room_ids.push(rooms[r].room_id);
     }
-    const result = await scheduleAlgorithm(groups, activities.activities, room_ids);
+    const result = await scheduleAlgorithm(groups, activityLs, room_ids);
     console.log("Scheduling complete");
     return result;
 }
@@ -95,6 +95,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
             }
         }
     }
+
     // 1.2. Initialize all schedules to empty
     for (var c = 0; c < groups.length; c++) {
         for (var g = 0; g < groups[c].length; g++) {
