@@ -313,7 +313,6 @@ async function clearFriendPreferencesById(student_id) {
  * @returns {boolean} - true if the update was successful
  */
 async function editStudentById(
-    student_id,
     student_ui_id,
     firstname,
     lastname,
