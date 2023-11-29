@@ -38,7 +38,7 @@ async function getGroupById(group_id) {
     var camp_id;
 
     try {
-            const result = await client.query(`Select * from CampGroup where camp_group_id = '${group_id}';`);
+            var result = await client.query(`Select * from CampGroup where camp_group_id = '${group_id}';`);
                 
             if (result && result.rowCount > 0) {
                 schedule_id = result.rows[0].schedule_id;

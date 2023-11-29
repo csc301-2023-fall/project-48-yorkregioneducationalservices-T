@@ -40,7 +40,7 @@ async function getAllActivities() {
     var all_activities;
 
     try {
-        const result = await client.query(query);
+        var result = await client.query(query);
 
         if (result && result.rowCount > 0) {
             var rows = result.rows;
@@ -112,7 +112,7 @@ async function createActivity(name, duration, type, num_occurences, camp_id, roo
         RETURNING activity_id;
     `;
     try {
-        const result = await client.query(query, [name, duration, type, num_occurences, CAMPUS_ID]);
+        await client.query(query, [name, duration, type, num_occurences, CAMPUS_ID]);
         if (room_ids === undefined || room_ids.length === 0) {
             return true;
         }
