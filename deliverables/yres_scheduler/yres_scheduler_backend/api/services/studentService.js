@@ -86,9 +86,20 @@ async function getStudentByUiId(student_ui_id) {
  * @param {Object} student - The student object to be created.
  * @returns {Object} - The newly created student object.
  */
-async function createStudent(student) {
+async function createStudent(student_id,
+    student_ui_id,
+    firstname,
+    lastname,
+    age,
+    sex) {
     try {
-        const resp = await db.createStudent(student);
+        const resp = await db.createStudent(
+            student_id,
+            student_ui_id,
+            firstname,
+            lastname,
+            age,
+            sex);
         return resp;
     } catch(err) {
         throw new StudentServiceError(

@@ -242,7 +242,13 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
  * @param {Array<string>} student.enemy_ids - An array of unique identifiers for the student's enemies.
  * @returns {boolean} - true if the student was successfully inserted into the database, or false otherwise.
  */
-async function createStudent(student) {
+async function createStudent(
+    student_ui_id,
+    firstname,
+    lastname,
+    age,
+    sex
+) {
 
     const query = `
         INSERT INTO Student (student_ui_id, firstname, lastname, age, sex)
@@ -255,11 +261,11 @@ async function createStudent(student) {
     
     try {
         const result = await client.query(query, [
-            student.student_ui_id,
-            student.firstname,
-            student.lastname,
-            student.age,
-            student.sex,
+            student_ui_id,
+            firstname,
+            lastname,
+            age,
+            sex,
         ]);
         //Insert student friend preferences
         const student_id = parseInt(result.rows[0].student_id);

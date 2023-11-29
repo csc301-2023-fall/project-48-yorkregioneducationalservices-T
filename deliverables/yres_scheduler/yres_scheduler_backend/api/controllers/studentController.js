@@ -97,7 +97,11 @@ function getStudentByUiId(req, res) {
  */
 async function createStudent(req, res) {
     
-    const student = req.body;
+    const student_ui_id = req.body.student_ui_id;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
+    const age = req.body.age;
+    const sex = req.body.sex;
 
     if (!student) {
         throw new StudentServiceError(
@@ -106,7 +110,13 @@ async function createStudent(req, res) {
         );
     }
 
-    const status = await studentService.createStudent(student);
+    const status = await studentService.createStudent(
+        student_ui_id,
+        firstname,
+        lastname,
+        age,
+        sex
+    );
 
     res.status(STATUS_CODES.SUCCESS);
     
