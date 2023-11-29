@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
-
+import { useState } from 'react';
 /**
  * Addition Modal for Counselors
  *class Counselor {
