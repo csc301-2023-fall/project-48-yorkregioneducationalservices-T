@@ -76,7 +76,7 @@ function convertFromCounselors(counselors) {
 async function groupCall(counselors, students) {
 	var counselorLs = await convertFromCounselors(counselors);
 	var studentLs = await convertFromStudents(students);
-	generateGroups(counselorLs, studentLs);
+	return generateGroups(counselorLs, studentLs);
 }
 
 // =============== GROUPING ALGORITHM STARTS HERE ========================
@@ -110,6 +110,7 @@ function generateGroups(counselors, students) {
 	}
 	// 1.2. Generate lists of counselors based on camp types occuring in students
 	var tbd = [];	// A temporary list to hold the counselors TBD (if the camp type is full or if they have no type preference)
+	console.log(counselors.length);
 	for (let c = 0; c < counselors.length; c++) {
 		// If the counselor has a valid camp type preference
 		if (camp_types.indexOf(counselors[c].camp_type) >= 0) {
@@ -119,11 +120,13 @@ function generateGroups(counselors, students) {
 				counselors_by_type[type_index].push(counselors[c]);
 			}
 			else {
+				console.log('pushing tbd');
 				tbd.push(counselors[c]);
 			}
 		}
 		// If the camp type is invalid or unspecified, the counselor is auto-filled
 		else {
+			console.log('pushing tbd');
 			tbd.push(counselors[c]);
 		}
 	}
@@ -131,6 +134,8 @@ function generateGroups(counselors, students) {
 	for (let t = 0; t < camp_types.length; t++) {
 		// Fill counselors to the type of camp until enough)
 		while (counselors_by_type[t].length < num_groups_per_type[t] * NUM_COUNSELOR) {
+			console.log(counselors_by_type[t].length);
+			console.log(tbd);
 			const fill = tbd.pop();
 			// No counselor is available to fill, raise error
 			if (fill === undefined) {

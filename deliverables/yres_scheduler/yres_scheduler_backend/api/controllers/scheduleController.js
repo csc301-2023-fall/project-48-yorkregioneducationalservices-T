@@ -16,8 +16,7 @@ async function generateSchedule(req, res) {
     const counselors = await counselorService.getAllCounselors();
     const rooms = await roomService.getAllRooms();
     const activities = await activitiesService.getAllActivities();
-
-    schedService.generateSchedule(students, counselors, activities, rooms);
+    schedService.generateSchedule(students, counselors.result, activities, rooms.rooms);
 
     return {
         schedule: new_schedule

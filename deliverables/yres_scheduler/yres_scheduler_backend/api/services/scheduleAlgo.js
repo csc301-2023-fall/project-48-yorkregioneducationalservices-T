@@ -32,7 +32,7 @@ function convertFromActivities(activities) {
 		console.log("scheduleAlgo - Undefined: list of activities is undefined.");
 		throw Error("scheduleAlgo - Undefined: list of activities is undefined.");
 	}
-	for (var a = 0; a < counselors.length; a++) {
+	for (var a = 0; a < activities.length; a++) {
 		if (activities[a].activity_id === undefined || activities[a].name === undefined || activities[a].duration === undefined || 
             activities[a].type === undefined || activities[a].num_occurences === undefined || activities[a].camp_id === undefined ||
             activities[a].rooms === undefined) { // TODO: to be replaced by camp_type

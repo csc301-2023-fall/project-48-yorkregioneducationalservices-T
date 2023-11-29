@@ -5,8 +5,7 @@ const scheduleAlgo = require('../services/scheduleAlgo');
 const { saveJsonToFile, getJsonFromFile } = require('../utils/saveJsonToFile.js');
 const FILE_PATH = 'deliverables/yres_scheduler/yres_scheduler_backend/api/schedules/schedule.json';
 
-async function generateSchedule(students, counselors, activities, rooms) {
-
+async function generateSchedule(students, counselors, activities, rooms) {  
     const new_schedule = await scheduleAlgo.scheduleCall(students, counselors, activities, rooms);
         
     // Save the schedule to a file
