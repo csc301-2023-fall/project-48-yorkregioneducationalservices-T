@@ -33,7 +33,8 @@ function EnemiesCreate({show, setShow, studentData}) {
                                 {   
                                     student_id: enemiesList[i]._student_id,
                                     other_student_ui_id: enemiesList[j]._student_ui_id,
-                                    enemy: true
+                                    enemy: true,
+                                    id_ui: false
                                 }
                             )
                         } catch (err) {

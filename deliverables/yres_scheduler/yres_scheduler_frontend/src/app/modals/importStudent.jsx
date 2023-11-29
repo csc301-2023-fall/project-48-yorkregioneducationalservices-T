@@ -22,6 +22,7 @@ function StudentImport({show, setShow, type}) {
     const handleClose = () => {
         setError(<></>)
         setShow(false)
+        router.refresh()
     };
     const csvData = processData("student_id,firstname,lastname,age,sex,friend_ids,enemy_ids.1,John,jordan,12,M,,.2, Mary, Richards,8,F,,1.3,abiha,elkhalifa,10,F,4,.4,ewan,jordan,13,M,,.5,Majed,elkhalifa,12,M,4,");
     return (
@@ -31,7 +32,11 @@ function StudentImport({show, setShow, type}) {
             </Modal.Header>
             <Modal.Body>
                 <p> Note: The CSV file used to import students must be of a specific organization. Specifically, the headers of the file must be 
-                    identical to those in the example file found below. Furthermore, friend ids and enemy ids must be comma seperated.
+                    identical to those in the example file found below. Furthermore, friend/enemy preferences should only be added within the add friend/
+                    enemy modal.
+                </p>
+                <p>
+                    You may need to refresh to view some added students.
                 </p>
                 <StudentCSV type={type}></StudentCSV>
                 <Button variant="secondary" onClick={handleClose}>

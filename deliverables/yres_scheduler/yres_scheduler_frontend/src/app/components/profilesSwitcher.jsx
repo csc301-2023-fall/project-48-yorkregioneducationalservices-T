@@ -17,7 +17,7 @@ const PROFILE_TYPES = ['Student', 'Counselor']
  * Toggles profile page to show either Students or Counselors
 **/
 function ProfilesSwitcher({ studentData, counselorData }) {
-    const [currType, setCurrType] = React.useState(PROFILE_TYPES[0]);
+    const [currType, setCurrType] = useState(PROFILE_TYPES[0]);
     const handleSelectType = (e) => {
         setCurrType(e);
     }

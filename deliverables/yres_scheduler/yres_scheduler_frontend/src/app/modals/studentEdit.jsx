@@ -19,13 +19,13 @@ import YresTable from '../components/table';
         students - a list of all student objects with attributes described above
  * */
 function StudentEdit({item, show, setShow, students}) {
-    const [error, setError] = useState(<></>);
+    const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [removeFriends, setRemoveFriends] = useState([]);
     const [removeEnemies, setRemoveEnemies] = useState([]);
     const router = useRouter();
     const studentFriendData = students.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
     const handleClose = () => {
-        setError(<></>)
+        setErrorDisplay(<></>)
         setShow(false)
         setRemoveFriends([]);
         setRemoveEnemies([]);
@@ -109,8 +109,9 @@ function StudentEdit({item, show, setShow, students}) {
             router.refresh();
             handleClose();
         } catch (err) {
-            //TODO: Display Error in component
-            console.log(err);
+            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+                <p>{err}</p>
+                </Alert>);
         }
     }
 
@@ -119,6 +120,7 @@ function StudentEdit({item, show, setShow, students}) {
             <Modal.Header closeButton>
             <Modal.Title>{"Edit Student"}</Modal.Title>
             </Modal.Header>
+            {errorDisplay}
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                 <Form.Group
@@ -179,7 +181,6 @@ function StudentEdit({item, show, setShow, students}) {
                     
                     <Form.Label>Enemies</Form.Label>
                     <YresTable keyCol={'_student_ui_id'} data={enemy_table} columns={columns} disableHover={true} friend_table={true} disablesearch={true}/>
-                    {error}
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>

@@ -33,7 +33,8 @@ function FriendsCreate({show, setShow, studentData}) {
                                 {   
                                     student_id: friendsList[i]._student_id,
                                     other_student_ui_id: friendsList[j]._student_ui_id,
-                                    enemy: false
+                                    enemy: false,
+                                    id_ui: false
                                 }
                             )
                         } catch (err) {

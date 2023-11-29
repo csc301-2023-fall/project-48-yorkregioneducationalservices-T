@@ -193,30 +193,35 @@ function getStudentByUiId(student_ui_id) {
     }
 }
 
-async function insertFriendPreferences(student_id, other_student_ui_id, is_apart) {
+async function insertFriendPreferences(student_id, other_student_ui_id, is_apart, id_ui) {
   
     // Check that the other student exists
     const result_other_friend = await client.query('SELECT * FROM STUDENT WHERE student_ui_id = $1', [other_student_ui_id,]);
-    // Check if the friend preferences already exist  
-    let larger_id, smaller_id;
-    if (student_id > other_student_id) {
-        larger_id = student_id;
-        smaller_id = other_student_id;
-    } else {
-        larger_id = other_student_id;
-        smaller_id = student_id;
-    }
-    const result_friend_preferences = await client.query('SELECT * FROM FriendPreference WHERE student_id1 = $1 AND student_id2 = $2', [larger_id, smaller_id]);
-
-    if (result_other_friend.rows.length !== 0 && result_friend_preferences.rows.length === 0) {
-        logger.debug('inserting friend preferences');
+    if(result_other_friend.rows.length !== 0){
         const other_student_id = result_other_friend.rows[0].student_id;
-        const queryInsertFriendPreferences = `
-            INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
-            VALUES ($1, $2, $3)
-        `;
-        await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
-    } else {
+        // Check if the friend preferences already exist  
+        let larger_id, smaller_id;
+        if (student_id > other_student_id) {
+            larger_id = student_id;
+            smaller_id = other_student_id;
+        } else {
+            larger_id = other_student_id;
+            smaller_id = student_id;
+        }
+        const result_friend_preferences = await client.query('SELECT * FROM FriendPreference WHERE student_id1 = $1 AND student_id2 = $2', [larger_id, smaller_id]);
+
+        if (result_friend_preferences.rows.length === 0) {
+            logger.debug('inserting friend preferences');
+            const queryInsertFriendPreferences = `
+                INSERT INTO FriendPreference (student_id1, student_id2, is_apart)
+                VALUES ($1, $2, $3)
+            `;
+            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
+        } 
+        else{
+            logger.debug('preference already found');
+        }
+    }   else {
         logger.debug('other student not found');
     }
 }
@@ -256,10 +261,10 @@ async function createStudent(student) {
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
         student.friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {
-            insertFriendPreferences(student_id, friend_ui_id, false);
+            insertFriendPreferences(student_id, friend_ui_id, false, false);
         });
         student.enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
-            insertFriendPreferences(student_id, enemy_ui_id, true)
+            insertFriendPreferences(student_id, enemy_ui_id, true, false)
         });
         return {result: true};
     } catch (err) {
@@ -323,10 +328,10 @@ async function editStudentById(student) {
         //Insert student friend preferences
         const student_id = result.rows[0].student_id;
         student.friend_ids.forEach(async (friend_ui_id) => {
-            await insertFriendPreferences(student_id, friend_ui_id, false);
+            await insertFriendPreferences(student_id, friend_ui_id, false, false);
         });
         student.enemy_ids.forEach(async (enemy_ui_id) => {
-            await insertFriendPreferences(student_id, enemy_ui_id, true)
+            await insertFriendPreferences(student_id, enemy_ui_id, true, false);
         });
         return {result: true};
     } catch (err) {
