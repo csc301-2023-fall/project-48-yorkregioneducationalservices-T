@@ -53,4 +53,4 @@ yarn-error.log
 *.lnk
 
 #.next
-deliverable/yres_scheduler/yres_scheduler_frontend/.next/*
+**/.next/**
