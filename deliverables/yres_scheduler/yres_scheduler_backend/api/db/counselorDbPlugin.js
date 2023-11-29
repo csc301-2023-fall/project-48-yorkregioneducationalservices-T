@@ -9,6 +9,14 @@
 const Counselor = require("../entities/Counselor");
 const { client } = require('./db');
 const logger = require('../../logger');
+const {STATUS_CODES} = require('../entities/ServiceErrors');
+const { log } = require("mathjs");
+const config = require('config');
+const CAMPUS_ID = config.get('campus');
+
+///////////////////////////////////////////////////////////////////////////////////
+// Counselor db plugin methods
+///////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Maps a row from the counselor table to a Counselor object.
@@ -87,7 +95,7 @@ async function createCounselor(firstname, lastname, campus_id) {
         const result = await client.query(query, [
             firstname,
             lastname,
-            campus_id,
+            CAMPUS_ID
         ]);
         return true;
     } catch (err) {

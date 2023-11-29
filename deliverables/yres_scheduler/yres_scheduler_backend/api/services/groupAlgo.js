@@ -45,6 +45,7 @@ function convertFromStudents(students) {
 		}
 		studentLs.push(new StudentL(students[s].student_id, students[s].sex, students[s].friend_ids, students[s].campus_id)); // TODO: TODO: to be replaced by camp_type
 	}
+	return studentLs;
 }
 
 /** Converter between Counselor entity class and local CounselorL class.
@@ -64,6 +65,7 @@ function convertFromCounselors(counselors) {
 		}
 		counselorLs.push(new CounselorL(counselors[c].counselor_id, counselors[c].campus_id));
 	}
+	return counselorLs;
 }
 // =============== GROUPING API CALL ========================
 /** Schedule algorithm calls this function to generate group first
@@ -71,10 +73,10 @@ function convertFromCounselors(counselors) {
  * @param {Array} counselors - list of Counselor entities.
  * @param {Array} students - list of Student entities.
  */
-function groupCall(counselors, students) {
-	var counselorLs = convertFromCounselors(counselors);
-	var studentLs = convertFromStudents(students);
-	generateGroups(counselorLs, studentLs);
+async function groupCall(counselors, students) {
+	var counselorLs = await convertFromCounselors(counselors);
+	var studentLs = await convertFromStudents(students);
+	return generateGroups(counselorLs, studentLs);
 }
 
 // =============== GROUPING ALGORITHM STARTS HERE ========================
@@ -108,6 +110,7 @@ function generateGroups(counselors, students) {
 	}
 	// 1.2. Generate lists of counselors based on camp types occuring in students
 	var tbd = [];	// A temporary list to hold the counselors TBD (if the camp type is full or if they have no type preference)
+	console.log(counselors.length);
 	for (let c = 0; c < counselors.length; c++) {
 		// If the counselor has a valid camp type preference
 		if (camp_types.indexOf(counselors[c].camp_type) >= 0) {
@@ -117,18 +120,22 @@ function generateGroups(counselors, students) {
 				counselors_by_type[type_index].push(counselors[c]);
 			}
 			else {
+				console.log('pushing tbd');
 				tbd.push(counselors[c]);
 			}
 		}
 		// If the camp type is invalid or unspecified, the counselor is auto-filled
 		else {
+			console.log('pushing tbd');
 			tbd.push(counselors[c]);
 		}
 	}
 	// 1.3. Auto-fill process
 	for (let t = 0; t < camp_types.length; t++) {
-		// Fill counselors to the type of camp until enough
+		// Fill counselors to the type of camp until enough)
 		while (counselors_by_type[t].length < num_groups_per_type[t] * NUM_COUNSELOR) {
+			console.log(counselors_by_type[t].length);
+			console.log(tbd);
 			const fill = tbd.pop();
 			// No counselor is available to fill, raise error
 			if (fill === undefined) {
