@@ -33,7 +33,7 @@ async function getAllStudents() {
  */
 async function getStudentById(student_id) {
     try {
-        var student = await db.getStudentById(student_id);
+        const student = await db.getStudentById(student_id);
 
         if (student == null) {
             throw new StudentServiceError(
@@ -61,7 +61,7 @@ async function getStudentById(student_id) {
 async function getStudentByUiId(student_ui_id) {
 
     try {
-        var student = await db.getStudentById(student_ui_id);
+        const student = await db.getStudentById(student_ui_id);
 
         if (student == null) {
             throw new StudentServiceError(
