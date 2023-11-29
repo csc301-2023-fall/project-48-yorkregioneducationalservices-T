@@ -189,6 +189,12 @@ body, html{
   gap: 12px;
 }
 
+#schedule-timetable {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+}
+
 .timetable-header {
   background-color: #3D96AB !important;
 }
@@ -197,10 +203,8 @@ body, html{
   border-radius: 5px;
   width: calc(100% - 2px);
   border: 1px solid grey;
-  cursor: pointer;
-  background-color: #FFF;
-  color: #000000;
-
+  background-color: white;
+  color: black;
   position: absolute;
   font-size: .7em;
   font-weight: 300;
@@ -219,7 +223,7 @@ body, html{
   background-color: #3f97aadc;
   font-size: 12px;
   text-align: center;
-  width: 5rem;
+  width: 4vw;
   flex-grow: 1;
   border-bottom: 1px solid #3D96AB;
   display: flex;

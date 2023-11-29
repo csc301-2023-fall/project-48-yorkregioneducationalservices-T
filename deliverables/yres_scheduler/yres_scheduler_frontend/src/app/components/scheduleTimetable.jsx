@@ -2,7 +2,9 @@
 import * as React from 'react';
 import TimeTable from "react-timetable-events";
 
-function ScheduleTimetable () {
+function ScheduleTimetable ({ schedule }) {
+
+  // Component prototype for hour headers on left
   const hour_header = ({ hour }) => {
     return (
       <div className="timetable-hour" key={hour}>
@@ -11,6 +13,7 @@ function ScheduleTimetable () {
     );
   };
 
+  // Component prototype for each event item in the timetable
   const event_item = ({ event, defaultAttributes }) => {
     const parseMin = (time) => time.getMinutes().toString().padStart(2, '0');
 
@@ -28,10 +31,10 @@ function ScheduleTimetable () {
   };
 
   return (
-    <TimeTable 
+    <TimeTable
+      id="schedule-timetable"
       hoursInterval={{ from: 7, to: 19 }}
       events={DUMMY_ACTIVITY_DATA}
-      style={{ height: '750px', borderRadius: '5px'}}
       renderEvent={event_item}
       renderHour={hour_header}
       headerAttributes={{ className: "timetable-header" }}
