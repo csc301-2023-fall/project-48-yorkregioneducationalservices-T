@@ -48,7 +48,7 @@ async function createActivity(req, res) {
         );
     }
 
-    var succeed = await activityService.createActivity(name, duration, type, num_occurences, camp_id, room_ids);
+    const succeed = await activityService.createActivity(name, duration, type, num_occurences, camp_id, room_ids);
 
     res.status(STATUS_CODES.CREATED);
 
