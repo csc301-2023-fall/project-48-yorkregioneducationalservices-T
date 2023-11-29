@@ -5,6 +5,8 @@ const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
 const roomService = require('../controllers/roomController');
 const activitiesService = require('../controllers/activityController');
+const saveJsonToFile = require('../utils/saveJsonToFile.js');
+const FILE_PATH = 'deliverables/yres_scheduler/yres_scheduler_backend/api/schedules/schedule.json';
 
 /**
  * Generates a new schedule.
@@ -21,6 +23,9 @@ async function generateSchedule(req, res) {
 
     const new_schedule = await scheduleAlgo.scheduleCall(students, counselors, activities, rooms);
     
+    // Save the schedule to a file
+    saveJsonToFile(new_schedule, FILE_PATH);
+
     return {
         schedule: new_schedule
     }
