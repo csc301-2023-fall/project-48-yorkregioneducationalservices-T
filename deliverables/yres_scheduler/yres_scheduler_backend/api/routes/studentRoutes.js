@@ -86,7 +86,7 @@ const studentRoutes = (app) => {
             const resp = await studentController.createStudentsFromList(req, res);    
             res.status(resp.status).send(resp);
         } catch (error) {
-            logger.error(`Error in GET /students/createStudentsFromList/: `, error);
+            logger.error(`Error in GET /students/fromlist/: `, error);
             res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });
         }
     })
@@ -115,8 +115,8 @@ const studentRoutes = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the editStudentById function.
      */
-    .post('/students/createFriends/', async (req, res) => {
-        logger.info(`POST /student/createFriends/`);
+    .post('/students/create/friends/', async (req, res) => {
+        logger.info(`POST /student/create/friends/`);
         const resp = await studentService.addFriendPreference(req, res);
         res.send(resp);
     })
