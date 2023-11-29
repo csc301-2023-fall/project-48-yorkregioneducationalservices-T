@@ -1,7 +1,6 @@
 const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
-// const tempTest = require("./temptest");
 
 class Block {
     constructor(room_id, activity, day, time) {
