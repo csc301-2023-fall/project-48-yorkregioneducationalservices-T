@@ -58,7 +58,7 @@ async function createRoom(
 async function editRoomById(room_id, room_name) {
 
     try {
-        return await db.editRoomById(oom_id, room_name);
+        return await db.editRoomById(room_id, room_name);
     } catch(err) {
         throw new RoomServiceError(
             `DB Operation Failure: ${err}`,
