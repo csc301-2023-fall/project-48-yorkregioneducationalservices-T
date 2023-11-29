@@ -55,10 +55,10 @@ async function createRoom(
  *
  * @returns {boolean} - Whether operation succeeded
  */
-async function editRoomById(room) {
+async function editRoomById(oom_id, room_name) {
 
     try {
-        return await db.editRoomById(room);
+        return await db.editRoomById(oom_id, room_name);
     } catch(err) {
         throw new RoomServiceError(
             `DB Operation Failure: ${err}`,
@@ -70,7 +70,7 @@ async function editRoomById(room) {
 /**
  * Delete a room entity in the database with given room ID.
  * 
- * @param room)ud The ID for the room
+ * @param room_id The ID for the room
  * 
  * @returns {boolean} - Whether operation succeeded
  */

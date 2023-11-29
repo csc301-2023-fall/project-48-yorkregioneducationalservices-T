@@ -80,16 +80,17 @@ async function deleteRoomById(req, res) {
  * @returns {Object} - The status of the edit operation.
  */
 async function editRoomsById(req, res) {
-    const room = req.body;
+    const room_id = req.params.room_id;
+    const room_name = req.body.name;
 
-    if (!room) {
+    if (!room_id || !room_name) {
         throw new RoomServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
         );
     }
 
-    const status = await roomService.editRoomById(room);
+    const status = await roomService.editRoomById(oom_id, room_name);
 
     res.status(STATUS_CODES.SUCCESS);
 

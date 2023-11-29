@@ -112,7 +112,7 @@ async function deleteRoomById(room_id) {
  * @param {number} room_id - room id number.
  * @returns true if deleted successfully.
  */
-async function editRoomById(room) {
+async function editRoomById(room_id, room_name) {
     const query = `
         UPDATE Room
         SET name = $2
@@ -120,7 +120,7 @@ async function editRoomById(room) {
         RETURNING *;
     `;
     try {
-        const result = await client.query(query, [room.room_id, room.name]);
+        const result = await client.query(query, [room_id, room_name]);
         const edited_room = result.rows[0];
 
         if (edited_room === undefined) {
