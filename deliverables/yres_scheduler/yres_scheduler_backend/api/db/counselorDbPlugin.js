@@ -83,7 +83,7 @@ async function getAllCounselors() {
  * @param {number} counselor.campus_id - The ID of the campus the counselor is associated with.
  * @returns {boolean} - true if the counselor was created successfully
  */
-async function createCounselor(firstname, lastname, campus_id) {
+async function createCounselor(firstname, lastname) {
     const query = `
         INSERT INTO Counselor (firstname, lastname, campus_id)
         VALUES ($1, $2, $3)
