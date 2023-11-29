@@ -17,7 +17,7 @@ async function generateSchedule(req, res) {
     const rooms = await roomService.getAllRooms();
     const activities = await activitiesService.getAllActivities();
 
-    const new_schedule = await scheduleAlgo.scheduleCall(students, counselors, activities, rooms);
+    schedService.generateSchedule(students, counselors, activities, rooms);
 
     return {
         schedule: new_schedule
