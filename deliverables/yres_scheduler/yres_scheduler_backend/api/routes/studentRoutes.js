@@ -100,7 +100,7 @@ const studentRoutes = (app) => {
      * @param {Object} res - The Express response object.
      * @returns {Promise} A Promise that resolves to the result of the editStudentById function.
      */
-    .post('/student/:student_id/', auth, async (req, res) => {
+    .post('/student/:student_id/edit', auth, async (req, res) => {
         logger.info(`POST /student/edit/`);
         const resp = await studentController.editStudentById(req, res);
         res.send(resp);
@@ -117,7 +117,7 @@ const studentRoutes = (app) => {
      */
     .post('/students/create/friends/', async (req, res) => {
         logger.info(`POST /student/create/friends/`);
-        const resp = await studentService.addFriendPreference(req, res);
+        const resp = await studentController.addFriendPreference(req, res);
         res.send(resp);
     })
 

@@ -153,8 +153,19 @@ async function editStudentById(
  * @returns {Object} - The response from the database.
  */
 function addFriendPreference(friends) {
-    const resp = db.insertFriendPreferences(friends.student_id, friends.other_student_ui_id, friends.enemy, friends.id_ui);
-    return resp;
+    try {
+        const resp = db.insertFriendPreferences(
+            friends.student_id,
+            friends.other_student_ui_id,
+            friends.enemy,
+            friends.id_ui);
+        return resp;
+    } catch(err) {
+        throw new StudentServiceError(
+            `DB Operation Failure: ${err}`,
+            STATUS_CODES.FAILED
+        );
+    }
 }
 
 /**

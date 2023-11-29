@@ -35,7 +35,6 @@ async function getAllCounselors(req, res) {
  */
 async function createCounselor(req, res) {
     
-    const campus_id = req.body.campus_id;
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
 

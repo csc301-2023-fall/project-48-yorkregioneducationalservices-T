@@ -178,7 +178,7 @@ async function editStudentById(req, res) {
     const enemy_ids = req.body.enemy_ids;
     const friend_ids = req.body.friend_ids;
 
-    if (!student_id || !student_ui_id || !firstname || !lastname || !age || !sex) {
+    if (!student_id || !student_ui_id || !firstname || !lastname || !age || !sex || !enemy_ids || !friend_ids) {
         throw new StudentServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
