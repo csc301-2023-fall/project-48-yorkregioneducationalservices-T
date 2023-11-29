@@ -199,8 +199,8 @@ async function editStudentById(req, res) {
         lastname,
         age,
         sex,
-        enemy_ids,
-        friend_ids
+        friend_ids,
+        enemy_ids
     );
 
     res.status(STATUS_CODES.SUCCESS);

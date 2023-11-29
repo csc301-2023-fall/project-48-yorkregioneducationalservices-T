@@ -114,8 +114,8 @@ async function getAllStudents() {
     
             students = rows.map(mapRowToStudent);
     
-            for (const student of students) {
-                await getFriendPreferencesAndCategorize(student);
+            for (var i=0; i<students.length; i++) {
+                students[i] = await getFriendPreferencesAndCategorize(students[i]);
             }
 
             return students;
@@ -354,7 +354,7 @@ async function editStudentById(
             sex,
             student_id,
         ]);
-        clearFriendPreferencesById(student_id);
+       await clearFriendPreferencesById(student_id);
         //Insert student friend preferences
         const student_id_a = parseInt(result.rows[0].student_id);
         friend_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (friend_ui_id) => {

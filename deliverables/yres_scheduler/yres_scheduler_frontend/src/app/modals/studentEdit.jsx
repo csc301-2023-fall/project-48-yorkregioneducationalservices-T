@@ -90,6 +90,18 @@ function StudentEdit({item, show, setShow, students}) {
             )
         })
     }
+
+    const arrayToCommaSepString = async (array) => {
+        var result = "";
+        if (array.length > 0){
+            result = result + array[0];
+        }
+        for (var i=1; i<array.length; i++) {
+            result = "," + result + array[i];
+        }
+        return result;
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
@@ -102,8 +114,8 @@ function StudentEdit({item, show, setShow, students}) {
                     lastname: event.target[2].value, 
                     age: event.target[3].value, 
                     sex: event.target[4].value,
-                    friend_ids: friend_table.map((friend) => friend._student_ui_id),
-                    enemy_ids: enemy_table.map((enemy) => enemy._student_ui_id)
+                    friend_ids: await arrayToCommaSepString(friend_table.map((friend) => friend._student_ui_id)),
+                    enemy_ids: await arrayToCommaSepString(enemy_table.map((enemy) => enemy._student_ui_id))
                 }
             )
             router.refresh();
