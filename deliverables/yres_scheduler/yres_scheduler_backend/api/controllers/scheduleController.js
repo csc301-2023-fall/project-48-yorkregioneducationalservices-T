@@ -2,7 +2,7 @@ const schedService = require('../services/scheduleService');
 const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
 const roomService = require('../controllers/roomController');
-const activitiesService = require('../controllers/activityController');\
+const activitiesService = require('../controllers/activityController');
 
 /**
  * Generates a new schedule.
