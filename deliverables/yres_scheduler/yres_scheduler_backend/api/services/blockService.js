@@ -18,7 +18,7 @@ const {BlockServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 async function getBlock(block_id) {
 
     try {
-        var block = await db.getBlockById(block_id);
+        const block = await db.getBlockById(block_id);
 
         if (block == null) {
             throw new BlockServiceError(
