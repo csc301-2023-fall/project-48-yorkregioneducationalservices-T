@@ -228,7 +228,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
                         for (var j = time; j < time + all_blocks[t][b].activity.duration; j++) {
                             logger.debug("Inserting", all_blocks[t][b].activity.name, "at day", day, "time", j, "room", selected_room_id);
                             all_blocks[t][b].day = day;
-                            all_blocks[t][b].time = time + 9; // Start at 9 am
+                            all_blocks[t][b].time = time;
                             all_blocks[t][b].room_id = selected_room_id;
                             logger.debug("room:", all_blocks[t][b].room_id);
                             groups[t][g].schedule[day][j] = new BlockL(selected_room_id, all_blocks[t][b].activity, day, time);
