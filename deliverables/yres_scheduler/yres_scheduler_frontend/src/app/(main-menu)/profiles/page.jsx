@@ -9,7 +9,7 @@ async function getStudents() {
         const data = await res.json();
         return {
             error: false,
-            students: data.result,
+            students: data.students,
             err_message: ""
         };
     }
@@ -29,7 +29,7 @@ async function getCounselors() {
         const data = await res.json();
         return {
             error: false,
-            counselors: data.result,
+            counselors: data.counselors,
             err_message: ""
         };
     }

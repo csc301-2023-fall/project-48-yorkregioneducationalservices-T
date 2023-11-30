@@ -18,10 +18,25 @@ import { sort_times } from '@/app/helper';
         generateSchedule - a function that makes the necesary calls and computation to create schedule
 **/
 async function generateSchedule() {
-    //const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
-    //const res = await fetch('example.json');
-    // console.log(sched.data)
-    // return sched.data;
+    try{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generateSchedule/`, { cache: 'no-store' });
+        const data = await res.json();
+        console.log(data);
+        if(data.error){
+            throw data;
+        }
+        return {
+            error: false,
+            schedule: data.schedule,
+            err_message: ""
+        };
+    } catch (error) {
+        return {
+            error: true,
+            schedule: "nil",
+            err_message: error.message
+        };
+    }
 }
 
 export default function Schedule({schedule, rooms}) {
@@ -35,12 +50,13 @@ export default function Schedule({schedule, rooms}) {
     //Get group data
     const allGroups = []
     schedule.forEach(camp => {
-        camp.forEach(group => {
+        camp.forEach((group, group_index) => {
+
             const student_ids = group.students.map(student => student.student_id)
             const counselor_ids = group.counselors.map(counselor => counselor.counselor_id)
             group.student_ids = student_ids
             group.counselor_ids = counselor_ids
-            allGroups.push(group)
+            allGroups.push({student_ids: student_ids, counselor_ids: counselor_ids, group_id: group_index});
         })
       });
       
@@ -55,7 +71,10 @@ export default function Schedule({schedule, rooms}) {
     })
     tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
     const display_data = tempSched.map((row) => { 
-        const room = rooms.find((room_i) => room_i.room_id === row.room_id);
+        console.log(row.room_id);
+        console.log(rooms)
+        const room = rooms.find((room_i) => room_i.room_id === row.room_id.toString());
+        console.log("penis" + room)
         return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
     });
     /**
@@ -66,10 +85,7 @@ export default function Schedule({schedule, rooms}) {
     }
 
     const handleGenerate = async () => {
-        try {
-            data = generateSchedule();
-        } catch (err) {
-        }
+        if()
     }
     // handling function for opening and closing the sidebar
     const handleClose = () => setShow(false);

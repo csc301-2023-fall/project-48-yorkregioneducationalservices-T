@@ -8,17 +8,16 @@ import { fetchDataPOST } from '@/app/helper';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 
-async function generateSchedule() {
+async function getSchedule() {
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/getCurrent/`, { cache: 'no-store' });
         const data = await res.json();
-        console.log(data);
         if(data.error){
             throw data;
         }
         return {
             error: false,
-            activities: data.schedule,
+            schedule: data.schedule,
             err_message: ""
         };
     } catch (error) {
@@ -51,7 +50,7 @@ async function getRooms(){
  * Schedules page that generates and displays schedule and groups
 **/
 export default async function Schedules() {
-    const schedule_object = await generateSchedule();
+    const schedule_object = await getSchedule();
     const room_object = await getRooms();
     
     let errorDisplay = <></>;
