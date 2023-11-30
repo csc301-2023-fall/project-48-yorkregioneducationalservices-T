@@ -42,6 +42,11 @@ async function generateSchedule() {
 export default function Schedule({schedule, rooms}) {
     const router = useRouter();
     let errorDisplay = <></>;
+    const [csvOutData, setCSVOutData] = useState([]);
+    const csvLink = useRef();
+    const [DisplaySched, setDisplaySched] = useState("Group 0"); // String of the current group to be display
+    const [SelectedRow, setSelectedRow] = useState(0); // Row information to be displayed in the sidebar
+    const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const handleGenerate = async () => {
         const response = generateSchedule();
@@ -73,11 +78,7 @@ export default function Schedule({schedule, rooms}) {
         })
       });
 
-    const [csvOutData, setCSVOutData] = useState([]);
-    const csvLink = useRef();
-    const [DisplaySched, setDisplaySched] = useState("Group 0"); // String of the current group to be display
-    const [SelectedRow, setSelectedRow] = useState(0); // Row information to be displayed in the sidebar
-    const [show, setShow] = useState(false);
+    
     const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
     let tempSched = [];
     tempSchedArray.forEach((day) => {
