@@ -31,7 +31,7 @@ const scheduleRoutes = (app) => {
     })
 
     .get('/schedule/getCurrent/', async (req, res) => {
-        const current_schedule = await scheduleService.getCurrentSchedule(req, res);
+        const current_schedule = await scheduleController.getCurrentSchedule(req, res);
         res.send(current_schedule);
     })
 
