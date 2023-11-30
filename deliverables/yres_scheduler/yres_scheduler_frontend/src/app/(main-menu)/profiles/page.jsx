@@ -1,56 +1,15 @@
 import ProfilesSwitcher from "@/app/components/profilesSwitcher";
 import Alert from "@/app/components/alert";
+import { fetchDataGET } from '@/app/helper';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
-
-// GET students frontend server side
-async function getStudents() {
-     try{
-        const res = await fetch(`${URI}/student/all/`, { cache: 'no-store' });
-        const data = await res.json();
-        return {
-            error: false,
-            students: data.result,
-            err_message: ""
-        };
-    }
-    catch (error) {
-        return {
-            error: true,
-            students: [],
-            err_message: error.message
-        };
-    }
-}
-
-// GET counselors frontend server side
-async function getCounselors() {
-    try{
-        const res = await fetch(`${URI}/counselor/all/`, { cache: 'no-store' });
-        const data = await res.json();
-        return {
-            error: false,
-            counselors: data.result,
-            err_message: ""
-        };
-    }
-    catch (error) {
-        return {
-            error: true,
-            counselors: [],
-            err_message: error.message
-        };
-    }
-}
-
-
 /**
  * The Profiles page that allows for viewing, adding and editing student and counselor profiles
 **/
 async function Profiles() {
     let errorDisplay = <></>;
     let err_message = ""
-    const students = await getStudents();
-    const counselors = await getCounselors();
+    const students = await fetchDataGET("/student/all/");
+    const counselors = await fetchDataGET("/counselor/all/");
     if (students.error){
         err_message = "Students Error: " + students.err_message + "\n"
     }
@@ -62,7 +21,7 @@ async function Profiles() {
     }
     return (<>
         {errorDisplay}
-    <ProfilesSwitcher studentData={students.students} counselorData={counselors.students}/>
+    <ProfilesSwitcher studentData={students.data.students} counselorData={counselors.data.counselors}/>
     </>);
 }
 

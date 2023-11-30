@@ -270,3 +270,10 @@ body, html{
   padding: 5px;
   vertical-align: middle;
 }
+
+.hidden {
+  visibility: hidden;
+}
+.padded{
+  padding: 4px;
+}

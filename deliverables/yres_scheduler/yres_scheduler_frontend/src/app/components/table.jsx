@@ -36,13 +36,13 @@ function YresTable(props) {
     setSearch(event.target.value);
   };
   return (
-    <div className={container_type}>
-      {!disablesearch ?
-          <label htmlFor="search">
-            Search:
-            <input id="search" type="text" onChange={handleSearch} />
-        </label>:<></>
+    <>{!disablesearch ?
+      <label className="padded" htmlFor="search">
+        Search: &nbsp;
+        <input id="search" type="text" onChange={handleSearch} />
+    </label>:<></>
     }
+    <div className={container_type}>
       <Table striped bordered hover={!disableHover }>
         <thead className='table-header'>
           <tr>
@@ -64,6 +64,7 @@ function YresTable(props) {
         </tbody>
       </Table>
     </div>
+    </>
   );
 }
 

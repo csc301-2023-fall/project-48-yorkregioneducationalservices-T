@@ -24,11 +24,12 @@ import { useRouter } from 'next/navigation';
         students - a list of all student objects with attributes described above
  * */
 function StudentAdd({show, setShow, item, students}) {
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
     const handleClose = () => {
-        setErrorDisplay(<></>)
-        setShow(false)
+        setErrorMessage("");
+        setShow(false);
     };
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -37,7 +38,7 @@ function StudentAdd({show, setShow, item, students}) {
                     throw "Age too small.";
                 }
                 else{
-                await fetchDataPOST(
+                const response = await fetchDataPOST(
                     "/student/create/", 
                     {
                         student_ui_id: event.target[0].value, 
@@ -49,17 +50,18 @@ function StudentAdd({show, setShow, item, students}) {
                         enemy_ids: "",
                     }
                 )
+                console.log(response);
                 }
                 router.refresh();
                 handleClose()
             } catch (err) {
-                console.log(err)
-                setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                err
-                </Alert>);
+                console.log(err);
+                setErrorMessage(err.message);
             }
     }
-  
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
+    }
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>

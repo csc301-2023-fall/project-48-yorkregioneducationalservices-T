@@ -5,6 +5,7 @@ import ActivityCreate from '@/app/modals/activityCreate';
 import RoomsCreate from '@/app/modals/roomsCreate';
 import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import Alert from '@/app/components/alert';
+import { fetchDataGET, fetchDataPOST } from '@/app/helper';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /**
@@ -78,9 +79,9 @@ async function getCurrCampus() {
  * Fetches data through helper function, error checks then creates activities and rooms tables
  **/
 async function Floorplan() {
-    const rooms_object = await getRooms();
-    const activities_object = await getActivities();
-    const curr_campus_object = await getCurrCampus();
+    const rooms_object = await fetchDataGET("/room/all/");
+    const activities_object = await fetchDataGET("/activity/all/");
+    const curr_campus_object = await fetchDataGET("/campus/all/");
 
     let errorDisplay = <></>;
     let err_message = ""
@@ -96,9 +97,9 @@ async function Floorplan() {
     if (err_message != ""){
         errorDisplay = <Alert simpleMessage={"Fetching Failed"} complexMessage={err_message}/>
     }
-    const rooms = rooms_object.rooms
-    const activities = activities_object.activities
-    const curr_campus = curr_campus_object.campuses
+    const rooms = rooms_object.data.rooms
+    const activities = activities_object.data.activities
+    const curr_campus = curr_campus_object.data.campuses
     return (    
         <div className='split-page'>
             <div className='left'>

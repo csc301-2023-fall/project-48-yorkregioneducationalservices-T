@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Alert from 'react-bootstrap/Alert';
+import Alert from '@/app/components/alert';
 
 /**
  * Editing Modal for Rooms
@@ -24,8 +24,12 @@ import Alert from 'react-bootstrap/Alert';
  * */
 function RoomsEdit({item, show, setShow}) {
     const router = useRouter();
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
-    const handleClose = () => setShow(false);
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
+    const handleClose = () => {
+        setErrorMessage("");
+        setShow(false);
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -42,11 +46,11 @@ function RoomsEdit({item, show, setShow}) {
             router.refresh();
             handleClose()
         } catch (err) {
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-            <p>{"Error: " + err.message}</p>
-            </Alert>)
+            setErrorMessage(err.message);
         }
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
     }
     return (
         <Modal show={show} onHide={handleClose}>

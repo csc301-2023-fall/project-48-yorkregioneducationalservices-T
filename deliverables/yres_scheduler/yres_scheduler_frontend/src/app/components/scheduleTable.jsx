@@ -7,8 +7,9 @@ import { CSVLink } from "react-csv";
 import Button from 'react-bootstrap/Button';
 import GroupsTable from './groupsTable';
 import RefinedDropdown from './refinedDropDowns'
-import Alert from './alert'
-import { sort_times } from '@/app/helper';
+import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import Alert from '@/app/components/alert';
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
  * within this function.
@@ -18,16 +19,51 @@ import { sort_times } from '@/app/helper';
         generateSchedule - a function that makes the necesary calls and computation to create schedule
 **/
 async function generateSchedule() {
-    //const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
-    //const res = await fetch('example.json');
-    console.log(sched.data)
-    return sched.data;
+    try{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+        const data = await res.json();
+        if(data.error){
+            throw data;
+        }
+        return {
+            error: false,
+            schedule: data.schedule,
+            err_message: ""
+        };
+    } catch (error) {
+        return {
+            error: true,
+            schedule: "nil",
+            err_message: error.message
+        };
+    }
 }
 
 export default function Schedule({schedule, rooms}) {
-    //assuming only one camp
-    if(schedule == "nil"){
-        return <></>
+    const router = useRouter();
+    let errorDisplay = <></>;
+    const [csvOutData, setCSVOutData] = useState([]);
+    const csvLink = useRef();
+    const [DisplaySched, setDisplaySched] = useState("Group 0"); // String of the current group to be display
+    const [SelectedRow, setSelectedRow] = useState(0); // Row information to be displayed in the sidebar
+    const [show, setShow] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const handleGenerate = async () => {
+        const response = generateSchedule();
+        if(response.error){
+            router.refresh()
+            setErrorMessage(response.errorMessage)
+        }
+        else{
+
+            router.refresh()
+        }
+    }
+    if(schedule == "nil" || !schedule || schedule.length == 0){
+        return (<div><Alert simpleMessage={"Schedule is empty."} 
+        complexMessage={"This may have occured because no schedule was able to be generated, or you have yet to generate one. Try again and reload the page."}></Alert>
+        <Button className={"btn btn-primary right-btn"} onClick={handleGenerate}> Generate Schedule </Button>
+        </div>)
     }
     const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
     schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
@@ -35,30 +71,24 @@ export default function Schedule({schedule, rooms}) {
     //Get group data
     const allGroups = []
     schedule.forEach(camp => {
-        camp.forEach(group => {
+        camp.forEach((group, group_index) => {
             const student_ids = group.students.map(student => student.student_id)
             const counselor_ids = group.counselors.map(counselor => counselor.counselor_id)
-            group.student_ids = student_ids
-            group.counselor_ids = counselor_ids
-            allGroups.push(group)
+            allGroups.push({student_ids: student_ids, counselor_ids: counselor_ids, group_id: group_index});
         })
       });
-      
-    const [DisplaySched, setDisplaySched] = useState("Group 0"); // String of the current group to be display
-    const [SelectedRow, setSelectedRow] = useState(0); // Row information to be displayed in the sidebar
-    const [show, setShow] = useState(false);
-    ((a, b) => (a.day*8 + a.time - b.day*8-b.time))
+
+    
     const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
     let tempSched = [];
     tempSchedArray.forEach((day) => {
-        console.log(day)
         tempSched.push(...day);
     })
-    console.log(tempSched);
+
     tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
-    console.log(tempSched);
+
     const display_data = tempSched.map((row) => { 
-        const room = rooms.find((room_i) => room_i.room_id === row.room_id);
+        const room = rooms.find((room_i) => room_i.room_id.toString() === row.room_id.toString());
         return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
     });
     /**
@@ -66,13 +96,6 @@ export default function Schedule({schedule, rooms}) {
      */
     const handleSelect = (e) => {
         setDisplaySched(e);
-    }
-
-    const handleGenerate = async () => {
-        try {
-            data = generateSchedule();
-        } catch (err) {
-        }
     }
     // handling function for opening and closing the sidebar
     const handleClose = () => setShow(false);
@@ -92,20 +115,27 @@ export default function Schedule({schedule, rooms}) {
         text: 'Activity Name'
     }];
 
-    const rowEvents = {
-        onClick: (_, rowIndex) => {
-            setSelectedRow(rowIndex);
-            handleShow();
-        },
-    };
-
-    //generates csvData using current display_data
-    const csvData = [
-        ["ID", "Time", "Location", "Activity Name", "Group ID"],
-        ...display_data.map((row, rowIndex) => { 
-            return [rowIndex, row.time, row.location, row.activity, row.group ]
+    const updateCSV = () => {
+        const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
+        let tempSched = [];
+        tempSchedArray.forEach((day) => {
+            tempSched.push(...day);
         })
-      ];
+        tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
+        const display_data = tempSched.map((row) => {
+            const room = rooms.find((room_i) => room_i.room_id == row.room_id.toString());
+            return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
+        });
+        const csvData = [
+            ["ID", "Time", "Location", "Activity Name", "Group ID"],
+            ...display_data.map((row, rowIndex) => { 
+                return [rowIndex, row.time, row.location, row.activity, row.group ]
+            })
+          ];
+          setCSVOutData(csvData);
+
+    }
+
     const SideBarWrapper = () => {
         if (tempSched === undefined || tempSched.length === 0) {
             return <div/>
@@ -118,8 +148,15 @@ export default function Schedule({schedule, rooms}) {
             />
         );
     }
+    const downloadCSV = () => {
+        csvLink.current.link.click()
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
+    }
     return (
         <div>  
+            {errorDisplay}
             <h3 className='header-title '>Groups</h3>
             <GroupsTable data={allGroups}/>
             <h3 className='header-title '>Schedule</h3>
@@ -131,11 +168,15 @@ export default function Schedule({schedule, rooms}) {
             />
             </div>
             <div>
-            <CSVLink className="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
-                Export to CSV
-            </CSVLink>
+            <Button className={"btn btn-primary right-btn"} onClick={handleGenerate}> Generate Schedule </Button>
             </div>
-            <YresTable data={display_data} columns={columns} rowEvents={ rowEvents } disablesearch={true}/>
+            <div>
+            <Button className={csvOutData.length == 0 ? "btn btn-secondary right-btn" : "hidden"} disabled={!csvOutData.length == 0} onClick={updateCSV}> Prepare for download </Button>
+            <Button className={!csvOutData.length == 0 ? "btn btn-primary right-btn" : "hidden"} disabled={csvOutData.length == 0} onClick={downloadCSV}> Download Schedule </Button>
+                
+            <CSVLink disabled={csvOutData.length == 0} filename= {DisplaySched.concat("-schedule.csv")} data={csvOutData} target='_blank' ref={csvLink}>           </CSVLink>
+            </div>
+            <YresTable data={display_data} columns={columns} disablesearch={true}/>
             <SideBarWrapper/>
         </div>
     );

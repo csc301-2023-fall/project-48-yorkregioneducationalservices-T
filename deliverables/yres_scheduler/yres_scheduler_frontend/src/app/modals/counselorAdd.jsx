@@ -1,6 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Alert from '@/app/components/alert';
 import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -19,9 +20,10 @@ import { useState } from 'react';
  * */
 function CounselorAdd({show, setShow, item}) {
     const router = useRouter();
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
     const handleClose = () => {
-        setErrorDisplay(<></>);
+        setErrorMessage("")
         setShow(false);
     }
     const handleSubmit = async (event) => {
@@ -38,14 +40,13 @@ function CounselorAdd({show, setShow, item}) {
             router.refresh();
             handleClose()
         } catch (err) {
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-            <p>{"Error: " + err.message}</p>
-            </Alert>)
             console.log(err);
+            setErrorMessage(err.message);
         }
     }
-  
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
+    }
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
