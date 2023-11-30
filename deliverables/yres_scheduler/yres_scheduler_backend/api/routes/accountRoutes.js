@@ -54,7 +54,7 @@ const accountRoutes = (app) => {
     * @param {Object} req - The Express request object.
     * @param {Object} res - The Express response object.
     */
-    app.delete('/database/', auth, async (req, res) => {
+    app.delete('/account/reset/', auth, async (req, res) => {
        const status = await accountController.clearDatabase(req, res);
        res.send(status);
     });

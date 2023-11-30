@@ -114,13 +114,13 @@ async function getLoginStatus(token) {
  */
 async function clearDatabase() {
     try {
-        var status = await activityDB.deleteAllActivities();
+        var status = await blockDB.deleteAllBlocks();
+        status = await activityDB.deleteAllActivities() && status;
         status = await counselorDB.deleteAllCounselors() && status;
         status = await roomDB.deleteAllRooms() && status;
         status = await scheduleDB.deleteAllSchedules() && status;
         status = await studentDB.deleteAllStudents() && status;
         status = await groupDB.deleteAllGroups() && status;
-        status = await blockDB.deleteAllBlocks() && status;
 
         status = await activityDB.resetActivityIds() && status;
         status = await counselorDB.resetCounselorIds() && status;
