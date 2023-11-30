@@ -256,11 +256,29 @@ async function deleteAllActivities() {
     }
 }
 
+/**
+ * Reset Activity ID counter in the database.
+ * @async
+ * @function resetActivityIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetActivityIds() {
+
+    const query = `ALTER SEQUENCE activity_activity_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 
 module.exports = {
     createActivity,
     editActivityById,
     getAllActivities,
     deleteActivityById,
-    deleteAllActivities
+    deleteAllActivities,
+    resetActivityIds
 }

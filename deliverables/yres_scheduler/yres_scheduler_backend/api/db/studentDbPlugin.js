@@ -413,6 +413,23 @@ async function deleteAllStudents() {
     }
 }
 
+/**
+ * Reset Student ID counter in the database.
+ * @async
+ * @function resetStudentIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetStudentIds() {
+
+    const query = `ALTER SEQUENCE student_student_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     getAllStudents,
     getStudentById,
@@ -421,5 +438,6 @@ module.exports = {
     editStudentById,
     insertFriendPreferences,
     deleteStudentById,
-    deleteAllStudents
+    deleteAllStudents,
+    resetStudentIds
 }

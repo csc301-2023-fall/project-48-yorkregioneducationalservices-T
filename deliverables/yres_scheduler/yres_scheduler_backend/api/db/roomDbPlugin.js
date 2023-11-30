@@ -151,11 +151,29 @@ async function deleteAllRooms() {
     }
 }
 
+/**
+ * Reset Room ID counter in the database.
+ * @async
+ * @function resetRoomIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetRoomIds() {
+
+    const query = `ALTER SEQUENCE room_room_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     createRoom,
     getRoomsByCampusId,
     getAllRooms,
     deleteRoomById,
     editRoomById,
-    deleteAllRooms
+    deleteAllRooms,
+    resetRoomIds
 }

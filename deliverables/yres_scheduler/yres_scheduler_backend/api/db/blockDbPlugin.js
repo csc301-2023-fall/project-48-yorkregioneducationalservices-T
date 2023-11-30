@@ -153,9 +153,27 @@ async function deleteAllBlocks() {
     }
 }
 
+/**
+ * Reset Block ID counter in the database.
+ * @async
+ * @function resetBlockIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetBlockIds() {
+
+    const query = `ALTER SEQUENCE block_block_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     getBlockById,
     getAllBlocks,
     createBlock,
-    deleteAllBlocks
+    deleteAllBlocks,
+    resetBlockIds
 }

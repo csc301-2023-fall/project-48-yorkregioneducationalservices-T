@@ -120,7 +120,15 @@ async function clearDatabase() {
         status = await scheduleDB.deleteAllSchedules() && status;
         status = await studentDB.deleteAllStudents() && status;
         status = await groupDB.deleteAllGroups() && status;
-        return await blockDB.deleteAllBlocks() && status;
+        status = await blockDB.deleteAllBlocks() && status;
+
+        status = await activityDB.resetActivityIds() && status;
+        status = await counselorDB.resetCounselorIds() && status;
+        status = await roomDB.resetRoomIds() && status;
+        status = await scheduleDB.resetScheduleIds() && status;
+        status = await studentDB.resetStudentIds() && status;
+        status = await groupDB.resetGroupIds() && status;
+        return await blockDB.resetBlockIds() && status;
     } catch(err) {
         throw new AccountServiceError(
             `DB Operation Failure: ${err}`,

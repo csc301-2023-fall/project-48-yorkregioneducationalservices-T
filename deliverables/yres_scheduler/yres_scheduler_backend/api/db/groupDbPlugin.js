@@ -193,10 +193,27 @@ async function deleteAllGroups() {
     
 }
 
+/**
+ * Reset Group ID counter in the database.
+ * @async
+ * @function resetGroupIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetGroupIds() {
+
+    const query = `ALTER SEQUENCE campgroup_camp_group_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
 
 module.exports = {
     getGroupById,
     getAllGroups,
     createGroup,
-    deleteAllGroups
+    deleteAllGroups,
+    resetGroupIds
 }

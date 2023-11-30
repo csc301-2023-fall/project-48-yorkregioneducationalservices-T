@@ -146,7 +146,25 @@ async function deleteAllSchedules() {
     }
 }
 
+/**
+ * Reset Schedule ID counter in the database.
+ * @async
+ * @function resetScheduleIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetScheduleIds() {
+
+    const query = `ALTER SEQUENCE schedule_schedule_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     getAllSchedules,
-    deleteAllSchedules
+    deleteAllSchedules,
+    resetScheduleIds
 }

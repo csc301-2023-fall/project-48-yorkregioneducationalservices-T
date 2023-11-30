@@ -190,10 +190,28 @@ async function deleteAllCounselors() {
     }
 }
 
+/**
+ * Reset Counselor ID counter in the database.
+ * @async
+ * @function resetCounselorIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetCounselorIds() {
+
+    const query = `ALTER SEQUENCE counselor_counselor_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     getAllCounselors,
     createCounselor,
     editCounselorById,
     deleteCounselorById,
-    deleteAllCounselors
+    deleteAllCounselors,
+    resetCounselorIds
 }
