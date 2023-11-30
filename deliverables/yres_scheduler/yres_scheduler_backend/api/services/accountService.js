@@ -109,7 +109,7 @@ async function getLoginStatus(token) {
 
 /**
  * Delete all non campus/camp/account entities in the database.
- *  * 
+ *  
  * @returns {boolean} - Whether operation succeeded
  */
 async function clearDatabase() {

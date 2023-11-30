@@ -185,7 +185,7 @@ async function createGroup(camp_id) {
  */
 async function deleteAllGroups() {
     try {
-        await client.query(`DELETE * FROM CampGroup;`);
+        await client.query(`DELETE FROM CampGroup;`);
         return true;
     } catch(err) {
         throw new Error(err);

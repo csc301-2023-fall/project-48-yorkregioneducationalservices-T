@@ -9,7 +9,6 @@
 
 const config = require("config");
 const Activity = require("../entities/Activity");
-const accountRoutes = require("../routes/accountRoutes");
 const { client } = require('./db');
 const CAMPUS_ID = config.get('campus');
 
