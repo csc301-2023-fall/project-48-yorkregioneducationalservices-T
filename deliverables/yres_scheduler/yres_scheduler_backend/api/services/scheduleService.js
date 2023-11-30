@@ -17,7 +17,6 @@ const {ScheduleServiceError, STATUS_CODES} = require('../entities/ServiceErrors'
 async function generateSchedule(students, counselors, activities, rooms) {  
     try {
         const new_schedule = await scheduleAlgo.scheduleCall(students, counselors, activities, rooms);
-        
         // Save the schedule to a file
         saveJsonToFile(new_schedule, FILE_PATH);
 
