@@ -2,25 +2,25 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
+import Alert from '@/app/components/alert';
 import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 import FriendSearchTable from '../components/friendSearchTable';
 function EnemiesCreate({show, setShow, studentData}) {
     const router = useRouter();
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    const [errorMessage, setErrorMessage] = useState("");
+    let errorDisplay = <></>;
     const [enemiesList, setEnemiesList] = useState([]);
     const handleClose = () => {
         setShow(false);
+        setErrorMessage("")
         setEnemiesList([]);
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
         
         if(enemiesList.length < 2){
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-            <p>Please add at least two students to the enemy group.</p>
-            </Alert>)
+            setErrorMessage("Please add at least two students to enemy group.")
         }
         else{
             let erred = false;
@@ -38,18 +38,13 @@ function EnemiesCreate({show, setShow, studentData}) {
                                 }
                             )
                         } catch (err) {
-                            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                            <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-                            <p>{"Error: " + err.message}</p>
-                            </Alert>)
+                            setErrorMessage(err.message);
                             erred = true;
                         }
                     }
                     else{
-                    setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                    <p>{enemiesList[i].firstname} and {enemiesList[j].firstname} are already enemies</p>
-                    </Alert>)
-                    erred = true;
+                        setErrorMessage(friendsList[i].firstname.concat(" and ").concat(friendsList[j].firstname).concat(" are already enemy"))
+                        erred = true;
                     }
                 }
             }
@@ -58,6 +53,9 @@ function EnemiesCreate({show, setShow, studentData}) {
                 handleClose();
             }
         }
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
     }
     return (
             <Modal show={show} onHide={handleClose}>

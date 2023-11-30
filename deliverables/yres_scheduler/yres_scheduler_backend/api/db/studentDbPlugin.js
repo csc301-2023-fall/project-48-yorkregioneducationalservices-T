@@ -55,18 +55,17 @@ async function getFriendPreferencesAndCategorize(student) {
     `;
 
     const values = [student.student_id];
-    
     try {
         const result = await client.query(query, values);
         promises = result.rows.map(async (row) => {
             if (row.is_apart) {
-                if (row.student_id1 !== student.student_id) {
+                if (row.student_id1 !== parseInt(student.student_id)) {
                     await student.addEnemy(row.student_id1.toString());
                 } else {
                     await student.addEnemy(row.student_id2.toString());
                 }
             } else {
-                if (row.student_id1 !== student.student_id) {
+                if (row.student_id1 !== parseInt(student.student_id)) {
                     await student.addFriend(row.student_id1.toString());
                 } else {
                     await student.addFriend(row.student_id2.toString());
@@ -225,7 +224,10 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
                 larger_id = other_student_id;
                 smaller_id = student_id;
                 }
-            await client.query(queryInsertFriendPreferences, [larger_id, smaller_id, is_apart]);
+                console.log(larger_id);
+                console.log(smaller_id);
+                console.log("next");
+            await client.query(queryInsertFriendPreferences, [larger_id, parseInt(smaller_id), is_apart]);
             return true;
         } else {
             throw new Error("Student not found");
@@ -284,6 +286,7 @@ async function createStudent(
             await insertFriendPreferences(student_id, friend_ui_id, false);
         });
         enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            await insertFriendPreferences(student_id_a, enemy_ui_id, true);
         });
         return true;
     } catch (err) {
@@ -361,6 +364,7 @@ async function editStudentById(
             await insertFriendPreferences(student_id_a, friend_ui_id, false);
         });
         enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            await insertFriendPreferences(student_id_a, enemy_ui_id, true);
         });
         return true;
     } catch (err) {

@@ -144,7 +144,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
             if (activities_by_type[t][a].type === "common")
                 commons[t].push(activities_by_type[t][a]);
             if (activities_by_type[t][a].type === "filler") {
-                if (activities_by_type[t][a].duration !== 1) {
+                if (parseInt(activities_by_type[t][a].duration) !== 1) {
                     console.log("scheduleAlgorithm - Unexpected filler: filler activities must have 1 hour duration");
                     throw Error(("scheduleAlgorithm - Unexpected filler: filler activities must have 1 hour duration"));
                 }

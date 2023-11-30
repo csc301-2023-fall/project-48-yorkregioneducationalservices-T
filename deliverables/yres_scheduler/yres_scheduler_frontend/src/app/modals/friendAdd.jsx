@@ -2,24 +2,24 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
+import Alert from '@/app/components/alert';
 import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 import FriendSearchTable from '../components/friendSearchTable';
 function FriendsCreate({show, setShow, studentData}) {
     const router = useRouter();
     const [friendsList, setFriendsList] = useState([]);
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
     const handleClose = () => {
         setShow(false);
         setFriendsList([]);
+        setErrorMessage("")
     }
     const handleSubmit = async (event) => {
         event.preventDefault();
         if(friendsList.length < 2){
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-            <p>Please add at least two students to friend group.</p>
-            </Alert>)
+            setErrorMessage("Please add at least two students to friend group.")
         }
         else{    
             let erred = false;
@@ -27,7 +27,6 @@ function FriendsCreate({show, setShow, studentData}) {
                 for(let j = i + 1; j < friendsList.length; j++){
                     if(!studentData.find((student) => student._student_id === friendsList[i]._student_id).friend_ids.includes(friendsList[j]._student_id)){
                         try {
-                            console.log(friendsList);
                             await fetchDataPOST(
                                 "/student/create/friends/",
                                 {   
@@ -38,17 +37,12 @@ function FriendsCreate({show, setShow, studentData}) {
                                 }
                             )
                         } catch (err) {
-                            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-                            <p>{"Error: " + err.message}</p>
-                            </Alert>)
+                            setErrorMessage(err.message);
                             erred = true;
                         }
                     }
                     else{
-                        setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                        <p>{friendsList[i].firstname} and {friendsList[j].firstname} are already friends</p>
-                        </Alert>)
+                        setErrorMessage(friendsList[i].firstname.concat(" and ").concat(friendsList[j].firstname).concat(" are already friends"))
                         erred = true;
                     }
                 }
@@ -58,6 +52,9 @@ function FriendsCreate({show, setShow, studentData}) {
                 handleClose();
             }
         }
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
     }
     return (
         <>

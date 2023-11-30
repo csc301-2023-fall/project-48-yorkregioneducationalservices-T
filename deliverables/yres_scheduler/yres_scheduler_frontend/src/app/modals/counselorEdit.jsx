@@ -1,6 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Alert from '@/app/components/alert';
 import { fetchDataPOST } from '../helper';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -19,16 +20,17 @@ import { useRouter } from 'next/navigation';
  **/
 function CounselorEdit({item, show, setShow}) {
     const router = useRouter();
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
     const handleClose = () => {
-        setErrorDisplay(<></>);
+        setErrorMessage("")
         setShow(false)
     };
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
             await fetchDataPOST(
-                `/counselors/${item._counselor_id}/edit/`,
+                `/counselor/${item._counselor_id}/edit/`,
                 {
                     firstname: event.target[0].value,
                     lastname: event.target[1].value
@@ -37,14 +39,13 @@ function CounselorEdit({item, show, setShow}) {
             router.refresh();
             handleClose()
         } catch (err) {
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-            <p>{"Error: " + err.message}</p>
-            </Alert>)
+            setErrorMessage(err.message);
             console.log(err);
         }
     }
-  
+    if (errorMessage != ""){
+        errorDisplay = <Alert simpleMessage={"Fetching Failed"} complexMessage={errorMessage}/>
+    }
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>

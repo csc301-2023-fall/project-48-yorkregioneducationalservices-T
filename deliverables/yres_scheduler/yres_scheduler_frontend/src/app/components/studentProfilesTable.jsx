@@ -3,6 +3,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import YresTable from './table'
 import StudentEdit from '../modals/studentEdit';
+import Alert from '@/app/components/alert';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
