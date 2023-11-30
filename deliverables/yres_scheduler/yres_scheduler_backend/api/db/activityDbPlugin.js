@@ -112,7 +112,8 @@ async function createActivity(name, duration, type, num_occurences, camp_id, roo
         RETURNING activity_id;
     `;
     try {
-        await client.query(query, [name, duration, type, num_occurences, CAMPUS_ID]);
+        const result = await client.query(query, [name, duration, type, num_occurences, CAMPUS_ID]);
+        const activity_id = result.rows[0].activity_id;
         if (room_ids === undefined || room_ids.length === 0) {
             return true;
         }

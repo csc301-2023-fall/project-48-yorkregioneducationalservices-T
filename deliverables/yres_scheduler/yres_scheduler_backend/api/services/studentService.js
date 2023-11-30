@@ -9,7 +9,7 @@
 
 const db = require('../db/studentDbPlugin');
 const {StudentServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
-
+const insertDataIntoDB = require('../utils/insertDataIntoDB');
 /**
  * Retrieves all students from the database.
  *
