@@ -32,6 +32,7 @@ function ActivityCreate({ currCampus }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            console.log(currCampus)
             await fetchDataPOST(
                 "/activity/create/",
                 {
@@ -39,7 +40,7 @@ function ActivityCreate({ currCampus }) {
                     duration: event.target[1].value,
                     type: event.target[3].checked ? "filler" : "common",
                     num_occurences: event.target[4].value,
-                    camp_id: currCampus[0].campus_ids[0],
+                    camp_id: currCampus[0].camp_ids[0],
                     room_ids: "" //process_comma_separated_text(event.target[2].value);
                 }
             )

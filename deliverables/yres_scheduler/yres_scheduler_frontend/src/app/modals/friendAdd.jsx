@@ -23,7 +23,6 @@ function FriendsCreate({show, setShow, studentData}) {
         }
         else{    
             let erred = false;
-            console.log(friendsList);
             for(let i = 0; i < friendsList.length - 1; i++){
                 for(let j = i + 1; j < friendsList.length; j++){
                     if(!studentData.find((student) => student._student_id === friendsList[i]._student_id).friend_ids.includes(friendsList[j]._student_id)){

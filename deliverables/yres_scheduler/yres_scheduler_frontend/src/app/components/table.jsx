@@ -37,7 +37,7 @@ function YresTable(props) {
   };
   return (
     <>{!disablesearch ?
-      <label htmlFor="search">
+      <label className="padded" htmlFor="search">
         Search:
         <input id="search" type="text" onChange={handleSearch} />
     </label>:<></>
