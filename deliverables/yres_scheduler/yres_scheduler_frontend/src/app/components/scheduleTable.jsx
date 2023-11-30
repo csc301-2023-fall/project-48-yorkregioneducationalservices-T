@@ -48,6 +48,7 @@ export default function Schedule({schedule, rooms}) {
     const [SelectedRow, setSelectedRow] = useState(0); // Row information to be displayed in the sidebar
     const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const MONDAY = 0, TUESDAY = 1, WEDNESDAY = 2, THURSDAY = 3, FRIDAY = 4;
     const handleGenerate = async () => {
         const response = generateSchedule();
         if(response.error){
@@ -127,15 +128,15 @@ export default function Schedule({schedule, rooms}) {
             // switch case for day 
             var dayString = "";
             switch(row.day) {
-                case 0:
+                case MONDAY:
                     dayString = "Monday";
-                case 1:
+                case TUESDAY:
                     dayString = "Tuesday";
-                case 2:
+                case WEDNESDAY:
                     dayString = "Wednesday";
-                case 3:
+                case THURSDAY:
                     dayString = "Thursday";
-                case 4:
+                case FRIDAY:
                     dayString = "Friday";
             }
                 
