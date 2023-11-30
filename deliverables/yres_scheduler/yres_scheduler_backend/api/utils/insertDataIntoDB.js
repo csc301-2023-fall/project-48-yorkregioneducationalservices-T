@@ -31,11 +31,12 @@ for (let r = 0; r < 20; r++) {
     await roomDB.createRoom(lst[r], '');
 }
 
-await activityDB.createActivity('Class 1', 1, 'common', 20, 'C1', `${lst[0]},${lst[1]},${lst[2]},${lst[3]},${lst[4]},${lst[5]},${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]},${lst[11]},${lst[12]},${lst[13]},${lst[14]},${lst[15]},${lst[16]},${lst[17]},${lst[18]},${lst[19]}`);
+
+await activityDB.createActivity('Class 1', 1, 'common', 20, 1, `${lst[0]},${lst[1]},${lst[2]},${lst[3]},${lst[4]},${lst[5]},${lst[11]},${lst[12]},${lst[13]},${lst[14]},${lst[15]},${lst[16]},${lst[17]},${lst[18]},${lst[19]}`);
 // await activityDB.createActivity('Class 2', 1, 'common', 20, 'C2', `${lst[0]},${lst[1]},${lst[2]},${lst[3]},${lst[4]},${lst[5]},${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]},${lst[11]},${lst[12]},${lst[13]},${lst[14]},${lst[15]},${lst[16]},${lst[17]},${lst[18]},${lst[19]}`);
-await activityDB.createActivity('Special 1', 2, 'common', 5, 'C1', `${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]}`);
+await activityDB.createActivity('Special 1', 2, 'common', 5, 1, `${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]}`);
 // await activityDB.createActivity('Special 2', 2, 'common', 5, 'C2', `${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]}`);
-await activityDB.createActivity('Other 1', 1, 'filler', 1, 'C1', `${lst[0]},${lst[1]},${lst[2]},${lst[3]},${lst[4]},${lst[5]},${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]},${lst[11]},${lst[12]},${lst[13]},${lst[14]},${lst[15]},${lst[16]},${lst[17]},${lst[18]},${lst[19]}`);
+await activityDB.createActivity('Other 1', 1, 'filler', 1, 1, `${lst[0]},${lst[1]},${lst[2]},${lst[3]},${lst[4]},${lst[5]},${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]},${lst[11]},${lst[12]},${lst[13]},${lst[14]},${lst[15]},${lst[16]},${lst[17]},${lst[18]},${lst[19]}`);
 // await activityDB.createActivity('Other 2', 1, 'filler', 1, 'C2', `${lst[0]},${lst[1]},${lst[2]},${lst[3]},${lst[4]},${lst[5]},${lst[6]},${lst[7]},${lst[8]},${lst[9]},${lst[10]},${lst[11]},${lst[12]},${lst[13]},${lst[14]},${lst[15]},${lst[16]},${lst[17]},${lst[18]},${lst[19]}`);
 
 }

@@ -3,6 +3,7 @@ const studentService = require('../services/studentService');
 const counselorService = require('../services/counselorService');
 const roomService = require('../controllers/roomController');
 const activitiesService = require('../controllers/activityController');
+const {STATUS_CODES} = require('../entities/ServiceErrors');
 
 /**
  * Generates a new schedule.
