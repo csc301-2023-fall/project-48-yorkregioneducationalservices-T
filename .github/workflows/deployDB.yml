@@ -52,7 +52,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             # Replace the following with your PostgreSQL connection parameters.
-            PSQL_HOST=localhost
+            PSQL_HOST=${{ secrets.EC2_HOST }}
             PSQL_PORT=5432
             PSQL_USER=yres
             PSQL_DB=yres_db
