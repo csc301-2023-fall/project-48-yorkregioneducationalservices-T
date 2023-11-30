@@ -90,6 +90,25 @@ export default function Schedule({schedule, rooms}) {
     tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
 
     const display_data = tempSched.map((row) => { 
+        var displayDay = "";
+            switch(row.day) {
+                case MONDAY:
+                    displayDay = "Monday";
+                    break;
+                case TUESDAY:
+                    displayDay = "Tuesday";
+                    break;
+                case WEDNESDAY:
+                    displayDay = "Wednesday";
+                    break;
+                case THURSDAY:
+                    displayDay = "Thursday";
+                    break;
+                case FRIDAY:
+                    displayDay = "Friday";
+                    break;
+            }
+        const displayTime = row.time + TIME_ADJUSTMENT;
         const room = rooms.find((room_i) => room_i.room_id.toString() === row.room_id.toString());
         return {group: DisplaySched, time: "Day: ".concat(displayDay).concat(", Hour: ").concat(displayTime), location: room ? room.name : "unknown", activity: row.activity.name }
         });
@@ -131,14 +150,19 @@ export default function Schedule({schedule, rooms}) {
             switch(row.day) {
                 case MONDAY:
                     displayDay = "Monday";
+                    break;
                 case TUESDAY:
                     displayDay = "Tuesday";
+                    break;
                 case WEDNESDAY:
                     displayDay = "Wednesday";
+                    break;
                 case THURSDAY:
                     displayDay = "Thursday";
+                    break;
                 case FRIDAY:
                     displayDay = "Friday";
+                    break;
             }
             const displayTime = row.time + TIME_ADJUSTMENT;
             
