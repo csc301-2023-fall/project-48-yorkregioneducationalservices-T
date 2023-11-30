@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { process_comma_separated_text, fetchDataPOST } from '../helper';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import Alert from '@/app/components/alert';
 
 /**
