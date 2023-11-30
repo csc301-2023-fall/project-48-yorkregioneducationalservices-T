@@ -1,68 +1,75 @@
 import * as React from 'react';
 import Schedule from '../../components/scheduleTable'
+import Alert from '@/app/components/alert';
 import GroupsTable from '../../components/groupsTable'
 import ScheduleTimetable from '@/app/components/scheduleTimetable';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 
-// GET rooms frontend server side
-async function getRooms() {
-    const res = await fetch(`${URI}/room/all/`, { cache: 'no-store' });
-    const data = await res.json();
-    return data.rooms;
-}
-
-// GET groups frontend server side
-async function getGroups() {
-    const res = await { // fetch(`${URI}/groups/getAllGroups/`, { cache: 'no-store' });
-        json: () => {
-            return {
-                groups: [{
-                    group_id: "AX001",
-                    schedule_id: 0,
-                    student_ids: [1, 2, 3, 4],
-                    counselor_ids: [1, 3]
-                    //scrapped camp so no camp attribute
-                },
-                {
-                    group_id: "BY002",
-                    schedule_id: 1,
-                    student_ids: [4, 5, 6, 7],
-                    counselor_ids: [2, 4]
-                }]
-            }
-        }
-    };
-    const data = await res.json();
-    return data.groups;
-}
-
-// GET schedule frontend server side
-async function getSchedule() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/`, { cache: 'no-store' });
-    const data = await res.json();
-    return data.schedule;
-}
-
 async function generateSchedule() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
-    const data = await res.json();
-    return data.result;
+    try{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+        const data = await res.json();
+        return {
+            error: false,
+            activities: data.schedule,
+            err_message: ""
+        };
+    } catch (error) {
+        return {
+            error: true,
+            schedule: "nil",
+            err_message: error.message
+        };
+    }
+}
+
+async function getRooms(){
+    try {
+        const res = await fetch(`${URI}/room/all/`, { cache: 'no-store' });
+        const data = await res.json();
+        return {
+            error: false,
+            rooms: data.rooms,
+            err_message: ""
+        };
+    } catch (error) {
+        return {
+            error: true,
+            rooms: [],
+            err_message: error.message
+        };
+    }
 }
 /** 
  * Schedules page that generates and displays schedule and groups
 **/
 export default async function Schedules() {
-    //const [errorDisplay, setErrorDisplay] = useState(<></>);
-    let data = [];
+    const schedule_object = await generateSchedule();
+    const room_object = await getRooms();
+    
+    let errorDisplay = <></>;
+    let err_message = ""
+    if (room_object.error){
+        err_message = "Rooms Error: " + room_object.err_message + "\n"
+    }
+    if (schedule_object.error){
+        err_message = err_message + "Schedule Error: " + schedule_object.err_message + "\n"
+    }
+    if (err_message != ""){
+        errorDisplay = <Alert simpleMessage={"Fetching Failed"} complexMessage={err_message}/>
+    }
+    const rooms = room_object.rooms;
+    const schedule = schedule_object.schedule
+
     return (
         <div className='split-page'>
             <div className='left'>
                 <ScheduleTimetable/>
             </div>
             <div className='right'>
-                {/* {errorDisplay} */}
-                <Schedule schedule={data}/>
+            {errorDisplay}
+                <Schedule schedule={schedule} rooms={rooms}/>
             </div>
         </div>
     );

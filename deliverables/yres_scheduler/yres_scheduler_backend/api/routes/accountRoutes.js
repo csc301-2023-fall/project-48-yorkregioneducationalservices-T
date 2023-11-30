@@ -6,9 +6,11 @@
  * @module api/routes/accountRoutes
  * @requires api/controllers/accountController
  * @requires api/middleware/errorHandler
+ * @requires api/middleware/authHandler
  */
 
 const accountController = require('../controllers/accountController');
+const auth = require('../middleware/authHandler');
 
 const accountRoutes = (app) => {
 
@@ -43,6 +45,18 @@ const accountRoutes = (app) => {
      */
     app.get('/account/login/', async (req, res) => {
         res.send(await accountController.getLoginStatus(req, res));
+    });
+    
+    /**
+    * Route to clear database.
+    * @name DELETE /database/
+    * @memberof module:api/routes/accountRoutes
+    * @param {Object} req - The Express request object.
+    * @param {Object} res - The Express response object.
+    */
+    app.delete('/account/reset/', auth, async (req, res) => {
+       const status = await accountController.clearDatabase(req, res);
+       res.send(status);
     });
 };
 

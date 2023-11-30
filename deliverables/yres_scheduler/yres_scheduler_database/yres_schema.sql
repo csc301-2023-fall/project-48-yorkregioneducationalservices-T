@@ -163,8 +163,8 @@ create table RoomActivity (
     -- schedule_id : Foreign key constraint    
 create table Block (
     block_id serial primary key,		
-    room_id integer not null references Room,
-    activity_id integer not null references Activity,
+    room_id integer not null references Room on delete cascade,
+    activity_id integer not null references Activity on delete cascade,
     start_time time not null,
     end_time time not null,
     schedule_id integer references Schedule 

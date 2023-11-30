@@ -20,7 +20,7 @@ const {ActivityServiceError, STATUS_CODES} = require('../entities/ServiceErrors'
  */
 async function getAllActivities(req, res) {
     const all_activities = await activityService.getAllActivities();
-    res.status(STATUS_CODES.SUCCESS);
+    res?.status(STATUS_CODES.SUCCESS);
     return {
         activities: all_activities
     };

@@ -93,8 +93,25 @@ async function getLoginStatus(req, res) {
    };
 }
 
+/**
+ * Clears database (except for campus, camp, account).
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
+async function clearDatabase(req, res) {
+    const status = await accountService.clearDatabase();
+
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        status: status ? 'Success' : 'failure'
+    };
+}
+
 module.exports = {
     login,
     signup,
-    getLoginStatus
+    getLoginStatus,
+    clearDatabase
 }

@@ -39,7 +39,8 @@ function FriendsCreate({show, setShow, studentData}) {
                             )
                         } catch (err) {
                             setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                            <p>{err}</p>
+                                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
+                            <p>{"Error: " + err.message}</p>
                             </Alert>)
                             erred = true;
                         }

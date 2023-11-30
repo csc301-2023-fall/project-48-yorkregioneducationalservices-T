@@ -16,11 +16,11 @@ const { client } = require('./db');
  */
 function mapRowToGroup(row) {
     return new Group(
-        row.camp_group_id,
-        row.schedule_id,
+        row.camp_group_id.toString(),
+        row.schedule_id.toString(),
         new Set(),
         new Set(),
-        row.camp_id
+        row.camp_id.toString()
     );
 }
 
@@ -81,7 +81,7 @@ async function getStudentIds(group) {
         const result = await client.query(queryGetStudentIds, values);
  
         promises = result.rows.map(async (row) => {
-            group.student_ids.add(row.student_id);
+            group.student_ids.add(row.student_id.toString());
         });
 
         await Promise.all(promises);
@@ -108,7 +108,7 @@ async function getStudentIds(group) {
           const result = await client.query(queryGetCounselorIds, values);
    
           promises = result.rows.map(async (row) => {
-              group.counselor_ids.add(row.counselor_id);
+              group.counselor_ids.add(row.counselor_id.toString());
           });
   
           await Promise.all(promises);
@@ -185,7 +185,7 @@ async function createGroup(camp_id) {
  */
 async function deleteAllGroups() {
     try {
-        await client.query(`DELETE * FROM CampGroup;`);
+        await client.query(`DELETE FROM CampGroup;`);
         return true;
     } catch(err) {
         throw new Error(err);
@@ -193,10 +193,27 @@ async function deleteAllGroups() {
     
 }
 
+/**
+ * Reset Group ID counter in the database.
+ * @async
+ * @function resetGroupIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetGroupIds() {
+
+    const query = `ALTER SEQUENCE campgroup_camp_group_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
 
 module.exports = {
     getGroupById,
     getAllGroups,
     createGroup,
-    deleteAllGroups
+    deleteAllGroups,
+    resetGroupIds
 }
