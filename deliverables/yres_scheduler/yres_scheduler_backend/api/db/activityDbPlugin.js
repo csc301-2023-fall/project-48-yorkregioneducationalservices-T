@@ -9,7 +9,6 @@
 
 const config = require("config");
 const Activity = require("../entities/Activity");
-const accountRoutes = require("../routes/accountRoutes");
 const { client } = require('./db');
 const CAMPUS_ID = config.get('campus');
 
@@ -20,12 +19,12 @@ const CAMPUS_ID = config.get('campus');
  */
 function mapRowToActivity(row) {
     return new Activity(
-        row.activity_id,
+        row.activity_id.toString(),
         row.name,
-        row.duration,
+        row.duration.toString(),
         row.type,
-        row.num_occurences,
-        row.camp_id,
+        row.num_occurences.toString(),
+        row.camp_id.toString(),
         new Array()
     );
 }
@@ -240,10 +239,46 @@ async function deleteActivityById(activity_id) {
     }
 }
 
+/**
+ * Deletes all Activities in the database.
+ * @async
+ * @function deleteAllActivities
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllActivities() {
+
+    const query = `DELETE FROM Activity;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
+/**
+ * Reset Activity ID counter in the database.
+ * @async
+ * @function resetActivityIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetActivityIds() {
+
+    const query = `ALTER SEQUENCE activity_activity_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 
 module.exports = {
     createActivity,
     editActivityById,
     getAllActivities,
-    deleteActivityById
+    deleteActivityById,
+    deleteAllActivities,
+    resetActivityIds
 }

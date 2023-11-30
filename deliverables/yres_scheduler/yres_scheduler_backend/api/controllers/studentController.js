@@ -26,7 +26,7 @@ async function getAllStudents(req, res) {
     res.status(STATUS_CODES.SUCCESS);
 
     return {
-        result: all_students.map((student) => { 
+        students: all_students.map((student) => { 
             return {
                 ...student,
                 friend_ids: student.getFriendIds(),
@@ -122,7 +122,7 @@ async function createStudent(req, res) {
         enemy_ids
     );
 
-    res.status(STATUS_CODES.SUCCESS);
+    res.status(STATUS_CODES.CREATED);
     
     return {
         status: status

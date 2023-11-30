@@ -27,13 +27,13 @@ const CAMPUS_ID = c.get('campus');
  */
 function mapRowToStudent(row) {
     return new Student(
-        row.student_id,
-        row.student_ui_id,
+        row.student_id.toString(),
+        row.student_ui_id.toString(),
         row.lastname,
         row.firstname,
-        row.age,
+        row.age.toString(),
         row.sex,
-        row.campus_id,
+        row.campus_id.toString(),
         new Set(),
         new Set()
     );
@@ -61,15 +61,15 @@ async function getFriendPreferencesAndCategorize(student) {
         promises = result.rows.map(async (row) => {
             if (row.is_apart) {
                 if (row.student_id1 !== student.student_id) {
-                    await student.addEnemy(row.student_id1);
+                    await student.addEnemy(row.student_id1.toString());
                 } else {
-                    await student.addEnemy(row.student_id2);
+                    await student.addEnemy(row.student_id2.toString());
                 }
             } else {
                 if (row.student_id1 !== student.student_id) {
-                    await student.addFriend(row.student_id1);
+                    await student.addFriend(row.student_id1.toString());
                 } else {
-                    await student.addFriend(row.student_id2);
+                    await student.addFriend(row.student_id2.toString());
                 }
             }
         });
@@ -390,8 +390,42 @@ async function deleteStudentById(student_ui_id) {
             logger.debug('Student not found');
             throw new Error('Student not found');
         }
-        return {result: true};
+        return true;
     } catch (err) {
+        throw new Error(err);
+    }
+}
+
+/**
+ * Deletes all Students in the database.
+ * @async
+ * @function deleteAllStudents
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllStudents() {
+
+    const query = `DELETE FROM Student;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
+/**
+ * Reset Student ID counter in the database.
+ * @async
+ * @function resetStudentIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetStudentIds() {
+
+    const query = `ALTER SEQUENCE student_student_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
         throw new Error(err);
     }
 }
@@ -403,5 +437,7 @@ module.exports = {
     createStudent,
     editStudentById,
     insertFriendPreferences,
-    deleteStudentById
+    deleteStudentById,
+    deleteAllStudents,
+    resetStudentIds
 }

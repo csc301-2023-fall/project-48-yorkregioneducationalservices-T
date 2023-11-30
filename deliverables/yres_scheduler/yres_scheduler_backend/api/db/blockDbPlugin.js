@@ -25,10 +25,10 @@ function mapRowToBlock(row) {
     var end_time = new Date(2023, 1, 1, parseInt(end_hours), parseInt(end_minutes));
     
     return new Block(
-        row.block_id,
-        row.schedule_id,
-        row.room_id,
-        row.activity_id,
+        row.block_id.toString(),
+        row.schedule_id.toString(),
+        row.room_id.toString(),
+        row.activity_id.toString(),
         start_time,
         end_time
     );
@@ -153,9 +153,27 @@ async function deleteAllBlocks() {
     }
 }
 
+/**
+ * Reset Block ID counter in the database.
+ * @async
+ * @function resetBlockIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetBlockIds() {
+
+    const query = `ALTER SEQUENCE block_block_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
     getBlockById,
     getAllBlocks,
     createBlock,
-    deleteAllBlocks
+    deleteAllBlocks,
+    resetBlockIds
 }

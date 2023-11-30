@@ -25,10 +25,10 @@ const CAMPUS_ID = config.get('campus');
  */
 function mapRowToCounselor(row) {
     return new Counselor(
-        row.counselor_id,
+        row.counselor_id.toString(),
         row.lastname,
         row.firstname,
-        row.campus_id
+        row.campus_id.toString()
     );
 }
 
@@ -126,9 +126,9 @@ async function editCounselorById(counselor_id, firstname, lastname) {
 
     try {
         const result = await client.query(query, [
-            counselor.firstname,
-            counselor.lastname,
-            counselor.counselor_id,
+            firstname,
+            lastname,
+            counselor_id,
         ]);
 
         if (result.rows.length > 0) {
@@ -173,10 +173,45 @@ async function deleteCounselorById(counselorId) {
     }
 }
 
+/**
+ * Deletes all Counselors in the database.
+ * @async
+ * @function deleteAllCounselors
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllCounselors() {
+
+    const query = `DELETE FROM Counselor;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
+/**
+ * Reset Counselor ID counter in the database.
+ * @async
+ * @function resetCounselorIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetCounselorIds() {
+
+    const query = `ALTER SEQUENCE counselor_counselor_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
 
 module.exports = {
     getAllCounselors,
     createCounselor,
     editCounselorById,
-    deleteCounselorById
+    deleteCounselorById,
+    deleteAllCounselors,
+    resetCounselorIds
 }
