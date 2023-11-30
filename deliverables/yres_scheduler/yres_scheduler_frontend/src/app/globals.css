@@ -189,8 +189,11 @@ body, html{
   gap: 12px;
 }
 
-#schedule-timetable {
+#schedule-pane {
   height: 100%;
+}
+
+#schedule-timetable {
   width: 100%;
   border-radius: 5px;
 }
@@ -224,7 +227,6 @@ body, html{
   font-size: 12px;
   text-align: center;
   width: 4vw;
-  flex-grow: 1;
   border-bottom: 1px solid #3D96AB;
   display: flex;
   justify-content: center;

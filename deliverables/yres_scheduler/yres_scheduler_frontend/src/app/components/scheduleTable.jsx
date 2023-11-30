@@ -39,7 +39,7 @@ async function generateSchedule() {
     }
 }
 
-export default function Schedule({schedule, rooms}) {
+export default function Schedule({schedule, rooms, groups}) {
     const router = useRouter();
     let errorDisplay = <></>;
     const [csvOutData, setCSVOutData] = useState([]);
@@ -65,8 +65,6 @@ export default function Schedule({schedule, rooms}) {
         <Button className={"btn btn-primary right-btn"} onClick={handleGenerate}> Generate Schedule </Button>
         </div>)
     }
-    const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
-    schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
 
     //Get group data
     const allGroups = []
