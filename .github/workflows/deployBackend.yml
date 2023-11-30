@@ -37,7 +37,6 @@ jobs:
             sudo npm install
             # Start the server and wait until a specific output is available
             sudo node -v
-            export NODE_ENV=production
             nohup sudo node server.js > /dev/null 2>&1 &
             while ! curl -s http://localhost:1234/students/getAllStudents > /dev/null; do sleep 1; done
       
