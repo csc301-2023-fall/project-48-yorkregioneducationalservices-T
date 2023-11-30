@@ -48,6 +48,7 @@ export default function Schedule({schedule, rooms}) {
     const [SelectedRow, setSelectedRow] = useState(0); // Row information to be displayed in the sidebar
     const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const MONDAY = 0, TUESDAY = 1, WEDNESDAY = 2, THURSDAY = 3, FRIDAY = 4;
     const handleGenerate = async () => {
         const response = generateSchedule();
         if(response.error){
@@ -124,7 +125,22 @@ export default function Schedule({schedule, rooms}) {
         tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
         const display_data = tempSched.map((row) => {
             const room = rooms.find((room_i) => room_i.room_id == row.room_id.toString());
-            return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
+            // switch case for day 
+            var dayString = "";
+            switch(row.day) {
+                case MONDAY:
+                    dayString = "Monday";
+                case TUESDAY:
+                    dayString = "Tuesday";
+                case WEDNESDAY:
+                    dayString = "Wednesday";
+                case THURSDAY:
+                    dayString = "Thursday";
+                case FRIDAY:
+                    dayString = "Friday";
+            }
+                
+            return {group: DisplaySched, time: "Day: ".concat(dayString).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
         });
         const csvData = [
             ["ID", "Time", "Location", "Activity Name", "Group ID"],
