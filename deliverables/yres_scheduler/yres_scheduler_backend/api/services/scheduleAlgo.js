@@ -1,6 +1,7 @@
 const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
+// const insertData = require("../utils/insertDataIntoDB");  
 
 class Block {
     constructor(room_id, activity, day, time) {
@@ -79,7 +80,9 @@ async function scheduleCall(students, counselors, activities, rooms) {
  * @param {Array} rooms - All room_ids available for scheduling.
  */
 function scheduleAlgorithm(groups, activities, rooms) {
+    
     var camp_types = [];
+
     var activities_by_type = [];
     // Step 1. Initialization and preparation
     // 1.1. Separate activities based on camp type of the groups
