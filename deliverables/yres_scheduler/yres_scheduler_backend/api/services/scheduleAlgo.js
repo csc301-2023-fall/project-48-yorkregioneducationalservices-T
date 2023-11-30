@@ -1,7 +1,7 @@
 const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
-// const insertData = require("../utils/insertDataIntoDB");  
+const insertData = require("../utils/insertDataIntoDB");  
 
 class BlockL {
     constructor(room_id, activity, day, time) {
