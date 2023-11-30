@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
-import Alert from 'react-bootstrap/Alert';
+import Alert from '@/app/components/alert';
 
 /**
  * Editing Modal for Activities
@@ -22,9 +22,13 @@ import Alert from 'react-bootstrap/Alert';
  * */
 function ActivityCreate({ currCampus }) {
     const router = useRouter();
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setErrorMessage("");
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -35,18 +39,18 @@ function ActivityCreate({ currCampus }) {
                     duration: event.target[1].value,
                     type: event.target[3].checked ? "filler" : "common",
                     num_occurences: event.target[4].value,
-                    camp_id: currCampus.camp_ids[0],
+                    camp_id: currCampus[0].campus_ids[0],
                     room_ids: "" //process_comma_separated_text(event.target[2].value);
                 }
             )
             router.refresh();
             handleClose();
         } catch (err) {
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-            <p>{"Error: " + err.message}</p>
-            </Alert>)
+            setErrorMessage(err.message);
         }
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
     }
     return (
         <>

@@ -51,11 +51,8 @@ export default function Schedule({schedule, rooms}) {
     const allGroups = []
     schedule.forEach(camp => {
         camp.forEach((group, group_index) => {
-
             const student_ids = group.students.map(student => student.student_id)
             const counselor_ids = group.counselors.map(counselor => counselor.counselor_id)
-            group.student_ids = student_ids
-            group.counselor_ids = counselor_ids
             allGroups.push({student_ids: student_ids, counselor_ids: counselor_ids, group_id: group_index});
         })
       });
@@ -69,12 +66,11 @@ export default function Schedule({schedule, rooms}) {
     tempSchedArray.forEach((day) => {
         tempSched.push(...day);
     })
+
     tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
+
     const display_data = tempSched.map((row) => { 
-        console.log(row.room_id);
-        console.log(rooms)
         const room = rooms.find((room_i) => room_i.room_id === row.room_id.toString());
-        console.log("penis" + room)
         return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
     });
     /**
@@ -85,7 +81,6 @@ export default function Schedule({schedule, rooms}) {
     }
 
     const handleGenerate = async () => {
-        if()
     }
     // handling function for opening and closing the sidebar
     const handleClose = () => setShow(false);

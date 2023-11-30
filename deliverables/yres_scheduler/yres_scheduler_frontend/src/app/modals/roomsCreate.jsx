@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { process_comma_separated_text, fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation'
-import Alert from 'react-bootstrap/Alert';
+import Alert from '@/app/components/alert';
 
 /**
  * Create modal for Rooms
@@ -19,27 +19,32 @@ import Alert from 'react-bootstrap/Alert';
  * */
 function RoomsCreate({ currCampus }) {
     const router = useRouter();
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setErrorMessage("");
+        setShow(false);
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log(currCampus);
             await fetchDataPOST(
                 "/room/create/",
                 {
                     name: e.target[0].value,
-                    campus_id: currCampus.campus_id
+                    campus_id: currCampus[0].camp_ids[0]
                 }
             );
             router.refresh();
             handleClose();
         } catch (err) {
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-            <p>{"Error: " + err.message}</p>
-            </Alert>)
+            setErrorMessage(err.message);
         }
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
     }
     return (
         <>

@@ -1,9 +1,10 @@
+'use client';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
-import Alert from 'react-bootstrap/Alert';
+import Alert from '@/app/components/alert';
 import { useState } from 'react';
 
 /**
@@ -23,7 +24,11 @@ import { useState } from 'react';
 function ActivityEdit({item, show, setShow }) {
     const router = useRouter();
     let errorDisplay = <></>;
-    const handleClose = () => setShow(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const handleClose = () => {
+        setShow(false);
+        setErrorMessage("");
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -44,11 +49,11 @@ function ActivityEdit({item, show, setShow }) {
             router.refresh();
             handleClose();
         } catch (err) {
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-            <p>{"Error: " + err.message}</p>
-            </Alert>)
+            setErrorMessage(err.message);
         }
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
     }
     return (
         <Modal show={show} onHide={handleClose}>

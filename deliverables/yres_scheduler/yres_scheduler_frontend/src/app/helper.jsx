@@ -1,5 +1,5 @@
 import Alert from '@/app/components/alert';
-
+const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 /**
  * Helper function to sort rows of a schedule by their time attribute. Preconditions: Schedule uses 24hr time.
  * Props: 
@@ -67,9 +67,12 @@ export async function fetchDataPOST(route, item) {
         body: JSON.stringify(item)
     }
     const response = await fetch(url, settings);
-    if (!(200 <= response.status <= 299)) {
-        throw new Error(`${response.status} Error: Something Wrong Happened!`)
+    if ((!(199 < response.status && response.status < 300))) {
+        throw new Error(`${response.status} ${response.statusText} Error: Something Wrong Happened! `)
     }
+    return response;
+        
+
 }
 
 /**
@@ -89,6 +92,23 @@ export async function fetchDataDELETE(route) {
     const response = await fetch(url, settings);
     if (!(200 <= response.status <= 299)) {
         throw new Error(`${response.status} Error: Something Wrong Happened!`)
+    }
+}
+export async function fetchDataGET(route){
+    try {
+        const res = await fetch(`${URI}${route}`, { cache: 'no-store' });
+        const data = await res.json();
+        return {
+            error: false,
+            data: data,
+            err_message: ""
+        };
+    } catch (error) {
+        return {
+            error: true,
+            data: [],
+            err_message: error.message
+        };
     }
 }
 
