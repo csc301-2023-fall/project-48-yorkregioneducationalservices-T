@@ -274,3 +274,6 @@ body, html{
 .hidden {
   visibility: hidden;
 }
+.padded{
+  padding: 4px;
+}
