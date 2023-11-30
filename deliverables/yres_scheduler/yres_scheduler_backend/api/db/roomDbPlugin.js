@@ -60,8 +60,8 @@ async function getAllRooms() {
         const result = await client.query(query);
         const rows = result.rows;
 
-        all_rooms = rows.map(mapRowToRoom);
-
+        all_rooms = await rows.map(mapRowToRoom);
+        
         return all_rooms;
     } catch(err) {
         throw new Error(err);

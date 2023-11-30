@@ -10,17 +10,17 @@ function Alert({simpleMessage, complexMessage}) {
     //complex alert with two messages
     if(complexMessage){
         return (
-            <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Error</h4>
+            <div className="alert alert-danger" role="alert">
+                <h4 className="alert-heading">Error</h4>
                 <p>{complexMessage}</p>
                 <hr />
-                <p class="mb-0">{simpleMessage}</p>
+                <p className="mb-0">{simpleMessage}</p>
             </div>
         );
     }
     //simple one line alert
     return (
-        <div class="alert alert-danger" role="alert">
+        <div className="alert alert-danger" role="alert">
             {simpleMessage}
         </div>
     );

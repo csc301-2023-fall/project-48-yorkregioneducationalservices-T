@@ -12,11 +12,17 @@ const activitiesService = require('../controllers/activityController');
  */
 async function generateSchedule(req, res) {
     
+    console.log("Getting students...");
     const students = await studentService.getAllStudents();
+    console.log("Getting counselors...");
     const counselors = await counselorService.getAllCounselors();
+    console.log("Getting rooms...");
     const rooms = await roomService.getAllRooms();
+
+    console.log("Getting activities...");
     const activities = await activitiesService.getAllActivities();
-    const new_schedule = await schedService.generateSchedule(students, counselors.result, activities.activities, rooms.rooms);
+    console.log("Generating schedule...");
+    const new_schedule = await schedService.generateSchedule(students, counselors, activities.activities, rooms.rooms);
 
     res.status(STATUS_CODES.SUCCESS);
 
