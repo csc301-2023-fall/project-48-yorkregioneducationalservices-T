@@ -18,7 +18,7 @@ const {RoomServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
  */
 async function getAllRooms(req, res) {
     const all_rooms = await roomService.getAllRooms();
-    res.status(STATUS_CODES.SUCCESS);
+    res?.status(STATUS_CODES.SUCCESS);
     return {
         rooms: all_rooms
     };

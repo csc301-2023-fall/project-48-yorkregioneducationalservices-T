@@ -17,7 +17,7 @@ const { client } = require('./db');
  */
 function mapRowToCampus(row) {
     return new Campus(
-        row.campus_id,
+        row.campus_id.toString(),
         row.name,
         new Set(),
         new Set()
@@ -84,7 +84,7 @@ async function getCampIds(campus) {
         const result = await client.query(query, values);
  
         promises = result.rows.map(async (row) => {
-            campus.camp_ids.add(row.camp_id);
+            campus.camp_ids.add(row.camp_id.toString());
         });
 
         await Promise.all(promises);
@@ -111,7 +111,7 @@ async function getCampIds(campus) {
           const result = await client.query(queryGetRoomIds, values);
    
           promises = result.rows.map(async (row) => {
-              campus.room_ids.add(row.room_id);
+              campus.room_ids.add(row.room_id.toString());
           });
   
           await Promise.all(promises);

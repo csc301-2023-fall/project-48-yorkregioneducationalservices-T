@@ -81,7 +81,7 @@ async function Floorplan() {
     const rooms_object = await getRooms();
     const activities_object = await getActivities();
     const curr_campus_object = await getCurrCampus();
-    
+
     let errorDisplay = <></>;
     let err_message = ""
     if (rooms_object.error){

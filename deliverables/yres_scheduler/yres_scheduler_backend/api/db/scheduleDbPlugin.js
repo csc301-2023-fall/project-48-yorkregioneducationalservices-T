@@ -129,6 +129,42 @@ async function getAllSchedules() {
         
 }
 
+/**
+ * Deletes all Schedules in the database.
+ * @async
+ * @function deleteAllSchedules
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function deleteAllSchedules() {
+
+    const query = `DELETE FROM Schedule;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
+/**
+ * Reset Schedule ID counter in the database.
+ * @async
+ * @function resetScheduleIds
+ * @returns {boolean} - Returns a boolean that is true if operation is successful
+ */
+async function resetScheduleIds() {
+
+    const query = `ALTER SEQUENCE schedule_schedule_id_seq RESTART WITH 1;`;
+    try {
+        await client.query(query);
+        return true;
+    } catch (err){
+        throw new Error(err);
+    }
+}
+
 module.exports = {
-    getAllSchedules
+    getAllSchedules,
+    deleteAllSchedules,
+    resetScheduleIds
 }
