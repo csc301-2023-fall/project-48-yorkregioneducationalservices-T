@@ -10,7 +10,6 @@ import RefinedDropdown from './refinedDropDowns'
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Alert from '@/app/components/alert';
-const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
  * within this function.
