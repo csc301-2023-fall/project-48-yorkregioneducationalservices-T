@@ -131,9 +131,6 @@ export default function Schedule({schedule, rooms}) {
             />
             </div>
             <div>
-            <Button className="right-btn" variant="primary" onClick={handleGenerate}>
-                            Generate Schedule
-            </Button>
             <CSVLink className="btn btn-secondary right-btn" filename= {DisplaySched.concat("-schedule.csv")} data={csvData}>
                 Export to CSV
             </CSVLink>
