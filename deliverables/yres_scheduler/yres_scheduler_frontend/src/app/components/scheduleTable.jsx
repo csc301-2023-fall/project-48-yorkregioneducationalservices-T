@@ -87,8 +87,6 @@ export default function Schedule({schedule, rooms}) {
     tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
 
     const display_data = tempSched.map((row) => { 
-        console.log(rooms);
-        console.log(row);
         const room = rooms.find((room_i) => room_i.room_id.toString() === row.room_id.toString());
         return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
     });
