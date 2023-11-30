@@ -57,7 +57,7 @@ async function getAllActivities() {
                 }
                 for (var j=0; j<rows.length; j++) {
     
-                    all_activities[i].rooms.push(rows[j].room_id);
+                    all_activities[i].rooms.push(rows[j].room_id.toString());
                 }
             }
             
