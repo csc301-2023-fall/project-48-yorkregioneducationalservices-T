@@ -124,7 +124,22 @@ export default function Schedule({schedule, rooms}) {
         tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
         const display_data = tempSched.map((row) => {
             const room = rooms.find((room_i) => room_i.room_id == row.room_id.toString());
-            return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
+            // switch case for day 
+            var dayString = "";
+            switch(row.day) {
+                case 0:
+                    dayString = "Monday";
+                case 1:
+                    dayString = "Tuesday";
+                case 2:
+                    dayString = "Wednesday";
+                case 3:
+                    dayString = "Thursday";
+                case 4:
+                    dayString = "Friday";
+            }
+                
+            return {group: DisplaySched, time: "Day: ".concat(dayString).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
         });
         const csvData = [
             ["ID", "Time", "Location", "Activity Name", "Group ID"],
