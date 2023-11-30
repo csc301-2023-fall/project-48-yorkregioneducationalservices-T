@@ -91,8 +91,8 @@ export default function Schedule({schedule, rooms}) {
 
     const display_data = tempSched.map((row) => { 
         const room = rooms.find((room_i) => room_i.room_id.toString() === row.room_id.toString());
-        return {group: DisplaySched, time: weekdays[parseInt(row.day)].concat(": ").concat(parseInt(row.time) + 9).concat(":00"), location: room ? room.name : "unknown", activity: row.activity.name }
-    });
+        return {group: DisplaySched, time: "Day: ".concat(displayDay).concat(", Hour: ").concat(displayTime), location: room ? room.name : "unknown", activity: row.activity.name }
+        });
     /**
      * Handler for dropdown click
      */
