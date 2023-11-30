@@ -62,7 +62,7 @@ async function Profiles() {
     }
     return (<>
         {errorDisplay}
-    <ProfilesSwitcher studentData={students.students} counselorData={counselors.students}/>
+    <ProfilesSwitcher studentData={students.students} counselorData={counselors.counselors}/>
     </>);
 }
 

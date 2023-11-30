@@ -20,13 +20,13 @@ import { sort_times } from '@/app/helper';
 async function generateSchedule() {
     //const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
     //const res = await fetch('example.json');
-    console.log(sched.data)
-    return sched.data;
+    // console.log(sched.data)
+    // return sched.data;
 }
 
 export default function Schedule({schedule, rooms}) {
     //assuming only one camp
-    if(schedule == "nil"){
+    if(schedule == "nil" || !schedule){
         return <></>
     }
     const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
@@ -51,12 +51,9 @@ export default function Schedule({schedule, rooms}) {
     const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
     let tempSched = [];
     tempSchedArray.forEach((day) => {
-        console.log(day)
         tempSched.push(...day);
     })
-    console.log(tempSched);
     tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
-    console.log(tempSched);
     const display_data = tempSched.map((row) => { 
         const room = rooms.find((room_i) => room_i.room_id === row.room_id);
         return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
