@@ -1,6 +1,7 @@
 const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
+const logger = require("../../logger");
 // const insertData = require("../utils/insertDataIntoDB");  
 
 class BlockL {
@@ -29,14 +30,14 @@ class ActivityL {
 function convertFromActivities(activities) {
 	var activityLs = [];
 	if (activities === undefined) {
-		console.log("scheduleAlgo - Undefined: list of activities is undefined.");
+		logger.debug("scheduleAlgo - Undefined: list of activities is undefined.");
 		throw Error("scheduleAlgo - Undefined: list of activities is undefined.");
 	}
 	for (var a = 0; a < activities.length; a++) {
 		if (activities[a].activity_id === undefined || activities[a].name === undefined || activities[a].duration === undefined || 
             activities[a].type === undefined || activities[a].num_occurences === undefined || activities[a].camp_id === undefined ||
             activities[a].rooms === undefined) { // TODO: to be replaced by camp_type
-			console.log("scheduleAlgo - Incomplete data: required attributes is missing in an activity object.");
+			logger.debug("scheduleAlgo - Incomplete data: required attributes is missing in an activity object.");
 			throw Error("scheduleAlgo - Incomplete data: required attributes is missing in an activity object.");
 		}
 		activityLs.push(new ActivityL(activities[a].activity_id, activities[a].name, activities[a].duration, activities[a].type,
@@ -59,17 +60,17 @@ const MAX_SUB_ATTEMPT = 50000;
  * @param {Array} rooms - All rooms available for scheduling.
  */
 async function scheduleCall(students, counselors, activities, rooms) {
-    console.log("Start grouping algorithm...");
+    logger.debug("Start grouping algorithm...");
     var groups = await gs.groupCall(counselors, students);
-    console.log("Grouping complete");
-    console.log("Start scheduling algorithm...");
+    logger.debug("Grouping complete");
+    logger.debug("Start scheduling algorithm...");
     var activityLs = await convertFromActivities(activities);
     var room_ids = [];
     for (let r = 0; r < rooms.length; r++) {
         room_ids.push(rooms[r].room_id);
     }
     const result = await scheduleAlgorithm(groups, activityLs, room_ids);
-    console.log("Scheduling complete");
+    logger.debug("Scheduling complete");
     return result;
 }
 /* ============ HERE STARTS THE SCHEDULE ALGORITHM ================ */
@@ -119,7 +120,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
             available_rooms[i].push([...rooms]);
         }
     }
-    console.log(available_rooms);
+    logger.debug(available_rooms);
     
     // 1.4. Initialize all blocks to be allocated in the schedule
     var fillers = [];
@@ -129,35 +130,35 @@ function scheduleAlgorithm(groups, activities, rooms) {
         fillers.push([]);
         commons.push([]);
         all_blocks.push([]);
-        console.log(`Camp type: ${camp_types[t]}`);
+        logger.debug(`Camp type: ${camp_types[t]}`);
         var time_sum = 0;
         for (var a = 0; a < activities_by_type[t].length; a++) {
             if (activities_by_type[t][a].duration <= 0 || activities_by_type[t][a].duration > TIME) {
-                console.log("scheduleAlgorithm - Unexpected activity duration: non-positive or longer than maximum hours per day.");
+                logger.debug("scheduleAlgorithm - Unexpected activity duration: non-positive or longer than maximum hours per day.");
                 throw Error("scheduleAlgorithm - Unexpected activity duration: non-positive or longer than maximum hours per day.");
             }
             time_sum += activities_by_type[t][a].duration * activities_by_type[t][a].num_occurences;
             if (time_sum > DAY * TIME) {
-                console.log("scheduleAlgorithm - Too many activities: total hour greater than schedule length.");
+                logger.debug("scheduleAlgorithm - Too many activities: total hour greater than schedule length.");
                 throw Error("scheduleAlgorithm - Too many activities: total hour greater than schedule length.");
             }
             if (activities_by_type[t][a].type === "common")
                 commons[t].push(activities_by_type[t][a]);
             if (activities_by_type[t][a].type === "filler") {
                 if (parseInt(activities_by_type[t][a].duration) !== 1) {
-                    console.log("scheduleAlgorithm - Unexpected filler: filler activities must have 1 hour duration");
+                    logger.debug("scheduleAlgorithm - Unexpected filler: filler activities must have 1 hour duration");
                     throw Error(("scheduleAlgorithm - Unexpected filler: filler activities must have 1 hour duration"));
                 }
                 fillers[t].push(activities_by_type[t][a]);
             }
         }
         if (time_sum < DAY * TIME && (fillers[t] === undefined || fillers[t].length === 0)) {
-            console.log("scheduleAlgorithm - Too few activities: no fillers, and total hour less than schedule length.");
+            logger.debug("scheduleAlgorithm - Too few activities: no fillers, and total hour less than schedule length.");
             throw Error("scheduleAlgorithm - Too few activities: no fillers, and total hour less than schedule length.");
         }
-        console.log("Activity sum:", time_sum);
+        logger.debug("Activity sum:", time_sum);
         var filler_hours = DAY * TIME - time_sum;
-        console.log(filler_hours, "hours of fillers will be added");
+        logger.debug(filler_hours, "hours of fillers will be added");
         // 1.5. Sort activities by descending duration, this is to increase efficiency and possibility to converge
         activities_by_type[t].sort((a, b) => {return b.duration - a.duration;});
 
@@ -175,20 +176,20 @@ function scheduleAlgorithm(groups, activities, rooms) {
                 filler_index = 0;
         }
     }
-    console.log("Preparation done. Start scheduling.")
+    logger.debug("Preparation done. Start scheduling.")
 
     // Step 2. Start scheduling randomly
     // 2.1. If a random scheduling fails to add all blocks, restart a Big attempt
     var big_attempt = 0
     for (; big_attempt < MAX_BIG_ATTEMPT; big_attempt++) {
-        console.log("Big attempt:", big_attempt, "starts")
+        logger.debug("Big attempt:", big_attempt, "starts")
         var failed = false;
         // 2.2. Iterate over camps
         for (var t = 0; t < camp_types.length; t++) {
-            console.log(`Camp ${camp_types[t]}:`);
+            logger.debug(`Camp ${camp_types[t]}:`);
             // 2.3. Iterate over each group in the camp
             for (var g = 0; g < groups[t].length; g++) {
-                console.log(`Group ${groups[t][g].name}:`);
+                logger.debug(`Group ${groups[t][g].name}:`);
                 // 2.4. Iterate over each activity of the group to insert it into schedule
                 for (var b = 0; b < all_blocks[t].length; b++) {
                     var inserted = false; // Flag recording if this block is inserted. If not, the inner loop must start another attempt
@@ -212,7 +213,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
                         // Iterate over all rooms this activity may take place in
                         for (var r = 0; r < all_blocks[t][b].activity.room_ids.length; r++) {
                             selected_room_id = all_blocks[t][b].activity.room_ids[r];
-                            console.log(selected_room_id);
+                            logger.debug(selected_room_id);
                             for (var j = time; j < time + all_blocks[t][b].activity.duration; j++) {
                                 // If there are no rooms at the time, or selected room is not available
                                 if (available_rooms[day][j].length == 0 || available_rooms[day][j].indexOf(selected_room_id) < 0) {
@@ -225,11 +226,11 @@ function scheduleAlgorithm(groups, activities, rooms) {
                         if (selected_room_id === "") { continue; } // Go on to the next sub attempt
                         // 2.5.4. Schedule and room are both available, can now insert blocks
                         for (var j = time; j < time + all_blocks[t][b].activity.duration; j++) {
-                            console.log("Inserting", all_blocks[t][b].activity.name, "at day", day, "time", j, "room", selected_room_id);
+                            logger.debug("Inserting", all_blocks[t][b].activity.name, "at day", day, "time", j, "room", selected_room_id);
                             all_blocks[t][b].day = day;
-                            all_blocks[t][b].time = time;
+                            all_blocks[t][b].time = time + 9; // Start at 9 am
                             all_blocks[t][b].room_id = selected_room_id;
-                            console.log("room:", all_blocks[t][b].room_id);
+                            logger.debug("room:", all_blocks[t][b].room_id);
                             groups[t][g].schedule[day][j] = new BlockL(selected_room_id, all_blocks[t][b].activity, day, time);
                             // The room taken up by this activity must be removed from availability list
                             const dindex = available_rooms[day][j].indexOf(selected_room_id);
@@ -241,7 +242,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
                     }
                     // 2.5.5. Sub attempts reach maximum, no place to insert a block, start a new big attempt
                     if (!inserted) {
-                        console.log("Failed to insert after", MAX_SUB_ATTEMPT, "sub-attempts");
+                        logger.debug("Failed to insert after", MAX_SUB_ATTEMPT, "sub-attempts");
                         failed = true;
                         break;
                     }
@@ -282,7 +283,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
         }
     }
     if (big_attempt === MAX_BIG_ATTEMPT) {
-        console.log("scheduleAlgorithm - Big attempts reach maximum: this algorithm fails to generate shedules with given data.");
+        logger.debug("scheduleAlgorithm - Big attempts reach maximum: this algorithm fails to generate shedules with given data.");
         throw Error("scheduleAlgorithm - Big attempts reach maximum: this algorithm fails to generate shedules with given data.");
     }
     return groups;
@@ -328,11 +329,11 @@ function schedule_dummy_test() {
 // Test with dummy data
 /*
 var DUMMY_RESULT = schedule_dummy_test();
-console.log(DUMMY_RESULT);
+logger.debug(DUMMY_RESULT);
 for (var t = 0; t < DUMMY_RESULT.length; t++) {
-    console.log(`Camp ${DUMMY_RESULT[t][0].camp_type}`);
+    logger.debug(`Camp ${DUMMY_RESULT[t][0].camp_type}`);
     for (var g = 0; g < DUMMY_RESULT[t].length; g++) {
-        console.log(`${DUMMY_RESULT[t][g].name}`);
+        logger.debug(`${DUMMY_RESULT[t][g].name}`);
         process.stdout.write("Time: \t0\t1\t2\t3\t4\t5\t6\t7\n")
         for (var d = 0; d < DAY; d++) {
             process.stdout.write(`Day ${d}:\t`);
