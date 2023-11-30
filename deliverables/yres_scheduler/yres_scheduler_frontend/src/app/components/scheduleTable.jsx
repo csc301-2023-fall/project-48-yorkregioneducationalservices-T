@@ -23,12 +23,12 @@ async function generateSchedule() {
     console.log(sched.data)
     return sched.data;
 }
-function getAllGroups({data}){
 
-      return allGroups;
-}
 export default function Schedule({schedule, rooms}) {
     //assuming only one camp
+    if(schedule == "nil"){
+        return <></>
+    }
     const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
     schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
 
