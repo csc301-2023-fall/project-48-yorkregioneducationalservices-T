@@ -90,9 +90,10 @@ export async function fetchDataDELETE(route) {
         headers: { 'Content-Type': 'application/json' },
     }
     const response = await fetch(url, settings);
-    if (!(200 <= response.status <= 299)) {
-        throw new Error(`${response.status} Error: Something Wrong Happened!`)
+    if ((!(199 < response.status && response.status < 300))) {
+        throw new Error(`${response.status} ${response.statusText} Error: Something Wrong Happened! `)
     }
+    return response;
 }
 export async function fetchDataGET(route){
     try {

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import StudentImport from '../modals/importStudent';
 import FriendsCreate from '../modals/friendAdd';
 import EnemiesCreate from '../modals/enemyAdd';
-
+import { fetchDataDELETE } from '../helper';
 const PROFILE_TYPES = ['Student', 'Counselor']
 
 /** 
@@ -35,6 +35,8 @@ const PROFILE_TYPES = ['Student', 'Counselor']
         counselorData - a list of counselor objects with above attributes
 **/
 function ProfilesSwitcher({ studentData, counselorData }) {
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
     const [currType, setCurrType] = useState(PROFILE_TYPES[0]);
     const handleSelectType = (e) => {
         setCurrType(e);
@@ -55,7 +57,17 @@ function ProfilesSwitcher({ studentData, counselorData }) {
     const handleShowCSV = () => {
         setShowCSV(true);
     };
-
+    const handleReset = async () => {
+        try {
+            await fetchDataDELETE(
+                "/account/reset/"
+            );
+            router.refresh();
+            handleClose();
+        } catch (err) {
+            setErrorMessage(err.message);
+        }
+    }
     const handleActionsSelect = (e) => {
         switch(e){
             case "New Student":
@@ -86,12 +98,18 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                     displayText={currType}
                     groups={PROFILE_TYPES}
                 />
+                
                 <StudentImport 
                     show={showCSV}
                     setShow={setShowCSV}
                     type={currType}
                 />
                 <div className='right-align'>
+                <Button
+                    className='btn-right'
+                    onClick={handleReset}
+                    variant="danger"
+                    >Reset DB</Button>
                     {currType === PROFILE_TYPES[0] 
                     ? <>
                     <RefinedDropdown
