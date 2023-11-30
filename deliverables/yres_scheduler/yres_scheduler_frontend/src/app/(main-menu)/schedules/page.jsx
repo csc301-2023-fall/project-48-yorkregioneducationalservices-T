@@ -10,8 +10,12 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 async function generateSchedule() {
     try{
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/getCurrent/`, { cache: 'no-store' });
         const data = await res.json();
+        console.log(data);
+        if(data.error){
+            throw data;
+        }
         return {
             error: false,
             activities: data.schedule,
