@@ -73,7 +73,7 @@ async function createBlock(req, res) {
     const end_time = req.body.end_time;
 
     // Check paramaters are valid
-    if (!schedule_id || !room_id || !activity_id || !start_time || !end_time) {
+    if (!room_id || !activity_id || !start_time || !end_time) {
         throw new BlockServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID

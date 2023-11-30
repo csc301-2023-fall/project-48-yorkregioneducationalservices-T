@@ -126,9 +126,9 @@ async function editCounselorById(counselor_id, firstname, lastname) {
 
     try {
         const result = await client.query(query, [
-            counselor.firstname,
-            counselor.lastname,
-            counselor.counselor_id,
+            firstname,
+            lastname,
+            counselor_id,
         ]);
 
         if (result.rows.length > 0) {

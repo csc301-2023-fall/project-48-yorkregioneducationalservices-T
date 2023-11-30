@@ -122,7 +122,7 @@ async function createStudent(req, res) {
         enemy_ids
     );
 
-    res.status(STATUS_CODES.SUCCESS);
+    res.status(STATUS_CODES.CREATED);
     
     return {
         status: status
