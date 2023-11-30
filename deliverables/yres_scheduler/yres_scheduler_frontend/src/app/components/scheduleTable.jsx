@@ -41,8 +41,24 @@ async function generateSchedule() {
 
 export default function Schedule({schedule, rooms}) {
     const router = useRouter();
+    let errorDisplay = <></>;
+    const [errorMessage, setErrorMessage] = useState("");
+    const handleGenerate = async () => {
+        const response = generateSchedule();
+        if(response.error){
+            router.refresh()
+            setErrorMessage(response.errorMessage)
+        }
+        else{
+
+            router.refresh()
+        }
+    }
     if(schedule == "nil" || !schedule || schedule.length == 0){
-        return (<Alert simpleMessage={"Schedule is empty. This may have occured because no schedule was able to be created."}></Alert>)
+        return (<div><Alert simpleMessage={"Schedule is empty."} 
+        complexMessage={"This may have occured because no schedule was able to be generated, or you have yet to generate one. Try again and reload the page."}></Alert>
+        <Button className={"btn btn-primary right-btn"} onClick={handleGenerate}> Generate Schedule </Button>
+        </div>)
     }
     const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
     schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
@@ -62,10 +78,6 @@ export default function Schedule({schedule, rooms}) {
     const [DisplaySched, setDisplaySched] = useState("Group 0"); // String of the current group to be display
     const [SelectedRow, setSelectedRow] = useState(0); // Row information to be displayed in the sidebar
     const [show, setShow] = useState(false);
-    let errorDisplay = <></>;
-    const [errorMessage, setErrorMessage] = useState("");
-
-
     const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
     let tempSched = [];
     tempSchedArray.forEach((day) => {
@@ -85,18 +97,6 @@ export default function Schedule({schedule, rooms}) {
      */
     const handleSelect = (e) => {
         setDisplaySched(e);
-    }
-
-    const handleGenerate = async () => {
-        const response = generateSchedule();
-        if(response.error){
-            router.refresh()
-            setErrorMessage(response.errorMessage)
-        }
-        else{
-
-            router.refresh()
-        }
     }
     // handling function for opening and closing the sidebar
     const handleClose = () => setShow(false);
@@ -157,6 +157,7 @@ export default function Schedule({schedule, rooms}) {
     }
     return (
         <div>  
+            {errorDisplay}
             <h3 className='header-title '>Groups</h3>
             <GroupsTable data={allGroups}/>
             <h3 className='header-title '>Schedule</h3>

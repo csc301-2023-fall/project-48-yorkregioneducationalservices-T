@@ -11,6 +11,7 @@ import StudentImport from '../modals/importStudent';
 import FriendsCreate from '../modals/friendAdd';
 import EnemiesCreate from '../modals/enemyAdd';
 import { fetchDataDELETE } from '../helper';
+import { useRouter } from 'next/navigation';
 const PROFILE_TYPES = ['Student', 'Counselor']
 
 /** 
@@ -36,6 +37,7 @@ const PROFILE_TYPES = ['Student', 'Counselor']
 **/
 function ProfilesSwitcher({ studentData, counselorData }) {
     let errorDisplay = <></>;
+    const router = useRouter();
     const [errorMessage, setErrorMessage] = useState("");
     const [currType, setCurrType] = useState(PROFILE_TYPES[0]);
     const handleSelectType = (e) => {
@@ -63,7 +65,6 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                 "/account/reset/"
             );
             router.refresh();
-            handleClose();
         } catch (err) {
             setErrorMessage(err.message);
         }
@@ -93,6 +94,7 @@ function ProfilesSwitcher({ studentData, counselorData }) {
     return (
         <>
             <div id='profiles-header'>
+                {errorDisplay}
                 <RefinedDropdown 
                     handleSelect={handleSelectType}
                     displayText={currType}
