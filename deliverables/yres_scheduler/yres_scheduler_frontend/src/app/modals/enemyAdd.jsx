@@ -29,7 +29,7 @@ function EnemiesCreate({show, setShow, studentData}) {
                     if(!studentData.find((student) => student._student_id === enemiesList[i]._student_id).enemy_ids.includes(enemiesList[j]._student_id)){
                         try {
                             await fetchDataPOST(
-                                "/students/createFriends/",
+                                "/student/create/friends/",
                                 {   
                                     student_id: enemiesList[i]._student_id,
                                     other_student_ui_id: enemiesList[j]._student_ui_id,

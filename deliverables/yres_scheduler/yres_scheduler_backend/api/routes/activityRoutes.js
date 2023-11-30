@@ -1,56 +1,64 @@
-const activityService = require('../controllers/activityController');
-
 /**
- * Defines the routes for activity-related API endpoints.
- * @param {Object} app - The Express application object.
+ * This module specifies the routes for request endpoints in the activity service.
+ * 
+ * @param {Object} [app] The express application
+ * 
+ * @module api/routes/activityRoutes
+ * @requires api/controllers/activityController
+ * @requires api/middleware/authHandler
  */
-module.exports = (app) => {
+
+const activityController = require('../controllers/activityController');
+const auth = require('../middleware/authHandler');
+
+const activityRoutes = (app) => {
+
     /**
-     * 
+     * Route to get all activities.
+     * @name GET /activity/all/
+     * @memberof module:routes/activityRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
      */
-    app.get('/activities/getAllActivities/', async (req, res) => {
-        try {
-            const all_activities = await activityService.getAllActivities(req, res);    
-            res.send(all_activities);
-        } catch (error) {
-            res.status(500).send(error);
-        }
+    app.get('/activity/all', auth, async (req, res) => {
+        const all_activities = await activityController.getAllActivities(req, res);    
+        res.send(all_activities);
+    })
+
+    /**
+     * Route to create a new activity.
+     * @name POST /activity/create/
+     * @memberof module:routes/activityRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     */
+    .post('/activity/create', auth, async (req, res) => {
+        const resp = await activityController.createActivity(req, res);
+        res.send(resp);
+    })
+
+    /**
+     * Route to edit an activity by its ID.
+     * @name POST /activity/:activity_id/edit
+     * @memberof module:routes/activityRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     */
+    .post('/activity/:activity_id/edit', auth, async (req, res) => {
+        const resp = await activityController.editActivityById(req, res);
+        res.send(resp);
     })
     /**
-     * 
+     * Route to delete an activity by its ID.
+     * @name DELETE /activity/:activity_id
+     * @memberof module:routes/activityRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
      */
-    .post('/activities/createActivity/', async (req, res) => {
-        try {
-            const resp = await activityService.createActivity(req, res);
-            
-            res.status(200).send(resp);
-            
-            
-        } catch (error) {
-            res.status(500).send(error);
-        }
-    })
-    .post('/activities/editActivityById/', async (req, res) => {
-        try {
-            const resp = await activityService.editActivityById(req, res);
-            res.send(resp);
-            
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
-        }
-    })
-    /**
-     * 
-     */
-    .post('/activities/deleteActivityById/', async (req, res) => {
-        try {
-            const resp = await activityService.deleteActivityById(req, res);
-            res.send(resp);
-            
-        } catch (error) {
-            console.log(error);
-            res.status(500).send(error);
-        }
+    .delete('/activity/:activity_id', auth, async (req, res) => {
+        const resp = await activityController.deleteActivityById(req, res);
+        res.send(resp);
     });
 };
+
+module.exports = activityRoutes;

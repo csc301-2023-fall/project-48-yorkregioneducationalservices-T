@@ -5,10 +5,10 @@ module.exports = class Camp {
     /**
      * Create a new camp object which will then be added to a campus' set of camps.
      * 
-     * @param {string} camp_id - The unique ID assigned by <CONTROLLER>. 
+     * @param {number} camp_id - The unique ID assigned by <CONTROLLER>. 
      * @param {string} name - The name of the camp from frontend user input.
      * @param {Set} activity_ids - The set of IDs of activities all groups of this camp do.
-     * @param {string} campus_id - The ID of the campus this camp is in.
+     * @param {number} campus_id - The ID of the campus this camp is in.
      */
     constructor(camp_id, name, activity_ids, campus_id) {
         this.camp_id = camp_id;
@@ -25,7 +25,7 @@ module.exports = class Camp {
     }
 
     /**
-     * @param {string} newActivityID - The new activity id to be added to this camp.
+     * @param {number} newActivityID - The new activity id to be added to this camp.
      */
     addActivity(newActivityID) {
         this.activity_ids.add(newActivityID);

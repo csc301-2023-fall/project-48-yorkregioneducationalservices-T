@@ -13,7 +13,7 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
  **/
 async function getRooms() {
     try {
-        const res = await fetch(`${URI}/rooms/getAllRooms/`, { cache: 'no-store' });
+        const res = await fetch(`${URI}/room/all/`, { cache: 'no-store' });
         const data = await res.json();
         return {
             error: false,
@@ -35,7 +35,7 @@ async function getRooms() {
  **/
 async function getActivities() {
     try {
-        const res = await fetch(`${URI}/activities/getAllActivities/`, { cache: 'no-store' });
+        const res = await fetch(`${URI}/activity/all/`, { cache: 'no-store' });
         const data = await res.json();
         return {
             error: false,
@@ -57,7 +57,7 @@ async function getActivities() {
  **/
 async function getCurrCampus() {
     try {
-        const res = await fetch(`${URI}/campus/getAll/`);
+        const res = await fetch(`${URI}/campus/all/`);
         const data = await res.json();
         return {
             error: false,

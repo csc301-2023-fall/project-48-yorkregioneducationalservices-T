@@ -6,6 +6,12 @@ import { Button } from 'react-bootstrap';
 import { fetchDataPOST } from '@/app/helper';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
+// GET rooms frontend server side
+async function getRooms() {
+    const res = await fetch(`${URI}/room/all/`, { cache: 'no-store' });
+    const data = await res.json();
+    return data.rooms;
+}
 
 // GET groups frontend server side
 async function getGroups() {
@@ -51,7 +57,7 @@ async function generateSchedule() {
 }
 
 async function getRooms(){
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/rooms/getAllRooms/`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/room/all/`, { cache: 'no-store' });
     const data = await res.json();
     return data.rooms;
 }
@@ -66,6 +72,7 @@ export default async function Schedules() {
         </Alert>)
     }
     const rooms = await getRooms();
+
     return (
         <div className='split-page'>
             <div className='left'>

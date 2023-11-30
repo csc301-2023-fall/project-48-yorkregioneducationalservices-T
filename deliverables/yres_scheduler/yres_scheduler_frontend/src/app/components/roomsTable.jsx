@@ -7,7 +7,7 @@ import RoomsEdit from '../modals/roomsEdit';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
 import { useState } from 'react';
-import { fetchDataPOST } from '../helper';
+import { fetchDataDELETE } from '../helper';
 import { useRouter } from 'next/navigation'
 import Alert from 'react-bootstrap/Alert';
 
@@ -41,9 +41,8 @@ function RoomsTable({ roomData }) {
 
     const deleteRoom = async (id) => {
         try {
-            await fetchDataPOST(
-                "/rooms/deleteRoomById/",
-                { room_id: id }
+            await fetchDataDELETE(
+                `/room/${id}/`
             );
             router.refresh();
         } catch (err) {

@@ -1,4 +1,5 @@
 // Main app for the backend server
+require("express-async-errors");
 const express = require('express');
 const bodyParser = require('body-parser');
 var morgan = require('morgan');
@@ -25,7 +26,6 @@ app.use(morganMiddleware);
 app.use(morgan('dev'));
 app.use('/demo', express.static('./api/res/d2_public'));
 const { connectDB } = require('./api/db/db');
-
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -66,6 +66,11 @@ require('./api/routes/counselorRoutes')(app);
 
 require('./api/routes/roomRoutes')(app);
 require('./api/routes/activityRoutes')(app);
+
+// Handle invalid requests
+app.get('*', function(req, res){
+  res.send({message: "Route does not exist"}, 404);
+});
 
 app.use(errorHandler);
 

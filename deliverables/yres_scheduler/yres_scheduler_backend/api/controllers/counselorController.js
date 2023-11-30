@@ -1,4 +1,16 @@
+/**
+ * This module implements the controller for requests for counselor service 
+ * operations.
+ * 
+ * @module api/controllers/counselorController
+ * 
+ * @requires api/services/counselorService
+ * @requires api/entities/ServiceErrors
+ */
+
 const counselorService = require('../services/counselorService');
+const {CounselorServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
+
 
 /**
  * Retrieves all counselors by campus ID.
@@ -7,8 +19,11 @@ const counselorService = require('../services/counselorService');
  * @returns {Object} - An object containing an array of counselors.
  */
 async function getAllCounselors(req, res) {
-    const result = await counselorService.getAllCounselors();
-    return result;
+    const counselors = await counselorService.getAllCounselors();
+    res.status(STATUS_CODES.SUCCESS);
+    return {
+        result: counselors
+    };
 
 }
 
@@ -20,11 +35,24 @@ async function getAllCounselors(req, res) {
  */
 async function createCounselor(req, res) {
     
-    const counselor = req.body;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
 
-    const result = await counselorService.createCounselor(counselor);
+    // Check paramaters are valid
+    if (!firstname || !lastname) {
+        throw new CounselorServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
 
-    return result;
+    const status = await counselorService.createCounselor(firstname, lastname);
+
+    res.status(STATUS_CODES.CREATED);
+
+    return {
+        result: status
+    };
 }
 
 /**
@@ -34,12 +62,25 @@ async function createCounselor(req, res) {
  * @returns {Object} - An object containing the status of the operation.
  */
 async function editCounselorById(req, res) {
+    const counselor_id = req.params.counselor_id;
+    const firstname = req.body.firstname;
+    const lastname = req.body.lastname;
 
-    const counselor = req.body;
+    // Check paramaters are valid
+    if (!counselor_id || !firstname || !lastname) {
+        throw new CounselorServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
 
-    const result = await counselorService.editCounselorById(counselor);
+    const status = await counselorService.editCounselorById(counselor_id, firstname, lastname);
 
-    return result;
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        result: status
+    };
 }
 
 /**
@@ -50,11 +91,23 @@ async function editCounselorById(req, res) {
  */
 async function deleteCounselorById(req, res) {
     
-    const counselor_ui_id = req.body.counselor_id;
+    const counselor_ui_id = req.params.counselor_id;
 
-    const result = await counselorService.deleteCounselorById(counselor_ui_id);
+    // Check paramaters are valid
+    if (!counselor_ui_id) {
+        throw new CounselorServiceError(
+            `Invalid paramaters provided for request`,
+            STATUS_CODES.INVALID
+        );
+    }
 
-    return result; 
+    const status = await counselorService.deleteCounselorById(counselor_ui_id);
+
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        result: status
+    }; 
 }
 
 module.exports = {

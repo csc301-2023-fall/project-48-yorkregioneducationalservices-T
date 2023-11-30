@@ -232,8 +232,52 @@ class StudentServiceError extends ServiceError {
     }
 }
 
+/**
+ * BlockServiceError extends the ServiceError class and represents an error that has occured 
+ * in a Block Service operation. It stores a descriptive message and the status code 
+ * corresponding to this error.
+ * 
+ * @extends ServiceError
+ */
+class BlockServiceError extends ServiceError {
+    
+    /**
+     * Create a Block Service Error.
+     * @param {string} [message] A descriptive message for the error.
+     * @param {number} [status_code = DEFAULT_STATUS_CODE] The corresponding status code for this error.
+     */
+    constructor(message, status_code = DEFAULT_STATUS_CODE) {
+        super(message, status_code);
+        this.name = this.constructor.name;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
+/**
+ * ActivityServiceError extends the ServiceError class and represents an error that has occured 
+ * in a Activity Service operation. It stores a descriptive message and the status code 
+ * corresponding to this error.
+ * 
+ * @extends ServiceError
+ */
+class ActivityServiceError extends ServiceError {
+    
+    /**
+     * Create a Block Service Error.
+     * @param {string} [message] A descriptive message for the error.
+     * @param {number} [status_code = DEFAULT_STATUS_CODE] The corresponding status code for this error.
+     */
+    constructor(message, status_code = DEFAULT_STATUS_CODE) {
+        super(message, status_code);
+        this.name = this.constructor.name;
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+
 module.exports = {
     AccountServiceError,
+    ActivityServiceError,
+    BlockServiceError,
     CampServiceError,
     ScheduleServiceError,
     CampusServiceError,
