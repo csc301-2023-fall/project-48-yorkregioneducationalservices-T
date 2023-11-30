@@ -40,8 +40,8 @@ function convertFromActivities(activities) {
 			logger.debug("scheduleAlgo - Incomplete data: required attributes is missing in an activity object.");
 			throw Error("scheduleAlgo - Incomplete data: required attributes is missing in an activity object.");
 		}
-		activityLs.push(new ActivityL(activities[a].activity_id, activities[a].name, activities[a].duration, activities[a].type,
-            activities[a].num_occurences, activities[a].rooms, activities[a].camp_id));
+		activityLs.push(new ActivityL(activities[a].activity_id, activities[a].name, parseInt(activities[a].duration), activities[a].type,
+            parseInt(activities[a].num_occurences), activities[a].rooms, activities[a].camp_id));
 	}
     return activityLs;
 }
@@ -120,7 +120,10 @@ function scheduleAlgorithm(groups, activities, rooms) {
             available_rooms[i].push([...rooms]);
         }
     }
+<<<<<<< HEAD
+=======
     logger.debug(available_rooms);
+>>>>>>> 8dcf75ac14e5d4d3200496c7c5e7e407de169c1a
     
     // 1.4. Initialize all blocks to be allocated in the schedule
     var fillers = [];
@@ -176,8 +179,12 @@ function scheduleAlgorithm(groups, activities, rooms) {
                 filler_index = 0;
         }
     }
+<<<<<<< HEAD
+    console.log("Preparation done. Start scheduling.")
+=======
     logger.debug("Preparation done. Start scheduling.")
 
+>>>>>>> 8dcf75ac14e5d4d3200496c7c5e7e407de169c1a
     // Step 2. Start scheduling randomly
     // 2.1. If a random scheduling fails to add all blocks, restart a Big attempt
     var big_attempt = 0
@@ -213,7 +220,10 @@ function scheduleAlgorithm(groups, activities, rooms) {
                         // Iterate over all rooms this activity may take place in
                         for (var r = 0; r < all_blocks[t][b].activity.room_ids.length; r++) {
                             selected_room_id = all_blocks[t][b].activity.room_ids[r];
+<<<<<<< HEAD
+=======
                             logger.debug(selected_room_id);
+>>>>>>> 8dcf75ac14e5d4d3200496c7c5e7e407de169c1a
                             for (var j = time; j < time + all_blocks[t][b].activity.duration; j++) {
                                 // If there are no rooms at the time, or selected room is not available
                                 if (available_rooms[day][j].length == 0 || available_rooms[day][j].indexOf(selected_room_id) < 0) {
@@ -230,7 +240,10 @@ function scheduleAlgorithm(groups, activities, rooms) {
                             all_blocks[t][b].day = day;
                             all_blocks[t][b].time = time;
                             all_blocks[t][b].room_id = selected_room_id;
+<<<<<<< HEAD
+=======
                             logger.debug("room:", all_blocks[t][b].room_id);
+>>>>>>> 8dcf75ac14e5d4d3200496c7c5e7e407de169c1a
                             groups[t][g].schedule[day][j] = new BlockL(selected_room_id, all_blocks[t][b].activity, day, time);
                             // The room taken up by this activity must be removed from availability list
                             const dindex = available_rooms[day][j].indexOf(selected_room_id);
