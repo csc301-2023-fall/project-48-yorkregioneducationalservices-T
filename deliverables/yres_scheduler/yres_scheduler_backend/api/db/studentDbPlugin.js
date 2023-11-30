@@ -390,7 +390,7 @@ async function deleteStudentById(student_ui_id) {
             logger.debug('Student not found');
             throw new Error('Student not found');
         }
-        return {result: true};
+        return true;
     } catch (err) {
         throw new Error(err);
     }

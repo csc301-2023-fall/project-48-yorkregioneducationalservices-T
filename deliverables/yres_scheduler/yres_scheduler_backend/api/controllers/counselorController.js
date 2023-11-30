@@ -22,7 +22,7 @@ async function getAllCounselors(req, res) {
     const counselors = await counselorService.getAllCounselors();
     res.status(STATUS_CODES.SUCCESS);
     return {
-        result: counselors
+        counselors: counselors
     };
 
 }
@@ -51,7 +51,7 @@ async function createCounselor(req, res) {
     res.status(STATUS_CODES.CREATED);
 
     return {
-        result: status
+        status: status
     };
 }
 
@@ -79,7 +79,7 @@ async function editCounselorById(req, res) {
     res.status(STATUS_CODES.SUCCESS);
 
     return {
-        result: status
+        status: status
     };
 }
 
@@ -106,7 +106,7 @@ async function deleteCounselorById(req, res) {
     res.status(STATUS_CODES.SUCCESS);
 
     return {
-        result: status
+        status: status
     }; 
 }
 
