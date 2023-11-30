@@ -284,6 +284,7 @@ async function createStudent(
             await insertFriendPreferences(student_id, friend_ui_id, false);
         });
         enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            await insertFriendPreferences(student_id_a, enemy_ui_id, true);
         });
         return true;
     } catch (err) {
@@ -361,6 +362,7 @@ async function editStudentById(
             await insertFriendPreferences(student_id_a, friend_ui_id, false);
         });
         enemy_ids.split(',').map(s => s.trim()).filter(id => id !== '').forEach(async (enemy_ui_id) => {
+            await insertFriendPreferences(student_id_a, enemy_ui_id, true);
         });
         return true;
     } catch (err) {
