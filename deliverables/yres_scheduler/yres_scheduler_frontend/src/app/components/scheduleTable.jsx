@@ -49,6 +49,7 @@ export default function Schedule({schedule, rooms}) {
     const [show, setShow] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const MONDAY = 0, TUESDAY = 1, WEDNESDAY = 2, THURSDAY = 3, FRIDAY = 4;
+    const TIME_ADJUSTMENT = 9;
     const handleGenerate = async () => {
         const response = generateSchedule();
         if(response.error){
@@ -126,21 +127,22 @@ export default function Schedule({schedule, rooms}) {
         const display_data = tempSched.map((row) => {
             const room = rooms.find((room_i) => room_i.room_id == row.room_id.toString());
             // switch case for day 
-            var dayString = "";
+            var displayDay = "";
             switch(row.day) {
                 case MONDAY:
-                    dayString = "Monday";
+                    displayDay = "Monday";
                 case TUESDAY:
-                    dayString = "Tuesday";
+                    displayDay = "Tuesday";
                 case WEDNESDAY:
-                    dayString = "Wednesday";
+                    displayDay = "Wednesday";
                 case THURSDAY:
-                    dayString = "Thursday";
+                    displayDay = "Thursday";
                 case FRIDAY:
-                    dayString = "Friday";
+                    displayDay = "Friday";
             }
-                
-            return {group: DisplaySched, time: "Day: ".concat(dayString).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
+            const displayTime = row.time + TIME_ADJUSTMENT;
+            
+            return {group: DisplaySched, time: "Day: ".concat(displayDay).concat(", Hour: ").concat(displayTime), location: room ? room.name : "unknown", activity: row.activity.name }
         });
         const csvData = [
             ["ID", "Time", "Location", "Activity Name", "Group ID"],
