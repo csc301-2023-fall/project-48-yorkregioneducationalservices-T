@@ -106,12 +106,13 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                     setShow={setShowCSV}
                     type={currType}
                 />
-                <div className='right-align'>
                 <Button
-                    className='btn-right'
+                    className='btn-right right-align'
                     onClick={handleReset}
                     variant="danger"
                     >Reset DB</Button>
+                <div className='right-align'>
+                
                     {currType === PROFILE_TYPES[0] 
                     ? <>
                     <RefinedDropdown

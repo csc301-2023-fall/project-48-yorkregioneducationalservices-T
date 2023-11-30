@@ -91,8 +91,8 @@ export default function Schedule({schedule, rooms}) {
 
     const display_data = tempSched.map((row) => { 
         const room = rooms.find((room_i) => room_i.room_id.toString() === row.room_id.toString());
-        return {group: DisplaySched, time: "Day: ".concat(row.day).concat(", Hour: ").concat(row.time), location: room ? room.name : "unknown", activity: row.activity.name }
-    });
+        return {group: DisplaySched, time: "Day: ".concat(displayDay).concat(", Hour: ").concat(displayTime), location: room ? room.name : "unknown", activity: row.activity.name }
+        });
     /**
      * Handler for dropdown click
      */
@@ -185,13 +185,12 @@ export default function Schedule({schedule, rooms}) {
                 groups={groups}
             />
             </div>
-            <div>
+            <div className='inline'>
             <Button className={"btn btn-primary right-btn"} onClick={handleGenerate}> Generate Schedule </Button>
             </div>
-            <div>
+            <div className='inline'>
             <Button className={csvOutData.length == 0 ? "btn btn-secondary right-btn" : "hidden"} disabled={!csvOutData.length == 0} onClick={updateCSV}> Prepare for download </Button>
-            <Button className={!csvOutData.length == 0 ? "btn btn-primary right-btn" : "hidden"} disabled={csvOutData.length == 0} onClick={downloadCSV}> Download Schedule </Button>
-                
+            <Button className={!csvOutData.length == 0 ? "btn btn-primary right-btn" : "hidden"} disabled={csvOutData.length == 0} onClick={downloadCSV}> Download Schedule </Button>   
             <CSVLink disabled={csvOutData.length == 0} filename= {DisplaySched.concat("-schedule.csv")} data={csvOutData} target='_blank' ref={csvLink}>           </CSVLink>
             </div>
             <YresTable data={display_data} columns={columns} disablesearch={true}/>
