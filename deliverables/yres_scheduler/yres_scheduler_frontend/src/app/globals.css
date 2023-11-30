@@ -15,7 +15,7 @@ body, html{
 #footer {
   flex: 0 1 5vh;
   background-color: #3D96AB;
-  align-content: center;
+  align-items: center;
   justify-content: center;
   display: flex;
   color: white;
