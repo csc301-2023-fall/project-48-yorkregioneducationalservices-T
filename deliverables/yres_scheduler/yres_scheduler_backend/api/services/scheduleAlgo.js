@@ -3,7 +3,7 @@ const gs = require("./groupAlgo");
 const uuid = require('uuid');
 // const insertData = require("../utils/insertDataIntoDB");  
 
-class Block {
+class BlockL {
     constructor(room_id, activity, day, time) {
         this.room_id = room_id;
         this.activity = activity;
@@ -119,7 +119,8 @@ function scheduleAlgorithm(groups, activities, rooms) {
             available_rooms[i].push([...rooms]);
         }
     }
-
+    console.log(available_rooms);
+    
     // 1.4. Initialize all blocks to be allocated in the schedule
     var fillers = [];
     var commons = [];
@@ -163,12 +164,12 @@ function scheduleAlgorithm(groups, activities, rooms) {
         // Create a list of blocks
         for (var a = 0; a < activities_by_type[t].length; a++) {
             for (var i = 0; i < activities_by_type[t][a].num_occurences; i++) {
-                all_blocks[t].push(new Block("", activities_by_type[t][a], -1, -1));
+                all_blocks[t].push(new BlockL("", activities_by_type[t][a], -1, -1));
             }
         }
         var filler_index = 0
         for (var f = 0; f < filler_hours; f++) {
-            all_blocks[t].push(new Block("", fillers[t][filler_index], -1, -1));
+            all_blocks[t].push(new BlockL("", fillers[t][filler_index], -1, -1));
             filler_index++;
             if (filler_index === fillers[t].length)
                 filler_index = 0;
@@ -211,6 +212,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
                         // Iterate over all rooms this activity may take place in
                         for (var r = 0; r < all_blocks[t][b].activity.room_ids.length; r++) {
                             selected_room_id = all_blocks[t][b].activity.room_ids[r];
+                            console.log(selected_room_id);
                             for (var j = time; j < time + all_blocks[t][b].activity.duration; j++) {
                                 // If there are no rooms at the time, or selected room is not available
                                 if (available_rooms[day][j].length == 0 || available_rooms[day][j].indexOf(selected_room_id) < 0) {
@@ -223,11 +225,12 @@ function scheduleAlgorithm(groups, activities, rooms) {
                         if (selected_room_id === "") { continue; } // Go on to the next sub attempt
                         // 2.5.4. Schedule and room are both available, can now insert blocks
                         for (var j = time; j < time + all_blocks[t][b].activity.duration; j++) {
-                            console.log("Inserting", all_blocks[t][b].activity.name, "at day", day, "time", j);
+                            console.log("Inserting", all_blocks[t][b].activity.name, "at day", day, "time", j, "room", selected_room_id);
                             all_blocks[t][b].day = day;
                             all_blocks[t][b].time = time;
                             all_blocks[t][b].room_id = selected_room_id;
-                            groups[t][g].schedule[day][j] = all_blocks[t][b];
+                            console.log("room:", all_blocks[t][b].room_id);
+                            groups[t][g].schedule[day][j] = new BlockL(selected_room_id, all_blocks[t][b].activity, day, time);
                             // The room taken up by this activity must be removed from availability list
                             const dindex = available_rooms[day][j].indexOf(selected_room_id);
                             available_rooms[day][j].splice(dindex, 1);
@@ -282,7 +285,6 @@ function scheduleAlgorithm(groups, activities, rooms) {
         console.log("scheduleAlgorithm - Big attempts reach maximum: this algorithm fails to generate shedules with given data.");
         throw Error("scheduleAlgorithm - Big attempts reach maximum: this algorithm fails to generate shedules with given data.");
     }
-
     return groups;
 }
 
@@ -314,7 +316,7 @@ function schedule_dummy_test() {
     // Test for too many activities:
     // DUMMY_ACTIVITIES.push(new ActivityL('3', 'Many', 2, 'common', 10, ['0', '1', '2', '3', '4', '5'], 'C1'));
     // Test for extreme cases:
-    DUMMY_ACTIVITIES.push(new ActivityL('3', 'Long', 8, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
+    // DUMMY_ACTIVITIES.push(new ActivityL('3', 'Long', 8, 'common', 1, ['0', '1', '2', '3', '4', '5', '11', '12', '13', '14', '15', '16', '17', '18', '19'], 'C1'));
 
     var DUMMY_ROOMS = [];
     for (var r = 0; r < 20; r++) {
@@ -339,10 +341,16 @@ for (var t = 0; t < DUMMY_RESULT.length; t++) {
                 process.stdout.write(`${name}\t`);
             }
             process.stdout.write('\n');
+            process.stdout.write(`Room:\t`);
+            for (var tm = 0; tm < 8; tm++) {
+                var room = DUMMY_RESULT[t][g].schedule[d][tm].room_id;
+                process.stdout.write(`${room}\t`);
+            }
+            process.stdout.write('\n');
         }
     }
-}
-*/
+}*/
+
 module.exports = {
     scheduleAlgorithm,
     scheduleCall
