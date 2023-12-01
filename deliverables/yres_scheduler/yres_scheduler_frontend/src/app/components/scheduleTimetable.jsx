@@ -29,10 +29,6 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
   }
 
   tempSched.forEach((row) => {
-    // Do not show activities with no time
-    if (!row.time) {
-      return;
-    }
     const room = rooms.find((room_i) => room_i.room_id.toString() === row.room_id.toString());
     const event = {
       group: DisplaySched,

@@ -6,6 +6,7 @@ import RoomsCreate from '@/app/modals/roomsCreate';
 import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import Alert from '@/app/components/alert';
 import { fetchDataGET, fetchDataPOST } from '@/app/helper';
+import exampleFloorPlan from '@/app/data/school_floorplan_example.jpg'
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /**
@@ -97,13 +98,15 @@ async function Floorplan() {
     if (err_message != ""){
         errorDisplay = <Alert simpleMessage={"Fetching Failed"} complexMessage={err_message}/>
     }
-    const rooms = rooms_object.data.rooms
-    const activities = activities_object.data.activities
+    const rooms = !rooms_object.data.rooms ? [] : rooms_object.data.rooms
+    const activities = !activities_object.data.activities ? [] : activities_object.data.activities
     const curr_campus = curr_campus_object.data.campuses
     return (    
         <div className='split-page'>
             <div className='left'>
-                <FloorplanCanvas/>
+                <div className='floorplan-box'>
+                    <img src={exampleFloorPlan.src} alt="No floorplan found"/>
+                </div>
             </div>
             <div className='right'>
                 {errorDisplay}
