@@ -1,6 +1,6 @@
 # YRES Scheduler 
 
-![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/3e05e164-034a-43cb-9b2e-86d0a7617323)
+![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/83c81b5e-102f-48ff-9749-a3f7869d62d9)
 
 ## Partner Intro
 Partner Contact Information:
