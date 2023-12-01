@@ -1,6 +1,6 @@
 # YRES Scheduler 
 
-<img width="750" alt="Screenshot 2023-11-17 at 12 42 34 AM" src="https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/31d3ab77-02c4-44a2-9460-b0783665c2bb">
+![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/3e05e164-034a-43cb-9b2e-86d0a7617323)
 
 ## Partner Intro
 Partner Contact Information:
