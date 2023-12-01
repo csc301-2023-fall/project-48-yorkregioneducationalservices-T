@@ -178,6 +178,10 @@ body, html{
 
 /* Floorplan Specific Styles */
 
+.floorplan-box img {
+  width: 100%;
+}
+
 .floorplan-canvas {
   overflow: auto;
 }
