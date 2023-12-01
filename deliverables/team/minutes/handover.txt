@@ -1,0 +1,6 @@
+Notes of Discussion of Project Handover:
+
+Partner will attain our code by simply forking the repo. In order to deploy 
+their forked project on their own EC2 instance, we will provide in depth deployment instructions, as well as addition resources to help
+their team get the product going.
+
