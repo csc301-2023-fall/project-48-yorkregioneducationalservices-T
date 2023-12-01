@@ -1,7 +1,7 @@
 # YRES Scheduler 
 
 ![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/83c81b5e-102f-48ff-9749-a3f7869d62d9)
-
+[Link to Deployed Product](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/login) The username is "admin", the password is "admin".
 ## Partner Intro
 Partner Contact Information:
 Hugo Quan: Web Developer co-op, primary point of contact
@@ -18,10 +18,10 @@ The product is a web application for planning summer camps. The website allows t
 Users can add two types of profiles: student and counselor. They can add them manually, one-by-one, through a form activated from a button, or by importing a .csv file. The added profile will be stored in a database, and displayed to the user in a table. Users will be able to search for, edit, and delete those profiles in the table. There is a search bar on top of the table and there are edit and delete icons that allow for profile alteration. The editing presents the same form as adding with each field being an attribute.
 Users can also delete a whole database (used when the camp session ends). The profile management feature is found on the profiles page. This feature is so that we have accurate information when generating a schedule.
  ### Floorplan management
-Users can add an image of the floorplan (for visual reference of each room). They can then manually add each room. The users can also manually add potential activities that could take place in the schedule. Users can edit, search, delete, or add rooms and activites.
+Users can add an image of the floorplan (for visual reference of each room). They can then manually add each room. The users can also manually add potential activities that could take place in the schedule. Users can edit, search, delete, or add rooms and activities.
 Users can also delete a whole database of created objects (i.e. when the camp session ends). The floorplan management feature is found on the floorplan page. This feature exists so that we have accurate information when generating a schedule.
 ### Schedule generation
-After inputting profiles, rooms, and activities, users can generate schedules based on the inputted information. This is done through visiting the schedule page and clicking on generate schedule. The generate schedule call will also include the generating of groups based on inputted infromation such as preferences, sex and age. The purpose of this feature is to simplify the mixing and matching to create an ideal schedule.
+After inputting profiles, rooms, and activities, users can generate schedules based on the inputted information. This is done through visiting the schedule page and clicking on generate schedule. The generate schedule call will also include the generating of groups based on inputted information such as preferences, sex and age. The purpose of this feature is to simplify the mixing and matching to create an ideal schedule.
 ### Account system
 Only logged in users can access the application. This is to ensure that only YRES camp coordinators are able to access student information and interact with scheduling data. The account login information will be given to the partner in the handoff.
  ### Schedule exportation
