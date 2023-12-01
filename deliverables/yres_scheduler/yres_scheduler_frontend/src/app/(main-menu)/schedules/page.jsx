@@ -6,6 +6,7 @@ import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import { Button } from 'react-bootstrap';
 import { fetchDataPOST } from '@/app/helper';
 import { fetchDataGET } from '@/app/helper';
+import ScheduleTimetable from '@/app/components/scheduleTimetable';
 
 /** 
  * Schedules page that generates and displays schedule and groups
@@ -28,14 +29,18 @@ export default async function Schedules() {
     const rooms = room_object.data.rooms;
     const schedule = schedule_object.data.schedule;
     const students = students_object.data.students;
+
+    const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
+    schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
+
     return (
         <div className='split-page'>
             <div className='left'>
-                <FloorplanCanvas/>
+                <ScheduleTimetable schedule={schedule} rooms={rooms} groups={groups}/>
             </div>
             <div className='right'>
             {errorDisplay}
-                <Schedule schedule={schedule} rooms={rooms} students={students}/>
+                <Schedule schedule={schedule} rooms={rooms} students={students} groups={groups}/>
             </div>
         </div>
     );
