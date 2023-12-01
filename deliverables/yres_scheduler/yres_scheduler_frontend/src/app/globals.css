@@ -178,6 +178,10 @@ body, html{
 
 /* Floorplan Specific Styles */
 
+.floorplan-box img {
+  width: 100%;
+}
+
 .floorplan-canvas {
   overflow: auto;
 }
@@ -187,6 +191,50 @@ body, html{
   margin-top: 1rem;
   display: flex;
   gap: 12px;
+}
+
+#schedule-pane {
+  height: 100%;
+}
+
+#schedule-timetable {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.timetable-header {
+  background-color: #3D96AB !important;
+}
+
+.timetable-event {
+  border-radius: 5px;
+  width: calc(100% - 2px);
+  border: 1px solid grey;
+  background-color: white;
+  color: black;
+  position: absolute;
+  font-size: .7em;
+  font-weight: 300;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.timetable-event-info {
+  line-height: initial;
+  text-align: center;
+}
+
+.timetable-hour {
+  background-color: #3f97aadc;
+  font-size: 12px;
+  text-align: center;
+  width: 4vw;
+  border-bottom: 1px solid #3D96AB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Profiles Specific Styles */
