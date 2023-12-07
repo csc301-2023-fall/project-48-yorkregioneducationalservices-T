@@ -19,13 +19,14 @@ import YresTable from '../components/table';
         students - a list of all student objects with attributes described above
  * */
 function StudentEdit({item, show, setShow, students}) {
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    let errorDisplay = <></>;
     const [removeFriends, setRemoveFriends] = useState([]);
     const [removeEnemies, setRemoveEnemies] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
     const studentFriendData = students.map((item) => ({_student_id: item._student_id, _student_ui_id: item._student_ui_id, firstname: item.firstname, lastname: item.lastname}));
     const handleClose = () => {
-        setErrorDisplay(<></>)
+        setErrorMessage("");
         setShow(false)
         setRemoveFriends([]);
         setRemoveEnemies([]);
@@ -105,6 +106,9 @@ function StudentEdit({item, show, setShow, students}) {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
+            if(parseInt(event.target[3].value) < 1){
+                throw new Error("Enter a real age");
+            }
             await fetchDataPOST(
                 `/student/${item._student_id}/edit`, 
                 {
@@ -121,11 +125,16 @@ function StudentEdit({item, show, setShow, students}) {
             router.refresh();
             handleClose();
         } catch (err) {
-            setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-                <p>{"Error: " + err.message}</p>
-                </Alert>);
+            // setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+            //     <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
+            //     <p>{"Error: " + err.message}</p>
+            //     </Alert>);
+            console.log(err);
+            setErrorMessage(err.message);
         }
+    }
+    if (errorMessage != ""){
+        errorDisplay = <Alert complexMessage={errorMessage}/>
     }
 
     return (

@@ -35,7 +35,7 @@ function StudentAdd({show, setShow, item, students}) {
         event.preventDefault()
             try {
                 if(parseInt(event.target[3].value) < 1){
-                    throw "Age too small.";
+                    throw new Error("Enter a real age");
                 }
                 else{
                 const response = await fetchDataPOST(
