@@ -1,10 +1,6 @@
 import * as React from 'react';
 import Schedule from '../../components/scheduleTable'
 import Alert from '@/app/components/alert';
-import GroupsTable from '../../components/groupsTable'
-import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
-import { Button } from 'react-bootstrap';
-import { fetchDataPOST } from '@/app/helper';
 import { fetchDataGET } from '@/app/helper';
 import ScheduleTimetable from '@/app/components/scheduleTimetable';
 
@@ -28,9 +24,7 @@ export default async function Schedules() {
     }
     const rooms = room_object.data.rooms;
     let schedule = [[]];
-    if (typeof window !== 'undefined') {
-        schedule = schedule_object?.data?.schedule || [[]];
-    }
+    schedule = schedule_object?.data?.schedule || [[]];
     const students = students_object.data.students;
     const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
     
