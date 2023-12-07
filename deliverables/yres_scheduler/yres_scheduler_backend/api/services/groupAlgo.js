@@ -1,5 +1,5 @@
 const uuid = require('uuid');
-const saveJson = require('../utils/saveJsonToFile.js');
+const saveJson = require('../utils/jsonToFile.js');
 const config = require('config');
 const logger = require('./logger');
 

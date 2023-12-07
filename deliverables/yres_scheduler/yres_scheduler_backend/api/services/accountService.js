@@ -25,7 +25,7 @@ const bcrypt = require('bcrypt');
 const {AccountServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const saveJson = require('../utils/saveJsonToFile.js');
+const saveJson = require('../utils/jsonToFile.js');
 const AdminUser = require('../entities/AdminUser');
 
 /**

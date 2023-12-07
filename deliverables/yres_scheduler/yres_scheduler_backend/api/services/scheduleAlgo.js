@@ -2,7 +2,7 @@ const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
 const logger = require("../../logger");
-const saveJson = require('../utils/saveJsonToFile.js');
+const saveJson = require('../utils/jsonToFile.js');
 // const insertData = require("../utils/insertDataIntoDB");  
 
 class BlockForScheduling {
