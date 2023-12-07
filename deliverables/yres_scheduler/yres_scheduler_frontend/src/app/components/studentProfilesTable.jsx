@@ -6,10 +6,11 @@ import StudentEdit from '../modals/studentEdit';
 import Alert from '@/app/components/alert';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
-import { useState } from 'react';
-import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
+import { useState, useEffect } from 'react';
 import { fetchDataDELETE } from '../helper';
 import { useRouter } from 'next/navigation';
+import Loading from './loading';   
+
 
 /** 
  * Student Table that displays:
@@ -27,6 +28,7 @@ import { useRouter } from 'next/navigation';
 **/
 function StudentProfilesTable({studentData}) {
     const router = useRouter();
+    const [hydrated, setHydrated] = useState(false);
     const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
@@ -38,7 +40,9 @@ function StudentProfilesTable({studentData}) {
         friends_ids: [],
         enemy_ids: []
     });
+    const [needRefresh, setNeedRefresh] = useState(false);
 
+    
     const columns = [{
         dataField: '_student_ui_id',
         text: 'ID'
@@ -58,39 +62,55 @@ function StudentProfilesTable({studentData}) {
         dataField: 'actions',
         text: 'Actions'
     }]
-    studentData.forEach(item => {
-        //creates a modal and button for editing and deleting each student
-        const showEditModal = () => {
-            setEditItem(item);
-            setShowEdit(true);
-        }
-        const deleteStudent = async () =>{
-            try {
-                await fetchDataDELETE(
-                    `/student/${item._student_ui_id}/`
+
+    useEffect(() => {
+        // Function to process studentData with actions
+        const processStudentData = async () => {
+            const updatedData = await Promise.all(studentData.map(async (item) => {
+                const showEditModal = () => {
+                    setEditItem(item);
+                    setShowEdit(true);
+                };
+
+                const deleteStudent = async () => {
+                    try {
+                        await fetchDataDELETE(`/student/${item._student_ui_id}/`);
+                        setNeedRefresh(true);
+                        router.refresh();
+                    } catch (err) {
+                        setErrorDisplay(<Alert complexMessage={err.message} />);
+                    } 
+                };
+
+                item.actions = (
+                    <div className='table-actions'>
+                        <OverlayTrigger placement="right-start" overlay={<Tooltip>View/Edit Student</Tooltip>}>
+                            <Button variant="success" onClick={showEditModal} className='action-button'>
+                                <FaPencilAlt />
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Student</Tooltip>}>
+                            <Button variant="danger" onClick={deleteStudent} className='action-button'>
+                                <BsTrash />
+                            </Button>
+                        </OverlayTrigger>
+                    </div>
                 );
-                router.refresh();
-            } catch (err) {
-                setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-                <p>{err.message}</p>
-                </Alert>);
-            }
-        }
-        item.actions = (
-            <div className='table-actions'>
-                <OverlayTrigger placement="right-start" overlay={<Tooltip>View/Edit Student</Tooltip>}>
-                    <Button variant="success" onClick={showEditModal} className='action-button'>
-                        <FaPencilAlt />
-                    </Button>
-                </OverlayTrigger>
-                <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Student</Tooltip>}>
-                    <Button variant="danger" onClick={deleteStudent} className='action-button'>
-                        <BsTrash />
-                    </Button>
-                </OverlayTrigger>
-            </div>
-        )
-    })
+            }));
+
+            // Set the updated data once processing is done
+            setHydrated(true);
+            setNeedRefresh(false);
+            return updatedData;
+        };
+
+        // Process studentData
+        processStudentData();
+    }, [studentData, router, needRefresh]);
+
+    if (!hydrated) {
+        return <Loading />;
+    }
 
     return (
         <>
