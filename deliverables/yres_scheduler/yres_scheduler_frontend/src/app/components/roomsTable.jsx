@@ -75,7 +75,7 @@ function RoomsTable({ roomData }) {
     return (
         <>
             {errorDisplay}
-            <YresTable keyCol={'room_id'} data={roomData} columns={columns} disableHover={true}/>
+            <YresTable keyCol={'room_id'} data={roomData} columns={columns} disableHover={true} friend_table={true}/>
             <RoomsEdit item={editItem} show={showEdit} setShow={setShowEdit}/>
         </>
     )   

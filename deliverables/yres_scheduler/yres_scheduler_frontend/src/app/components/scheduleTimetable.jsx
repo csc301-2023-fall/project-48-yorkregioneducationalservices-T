@@ -166,15 +166,15 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
 
   return (
     <div id="schedule-pane">
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex' }}>
+        <Button className={"btn btn-primary"} onClick={handleDownloadPDF}> Download as PDF</Button>
         <div style={{ marginTop: '20px' }}> 
-        <RefinedDropdown 
-          handleSelect={handleSelect}
-          displayText={DisplaySched}
-          groups={groups}
-        />
-      </div>
-        <Button className={"btn btn-primary btn-right"} onClick={handleDownloadPDF}> Download as PDF</Button>
+          <RefinedDropdown 
+            handleSelect={handleSelect}
+            displayText={DisplaySched}
+            groups={groups}
+          />
+        </div>
       </div>
       <div id="schedule-timetable">
         <TimeTable

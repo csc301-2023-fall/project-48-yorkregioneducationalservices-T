@@ -301,6 +301,7 @@ body, html{
 
 .table-actions {
   max-height: 1vh;
+  min-width: 8rem;
 }
 
 .table-container{
@@ -338,7 +339,7 @@ body, html{
 }
 
 .float-child{
-  width: 50%;
+  width: fit-content;
   height: 10%;
   float: left;
 }
@@ -369,7 +370,4 @@ body, html{
 }
 .nothing{
   display: none !important;
-}
-.max-height{
-  max-height: 50%;
 }

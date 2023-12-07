@@ -242,7 +242,7 @@ export default function Schedule({schedule, rooms, groups}) {
             <Button className={!csvOutData.length == 0 ? "btn btn-primary right-btn" : "hidden nothing"} disabled={csvOutData.length == 0} onClick={downloadCSV}> Download Schedule </Button>   
             <CSVLink disabled={csvOutData.length == 0} filename= {DisplaySched.concat("-schedule.csv")} data={csvOutData} target='_blank' ref={csvLink}>           </CSVLink>
             </div>
-            <YresTable data={display_data} columns={columns} disablesearch={true}/>
+            <YresTable data={display_data} columns={columns} disablesearch={true} friend_table={true}/>
             <SideBarWrapper/>
         </div>
     );
