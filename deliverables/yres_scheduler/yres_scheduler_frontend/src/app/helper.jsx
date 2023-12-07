@@ -70,7 +70,7 @@ export async function fetchDataPOST(route, item) {
     if ((!(199 < response.status && response.status < 300))) {
         const promiseRes = await response.text()
         const jsonErrMsg = JSON.parse(promiseRes);
-        throw new Error(`${response.status} ${response.statusText} Error: ${jsonErrMsg.message}`)
+        throw new Error(`${response.status} ${response.statusText}, Error: ${jsonErrMsg.message}`)
     }
     return response;
         

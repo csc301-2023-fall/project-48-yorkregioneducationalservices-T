@@ -61,18 +61,25 @@ const MAX_SUB_ATTEMPT = 50000;
  * @param {Array} rooms - All rooms available for scheduling.
  */
 async function scheduleCall(students, counselors, activities, rooms) {
-    logger.debug("Start grouping algorithm...");
-    var groups = await gs.groupCall(counselors, students);
-    logger.debug("Grouping complete");
-    logger.debug("Start scheduling algorithm...");
-    var activityLs = await convertFromActivities(activities);
-    var room_ids = [];
-    for (let r = 0; r < rooms.length; r++) {
-        room_ids.push(rooms[r].room_id);
+    try {
+        logger.debug("Start grouping algorithm...");
+        var groups = await gs.groupCall(counselors, students);
+        logger.debug("Grouping complete");
+        logger.debug("Start scheduling algorithm...");
+        var activityLs = await convertFromActivities(activities);
+        var room_ids = [];
+        for (let r = 0; r < rooms.length; r++) {
+            room_ids.push(rooms[r].room_id);
+        }
+        const result = await scheduleAlgorithm(groups, activityLs, room_ids);
+        logger.debug("Scheduling complete");
+        return result;
+    } catch (err) { 
+        logger.error(err);
+        // save an empty schedule so that nothing crashes.
+        saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
+        throw new Error(err.message);
     }
-    const result = await scheduleAlgorithm(groups, activityLs, room_ids);
-    logger.debug("Scheduling complete");
-    return result;
 }
 /* ============ HERE STARTS THE SCHEDULE ALGORITHM ================ */
 /** The scheduling algorithm.
@@ -293,7 +300,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
         logger.error(err);
         // save an empty schedule so that nothing crashes.
         saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
-        throw err;
+        throw new Error(err.message);
     }
 }
 

@@ -25,7 +25,7 @@ import { fetchDataPOST, process_comma_separated_text } from '../helper';
         profiles - a list of student or counselor objects depending on type attribute below
         type - either "Student" or "Counselor"
 **/
-function AddStudents(profiles, type){
+async function AddStudents(profiles, type){
   if(type === "Student"){
     const students = profiles;
     const addPreferences = async (prefs, type) => {
@@ -40,7 +40,7 @@ function AddStudents(profiles, type){
         })
       }
     }
-    const addStudent = async (students) =>{
+    const addStudents = async (students) =>{
         try {
         const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/fromlist/"}`;
         const settings = {
@@ -67,7 +67,7 @@ function AddStudents(profiles, type){
       friend_ids: "", 
       enemy_ids: ""
     }));
-    addStudent(mappedStudents);    
+    await addStudents(mappedStudents);    
   }
   else{
     const counselors = profiles;

@@ -23,7 +23,7 @@ async function generateSchedule(students, counselors, activities, rooms) {
         return new_schedule;
     } catch(err) {
         throw new ScheduleServiceError(
-            `Failed to generate schedule`,
+            `Failed to generate schedule, Error: ${err.message}`,
             STATUS_CODES.FAILED
         );
     }

@@ -21,9 +21,14 @@ import Alert from '@/app/components/alert';
 async function generateSchedule() {
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
-        const data = await res.json();
-        if(data.error){
-            throw data;
+        if ((!(199 < res.status && res.status < 300))) {
+            const promiseRes = await res.text()
+            const jsonErrMsg = JSON.parse(promiseRes);
+            return {
+                error: true,
+                schedule: "nil",
+                err_message: `${res.status} ${jsonErrMsg.error}`
+            };
         }
         return {
             error: false,
@@ -51,10 +56,11 @@ export default function Schedule({schedule, rooms, groups}) {
     const MONDAY = 0, TUESDAY = 1, WEDNESDAY = 2, THURSDAY = 3, FRIDAY = 4;
     const TIME_ADJUSTMENT = 9;
     const handleGenerate = async () => {
-        const response = generateSchedule();
+        const response = await generateSchedule();
         if(response.error){
+            console.log("HERE2")
             router.refresh()
-            setErrorMessage(response.errorMessage)
+            setErrorMessage(response.err_message)
         }
         else{
 
@@ -70,13 +76,23 @@ export default function Schedule({schedule, rooms, groups}) {
 
     //Get group data
     const allGroups = []
-    schedule.forEach(camp => {
-        camp.forEach((group, group_index) => {
-            const student_ids = group.students.map(student => student.student_id)
-            const counselor_ids = group.counselors.map(counselor => counselor.counselor_id)
-            allGroups.push({student_ids: student_ids, counselor_ids: counselor_ids, group_id: group_index});
-        })
-      });
+   // Check if schedule is an array before iteration
+    if (Array.isArray(schedule)) {
+        schedule.forEach(camp => {
+            if (Array.isArray(camp) && camp.length > 0) {
+                camp.forEach((group, group_index) => {
+                    if (group && Array.isArray(group.students) && Array.isArray(group.counselors)) {
+                        const student_ids = group.students.map(student => student.student_id);
+                        const counselor_ids = group.counselors.map(counselor => counselor.counselor_id);
+                        allGroups.push({ student_ids, counselor_ids, group_id: group_index });
+                    }
+                });
+            }
+        });
+    } else {
+        console.error('Schedule is not an array');
+        // Handle the situation where schedule is not an array
+    }   
 
     
     let tempSchedArray;

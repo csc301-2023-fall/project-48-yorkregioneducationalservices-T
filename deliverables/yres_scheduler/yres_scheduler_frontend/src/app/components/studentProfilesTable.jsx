@@ -40,8 +40,6 @@ function StudentProfilesTable({studentData}) {
         friends_ids: [],
         enemy_ids: []
     });
-    const [needRefresh, setNeedRefresh] = useState(false);
-
     
     const columns = [{
         dataField: '_student_ui_id',
@@ -66,6 +64,7 @@ function StudentProfilesTable({studentData}) {
     useEffect(() => {
         // Function to process studentData with actions
         const processStudentData = async () => {
+            setHydrated(false);
             const updatedData = await Promise.all(studentData.map(async (item) => {
                 const showEditModal = () => {
                     setEditItem(item);
@@ -75,8 +74,7 @@ function StudentProfilesTable({studentData}) {
                 const deleteStudent = async () => {
                     try {
                         await fetchDataDELETE(`/student/${item._student_ui_id}/`);
-                        setNeedRefresh(true);
-                        router.refresh();
+                        window.location.reload();
                     } catch (err) {
                         setErrorDisplay(<Alert complexMessage={err.message} />);
                     } 
@@ -97,16 +95,14 @@ function StudentProfilesTable({studentData}) {
                     </div>
                 );
             }));
-
             // Set the updated data once processing is done
             setHydrated(true);
-            setNeedRefresh(false);
             return updatedData;
         };
 
         // Process studentData
         processStudentData();
-    }, [studentData, router, needRefresh]);
+    }, [studentData]);
 
     if (!hydrated) {
         return <Loading />;
