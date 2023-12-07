@@ -221,6 +221,42 @@ body, html{
   overflow: hidden;
 }
 
+.timetable-event.blue {
+  background-color: lightblue;
+}
+
+.timetable-event.yellow {
+  background-color: yellow;
+}
+
+.timetable-event.green {
+  background-color: lightgreen;
+}
+
+.timetable-event.red {
+  background-color: lightcoral;
+}
+
+.timetable-event.purple {
+  background-color: plum;
+}
+
+.timetable-event.orange {
+  background-color: orange;
+}
+
+.timetable-event.grey {
+  background-color: lightgrey;
+}
+
+.timetable-event.brown {
+  background-color: burlywood;
+}
+
+.timetable-event.pink {
+  background-color: pink;
+}
+
 .timetable-event-info {
   line-height: initial;
   text-align: center;
