@@ -3,7 +3,17 @@ import * as React from 'react';
 import TimeTable from "react-timetable-events";
 import RefinedDropdown from './refinedDropDowns';
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 
+/**
+ * Renders a timetable schedule component.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.schedule - The schedule data.
+ * @param {Array} props.rooms - The room data.
+ * @param {Array} props.groups - The group data.
+ * @returns {JSX.Element} The rendered ScheduleTimetable component.
+ */
 function ScheduleTimetable ({ schedule, rooms, groups }) {
   const MONDAY = 0, TUESDAY = 1, WEDNESDAY = 2, THURSDAY = 3, FRIDAY = 4;
   const BLUE = 0, GREEN = 1, YELLOW = 2, PURPLE = 3, RED = 4, ORANGE = 5, PINK = 6, GREY = 7, BROWN = 8, BLACK = 9;
@@ -148,14 +158,30 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     );
   };
 
+
+  // Download as PDF
+  const handleDownloadPDF = () => {
+    const element = document.getElementById('schedule-timetable');
+    
+    if (element) {
+      import('html2pdf.js').then(({ default: html2pdf }) => {
+        html2pdf().from(element).save('ScheduleTimetable.pdf');
+      });
+    }
+  };
+
+
   return (
     <div id="schedule-pane">
-      <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ marginTop: '20px' }}> 
         <RefinedDropdown 
           handleSelect={handleSelect}
           displayText={DisplaySched}
           groups={groups}
         />
+      </div>
+        <Button className={"btn btn-primary btn-right"} onClick={handleDownloadPDF}> Download as PDF</Button>
       </div>
       <div id="schedule-timetable">
         <TimeTable
