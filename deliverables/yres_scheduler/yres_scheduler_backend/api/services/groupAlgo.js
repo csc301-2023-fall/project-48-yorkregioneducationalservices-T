@@ -1,9 +1,13 @@
 const uuid = require('uuid');
 const saveJson = require('../utils/saveJsonToFile.js');
+const config = require('config');
+const logger = require('./logger');
 
-const MAX_STUDENT = 7;
-const NUM_COUNSELOR = 1;
-class GroupL {
+
+const MAX_STUDENT = config.get('grouping.MAX_STUDENTS');
+const NUM_COUNSELOR = config.get('grouping.NUM_COUNSELOR');
+
+class GroupForGrouping {
 	constructor(group_id, name, schedule_id, students, counselors, camp_type) {
 		this.group_id = group_id;
 		this.name = name;
@@ -14,7 +18,7 @@ class GroupL {
 		this.schedule = undefined;
 	}
 }
-class StudentL {
+class StudentForGrouping {
 	constructor(student_id, gender, friends, camp_type) {
 		this.student_id = student_id;
 		this.gender = gender;
@@ -22,7 +26,7 @@ class StudentL {
 		this.camp_type = camp_type;
 	}
 }
-class CounselorL {
+class CounselorForGrouping {
 	constructor(counselor_id, camp_type) {
 		this.counselor_id = counselor_id;
 		this.camp_type = camp_type;
@@ -36,15 +40,15 @@ class CounselorL {
 function convertFromStudents(students) {
 	var studentLs = [];
 	if (students === undefined) {
-		console.log("groupAlgo - Undefined: list of students is undefined.");
+		logger.debug("groupAlgo - Undefined: list of students is undefined.");
 		throw Error("groupAlgo - Undefined: list of students is undefined.");
 	}
 	for (var s = 0; s < students.length; s++) {
 		if (students[s].student_id === undefined || students[s].sex === undefined || students[s].friend_ids === undefined || students[s].campus_id === undefined) {
-			console.log("groupAlgo - Incomplete data: required attributes is missing in a student object.");
+			logger.debug("groupAlgo - Incomplete data: required attributes is missing in a student object.");
 			throw Error("groupAlgo - Incomplete data: required attributes is missing in a student object.");
 		}
-		studentLs.push(new StudentL(students[s].student_id, students[s].sex, students[s].friend_ids, students[s].campus_id)); // TODO: TODO: to be replaced by camp_type
+		studentLs.push(new StudentForGrouping(students[s].student_id, students[s].sex, students[s].friend_ids, students[s].campus_id)); // TODO: TODO: to be replaced by camp_type
 	}
 	return studentLs;
 }
@@ -56,15 +60,15 @@ function convertFromStudents(students) {
 function convertFromCounselors(counselors) {
 	var counselorLs = [];
 	if (counselors === undefined) {
-		console.log("groupAlgo - Undefined: list of counselors is undefined.");
+		logger.debug("groupAlgo - Undefined: list of counselors is undefined.");
 		throw Error("groupAlgo - Undefined: list of counselors is undefined.");
 	}
 	for (var c = 0; c < counselors.length; c++) {
 		if (counselors[c].counselor_id === undefined || counselors[c].campus_id === undefined) { // TODO: to be replaced by camp_type
-			console.log("groupAlgo - Incomplete data: required attributes is missing in a counselor object.");
+			logger.debug("groupAlgo - Incomplete data: required attributes is missing in a counselor object.");
 			throw Error("groupAlgo - Incomplete data: required attributes is missing in a counselor object.");
 		}
-		counselorLs.push(new CounselorL(counselors[c].counselor_id, counselors[c].campus_id));
+		counselorLs.push(new CounselorForGrouping(counselors[c].counselor_id, counselors[c].campus_id));
 	}
 	return counselorLs;
 }
@@ -112,7 +116,7 @@ function generateGroups(counselors, students) {
 		}
 		// 1.2. Generate lists of counselors based on camp types occuring in students
 		var tbd = [];	// A temporary list to hold the counselors TBD (if the camp type is full or if they have no type preference)
-		console.log(counselors.length);
+		logger.debug(counselors.length);
 		for (let c = 0; c < counselors.length; c++) {
 			// If the counselor has a valid camp type preference
 			if (camp_types.indexOf(counselors[c].camp_type) >= 0) {
@@ -122,13 +126,13 @@ function generateGroups(counselors, students) {
 					counselors_by_type[type_index].push(counselors[c]);
 				}
 				else {
-					console.log('pushing tbd');
+					logger.debug('pushing tbd');
 					tbd.push(counselors[c]);
 				}
 			}
 			// If the camp type is invalid or unspecified, the counselor is auto-filled
 			else {
-				console.log('pushing tbd');
+				logger.debug('pushing tbd');
 				tbd.push(counselors[c]);
 			}
 		}
@@ -136,35 +140,35 @@ function generateGroups(counselors, students) {
 		for (let t = 0; t < camp_types.length; t++) {
 			// Fill counselors to the type of camp until enough)
 			while (counselors_by_type[t].length < num_groups_per_type[t] * NUM_COUNSELOR) {
-				console.log(counselors_by_type[t].length);
-				console.log(tbd);
+				logger.debug(counselors_by_type[t].length);
+				logger.debug(tbd);
 				const fill = tbd.pop();
 				// No counselor is available to fill, raise error
 				if (fill === undefined) {
-					console.log("generateGroups: Error -1, no enough counselors.");
+					logger.debug("generateGroups: Error -1, no enough counselors.");
 					throw Error("generateGroups: Error -1, no enough counselors.");
 				}
 				counselors_by_type[t].push(fill);
 			}
 		}
 		if (tbd.length == 0) {
-			console.log("generateGroups: Warning, too many counselors");
+			logger.debug("generateGroups: Warning, too many counselors");
 			// This case can be handled by increasing number of groups (decreasing students in each of those groups), if required.
 		}
 		// 1.4. Print test
 		for (let t = 0; t < camp_types.length; t++) {
-			console.log(`Camp Type: ${camp_types[t]}`);
+			logger.debug(`Camp Type: ${camp_types[t]}`);
 			for (let s = 0; s < students_by_type[t].length; s++) {
-				console.log(`Student ID: ${students_by_type[t][s].student_id}`);
+				logger.debug(`Student ID: ${students_by_type[t][s].student_id}`);
 			}
 			for (let c = 0; c < counselors_by_type[t].length; c++) {
-				console.log(`Counselor ID: ${counselors_by_type[t][c].counselor_id}`);
+				logger.debug(`Counselor ID: ${counselors_by_type[t][c].counselor_id}`);
 			}
 		}
 
 		// Step 2. Generate groups for each camp type
 		for (let t = 0; t < camp_types.length; t++) {
-			console.log("Generate groups for camp type", camp_types[t]);
+			logger.debug("Generate groups for camp type", camp_types[t]);
 			// 2.1. Put friends that need to be together in lists
 			var added = []; // A list to record the students included in friend lists
 			var friend_lists = []; // A list of friend groups
@@ -180,7 +184,7 @@ function generateGroups(counselors, students) {
 							is_same_camp = true;
 					}
 					if (!is_same_camp) {
-						console.log(`generateGroups: Warning, invalid friend preference, ID ${students_by_type[t][s].friends[f]} does not exist or is not in this camp.`);
+						logger.debug(`generateGroups: Warning, invalid friend preference, ID ${students_by_type[t][s].friends[f]} does not exist or is not in this camp.`);
 						continue;
 					}
 					// If this student has friend preference and hasn't been added as others' friend, add this as a new friend group
@@ -188,7 +192,7 @@ function generateGroups(counselors, students) {
 						var end = friend_lists.push([]);
 						friend_lists[end - 1].push(students_by_type[t][s].student_id);
 						added.push(students_by_type[t][s].student_id);
-						console.log(`Student ${students_by_type[t][s].student_id} has friends to be addded`);
+						logger.debug(`Student ${students_by_type[t][s].student_id} has friends to be addded`);
 					}
 					// Locate this student in a list in friend lists, including if just added
 					for (let fl = 0; fl < friend_lists.length; fl++) {
@@ -200,24 +204,24 @@ function generateGroups(counselors, students) {
 					// If this student's friend has not appeared in any friend groups yet, add to be together with this student
 					if (added.indexOf(students_by_type[t][s].friends[f]) < 0) {
 						if (friend_lists[fl_index].length == MAX_STUDENT) {
-							console.log("generateGroups: Warning, friend preference cannot be fulfilled because a friend network size exceeds maximum group size.");
+							logger.debug("generateGroups: Warning, friend preference cannot be fulfilled because a friend network size exceeds maximum group size.");
 						}
 						else {
 							friend_lists[fl_index].push(students_by_type[t][s].friends[f]);
 							added.push(students_by_type[t][s].friends[f]);
-							console.log(`Student ${students_by_type[t][s].friends[f]} is added as friend of ${students_by_type[t][s].student_id}`);
+							logger.debug(`Student ${students_by_type[t][s].friends[f]} is added as friend of ${students_by_type[t][s].student_id}`);
 						}
 					}
 					else {
-						console.log(`Student ${students_by_type[t][s].friends[f]} is added previously`);
+						logger.debug(`Student ${students_by_type[t][s].friends[f]} is added previously`);
 					}
 				}
 			}
 			// Print test for friend list
 			for (let fl = 0; fl < friend_lists.length; fl++) {
-				console.log(`Friend group ${fl}`);
+				logger.debug(`Friend group ${fl}`);
 				for (let f = 0; f < friend_lists[fl].length; f++) {
-					console.log(`Student ID: ${friend_lists[fl][f]}`);
+					logger.debug(`Student ID: ${friend_lists[fl][f]}`);
 				}
 			}
 
@@ -268,12 +272,12 @@ function generateGroups(counselors, students) {
 			student_list.forEach(student => arranged_students.push(student));
 
 			// Simple print test
-			console.log(`Arranged Students Length: ${arranged_students.length}`);
-			arranged_students.forEach(student => console.log(`Student ID: ${student.student_id}`));
+			logger.debug(`Arranged Students Length: ${arranged_students.length}`);
+			arranged_students.forEach(student => logger.debug(`Student ID: ${student.student_id}`));
 
 			// 2.4. Assign counselors randomly, assign students by friends first, and fill ones without friend preferences if needed
 			for (let i = 0; i < num_groups_per_type[t]; i++) {
-				const new_group = new GroupL(uuid.v1(), `Camp ${camp_types[t]} Group ${i}`, '', [], [], camp_types[t]);
+				const new_group = new GroupForGrouping(uuid.v1(), `Camp ${camp_types[t]} Group ${i}`, '', [], [], camp_types[t]);
 				for (let c = 0; c < NUM_COUNSELOR; c++) {
 					new_group.counselors.push(counselors_by_type[t][i * NUM_COUNSELOR + c]);
 				}
@@ -310,15 +314,15 @@ function generateGroups(counselors, students) {
 
 			// Print groups in this camp
 			groups[t].forEach(group => {
-				console.log(`Group Name: ${group.name}`);
-				group.counselors.forEach(counselor => console.log(`Counselor: ${counselor.counselor_id}`));
-				group.students.forEach(student => console.log(`Student: ${student.student_id}`));
+				logger.debug(`Group Name: ${group.name}`);
+				group.counselors.forEach(counselor => logger.debug(`Counselor: ${counselor.counselor_id}`));
+				group.students.forEach(student => logger.debug(`Student: ${student.student_id}`));
 			})
 		}
 
 		return groups;
 	} catch (err) {
-		console.log(err);
+		logger.debug(err);
 		// save an empty schedule so that nothing crashes.
 		saveJson.saveJsonToFile("[]", './saved_scheduled.json');
 		throw err;
@@ -333,16 +337,16 @@ function group_dummy_test() {
 	// DUMMY DATA STARTS HERE
 	var DUMMY_STUDENTS = [];
 	for (let i = 1; i < 21; i++) {
-		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'M', [], 'C1'));
+		DUMMY_STUDENTS.push(new StudentForGrouping(i.toString(), 'M', [], 'C1'));
 	}
 	for (let i = 21; i < 41; i++) {
-		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'F', [], 'C1'));
+		DUMMY_STUDENTS.push(new StudentForGrouping(i.toString(), 'F', [], 'C1'));
 	}
 	for (let i = 41; i < 61; i++) {
-		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'M', [], 'C2'));
+		DUMMY_STUDENTS.push(new StudentForGrouping(i.toString(), 'M', [], 'C2'));
 	}
 	for (let i = 61; i < 81; i++) {
-		DUMMY_STUDENTS.push(new StudentL(i.toString(), 'F', [], 'C2'));
+		DUMMY_STUDENTS.push(new StudentForGrouping(i.toString(), 'F', [], 'C2'));
 	}
 
 	// Test for friend preferences handling:
@@ -384,13 +388,13 @@ function group_dummy_test() {
 
 	var DUMMY_COUNSELORS = [];
 	for (let c = 1; c < 4; c++) {
-		DUMMY_COUNSELORS.push(new CounselorL(c.toString(), 'C1'));
+		DUMMY_COUNSELORS.push(new CounselorForGrouping(c.toString(), 'C1'));
 	}
 	for (let c = 4; c < 8; c++) {
-		DUMMY_COUNSELORS.push(new CounselorL(c.toString(), 'C2'));
+		DUMMY_COUNSELORS.push(new CounselorForGrouping(c.toString(), 'C2'));
 	}
 	for (let c = 8; c < 13; c++) {
-		DUMMY_COUNSELORS.push(new CounselorL(c.toString(), ''));
+		DUMMY_COUNSELORS.push(new CounselorForGrouping(c.toString(), ''));
 	}
 	// Test for no enough counselors: OK
 	// for (let c = 8; c < 11; c++) {
@@ -401,10 +405,10 @@ function group_dummy_test() {
 }
 
 // Test with dummy data
-// console.log(group_dummy_test());
+// logger.debug(group_dummy_test());
 
 module.exports = {
-	GroupL,
+	GroupL: GroupForGrouping,
 	groupCall,
 	generateGroups,
 	group_dummy_test

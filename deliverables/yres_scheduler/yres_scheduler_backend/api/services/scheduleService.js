@@ -9,7 +9,7 @@
 
 const schedb = require('../db/scheduleDbPlugin');
 const scheduleAlgo = require('../services/scheduleAlgo');
-const { saveJsonToFile, getJsonFromFile } = require('../utils/saveJsonToFile.js');
+const { saveJsonToFile, getJsonFromFile } = require('../utils/jsonToFile.js');
 const FILE_PATH = './saved_scheduled.json';
 const {ScheduleServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
