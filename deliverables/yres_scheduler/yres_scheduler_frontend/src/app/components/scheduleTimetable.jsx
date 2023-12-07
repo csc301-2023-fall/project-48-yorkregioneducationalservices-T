@@ -42,9 +42,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     tuesday: [],
     wednesday: [],
     thursday: [],
-    friday: [],
-    saturday: [],
-    sunday: []
+    friday: []
   }
   let colour_index = 0;
   const timetable_colours = new Map();
@@ -88,11 +86,6 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
       case FRIDAY:
         week.friday.push(event)
         break;
-      case 5:
-        week.saturday.push(event)
-        break
-      default:
-        week.sunday.push(event)
     }
   });
 
