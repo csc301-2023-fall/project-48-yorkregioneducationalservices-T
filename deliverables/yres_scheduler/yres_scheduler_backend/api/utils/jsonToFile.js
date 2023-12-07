@@ -27,6 +27,13 @@ async function getJsonFromFile(filePath) {
   return jsonObject;
 }
 
+
+async function clearJsonFromFile(filePath) {
+  const fileData = await fs.readFileSync(filePath, 'utf-8');
+  const jsonObject = await JSON.parse(fileData);
+  return jsonObject;
+}
+
 module.exports = {
   saveJsonToFile,
   getJsonFromFile
