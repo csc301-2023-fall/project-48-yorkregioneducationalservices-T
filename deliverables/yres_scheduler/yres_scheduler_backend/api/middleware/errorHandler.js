@@ -9,11 +9,12 @@
  * 
  * @module api/middleware/errorHandler
  */
-
+const logger = require('../../logger');
 const DEFAULT_STATUS_CODE = 500;
 
 const errorHandler = (err, req, res, next) => {
     const status_code = err.status_code || DEFAULT_STATUS_CODE;
+    logger.error(err);
     res.status(status_code).send(
         {
             error: err.name,

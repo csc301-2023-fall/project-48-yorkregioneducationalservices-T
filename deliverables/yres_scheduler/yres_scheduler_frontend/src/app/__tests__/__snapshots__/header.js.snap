@@ -13,7 +13,7 @@ exports[`renders properly 1`] = `
       href="#home"
       id="welcome"
     >
-      Welcome, User
+      Welcome, Admin
     </a>
     <button
       aria-controls="basic-navbar-nav"

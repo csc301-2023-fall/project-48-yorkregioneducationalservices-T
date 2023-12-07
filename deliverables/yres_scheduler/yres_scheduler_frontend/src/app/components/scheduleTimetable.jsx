@@ -9,9 +9,15 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
   const handleSelect = (e) => {
       setDisplaySched(e);
   }
-  
-  const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
+
+  let tempSchedArray;
+  if (schedule[0][DisplaySched.split(" ")[1]]?.schedule === undefined) {
+    tempSchedArray = [];
+  } else {
+    tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
+  }
   let tempSched = [];
+  console.log(tempSchedArray);
   tempSchedArray.forEach((day) => {
       tempSched.push(...day);
   })

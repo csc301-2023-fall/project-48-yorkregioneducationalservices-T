@@ -79,7 +79,12 @@ export default function Schedule({schedule, rooms, groups}) {
       });
 
     
-    const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
+    let tempSchedArray;
+    if (schedule[0][DisplaySched.split(" ")[1]]?.schedule === undefined) {
+        tempSchedArray = [];
+    } else {
+        tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
+    }    
     let tempSched = [];
     tempSchedArray.forEach((day) => {
         tempSched.push(...day);
@@ -134,8 +139,15 @@ export default function Schedule({schedule, rooms, groups}) {
         text: 'Activity Name'
     }];
 
+   
     const updateCSV = () => {
-        const tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
+        console.log("update csv");
+        let tempSchedArray;
+        if (schedule[0][DisplaySched.split(" ")[1]]?.schedule === undefined) {
+            tempSchedArray = [];
+        } else {
+            tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
+        }    
         let tempSched = [];
         tempSchedArray.forEach((day) => {
             tempSched.push(...day);
@@ -190,6 +202,7 @@ export default function Schedule({schedule, rooms, groups}) {
     }
     const downloadCSV = () => {
         csvLink.current.link.click()
+        setCSVOutData("");
     }
     if (errorMessage != ""){
         errorDisplay = <Alert complexMessage={errorMessage}/>
@@ -207,12 +220,10 @@ export default function Schedule({schedule, rooms, groups}) {
                 groups={groups}
             />
             </div>
-            <div className='inline'>
+            <div>
             <Button className={"btn btn-primary right-btn"} onClick={handleGenerate}> Generate Schedule </Button>
-            </div>
-            <div className='inline'>
-            <Button className={csvOutData.length == 0 ? "btn btn-secondary right-btn" : "hidden"} disabled={!csvOutData.length == 0} onClick={updateCSV}> Prepare for download </Button>
-            <Button className={!csvOutData.length == 0 ? "btn btn-primary right-btn" : "hidden"} disabled={csvOutData.length == 0} onClick={downloadCSV}> Download Schedule </Button>   
+            <Button className={csvOutData.length == 0 ? "btn btn-secondary right-btn" : "hidden nothing"} disabled={!csvOutData.length == 0} onClick={updateCSV}> Prepare for download </Button>
+            <Button className={!csvOutData.length == 0 ? "btn btn-primary right-btn" : "hidden nothing"} disabled={csvOutData.length == 0} onClick={downloadCSV}> Download Schedule </Button>   
             <CSVLink disabled={csvOutData.length == 0} filename= {DisplaySched.concat("-schedule.csv")} data={csvOutData} target='_blank' ref={csvLink}>           </CSVLink>
             </div>
             <YresTable data={display_data} columns={columns} disablesearch={true}/>

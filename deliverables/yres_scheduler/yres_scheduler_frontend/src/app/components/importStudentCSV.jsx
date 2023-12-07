@@ -40,23 +40,15 @@ function AddStudents(profiles, type){
         })
       }
     }
-    const addStudent = (student) =>{
+    const addStudent = async (students) =>{
         try {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/"}`;
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/fromlist/"}`;
         const settings = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            student_ui_id: student.student_id, 
-            firstname: student.firstname, 
-            lastname: student.lastname, 
-            age: student.age, 
-            sex: student.sex,
-            friend_ids: "",
-            enemy_ids: ""
-        })
+          body: JSON.stringify(students)
       }
-      const response = fetch(url, settings);
+      const response = await fetch(url, settings);
       if (!(200 <= response.status <= 299)) {
           throw new Error(`${response.status} Error: Something Wrong Happened!`)
       }
@@ -65,9 +57,17 @@ function AddStudents(profiles, type){
         
       }
     }
-    students.forEach((student) => {
-      addStudent(student);
-    });
+
+    const mappedStudents = students.map(student => ({
+      student_ui_id: student.student_id,
+      firstname: student.firstname,
+      lastname: student.lastname,
+      age: student.age,
+      sex: student.sex,
+      friend_ids: "", 
+      enemy_ids: ""
+    }));
+    addStudent(mappedStudents);    
   }
   else{
     const counselors = profiles;

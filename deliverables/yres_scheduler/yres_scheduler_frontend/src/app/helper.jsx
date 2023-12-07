@@ -68,7 +68,9 @@ export async function fetchDataPOST(route, item) {
     }
     const response = await fetch(url, settings);
     if ((!(199 < response.status && response.status < 300))) {
-        throw new Error(`${response.status} ${response.statusText} Error: Something Wrong Happened! `)
+        const promiseRes = await response.text()
+        const jsonErrMsg = JSON.parse(promiseRes);
+        throw new Error(`${response.status} ${response.statusText} Error: ${jsonErrMsg.message}`)
     }
     return response;
         
@@ -91,7 +93,9 @@ export async function fetchDataDELETE(route) {
     }
     const response = await fetch(url, settings);
     if ((!(199 < response.status && response.status < 300))) {
-        throw new Error(`${response.status} ${response.statusText} Error: Something Wrong Happened! `)
+        const promiseRes = await response.text()
+        const jsonErrMsg = JSON.parse(promiseRes);
+        throw new Error(`${response.status} ${response.statusText} Error: ${jsonErrMsg.message}`)
     }
     return response;
 }

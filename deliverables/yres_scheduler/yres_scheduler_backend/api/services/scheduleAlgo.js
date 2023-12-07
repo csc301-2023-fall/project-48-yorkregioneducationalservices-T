@@ -292,7 +292,7 @@ function scheduleAlgorithm(groups, activities, rooms) {
     } catch (err) {
         logger.error(err);
         // save an empty schedule so that nothing crashes.
-        saveJson.saveJsonToFile("[]", './saved_scheduled.json');
+        saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
         throw err;
     }
 }

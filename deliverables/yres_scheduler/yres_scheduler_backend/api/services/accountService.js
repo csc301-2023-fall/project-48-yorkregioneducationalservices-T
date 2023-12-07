@@ -123,7 +123,7 @@ async function clearDatabase() {
         status = await studentDB.deleteAllStudents() && status;
         status = await groupDB.deleteAllGroups() && status;
 
-        saveJson.saveJsonToFile("[]", './saved_scheduled.json');
+        saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
 
         status = await activityDB.resetActivityIds() && status;
         status = await counselorDB.resetCounselorIds() && status;

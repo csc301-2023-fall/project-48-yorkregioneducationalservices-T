@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const saveJson = require('../utils/jsonToFile.js');
 const config = require('config');
-const logger = require('./logger');
+const logger = require('../../logger');
 
 
 const MAX_STUDENT = config.get('grouping.MAX_STUDENTS');
@@ -324,7 +324,7 @@ function generateGroups(counselors, students) {
 	} catch (err) {
 		logger.debug(err);
 		// save an empty schedule so that nothing crashes.
-		saveJson.saveJsonToFile("[]", './saved_scheduled.json');
+		saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
 		throw err;
 	}
 }

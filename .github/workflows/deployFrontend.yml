@@ -41,7 +41,7 @@ jobs:
             nvm install 21
             nvm use 21
             npm install -g npm@latest
-            sudo npm install
+            sudo npm install --legacy-peer-deps
             sudo npm install canvas
             npm run build
             # Kill the process using port 3000 if it exists

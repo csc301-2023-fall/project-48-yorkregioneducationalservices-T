@@ -55,6 +55,6 @@ yarn-error.log
 #.next
 **/.next/**
 
-**/config/
-
+**/config/**
 **/saved_scheduled.json
+**/.env.local
