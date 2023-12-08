@@ -41,17 +41,17 @@ async function AddStudents(profiles, type){
       }
     }
     const addStudents = async (students) =>{
-        try {
+      try {
         const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/fromlist/"}`;
         const settings = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(students)
-      }
-      const response = await fetch(url, settings);
-      if (!(200 <= response.status <= 299)) {
+        }
+        const response = await fetch(url, settings);
+        if (!(200 <= response.status <= 299)) {
           throw new Error(`${response.status} Error: Something Wrong Happened!`)
-      }
+        }
       }
       catch{
         
@@ -122,8 +122,8 @@ function StudentCSV({type}) {
             reject(error);
         };
     });
-    promise.then((d) => {
-      AddStudents(d, type);
+    promise.then(async (d) => {
+      await AddStudents(d, type);
       window.location.reload();
     });
   }

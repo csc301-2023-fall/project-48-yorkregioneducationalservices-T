@@ -111,6 +111,7 @@ function StudentProfilesTable({studentData}) {
                 show={showEdit}
                 setShow={setShowEdit}
                 students={studentData}
+                setHydrated={setHydrated}
             />
         </>
     )   
