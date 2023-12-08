@@ -30,13 +30,11 @@ function ActivityCreate({ currCampus, rooms}) {
         setErrorMessage("");
     }
     const handleSubmit = async (event) => {
-        if(rooms && Array.isArray(rooms)){
-            const all_rooms = rooms.map((room)=>{
+        let all_rooms = [];
+        if(Array.isArray(rooms)){
+            all_rooms = rooms.map((room)=>{
                 return room.name;
             })
-        }
-        else{
-            const all_rooms = [];
         }
         event.preventDefault();
         try {
@@ -50,7 +48,7 @@ function ActivityCreate({ currCampus, rooms}) {
                     type: event.target[3].checked ? "filler" : "common",
                     num_occurences: event.target[4].value,
                     camp_id: currCampus[0].camp_ids[0],
-                    room_ids: (event.target[2].value) ? process_comma_separated_text(event.target[2].value): all_rooms,
+                    room_ids: (event.target[2].value !== "") ? process_comma_separated_text(event.target[2].value): all_rooms.join(",")
                 }
             )
             router.refresh();

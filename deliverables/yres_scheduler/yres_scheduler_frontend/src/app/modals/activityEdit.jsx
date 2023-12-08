@@ -30,9 +30,12 @@ function ActivityEdit({item, show, setShow, rooms }) {
         setErrorMessage("");
     }
     const handleSubmit = async (event) => {
-        const all_rooms = rooms.map((room)=>{
-            return room.name;
-        })
+        let all_rooms = [];
+        if(Array.isArray(rooms)){
+            all_rooms = rooms.map((room)=>{
+                return room.name;
+            })
+        }
         event.preventDefault();
         try {
             /**
