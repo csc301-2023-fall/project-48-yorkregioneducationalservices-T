@@ -2,7 +2,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { fetchDataPOST } from '../helper';
+import { process_comma_separated_text, fetchDataPOST  } from '../helper';
 import { useRouter } from 'next/navigation';
 import Alert from '@/app/components/alert';
 import { useState } from 'react';
@@ -21,7 +21,7 @@ import { useState } from 'react';
         setShow - function that toggles show
         item - activity object to be edited
  **/
-function ActivityEdit({item, show, setShow }) {
+function ActivityEdit({item, show, setShow, rooms }) {
     const router = useRouter();
     let errorDisplay = <></>;
     const [errorMessage, setErrorMessage] = useState("");
@@ -30,11 +30,16 @@ function ActivityEdit({item, show, setShow }) {
         setErrorMessage("");
     }
     const handleSubmit = async (event) => {
+        const all_rooms = rooms.map((room)=>{
+            return room.name;
+        })
         event.preventDefault();
         try {
             /**
              * API post request for updating activity
              */
+            console.log(event.target[2].value);
+            console.log(all_rooms);
             await fetchDataPOST(
                 `/activity/${item.activity_id}/edit/`, 
                 {
@@ -43,13 +48,14 @@ function ActivityEdit({item, show, setShow }) {
                     type: event.target[3].checked ? "filler" : "common",
                     num_occurences: event.target[4].value,
                     camp_id: item.camp_id,
-                    room_ids: "" //process_comma_separated_text(event.target[2].value);
+                    room_ids: (event.target[2].value !== "") ? process_comma_separated_text(event.target[2].value): all_rooms.join(",")
                 }
             )
             router.refresh();
             handleClose();
         } catch (err) {
-            setErrorMessage(err.message);
+            //This is because it seems like sometimes the db doesnt clear prior entries fast enough before submitting new ones
+            setErrorMessage(err.message.concat(". It is likely the db had a minor error. Please try submitting again."));
         }
     }
     if (errorMessage != ""){
@@ -91,9 +97,7 @@ function ActivityEdit({item, show, setShow }) {
                     <Form.Label>(optional) Possible Rooms (comma seperated)</Form.Label>
                     <Form.Control
                         type="text"
-                        disabled
-                        placeholder={'Disabled'}
-                        defaultValue={''/*item.room_ids.join(",")*/}
+                        defaultValue={(item.rooms) ? item.rooms.join(","): ""}
                     />
                     </Form.Group>
                     <Form.Group
