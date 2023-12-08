@@ -70,7 +70,7 @@ export default function Schedule({schedule, rooms, groups}) {
             setHydrated(true);
         } else{
             window.location.reload();
-            
+            setErrorMessage("")
         }
     }
     useEffect(() => {
