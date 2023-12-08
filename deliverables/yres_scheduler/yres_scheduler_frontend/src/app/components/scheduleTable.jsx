@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from '../components/sidebar';
 import YresTable from './table'
 import { CSVLink } from "react-csv";
@@ -10,6 +10,8 @@ import RefinedDropdown from './refinedDropDowns'
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Alert from '@/app/components/alert';
+import Loading from './loading';   
+
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
  * within this function.
@@ -21,8 +23,9 @@ import Alert from '@/app/components/alert';
 async function generateSchedule() {
     try{
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+        const promiseRes = await res.text()
         if ((!(199 < res.status && res.status < 300))) {
-            const promiseRes = await res.text()
+            console.log("Error")
             const jsonErrMsg = JSON.parse(promiseRes);
             return {
                 error: true,
@@ -32,10 +35,11 @@ async function generateSchedule() {
         }
         return {
             error: false,
-            schedule: data.schedule,
+            schedule: promiseRes.schedule,
             err_message: ""
         };
     } catch (error) {
+
         return {
             error: true,
             schedule: "nil",
@@ -46,6 +50,8 @@ async function generateSchedule() {
 
 export default function Schedule({schedule, rooms, groups}) {
     const router = useRouter();
+    const [hydrated, setHydrated] = useState(false);
+
     let errorDisplay = <></>;
     const [csvOutData, setCSVOutData] = useState([]);
     const csvLink = useRef();
@@ -56,17 +62,21 @@ export default function Schedule({schedule, rooms, groups}) {
     const MONDAY = 0, TUESDAY = 1, WEDNESDAY = 2, THURSDAY = 3, FRIDAY = 4;
     const TIME_ADJUSTMENT = 9;
     const handleGenerate = async () => {
+        setHydrated(false);
         const response = await generateSchedule();
+        setCSVOutData("");
         if(response.error){
-            console.log("HERE2")
-            router.refresh()
             setErrorMessage(response.err_message)
-        }
-        else{
-
-            router.refresh()
+            setHydrated(true);
+        } else{
+            window.location.reload();
+            
         }
     }
+    useEffect(() => {
+		setHydrated(true);
+	}, [])
+
     if(schedule == "nil" || !schedule || schedule.length == 0){
         return (<div><Alert simpleMessage={"Schedule is empty."} 
         complexMessage={"This may have occured because no schedule was able to be generated, or you have yet to generate one. Try again and reload the page."}></Alert>
@@ -89,10 +99,7 @@ export default function Schedule({schedule, rooms, groups}) {
                 });
             }
         });
-    } else {
-        console.error('Schedule is not an array');
-        // Handle the situation where schedule is not an array
-    }   
+    }
 
     
     let tempSchedArray;
@@ -109,6 +116,28 @@ export default function Schedule({schedule, rooms, groups}) {
     tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
 
     const display_data = tempSched.map((row) => { 
+        let start_time = row.time + TIME_ADJUSTMENT;
+        if (start_time < 10) {
+          start_time = `0${start_time}`;
+        }
+        let end_time = row.time + TIME_ADJUSTMENT + row.activity.duration;
+        if (end_time < 10) {
+          end_time = `0${end_time}`;
+        }
+        // Get the hours and minutes
+        let date = new Date(`2018-02-23T${start_time}:00:00`);
+        let hours = date.getHours().toString().padStart(2, '0'); // Ensure two-digit format
+        let minutes = date.getMinutes().toString().padStart(2, '0'); // Ensure two-digit format
+        // Construct the formatted time string
+        const formatted_start_time = `${hours}:${minutes}`
+
+        // Get the hours and minutes
+        date = new Date(`2018-02-23T${end_time}:00:00`);
+        hours = date.getHours().toString().padStart(2, '0'); // Ensure two-digit format
+        minutes = date.getMinutes().toString().padStart(2, '0'); // Ensure two-digit format
+        // Construct the formatted time string
+        const formatted_end_time = `${hours}:${minutes}`
+
         var displayDay = "";
             switch(row.day) {
                 case MONDAY:
@@ -129,7 +158,7 @@ export default function Schedule({schedule, rooms, groups}) {
             }
         const displayTime = row.time + TIME_ADJUSTMENT;
         const room = rooms.find((room_i) => room_i.room_id.toString() === row.room_id.toString());
-        return {group: DisplaySched, time: "Day: ".concat(displayDay).concat(", Hour: ").concat(displayTime), location: room ? room.name : "unknown", activity: row.activity.name }
+        return {group: DisplaySched, time: displayDay.concat(", ").concat(formatted_start_time).concat(' - ').concat(formatted_end_time), location: room ? room.name : "unknown", activity: row.activity.name }
         });
     /**
      * Handler for dropdown click
@@ -139,7 +168,6 @@ export default function Schedule({schedule, rooms, groups}) {
     }
     // handling function for opening and closing the sidebar
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
     
     const columns = [{
         dataField: 'group',
@@ -223,6 +251,9 @@ export default function Schedule({schedule, rooms, groups}) {
     if (errorMessage != ""){
         errorDisplay = <Alert complexMessage={errorMessage}/>
     }
+    if (!hydrated) {
+        return <Loading />;
+      }
     return (
         <div>  
             {errorDisplay}

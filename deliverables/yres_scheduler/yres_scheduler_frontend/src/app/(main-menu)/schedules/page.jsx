@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Schedule from '../../components/scheduleTable'
 import Alert from '@/app/components/alert';
 import { fetchDataGET } from '@/app/helper';
@@ -31,8 +30,6 @@ export default async function Schedules() {
     // Check if schedule[0] is an array before using forEach
     if (Array.isArray(schedule[0])) {
         schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
-    } else {
-        console.error('Schedule[0] is not an array:', schedule[0]);
     }
 
     return (
