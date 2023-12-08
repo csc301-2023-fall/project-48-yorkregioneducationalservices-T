@@ -1,10 +1,5 @@
-import * as React from 'react';
 import Schedule from '../../components/scheduleTable'
 import Alert from '@/app/components/alert';
-import GroupsTable from '../../components/groupsTable'
-import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
-import { Button } from 'react-bootstrap';
-import { fetchDataPOST } from '@/app/helper';
 import { fetchDataGET } from '@/app/helper';
 import ScheduleTimetable from '@/app/components/scheduleTimetable';
 
@@ -27,11 +22,15 @@ export default async function Schedules() {
         errorDisplay = <Alert simpleMessage={"Fetching Failed"} complexMessage={err_message}/>
     }
     const rooms = room_object.data.rooms;
-    const schedule = schedule_object.data.schedule;
+    let schedule = [[]];
+    schedule = schedule_object?.data?.schedule || [[]];
     const students = students_object.data.students;
-
     const groups = new Set(); // Holds the possible camp groups to be displayed in the dropdown
-    schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
+    
+    // Check if schedule[0] is an array before using forEach
+    if (Array.isArray(schedule[0])) {
+        schedule[0].forEach((row, rowIndex) => groups.add("Group ".concat(rowIndex.toString())));
+    }
 
     return (
         <div className='split-page'>

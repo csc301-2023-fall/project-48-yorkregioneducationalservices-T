@@ -123,7 +123,7 @@ async function createStudent(req, res) {
     );
 
     res.status(STATUS_CODES.CREATED);
-    
+
     return {
         status: status
     };
@@ -149,23 +149,25 @@ async function createStudentsFromList(req, res) {
     }
 
     const failed_students = []; // Initialize an array to store failed student IDs
-
-    await Promise.all(students.map(async student => {
-        const status = await studentService.createStudent(
-            student.student_ui_id,
-            student.firstname,
-            student.lastname,
-            student.age,
-            student.sex,
-            student.friend_ids,
-            student.enemy_ids
-        );
-    }));
+    const status = await students.map(async student => {
+        try{
+            const status = await studentService.createStudent(
+                student.student_ui_id,
+                student.firstname,
+                student.lastname,
+                student.age,
+                student.sex,
+                student.friend_ids,
+                student.enemy_ids
+            );
+        } catch (err){
+            failed_students.push(student.student_ui_id);   
+        }
+    });
 
     res.status(STATUS_CODES.SUCCESS);
-
     return {
-        result: true
+        result: status
     };
 }
 /**

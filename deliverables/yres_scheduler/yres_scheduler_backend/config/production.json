@@ -18,5 +18,9 @@
     "SALT_ROUNDS": 10,
     "IS_ON": false
   },
-  "campus": "1"
+  "campus": "1",
+  "grouping": {
+    "MAX_STUDENTS": 7,
+    "NUM_COUNSELOR": 1
+  }
 }

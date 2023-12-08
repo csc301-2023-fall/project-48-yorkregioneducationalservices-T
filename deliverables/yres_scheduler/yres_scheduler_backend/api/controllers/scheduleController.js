@@ -4,6 +4,7 @@ const counselorService = require('../services/counselorService');
 const roomService = require('../controllers/roomController');
 const activitiesService = require('../controllers/activityController');
 const {STATUS_CODES} = require('../entities/ServiceErrors');
+const logger = require('../../logger');
 
 /**
  * Generates a new schedule.
@@ -13,16 +14,16 @@ const {STATUS_CODES} = require('../entities/ServiceErrors');
  */
 async function generateSchedule(req, res) {
     
-    console.log("Getting students...");
+    logger.debug("Getting students...");
     const students = await studentService.getAllStudents();
-    console.log("Getting counselors...");
+    logger.debug("Getting counselors...");
     const counselors = await counselorService.getAllCounselors();
-    console.log("Getting rooms...");
+    logger.debug("Getting rooms...");
     const rooms = await roomService.getAllRooms();
 
-    console.log("Getting activities...");
+    logger.debug("Getting activities...");
     const activities = await activitiesService.getAllActivities();
-    console.log("Generating schedule...");
+    logger.debug("Generating schedule...");
     const new_schedule = await schedService.generateSchedule(students, counselors, activities.activities, rooms.rooms);
 
     res.status(STATUS_CODES.SUCCESS);

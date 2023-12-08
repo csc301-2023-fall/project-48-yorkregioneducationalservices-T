@@ -36,6 +36,7 @@ const PROFILE_TYPES = ['Student', 'Counselor']
         counselorData - a list of counselor objects with above attributes
 **/
 function ProfilesSwitcher({ studentData, counselorData }) {
+
     let errorDisplay = <></>;
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState("");
@@ -91,6 +92,7 @@ function ProfilesSwitcher({ studentData, counselorData }) {
     }
     const profile_actions = ["New Student", "Create Friends", "Create Enemies", "Import from CSV"];
     const profile_actions_counselor = ["New Counselor"];
+    
     return (
         <>
             <div id='profiles-header'>

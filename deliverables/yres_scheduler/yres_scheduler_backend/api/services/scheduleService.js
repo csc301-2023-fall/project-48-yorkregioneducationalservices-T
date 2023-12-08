@@ -9,7 +9,7 @@
 
 const schedb = require('../db/scheduleDbPlugin');
 const scheduleAlgo = require('../services/scheduleAlgo');
-const { saveJsonToFile, getJsonFromFile } = require('../utils/saveJsonToFile.js');
+const { saveJsonToFile, getJsonFromFile } = require('../utils/jsonToFile.js');
 const FILE_PATH = './saved_scheduled.json';
 const {ScheduleServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 
@@ -23,7 +23,7 @@ async function generateSchedule(students, counselors, activities, rooms) {
         return new_schedule;
     } catch(err) {
         throw new ScheduleServiceError(
-            `Failed to generate schedule`,
+            `Failed to generate schedule, Error: ${err.message}`,
             STATUS_CODES.FAILED
         );
     }

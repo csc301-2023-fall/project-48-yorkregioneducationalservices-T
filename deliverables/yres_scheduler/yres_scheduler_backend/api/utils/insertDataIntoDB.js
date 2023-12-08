@@ -10,8 +10,8 @@ var student;
 for (let i = 1; i < 81; i++) {
 
     await studentDB.createStudent(i.toString(),
-    'last',
     `first ${i}`,
+    `last`,
     i % 15 + 1,
     'M', '', '');
 }

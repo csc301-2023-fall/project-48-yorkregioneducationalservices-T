@@ -25,7 +25,7 @@ import { fetchDataPOST, process_comma_separated_text } from '../helper';
         profiles - a list of student or counselor objects depending on type attribute below
         type - either "Student" or "Counselor"
 **/
-function AddStudents(profiles, type){
+async function AddStudents(profiles, type){
   if(type === "Student"){
     const students = profiles;
     const addPreferences = async (prefs, type) => {
@@ -40,34 +40,34 @@ function AddStudents(profiles, type){
         })
       }
     }
-    const addStudent = (student) =>{
-        try {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/"}`;
+    const addStudents = async (students) =>{
+      try {
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/fromlist/"}`;
         const settings = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            student_ui_id: student.student_id, 
-            firstname: student.firstname, 
-            lastname: student.lastname, 
-            age: student.age, 
-            sex: student.sex,
-            friend_ids: "",
-            enemy_ids: ""
-        })
-      }
-      const response = fetch(url, settings);
-      if (!(200 <= response.status <= 299)) {
+          body: JSON.stringify(students)
+        }
+        const response = await fetch(url, settings);
+        if (!(200 <= response.status <= 299)) {
           throw new Error(`${response.status} Error: Something Wrong Happened!`)
-      }
+        }
       }
       catch{
         
       }
     }
-    students.forEach((student) => {
-      addStudent(student);
-    });
+
+    const mappedStudents = students.map(student => ({
+      student_ui_id: student.student_id,
+      firstname: student.firstname,
+      lastname: student.lastname,
+      age: student.age,
+      sex: student.sex,
+      friend_ids: "", 
+      enemy_ids: ""
+    }));
+    await addStudents(mappedStudents);    
   }
   else{
     const counselors = profiles;
@@ -122,8 +122,8 @@ function StudentCSV({type}) {
             reject(error);
         };
     });
-    promise.then((d) => {
-      AddStudents(d, type);
+    promise.then(async (d) => {
+      await AddStudents(d, type);
       window.location.reload();
     });
   }

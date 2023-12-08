@@ -6,6 +6,7 @@ const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
  * The Profiles page that allows for viewing, adding and editing student and counselor profiles
 **/
 async function Profiles() {
+
     let errorDisplay = <></>;
     let err_message = ""
     const students = await fetchDataGET("/student/all/");

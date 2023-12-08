@@ -11,6 +11,7 @@
 const studentController = require('../controllers/studentController');
 const logger = require('../../logger');
 const auth = require('../middleware/authHandler');
+const { STATUS_CODES } = require('../entities/ServiceErrors');
 
 const studentRoutes = (app) => {
     /**
@@ -83,8 +84,8 @@ const studentRoutes = (app) => {
     .post('/student/create/fromlist/', auth, async (req, res) => {
         try {
             logger.info(`POST /student/create/fromlist/`);
-            const resp = await studentController.createStudentsFromList(req, res);    
-            res.status(resp.status).send(resp);
+            const resp = await studentController.createStudentsFromList(req, res);  
+            res.status(STATUS_CODES.SUCCESS).send(resp);
         } catch (error) {
             logger.error(`Error in GET /student/fromlist/: `, error);
             res.status(STATUS_CODES.FAILED).send({ result: null, status: STATUS_CODES.FAILED, error: error.message });

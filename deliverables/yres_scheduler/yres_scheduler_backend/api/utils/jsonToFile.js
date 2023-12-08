@@ -1,4 +1,5 @@
 const fs = require('fs');
+const logger = require('../../logger');
 
 /**
  * Saves a JSON object to a file.
@@ -9,9 +10,9 @@ function saveJsonToFile(json, filePath) {
   const jsonString = JSON.stringify(json);
   fs.writeFile(filePath, jsonString, (err) => {
     if (err) {
-      console.error('Error saving JSON to file:', err);
+      logger.error('Error saving JSON to file:', err);
     } else {
-      console.log('JSON saved to file:', filePath);
+      logger.debug('JSON saved to file:', filePath);
     }
   });
 }
@@ -24,6 +25,7 @@ function saveJsonToFile(json, filePath) {
 async function getJsonFromFile(filePath) {
   const fileData = await fs.readFileSync(filePath, 'utf-8');
   const jsonObject = await JSON.parse(fileData);
+  logger.debug('JSON retrieved from file:', filePath);
   return jsonObject;
 }
 
@@ -31,6 +33,7 @@ async function getJsonFromFile(filePath) {
 async function clearJsonFromFile(filePath) {
   const fileData = await fs.readFileSync(filePath, 'utf-8');
   const jsonObject = await JSON.parse(fileData);
+  logger.debug('JSON retrieved from file:', filePath);
   return jsonObject;
 }
 

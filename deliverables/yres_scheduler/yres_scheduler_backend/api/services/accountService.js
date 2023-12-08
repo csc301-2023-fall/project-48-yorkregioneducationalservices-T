@@ -25,7 +25,7 @@ const bcrypt = require('bcrypt');
 const {AccountServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const saveJson = require('../utils/saveJsonToFile.js');
+const saveJson = require('../utils/jsonToFile.js');
 const AdminUser = require('../entities/AdminUser');
 
 /**
@@ -123,7 +123,7 @@ async function clearDatabase() {
         status = await studentDB.deleteAllStudents() && status;
         status = await groupDB.deleteAllGroups() && status;
 
-        saveJson.saveJsonToFile("[]", './saved_scheduled.json');
+        saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
 
         status = await activityDB.resetActivityIds() && status;
         status = await counselorDB.resetCounselorIds() && status;

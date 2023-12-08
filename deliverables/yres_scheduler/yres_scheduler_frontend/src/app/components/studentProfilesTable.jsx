@@ -6,10 +6,11 @@ import StudentEdit from '../modals/studentEdit';
 import Alert from '@/app/components/alert';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsTrash } from 'react-icons/bs';
-import { useState } from 'react';
-import { isAccordionItemSelected } from 'react-bootstrap/esm/AccordionContext';
+import { useState, useEffect } from 'react';
 import { fetchDataDELETE } from '../helper';
 import { useRouter } from 'next/navigation';
+import Loading from './loading';   
+
 
 /** 
  * Student Table that displays:
@@ -27,6 +28,7 @@ import { useRouter } from 'next/navigation';
 **/
 function StudentProfilesTable({studentData}) {
     const router = useRouter();
+    const [hydrated, setHydrated] = useState(false);
     const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [showEdit, setShowEdit] = useState(false);
     const [editItem, setEditItem] = useState({
@@ -39,6 +41,10 @@ function StudentProfilesTable({studentData}) {
         enemy_ids: []
     });
 
+    useEffect(() => {
+		setHydrated(true);
+	}, []);
+    
     const columns = [{
         dataField: '_student_ui_id',
         text: 'ID'
@@ -58,6 +64,7 @@ function StudentProfilesTable({studentData}) {
         dataField: 'actions',
         text: 'Actions'
     }]
+
     studentData.forEach(item => {
         //creates a modal and button for editing and deleting each student
         const showEditModal = () => {
@@ -66,10 +73,9 @@ function StudentProfilesTable({studentData}) {
         }
         const deleteStudent = async () =>{
             try {
-                await fetchDataDELETE(
-                    `/student/${item._student_ui_id}/`
-                );
-                router.refresh();
+                fetchDataDELETE(`/student/${item._student_ui_id}/`);
+                window.location.reload();
+                setHydrated(false);
             } catch (err) {
                 setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
                 <p>{err.message}</p>
@@ -92,6 +98,10 @@ function StudentProfilesTable({studentData}) {
         )
     })
 
+    if (!hydrated) {
+        return <Loading />;
+    }
+
     return (
         <>
             {errorDisplay}
@@ -101,6 +111,7 @@ function StudentProfilesTable({studentData}) {
                 show={showEdit}
                 setShow={setShowEdit}
                 students={studentData}
+                setHydrated={setHydrated}
             />
         </>
     )   

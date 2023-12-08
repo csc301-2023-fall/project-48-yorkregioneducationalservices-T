@@ -31,7 +31,14 @@ jobs:
         node server.js &
           sleep 5  # Allow some time for the server to start and make sure nothing fails
       working-directory: deliverables/yres_scheduler/yres_scheduler_backend
+    
+    - name: List contents of a directory
+      run: ls -al config
+      working-directory: deliverables/yres_scheduler/yres_scheduler_backend
 
     - name: Run all the backend tests
       run: npm test
       working-directory: deliverables/yres_scheduler/yres_scheduler_backend
+
+   
+    

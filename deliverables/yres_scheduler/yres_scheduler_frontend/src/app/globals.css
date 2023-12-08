@@ -221,6 +221,42 @@ body, html{
   overflow: hidden;
 }
 
+.timetable-event.blue {
+  background-color: lightblue;
+}
+
+.timetable-event.yellow {
+  background-color: yellow;
+}
+
+.timetable-event.green {
+  background-color: lightgreen;
+}
+
+.timetable-event.red {
+  background-color: lightcoral;
+}
+
+.timetable-event.purple {
+  background-color: plum;
+}
+
+.timetable-event.orange {
+  background-color: orange;
+}
+
+.timetable-event.grey {
+  background-color: lightgrey;
+}
+
+.timetable-event.brown {
+  background-color: burlywood;
+}
+
+.timetable-event.pink {
+  background-color: pink;
+}
+
 .timetable-event-info {
   line-height: initial;
   text-align: center;
@@ -265,6 +301,7 @@ body, html{
 
 .table-actions {
   max-height: 1vh;
+  min-width: 8rem;
 }
 
 .table-container{
@@ -302,7 +339,7 @@ body, html{
 }
 
 .float-child{
-  width: 50%;
+  width: fit-content;
   height: 10%;
   float: left;
 }
@@ -330,4 +367,7 @@ body, html{
 }
 .inline{
   display: inline
+}
+.nothing{
+  display: none !important;
 }

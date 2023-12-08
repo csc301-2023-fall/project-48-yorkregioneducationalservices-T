@@ -45,11 +45,9 @@ async function getActivities() {
             err_message: ""
         };
     } catch (error) {
-        return {
-            error: true,
-            activities: [],
-            err_message: error.message
-        };
+        const promiseRes = await response.text()
+        const jsonErrMsg = JSON.parse(promiseRes);
+        throw new Error(`${response.status} ${response.statusText} Error: ${jsonErrMsg.message}`)
     }
 }
 
@@ -115,8 +113,9 @@ async function Floorplan() {
                     <RoomsCreate currCampus={curr_campus}/>
                     <RoomsTable roomData={rooms}/>
                     <h3 className='header-title'>Activities</h3>
-                    <ActivityCreate currCampus={curr_campus}/>
+                    
                 </div>
+                <ActivityCreate currCampus={curr_campus}/>
                 <ActivitiesTable currCampus={curr_campus} activityData={activities}/>
             </div>
         </div>

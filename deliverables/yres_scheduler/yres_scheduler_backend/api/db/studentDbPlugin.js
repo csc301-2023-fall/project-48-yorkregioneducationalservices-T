@@ -224,9 +224,6 @@ async function insertFriendPreferences(student_id, other_student_ui_id, is_apart
                 larger_id = other_student_id;
                 smaller_id = student_id;
                 }
-                console.log(larger_id);
-                console.log(smaller_id);
-                console.log("next");
             await client.query(queryInsertFriendPreferences, [larger_id, parseInt(smaller_id), is_apart]);
             return true;
         } else {
