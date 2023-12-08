@@ -41,8 +41,6 @@ function ActivityEdit({item, show, setShow, rooms }) {
             /**
              * API post request for updating activity
              */
-            console.log(event.target[2].value);
-            console.log(all_rooms);
             await fetchDataPOST(
                 `/activity/${item.activity_id}/edit/`, 
                 {
