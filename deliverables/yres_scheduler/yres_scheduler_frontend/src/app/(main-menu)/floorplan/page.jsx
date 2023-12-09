@@ -7,6 +7,7 @@ import FloorplanCanvas from '@/app/components/floorPlanCanvasWrapper';
 import Alert from '@/app/components/alert';
 import { fetchDataGET, fetchDataPOST } from '@/app/helper';
 import exampleFloorPlan from '@/app/data/school_floorplan_example.jpg'
+import ImageAdd from '@/app/modals/imageAdd';
 const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 
 /**
@@ -102,6 +103,7 @@ async function Floorplan() {
     return (    
         <div className='split-page'>
             <div className='left'>
+                <ImageAdd />
                 <div className='floorplan-box'>
                     <img src={exampleFloorPlan.src} alt="No floorplan found"/>
                 </div>
