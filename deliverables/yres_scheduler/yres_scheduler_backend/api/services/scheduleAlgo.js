@@ -76,8 +76,6 @@ async function scheduleCall(students, counselors, activities, rooms) {
         return result;
     } catch (err) { 
         logger.error(err);
-        // save an empty schedule so that nothing crashes.
-        saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
         throw new Error(err.message);
     }
 }
@@ -298,8 +296,6 @@ function scheduleAlgorithm(groups, activities, rooms) {
         return groups;
     } catch (err) {
         logger.error(err);
-        // save an empty schedule so that nothing crashes.
-        saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
         throw new Error(err.message);
     }
 }

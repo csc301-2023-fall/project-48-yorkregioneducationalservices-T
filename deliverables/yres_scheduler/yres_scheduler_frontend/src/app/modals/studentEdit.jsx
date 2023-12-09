@@ -9,6 +9,7 @@ import { OverlayTrigger } from 'react-bootstrap';
 import { Tooltip } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
 import YresTable from '../components/table';
+import { hydrate } from 'react-dom';
 
 /**
  * Editing Modal for Students
@@ -18,7 +19,7 @@ import YresTable from '../components/table';
         item - student object to be edited
         students - a list of all student objects with attributes described above
  * */
-function StudentEdit({item, show, setShow, students}) {
+function StudentEdit({item, show, setShow, students, setHydrated}) {
     let errorDisplay = <></>;
     const [removeFriends, setRemoveFriends] = useState([]);
     const [removeEnemies, setRemoveEnemies] = useState([]);
@@ -122,14 +123,12 @@ function StudentEdit({item, show, setShow, students}) {
                     enemy_ids: await arrayToCommaSepString(enemy_table.map((enemy) => enemy._student_ui_id))
                 }
             )
-            router.refresh();
+            setHydrated(false);
             handleClose();
+            window.location.reload();
         } catch (err) {
-            // setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
-            //     <Alert.Heading>{"Status: " + err.status}</Alert.Heading>
-            //     <p>{"Error: " + err.message}</p>
-            //     </Alert>);
             console.log(err);
+            setHydrated(true);
             setErrorMessage(err.message);
         }
     }

@@ -40,6 +40,10 @@ function StudentProfilesTable({studentData}) {
         friends_ids: [],
         enemy_ids: []
     });
+
+    useEffect(() => {
+		setHydrated(true);
+	}, []);
     
     const columns = [{
         dataField: '_student_ui_id',
@@ -61,48 +65,38 @@ function StudentProfilesTable({studentData}) {
         text: 'Actions'
     }]
 
-    useEffect(() => {
-        // Function to process studentData with actions
-        const processStudentData = async () => {
-            setHydrated(false);
-            const updatedData = await Promise.all(studentData.map(async (item) => {
-                const showEditModal = () => {
-                    setEditItem(item);
-                    setShowEdit(true);
-                };
-
-                const deleteStudent = async () => {
-                    try {
-                        await fetchDataDELETE(`/student/${item._student_ui_id}/`);
-                        window.location.reload();
-                    } catch (err) {
-                        setErrorDisplay(<Alert complexMessage={err.message} />);
-                    } 
-                };
-
-                item.actions = (
-                    <div className='table-actions'>
-                        <OverlayTrigger placement="right-start" overlay={<Tooltip>View/Edit Student</Tooltip>}>
-                            <Button variant="success" onClick={showEditModal} className='action-button'>
-                                <FaPencilAlt />
-                            </Button>
-                        </OverlayTrigger>
-                        <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Student</Tooltip>}>
-                            <Button variant="danger" onClick={deleteStudent} className='action-button'>
-                                <BsTrash />
-                            </Button>
-                        </OverlayTrigger>
-                    </div>
-                );
-            }));
-            // Set the updated data once processing is done
-            setHydrated(true);
-            return updatedData;
-        };
-
-        // Process studentData
-        processStudentData();
-    }, [studentData]);
+    studentData.forEach(item => {
+        //creates a modal and button for editing and deleting each student
+        const showEditModal = () => {
+            setEditItem(item);
+            setShowEdit(true);
+        }
+        const deleteStudent = async () =>{
+            try {
+                fetchDataDELETE(`/student/${item._student_ui_id}/`);
+                window.location.reload();
+                setHydrated(false);
+            } catch (err) {
+                setErrorDisplay(<Alert variant="danger" onClose={() => setErrorDisplay(<></>)} dismissible>
+                <p>{err.message}</p>
+                </Alert>);
+            }
+        }
+        item.actions = (
+            <div className='table-actions'>
+                <OverlayTrigger placement="right-start" overlay={<Tooltip>View/Edit Student</Tooltip>}>
+                    <Button variant="success" onClick={showEditModal} className='action-button'>
+                        <FaPencilAlt />
+                    </Button>
+                </OverlayTrigger>
+                <OverlayTrigger placement="right-start" overlay={<Tooltip>Delete Student</Tooltip>}>
+                    <Button variant="danger" onClick={deleteStudent} className='action-button'>
+                        <BsTrash />
+                    </Button>
+                </OverlayTrigger>
+            </div>
+        )
+    })
 
     if (!hydrated) {
         return <Loading />;
@@ -117,6 +111,7 @@ function StudentProfilesTable({studentData}) {
                 show={showEdit}
                 setShow={setShowEdit}
                 students={studentData}
+                setHydrated={setHydrated}
             />
         </>
     )   

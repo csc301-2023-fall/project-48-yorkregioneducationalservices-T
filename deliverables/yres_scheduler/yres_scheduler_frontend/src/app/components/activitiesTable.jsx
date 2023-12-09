@@ -21,7 +21,7 @@ import Alert from 'react-bootstrap/Alert';
     num_occurences (int) 	// <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
 }
 */
-function ActivitiesTable({ activityData }) {
+function ActivitiesTable({ activityData, rooms}) {
     const router = useRouter();
     const [errorDisplay, setErrorDisplay] = useState(<></>);
     const [showEdit, setShowEdit] = useState(false);
@@ -41,7 +41,7 @@ function ActivitiesTable({ activityData }) {
         dataField: 'duration',
         text: 'Duration'
     },{
-        dataField: 'room_ids',
+        dataField: 'rooms',
         text: 'Possible Rooms'
     },{
         dataField: 'type',
@@ -102,6 +102,7 @@ function ActivitiesTable({ activityData }) {
                 item={editItem}
                 show={showEdit}
                 setShow={setShowEdit}
+                rooms={rooms}
             />
         </>
     )

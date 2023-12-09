@@ -2,8 +2,10 @@
 import * as React from 'react';
 import TimeTable from "react-timetable-events";
 import RefinedDropdown from './refinedDropDowns';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
+import Loading from './loading';   
+
 
 /**
  * Renders a timetable schedule component.
@@ -15,6 +17,7 @@ import Button from 'react-bootstrap/Button';
  * @returns {JSX.Element} The rendered ScheduleTimetable component.
  */
 function ScheduleTimetable ({ schedule, rooms, groups }) {
+  const [hydrated, setHydrated] = useState(false);
   const MONDAY = 0, TUESDAY = 1, WEDNESDAY = 2, THURSDAY = 3, FRIDAY = 4;
   const BLUE = 0, GREEN = 1, YELLOW = 2, PURPLE = 3, RED = 4, ORANGE = 5, PINK = 6, GREY = 7, BROWN = 8, BLACK = 9;
   const TIME_ADJUSTMENT = 9;
@@ -23,6 +26,10 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
       setDisplaySched(e);
   }
 
+  useEffect(() => {
+		setHydrated(true);
+	}, [])
+
   let tempSchedArray;
   if (schedule[0][DisplaySched.split(" ")[1]]?.schedule === undefined) {
     tempSchedArray = [];
@@ -30,7 +37,6 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     tempSchedArray = schedule[0][DisplaySched.split(" ")[1]].schedule;
   }
   let tempSched = [];
-  console.log(tempSchedArray);
   tempSchedArray.forEach((day) => {
       tempSched.push(...day);
   })
@@ -65,7 +71,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     const event = {
       group: DisplaySched,
       activity: row.activity.name,
-      location: room ? room.name : "unknown",
+      location: "Room ".concat(room ? room.name : "unknown"),
       startTime: new Date(`2018-02-23T${start_time}:00:00`),
       endTime: new Date(`2018-02-23T${end_time}:00:00`)
     }
@@ -163,18 +169,21 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     }
   };
 
+  if (!hydrated) {
+    return <Loading />;
+  }
 
   return (
     <div id="schedule-pane">
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex' }}>
+        <Button className={"btn btn-primary"} onClick={handleDownloadPDF}> Download as PDF</Button>
         <div style={{ marginTop: '20px' }}> 
-        <RefinedDropdown 
-          handleSelect={handleSelect}
-          displayText={DisplaySched}
-          groups={groups}
-        />
-      </div>
-        <Button className={"btn btn-primary btn-right"} onClick={handleDownloadPDF}> Download as PDF</Button>
+          <RefinedDropdown 
+            handleSelect={handleSelect}
+            displayText={DisplaySched}
+            groups={groups}
+          />
+        </div>
       </div>
       <div id="schedule-timetable">
         <TimeTable

@@ -9,8 +9,6 @@
 const Counselor = require("../entities/Counselor");
 const { client } = require('./db');
 const logger = require('../../logger');
-const {STATUS_CODES} = require('../entities/ServiceErrors');
-const { log } = require("mathjs");
 const config = require('config');
 const CAMPUS_ID = config.get('campus');
 

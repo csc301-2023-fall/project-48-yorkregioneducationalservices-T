@@ -60,7 +60,6 @@ async function getAllActivities() {
                     all_activities[i].rooms.push(rows[j].room_id.toString());
                 }
             }
-            
             return all_activities;
 
         } else {
@@ -119,7 +118,7 @@ async function createActivity(name, duration, type, num_occurences, camp_id, roo
         ids = room_ids.split(',').filter(id => id !== '');
         for (id of ids) {
             try {
-                await createRoomActivities(activity_id, id);
+                await createRoomActivities(activity_id, parseInt(id));
             }
             catch (err) {
                 throw new Error(err);
@@ -183,16 +182,15 @@ async function editActivityById(activity_id, name, duration, type, num_occurence
             camp_id,
             activity_id,
         ]);
-
         if (room_ids !== undefined) {
             try {
                 // First delete all RoomActivity related to this activity.
-                clearRoomActivities(activity_id);
+                await clearRoomActivities(activity_id);
                 // Then insert the new ones
                 ids = room_ids.split(',').filter(id => id !== '');
                 for (id of ids) {
                     try {
-                        await createRoomActivities(activity_id, id);
+                        await createRoomActivities(activity_id, parseInt(id));
                     }
                     catch (err) {
                         throw new Error(err);
