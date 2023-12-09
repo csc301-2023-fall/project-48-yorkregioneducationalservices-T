@@ -38,8 +38,6 @@ function ActivityCreate({ currCampus, rooms}) {
         }
         event.preventDefault();
         try {
-            rooms
-            console.log(currCampus)
             await fetchDataPOST(
                 "/activity/create/",
                 {

@@ -29,7 +29,6 @@ function RoomsCreate({ currCampus }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(currCampus);
             await fetchDataPOST(
                 "/room/create/",
                 {

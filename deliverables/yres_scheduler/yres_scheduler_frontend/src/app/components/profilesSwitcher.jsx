@@ -85,7 +85,6 @@ function ProfilesSwitcher({ studentData, counselorData }) {
                 handleShow();
                 break;
             case "Import from CSV":
-                console.log("item");
                 handleShowCSV();
                 break;
         }

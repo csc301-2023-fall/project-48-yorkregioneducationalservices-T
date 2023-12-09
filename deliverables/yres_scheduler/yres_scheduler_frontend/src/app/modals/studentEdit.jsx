@@ -127,7 +127,6 @@ function StudentEdit({item, show, setShow, students, setHydrated}) {
             handleClose();
             window.location.reload();
         } catch (err) {
-            console.log(err);
             setHydrated(true);
             setErrorMessage(err.message);
         }

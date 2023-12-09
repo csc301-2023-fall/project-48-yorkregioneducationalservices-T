@@ -56,7 +56,6 @@ function CounselorProfilesTable({ counselorData }) {
                 );
                 router.refresh();
             } catch (err) {
-                //TODO: Display Error in component
                 console.log(err);
             }
         }

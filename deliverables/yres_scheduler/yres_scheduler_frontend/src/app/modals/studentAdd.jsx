@@ -50,12 +50,10 @@ function StudentAdd({show, setShow, item, students}) {
                         enemy_ids: "",
                     }
                 )
-                console.log(response);
                 }
                 router.refresh();
                 handleClose()
             } catch (err) {
-                console.log(err);
                 setErrorMessage(err.message);
             }
     }

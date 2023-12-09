@@ -40,7 +40,6 @@ function CounselorAdd({show, setShow, item}) {
             router.refresh();
             handleClose()
         } catch (err) {
-            console.log(err);
             setErrorMessage(err.message);
         }
     }
