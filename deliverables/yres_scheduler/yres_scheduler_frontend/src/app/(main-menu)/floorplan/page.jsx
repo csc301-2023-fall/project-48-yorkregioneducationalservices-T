@@ -7,6 +7,7 @@ import Alert from '@/app/components/alert';
 import { fetchDataGET } from '@/app/helper';
 import exampleFloorPlan from '@/app/data/school_floorplan_example.jpg'
 import options from '@/app/api/auth/[...nextauth]/options';
+import ImageAdd from '@/app/modals/imageAdd';
 import { getServerSession } from 'next-auth';
 
 /**
@@ -39,6 +40,7 @@ async function Floorplan() {
     return (    
         <div className='split-page'>
             <div className='left'>
+                <ImageAdd />
                 <div className='floorplan-box'>
                     <img src={exampleFloorPlan.src} alt="No floorplan found"/>
                 </div>

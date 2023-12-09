@@ -1,8 +1,6 @@
 const campusService = require('../../services/campusService');
 const Camp = require('../../entities/Campus');
 const assert = require('assert');
-const db = require('../../db/psqlDbPlugin');
-
 var result;
 var campus_name = "My Test Campus";
 

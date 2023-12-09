@@ -30,6 +30,14 @@ const scheduleRoutes = (app) => {
         res.send(result);
     })
 
+    /**
+     * Route to retrieve currently generated schedule.
+     * @name GET /schedule/getCurrent/
+     * @function
+     * @memberof module:routes/scheduleRoutes
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     */
     .get('/schedule/getCurrent/', async (req, res) => {
         const current_schedule = await scheduleController.getCurrentSchedule(req, res);
         res.send(current_schedule);

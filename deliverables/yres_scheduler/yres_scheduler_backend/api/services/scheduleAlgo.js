@@ -2,7 +2,14 @@ const { re } = require("mathjs");
 const gs = require("./groupAlgo");
 const uuid = require('uuid');
 const logger = require("../../logger");
-const saveJson = require('../utils/jsonToFile.js');
+const config = require('config');
+
+const DAY = config.get('scheduling.NUM_DAYS');
+const TIME = config.get('scheduling.NUM_HOURS');
+const MAX_BIG_ATTEMPT = config.get('scheduling.NUM_BIG_ATTEMPTS_BEFORE_GIVING_UP');
+const MAX_SUB_ATTEMPT = config.get('scheduling.NUM_SUB_ATTEMPTS_BEFORE_GIVING_UP');
+
+// Uncomment this if you want to insert data into the db (Do this only if the db is empty)
 // const insertData = require("../utils/insertDataIntoDB");  
 
 class BlockForScheduling {
@@ -46,11 +53,6 @@ function convertFromActivities(activities) {
 	}
     return activityLs;
 }
-// THESE MIGHT BE REMOVED OR MOVED TO CONFIG LATER
-const DAY = 5;
-const TIME = 8;
-const MAX_BIG_ATTEMPT = 50000;
-const MAX_SUB_ATTEMPT = 50000;
 
 /* ============ HERE STARTS THE SCHEDULE CALL ================ */
 /** The short function for API calls.

@@ -178,7 +178,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     <div id="schedule-pane">
       <div style={{ display: 'flex' }}>
         <Button className={"btn btn-primary"} onClick={handleDownloadPDF}> Download as PDF</Button>
-        <div style={{ marginTop: '20px' }}> 
+        <div style={{ marginTop: '0.3rem', marginLeft: '0.5rem' }}> 
           <RefinedDropdown 
             handleSelect={handleSelect}
             displayText={DisplaySched}
