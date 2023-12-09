@@ -41,7 +41,7 @@ How to run tests.
 ## Architecture and Design
 
 ### Architecture
-The YRES Scheduler Backend API generally follows a _service-based CLEAN Architecture_. 
+The design of the YRES Scheduler Backend API aims to follow a hybrid [CLEAN](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) and [Service-oriented](https://aws.amazon.com/what-is/service-oriented-architecture/#:~:text=you%20implement%20microservices%3F-,What%20is%20service%2Doriented%20architecture%3F,other%20across%20platforms%20and%20languages.) Architecture, whereby guidelines are borrowed from both approaches. The platform is divided into hierarchical layers of abstraction, each with specific responsibilities. The innermost layer, _Enterprise Business Rules_, defines attributes and  behaviour for all entities that are relevant to the scheduler application (e.g. activity, student etc). Entities are data structures that provide a common language for data to be manipulated across services and use cases.
 
 ![Backend API Higher-level Design Diagram](./docs/backend_api_1.jpg "Backend API Higher-level Design Diagram")
 
