@@ -71,7 +71,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     const event = {
       group: DisplaySched,
       activity: row.activity.name,
-      location: room ? room.name : "unknown",
+      location: "Room ".concat(room ? room.name : "unknown"),
       startTime: new Date(`2018-02-23T${start_time}:00:00`),
       endTime: new Date(`2018-02-23T${end_time}:00:00`)
     }
