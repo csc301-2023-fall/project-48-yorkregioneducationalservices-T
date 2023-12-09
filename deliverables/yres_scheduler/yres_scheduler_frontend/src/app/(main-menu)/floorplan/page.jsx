@@ -105,7 +105,7 @@ async function Floorplan() {
             <div className='left'>
                 <ImageAdd />
                 <div className='floorplan-box'>
-                    <img src={exampleFloorPlan.src} alt="No floorplan found"/>
+                    <img src={`${process.env.NEXT_PUBLIC_BACKEND_URI}/res/floorplan.jpg`} alt="No floorplan found"/>
                 </div>
             </div>
             <div className='right'>

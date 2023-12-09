@@ -12,10 +12,12 @@ import Alert from 'react-bootstrap/Alert';
  *      img - The image to update
  */
 async function updateImage(img) {
+    const form = new FormData();
+    form.append("floorplan", img)
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}/camp/floorplan`;
     const settings = {
         method: 'POST',
-        body: img
+        body: form
     }
     const response = await fetch(url, settings);
     if ((!(199 < response.status && response.status < 300))) {
@@ -46,10 +48,12 @@ function ImageAdd() {
     
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            await updateImage(floorImage);
-        } catch (err) {
-            setErrorDisplay(err.message);
+        if (floorImage) {
+            try {
+                await updateImage(floorImage);
+            } catch (err) {
+                setErrorDisplay(err.message);
+            }
         }
         handleClose()
     }
