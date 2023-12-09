@@ -32,7 +32,7 @@ function RoomsTable({ roomData }) {
     });
 
     const columns = [{
-        dataField: 'id',
+        dataField: 'room_id',
         text: 'ID'
     }, {
         dataField: 'name',
