@@ -38,5 +38,5 @@ Included below is a pseudo-ER diagram designed to describe the entities and the 
 
 ![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_database/docs/CSC301%20Database.jpg)
 
-For most of the entities, there are designated database plugins which contain queries for the database to be accessed/modified. Functions in the plugins are called by the corresponding service in reaction to receiving a request from the front end.
+For most of the entities, there are designated database plugins which contain queries for the database to be accessed/modified. Functions in the plugins are called by the corresponding service in reaction to receiving a request from the front end. Campus and Camp are entities which are not currently meant to be created, edited, deleted; and the Block, Group, and Schedule entities are disconnected from user interaction as they are involved purely with the scheduling algorithm.
 
