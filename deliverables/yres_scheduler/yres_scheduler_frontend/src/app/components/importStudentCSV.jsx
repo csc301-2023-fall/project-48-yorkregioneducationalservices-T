@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
 import { fetchDataPOST } from '../helper';
@@ -42,7 +43,8 @@ async function AddStudents(students){
 * Props: 
         type - either student or counselor, the type of object being csv imported
 **/
-function StudentCSV({handleClose, setLoading, setError}) {
+function StudentCSV({handleClose, setError}) {
+  const [loading, setLoading] = useState(false)
   const [file, setFile] = useState();
   const handleOnChange = (e) => {
       setFile(e.target.files[0]);
@@ -76,9 +78,9 @@ function StudentCSV({handleClose, setLoading, setError}) {
       if (file) {
         const fileData = await readExcel(file);
         await AddStudents(fileData)
+        setLoading(false);
+        handleClose();
       }
-      setLoading(false);
-      handleClose();
     } catch (err) {
       setError(err.message);
     }
@@ -96,7 +98,19 @@ function StudentCSV({handleClose, setLoading, setError}) {
           />
         </Form.Group> 
         <div className='inline-div'>
-        <Button type='submit'>Import Students</Button>
+        <Button type='submit' disabled={loading}>
+          {loading ? 
+          <>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            Importing...
+          </> : "Import Students"}
+        </Button>
         </div>
       </Form>
     </div>

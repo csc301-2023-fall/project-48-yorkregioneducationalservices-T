@@ -16,7 +16,6 @@ function processData(allText) {
     return lines;
 }
 function StudentImport({show, setShow, type}) {
-    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null);
     const router = useRouter();
     const handleClose = () => {
@@ -41,7 +40,7 @@ function StudentImport({show, setShow, type}) {
                 <p>
                     This operation may take a while. You may need to refresh to view some added students.
                 </p>
-                <StudentCSV handleClose={handleClose} setLoading={setLoading} setError={setError} ></StudentCSV>
+                <StudentCSV handleClose={handleClose} setError={setError} ></StudentCSV>
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
