@@ -12,12 +12,14 @@ import Alert from 'react-bootstrap/Alert';
  *      img - The image to update
  */
 async function updateImage(img) {
+    const session = await fetchSession();
     const form = new FormData();
     form.append("floorplan", img)
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}/camp/floorplan`;
     const settings = {
         method: 'POST',
-        body: form
+        body: form,
+        headers: { authorization: session.backend_t }
     }
     const response = await fetch(url, settings);
     if ((!(199 < response.status && response.status < 300))) {
