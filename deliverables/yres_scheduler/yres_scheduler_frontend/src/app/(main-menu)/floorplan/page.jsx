@@ -5,7 +5,6 @@ import ActivityCreate from '@/app/modals/activityCreate';
 import RoomsCreate from '@/app/modals/roomsCreate';
 import Alert from '@/app/components/alert';
 import { fetchDataGET } from '@/app/helper';
-import exampleFloorPlan from '@/app/data/school_floorplan_example.jpg'
 import options from '@/app/api/auth/[...nextauth]/options';
 import ImageAdd from '@/app/modals/imageAdd';
 import { getServerSession } from 'next-auth';
