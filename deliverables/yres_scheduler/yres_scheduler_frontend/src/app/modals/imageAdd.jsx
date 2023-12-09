@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import { fetchSession } from '../helper';
 
 /**
  * Helper function to send a POST request to the backend to update the floorplan image. 
@@ -39,6 +40,7 @@ function ImageAdd() {
         setShow(true);
     };
     const handleClose = () => {
+        window.location.reload()
         setShow(false);
     };
     const [errorDisplay, setErrorDisplay] = useState(null);
