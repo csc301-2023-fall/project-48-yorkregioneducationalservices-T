@@ -36,7 +36,7 @@ The database for this project contains 12 relations:
 
 Included below is a pseudo-ER diagram designed to describe the entities and the relationships between them in a visual manner:  
 
-![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/83c81b5e-102f-48ff-9749-a3f7869d62d9)
+![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_database/docs/CSC301%20Database.jpg)
 
 For most of the entities, there are designated database plugins which contain queries for the database to be accessed/modified. Functions in the plugins are called by the corresponding service in reaction to receiving a request from the front end.
 
