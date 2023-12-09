@@ -12,9 +12,6 @@ celina.yueh@upluseducation.ca
 
 ## Description about the project
 The product is a web application for planning summer camps. The website allows the user to input a floor plan, rooms, activities, students, and counselors. The input will include details about each individual element, for example an individual student will have information about their name, age, sex and group preferences. To make this easier we allow mass import through CSV files. The website will then generate groups and schedules based on the inputted information. The benefits of our application are the simplification of the scheduling process, the accuracy afforded, and the ease of distribution for the schedule. Our app solves the problem of course coordinators having to manually create schedules accounting for various factors and the distribution of the schedules.
-​
-## Key Documentation
-... to be filled in
 
 ## Key Features
 ### Profile management
@@ -44,7 +41,7 @@ Users can filter and view the generated schedule for each group and schedule. Th
  5. On another page named 'schedule', the user can click a button to generate a schedule and groups. Groups and schedules will be displayed in a table and calendar on the page with the option to download a .CSV file of the schedule. Students are grouped according to their specifications (i.e. preferences of students to be kept apart/together, age, sex) in groups of up to 20 students with 1 or 2 counselors supervising.
  *** Note that a schedule can only be done after all information has been inputted.
 
- ## Development requirements
+ ## Development Requirements
  1. Ensure the latest version of [Node.JS](https://nodejs.org/en) with NPM is installed.
  2. Clone the team repository: `https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git`
  3. Navigate to the './deliverables/yres_scheduler/yres_scheduler_backend' directory and install dependencies: `npm install`.
@@ -54,7 +51,10 @@ Users can filter and view the generated schedule for each group and schedule. Th
  7. Then build the frontend application: `npm run build`.
  8. Finally, start the frontend server: `npm start`.
 
-We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: csc301.
+We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
+
+ ### Key Documentation for Development
+ (add readme links here)
   
  ## Deployment and Github Workflow
  * Within the frontend codebase, since we are working with Next.js, we have been using file-based routing, meaning routes are named by their folder, rather than the actual filename. Thus, each high level page file is simply named `page.jsx`, but stored within folder with names such as, `profiles`, `schedules` etc. 
