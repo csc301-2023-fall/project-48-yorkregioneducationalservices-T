@@ -64,7 +64,7 @@ We leverage GitHub automation to employ CI/CD and Docker for our development pip
  ## Coding Standards and Guidelines
 We will use [ESLint](https://eslint.org) to ensure adherence to the [standard JavaScript style guide](https://google.github.io/styleguide/jsguide.html), using Github workflow to prevent merges to main that have not passed all tests. We will also use [Swagger](https://swagger.io) for documenting the purposes and contracts of all backend API requests. On the frontend we use file base routing. 
 ## Testing
-We used Postman Flows to make service tests for our application viewable here: https://app.getpostman.com/join-team?invite_code=c8fa60d2596ec39aa7f96a79f5bfa000&target_code=43f767718fc62c1410e0f244ba071e3b 
+We used Postman Flows to make service tests for our application viewable [here](https://app.getpostman.com/join-team?invite_code=c8fa60d2596ec39aa7f96a79f5bfa000&target_code=43f767718fc62c1410e0f244ba071e3b ).
 ​
  ## Licenses 
 ​
