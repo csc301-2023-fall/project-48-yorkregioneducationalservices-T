@@ -1,7 +1,7 @@
 # YRES Scheduler 
 
 ![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/83c81b5e-102f-48ff-9749-a3f7869d62d9)
-[Link to Deployed Product](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/login) The username is "admin", the password is "admin".
+[Link to Deployed Product](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/login) The username is `admin`, the password is `admin`.
 ## Partner Intro
 Partner Contact Information:
 Hugo Quan: Web Developer co-op, primary point of contact
@@ -65,6 +65,11 @@ We leverage GitHub automation to employ CI/CD and Docker for our development pip
 We will use [ESLint](https://eslint.org) to ensure adherence to the [standard JavaScript style guide](https://google.github.io/styleguide/jsguide.html), using Github workflow to prevent merges to main that have not passed all tests. We will also use [Swagger](https://swagger.io) for documenting the purposes and contracts of all backend API requests. On the frontend we use file base routing. 
 ## Testing
 We used Postman Flows to make service tests for our application viewable [here](https://app.getpostman.com/join-team?invite_code=c8fa60d2596ec39aa7f96a79f5bfa000&target_code=43f767718fc62c1410e0f244ba071e3b ).
+
+To run the backend unit tests:
+1. `cd deliverables/yres_scheduler/yres_scheduler_backend`
+2. `npm ci`
+3. `npm test`
 ​
  ## Licenses 
 ​
