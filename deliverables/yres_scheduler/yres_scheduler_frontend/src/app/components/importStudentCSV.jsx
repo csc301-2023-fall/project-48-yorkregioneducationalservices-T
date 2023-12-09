@@ -6,25 +6,20 @@ import { Form } from 'react-bootstrap';
 import { fetchDataPOST } from '../helper';
 
 /** 
- * Function that allows the mass import of students or counselor from a CSV:
+ * Function that allows the mass import of students from a CSV:
  * class Student {
    *student_id (string) 	// The auto generated unique ID
     firstname (string) 		// <UI>
     lastname (string) 		// <UI>
     age (int) 			// <UI>
     sex (string) 		// <UI>
-    friend_ids (set<string>) 	// The set of student_ids of students that this student prefer to work with
-    enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
 }
 *class Counselor {
-   *counselor_id (string) 	// The auto generated unique ID
     firstname (string) 		// <UI>
     lastname (string) 		// <UI>
-    campus_id (string) 		// <UI> The ID of the campus this counselor will teach in
 }
  * Props: 
-        profiles - a list of student or counselor objects depending on type attribute below
-        type - either "Student" or "Counselor"
+        students - a list of student or counselor objects depending on type attribute below
 **/
 async function AddStudents(students){
   const mappedStudents = students.map(student => ({
@@ -39,9 +34,10 @@ async function AddStudents(students){
   await fetchDataPOST('/student/create/fromlist/', mappedStudents);
 }
 /**
- * Generates a CSV of students
+ * Form to generates students from CSV
 * Props: 
-        type - either student or counselor, the type of object being csv imported
+    handleClose - function to run when the import is successful
+    setError - function setter to display any error messages that occur
 **/
 function StudentCSV({handleClose, setError}) {
   const [loading, setLoading] = useState(false)

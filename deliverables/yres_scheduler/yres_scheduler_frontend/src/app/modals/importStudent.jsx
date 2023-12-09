@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import Modal from 'react-bootstrap/Modal';
 import StudentCSV from '../components/importStudentCSV';
@@ -6,6 +6,13 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import { CSVLink } from "react-csv";
 import { useRouter } from 'next/navigation';
+
+/*
+ * A modal to create a group of students to all make enemies
+ * 
+ * Props:
+ *      allText - a single line string of a csv file to process
+ */
 function processData(allText) {
     var allTextLines = allText.split(".");
     var lines = [];
@@ -15,7 +22,15 @@ function processData(allText) {
     })
     return lines;
 }
-function StudentImport({show, setShow, type}) {
+
+/*
+ * A modal to import a csv file of students
+ * 
+ * Props:
+ *      show - boolean to determine whether to show the modal
+ *      setShow - setter for show
+ */
+function StudentImport({show, setShow}) {
     const [error, setError] = useState(null);
     const router = useRouter();
     const handleClose = () => {

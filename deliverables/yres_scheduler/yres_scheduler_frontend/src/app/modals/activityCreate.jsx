@@ -17,8 +17,8 @@ import Alert from '@/app/components/alert';
     num_occurences (int) 	// <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
 }
  * Props: 
-        show - boolean value determines if modal should be displayed
-        setShow - function that toggles show
+        currCampus - The current campus
+        rooms - The list of all rooms in this campus
  * */
 function ActivityCreate({ currCampus, rooms}) {
     const router = useRouter();

@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials"
 import { fetchDataPOST } from "@/app/helper";
 
+// Options for use with NextAuth
 const options = {
     session: {
       maxAge: 60 * 60 * 24 // Users stay logged in for one day before the session expires
@@ -31,6 +32,7 @@ const options = {
       signIn: '/login'
     },
     callbacks: {
+      // Callback to manage jwt object
       async jwt({ token, user }) {
         if (user) {
           token.user = user.username;
@@ -38,8 +40,8 @@ const options = {
         }
         return token
       },
+      // Callback to manage session object
       async session({ session, token }) {
-        // Send properties to the client, like an access_token and user id from a provider.
         session.user = token.user;
         session.backend_t = token.backend_access;
         

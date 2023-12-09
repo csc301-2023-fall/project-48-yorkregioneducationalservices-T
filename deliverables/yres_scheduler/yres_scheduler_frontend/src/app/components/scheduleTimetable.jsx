@@ -30,6 +30,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
 		setHydrated(true);
 	}, [])
 
+  // preprocessing to ensure the schedule is displayed in the same order as the table
   let tempSchedArray;
   if (schedule[0][DisplaySched.split(" ")[1]]?.schedule === undefined) {
     tempSchedArray = [];
@@ -40,9 +41,9 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
   tempSchedArray.forEach((day) => {
       tempSched.push(...day);
   })
-
   tempSched.sort((a, b) => (a.day*8 + a.time - b.day*8-b.time));
 
+  // Create event objects to display for each day of the week. Also assigns a colour to each event.
   const week = {
     monday: [],
     tuesday: [],
@@ -158,7 +159,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
   };
 
 
-  // Download as PDF
+  // Handler to download as PDF
   const handleDownloadPDF = () => {
     const element = document.getElementById('schedule-timetable');
     

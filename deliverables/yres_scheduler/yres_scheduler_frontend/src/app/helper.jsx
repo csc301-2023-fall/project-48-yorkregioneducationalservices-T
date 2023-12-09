@@ -84,7 +84,6 @@ export async function fetchDataPOST(route, item) {
  * 
  * Input:
  *      route - a string representing the route from the base URI to send this request
- *      item - the JSON item being sent
  */
 export async function fetchDataDELETE(route) {
     const session = await fetchSession();
@@ -101,6 +100,15 @@ export async function fetchDataDELETE(route) {
     }
     return response;
 }
+
+/**
+ * Helper function to make a server side GET request. Throws an error if the request fails
+ * or if the request returns a non 200 response.
+ * 
+ * Input:
+ *      route - a string representing the route from the base URI to send this request
+ *      token - a JWT token to authorize request in the backend
+ */
 export async function fetchDataGET(route, token){
     try {
         const settings = {
@@ -123,6 +131,7 @@ export async function fetchDataGET(route, token){
     }
 }
 
+// Helper to fetch the current session in the frontend (both client and server components)
 async function fetchSession() {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URI}/api/auth/session`);

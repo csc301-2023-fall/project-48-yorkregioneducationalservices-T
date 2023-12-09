@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
-import { validRelationship, process_comma_separated_text, fetchDataPOST  } from '@/app/helper';
+import { fetchDataPOST  } from '@/app/helper';
 import { useRouter } from 'next/navigation';
 
 /**
@@ -21,9 +21,8 @@ import { useRouter } from 'next/navigation';
         show - boolean value determines if modal should be displayed
         setShow - function that toggles show
         item - student object to be added (blank)
-        students - a list of all student objects with attributes described above
  * */
-function StudentAdd({show, setShow, item, students}) {
+function StudentAdd({show, setShow, item}) {
     let errorDisplay = <></>;
     const [errorMessage, setErrorMessage] = useState("");
     const router = useRouter();
