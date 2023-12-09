@@ -47,9 +47,23 @@ Users can filter and view the generated schedule for each group and schedule. Th
  3. Navigate to the './deliverables/yres_scheduler/yres_scheduler_backend' directory and install dependencies: `npm install`.
  4. Start the backend API `node server.js`.
  5. To run the backend tests run: `npm test`.
- 6. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install`.
- 7. Then build the frontend application: `npm run build`.
- 8. Finally, start the frontend server: `npm start`.
+ 6. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install --legacy-peer-deps`.
+ 7. If developing locally, create a file called `.env.local` in the `yres_scheduler_frontend` directory. Ensure your file contains the following content:
+    ```
+    NEXT_PUBLIC_BACKEND_URI='http://localhost:1234'
+    NEXT_PUBLIC_FRONTEND_URI='http://localhost:3000'
+    NEXTAUTH_URL='http://localhost:3000'
+    NEXTAUTH_SECRET=<Run the command 'openssl rand -base64 32' and copy the output here>
+    ```
+    If setting up for production, ensure the `.env.production` file is configured as:
+    ```
+    NEXT_PUBLIC_BACKEND_URI='http://<backend_uri>:1234'
+    NEXT_PUBLIC_FRONTEND_URI='http://<frontend_uri>:3000'
+    NEXTAUTH_URL='http://<frontend_uri>:3000'
+    NEXTAUTH_SECRET=<Run the command 'openssl rand -base64 32' and copy/replace the output here>
+    ```
+ 8. Then build the frontend application: `npm run build`.
+ 9. Finally, start the frontend server: `npm start`.
 
 We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-3-19-73-191.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
 
