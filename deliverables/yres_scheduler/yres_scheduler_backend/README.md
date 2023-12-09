@@ -39,10 +39,11 @@ How to use and access postman collection.
 How to run tests.
 
 ## Architecture and Design
-Written for someone who may be contributing to backend API.
 
 ### Architecture
-Describe big picture architecture.
+The YRES Scheduler Backend API generally follows a _service-based CLEAN Architecture_. 
+
+![Backend API Higher-level Design Diagram](./docs/backend_api_1.jpg "Backend API Higher-level Design Diagram")
 
 ### Directory Structure
 Tree of hyperlinks for software module files.
@@ -123,3 +124,4 @@ Ensure JSDoc is written correctly (link to jsdoc). Ensure architecture is adhere
 List of links for extra docs and resources:
 - Postman collection download link;
 - Generated JSDoc download link;
+- YRES;
