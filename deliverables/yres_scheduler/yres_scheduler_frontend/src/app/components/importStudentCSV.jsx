@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
 import { fetchDataPOST, process_comma_separated_text } from '../helper';
+import { useRouter } from 'next/navigation';
 
 /** 
  * Function that allows the mass import of students or counselor from a CSV:
@@ -26,39 +27,8 @@ import { fetchDataPOST, process_comma_separated_text } from '../helper';
         type - either "Student" or "Counselor"
 **/
 async function AddStudents(profiles, type){
-  if(type === "Student"){
-    const students = profiles;
-    const addPreferences = async (prefs, type) => {
-      for(const pref of prefs){
-        console.log(pref);
-        await fetchDataPOST("/student/create/friends/",
-        {   
-            student_id: pref[0],
-            other_student_ui_id: pref[1],
-            enemy: type,
-            id_ui: true
-        })
-      }
-    }
-    const addStudents = async (students) =>{
-        try {
-        const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${"/student/create/fromlist/"}`;
-        const settings = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(students)
-      }
-      const response = await fetch(url, settings);
-      if (!(200 <= response.status <= 299)) {
-          throw new Error(`${response.status} Error: Something Wrong Happened!`)
-      }
-      }
-      catch{
-        
-      }
-    }
-
-    const mappedStudents = students.map(student => ({
+  if (type === "Student"){
+    const mappedStudents = profiles.map(student => ({
       student_ui_id: student.student_id,
       firstname: student.firstname,
       lastname: student.lastname,
@@ -67,9 +37,13 @@ async function AddStudents(profiles, type){
       friend_ids: "", 
       enemy_ids: ""
     }));
-    await addStudents(mappedStudents);    
-  }
-  else{
+
+    try {
+      await fetchDataPOST('/student/create/fromlist/', mappedStudents);
+    } catch (err) {
+      console.log(err)
+    } 
+  } else {
     const counselors = profiles;
     counselors.forEach((counselor) => {
       fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/counselor/create/`, {
@@ -91,7 +65,8 @@ async function AddStudents(profiles, type){
 * Props: 
         type - either student or counselor, the type of object being csv imported
 **/
-function StudentCSV({type}) {
+function StudentCSV({type, handleClose, setLoading}) {
+  const router = useRouter();
   const [file, setFile] = useState();
   // useEffect(() => {
   //   const fileReader = new FileReader();
@@ -103,36 +78,37 @@ function StudentCSV({type}) {
   };
 
   const readExcel = (file) => {
-    if(file){
-    const promise = new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsArrayBuffer(file);
-        fileReader.onload = (e) => {
-            const bufferArray = e.target.result;
-            const wb = XLSX.read(bufferArray, {
-                type: "buffer"
-            });
-            const wsname = wb.SheetNames[0];
-            const ws = wb.Sheets[wsname];
-            const data = XLSX.utils.sheet_to_json(ws);
-            console.log(data);
-            resolve(data);
-        };
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload = (e) => {
+          const bufferArray = e.target.result;
+          const wb = XLSX.read(bufferArray, {
+              type: "buffer"
+          });
+          const wsname = wb.SheetNames[0];
+          const ws = wb.Sheets[wsname];
+          const data = XLSX.utils.sheet_to_json(ws);
+          console.log(data);
+          resolve(data);
+      };
+      fileReader.onerror = (error) => {
+          reject(error);
+      };
     });
-    promise.then((d) => {
-      AddStudents(d, type);
-      window.location.reload();
-    });
-  }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    readExcel(file);
+    setLoading(true);
+    if (file) {
+      const fileData = await readExcel(file);
+      await AddStudents(fileData, type)
+    }
+    setLoading(false);
+    handleClose();
   }
+
   return (
     <div>
       <Form className="form-inline" onSubmit={handleSubmit}>
