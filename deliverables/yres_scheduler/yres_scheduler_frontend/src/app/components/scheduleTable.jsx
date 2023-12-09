@@ -10,7 +10,8 @@ import RefinedDropdown from './refinedDropDowns'
 import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Alert from '@/app/components/alert';
-import Loading from './loading';   
+import Loading from './loading';
+import { fetchSession } from '../helper';
 
 /**
  * Creates the ScheduleTable component for the Schedule View. The sidebar component is also called from
@@ -22,7 +23,12 @@ import Loading from './loading';
 **/
 async function generateSchedule() {
     try{
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
+        const session = await fetchSession()
+        const settings = {
+            cache: 'no-store',
+            headers: { authorization: session.backend_t }
+        }
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, settings);
         const promiseRes = await res.text()
         if ((!(199 < res.status && res.status < 300))) {
             const jsonErrMsg = JSON.parse(promiseRes);
