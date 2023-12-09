@@ -32,6 +32,9 @@ function RoomsTable({ roomData }) {
     });
 
     const columns = [{
+        dataField: 'id',
+        text: 'ID'
+    }, {
         dataField: 'name',
         text: 'Name'
     }, {
