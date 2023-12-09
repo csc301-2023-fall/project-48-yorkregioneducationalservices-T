@@ -243,4 +243,8 @@ We utilized modals for all user input when the user wanted to change or create a
  
 ## Documentation & Resources
 List of links for extra docs and resources:
-- 
+- [Project repository page](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git)
+- [York Region Educational Services Home Page](https://yorkeducation.org/)
+- [Next.js 13 Documentation](https://nextjs.org/docs)
+- [React 18 Documentation](https://react.dev/learn)
+- [NextAuth Documentation](https://next-auth.js.org/getting-started/introduction)
