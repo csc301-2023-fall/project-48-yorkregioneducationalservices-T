@@ -185,7 +185,7 @@ async function editActivityById(activity_id, name, duration, type, num_occurence
         if (room_ids !== undefined) {
             try {
                 // First delete all RoomActivity related to this activity.
-                clearRoomActivities(activity_id);
+                await clearRoomActivities(activity_id);
                 // Then insert the new ones
                 ids = room_ids.split(',').filter(id => id !== '');
                 for (id of ids) {
