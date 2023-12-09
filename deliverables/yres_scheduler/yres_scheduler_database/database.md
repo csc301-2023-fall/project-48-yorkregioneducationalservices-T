@@ -1,13 +1,15 @@
 # Database Design
 ## Deployment
-The database(s) for this project were designed using PostgreSQL (https://www.postgresql.org/). The database can be deployed either locally or automatically to the ec2 server via DevOps. To deploy, it is necessary to have both Docker and Docker Compose installed locally. Below are two links to visit to accomplish this:
--	How to install Docker Compose (three different methods): (https://docs.docker.com/compose/install/)
--	Installing Docker: (https://docs.docker.com/get-docker/)
+The database(s) for this project were designed using [PostgreSQL](https://www.postgresql.org/). The database can be deployed either locally or automatically to the ec2 server via DevOps. To deploy, it is necessary to have both Docker and Docker Compose installed locally. Below are two links to visit to accomplish this:
+-	[How to install Docker Compose (three different methods)](https://docs.docker.com/compose/install/)
+-	[Installing Docker](https://docs.docker.com/get-docker/)
 
 Once the prerequisites have been installed, Docker Compose can be run with the command `docker-compose up -d`.
 Linked below is a guide on how to deploy a PostgreSQL database using Docker (as well as a separate link on how to install PostgreSQL):
--	Using Postgres with Docker Compose: (https://geshan.com.np/blog/2021/12/docker-postgres/)
--	Installing PostgreSQL: (https://commandprompt.com/education/how-to-download-and-install-postgresql/)
+-	[Using Postgres with Docker Compose](https://geshan.com.np/blog/2021/12/docker-postgres/)
+-	[Installing PostgreSQL](https://commandprompt.com/education/how-to-download-and-install-postgresql/)
+
+To tear down the deployment and get rid of all saved data and Docker processes running, use the command `docker-compose down --volumes`.
 
 ## Two Databases
 For this project, we have both a production database and a testing database. It is necessary to have PSQL installed locally to connect to either database (refer to the above section for a link on how to install it). Once installed, you can connect to the databases with the following commands:
