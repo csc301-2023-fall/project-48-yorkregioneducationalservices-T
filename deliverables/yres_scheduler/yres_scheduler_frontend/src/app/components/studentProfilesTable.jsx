@@ -73,7 +73,7 @@ function StudentProfilesTable({studentData}) {
         }
         const deleteStudent = async () =>{
             try {
-                fetchDataDELETE(`/student/${item._student_ui_id}/`);
+                await fetchDataDELETE(`/student/${item._student_ui_id}/`);
                 window.location.reload();
                 setHydrated(false);
             } catch (err) {

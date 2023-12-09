@@ -3,9 +3,18 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
-import { process_comma_separated_text, fetchDataPOST } from '../helper';
+import { fetchDataPOST } from '../helper';
 import { useRouter } from 'next/navigation';
 import FriendSearchTable from '../components/friendSearchTable';
+
+/*
+ * A modal to create a group of students to all make friends
+ * 
+ * Props:
+ *      show - boolean to determine whether to show the modal
+ *      setShow - setter for show 
+ *      studentData - a list of all students
+ */
 function FriendsCreate({show, setShow, studentData}) {
     const router = useRouter();
     const [friendsList, setFriendsList] = useState([]);
