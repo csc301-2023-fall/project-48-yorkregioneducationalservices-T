@@ -6,15 +6,18 @@ import RoomsCreate from '@/app/modals/roomsCreate';
 import Alert from '@/app/components/alert';
 import { fetchDataGET } from '@/app/helper';
 import exampleFloorPlan from '@/app/data/school_floorplan_example.jpg'
+import options from '@/app/api/auth/[...nextauth]/options';
+import { getServerSession } from 'next-auth';
 
 /**
  * FloorPlan page
  * Fetches data through helper function, error checks then creates activities and rooms tables
  **/
 async function Floorplan() {
-    const rooms_object = await fetchDataGET("/room/all/");
-    const activities_object = await fetchDataGET("/activity/all/");
-    const curr_campus_object = await fetchDataGET("/campus/all/");
+    const session = await getServerSession(options);
+    const rooms_object = await fetchDataGET("/room/all/", session.backend_t);
+    const activities_object = await fetchDataGET("/activity/all/", session.backend_t);
+    const curr_campus_object = await fetchDataGET("/campus/all/", session.backend_t);
 
     let errorDisplay = <></>;
     let err_message = ""

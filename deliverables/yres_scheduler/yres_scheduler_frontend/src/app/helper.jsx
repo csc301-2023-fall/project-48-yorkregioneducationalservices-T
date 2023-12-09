@@ -60,10 +60,11 @@ export function process_comma_separated_text(input) {
  *      item - the JSON item being sent
  */
 export async function fetchDataPOST(route, item) {
+    const session = await fetchSession();
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`;
     const settings = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { authorization: session.backend_t, 'Content-Type': 'application/json' },
         body: JSON.stringify(item)
     }
     const response = await fetch(url, settings);
@@ -86,10 +87,11 @@ export async function fetchDataPOST(route, item) {
  *      item - the JSON item being sent
  */
 export async function fetchDataDELETE(route) {
+    const session = await fetchSession();
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}${route}`;
     const settings = {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { authorization: session.backend_t, 'Content-Type': 'application/json' },
     }
     const response = await fetch(url, settings);
     if ((!(199 < response.status && response.status < 300))) {
@@ -99,9 +101,13 @@ export async function fetchDataDELETE(route) {
     }
     return response;
 }
-export async function fetchDataGET(route){
+export async function fetchDataGET(route, token){
     try {
-        const res = await fetch(`${URI}${route}`, { cache: 'no-store' });
+        const settings = {
+            cache: 'no-store',
+            headers: { authorization: token }
+        }
+        const res = await fetch(`${URI}${route}`, settings);
         const data = await res.json();
         return {
             error: false,
@@ -117,14 +123,15 @@ export async function fetchDataGET(route){
     }
 }
 
-export async function fetchSession() {
+async function fetchSession() {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URI}/api/auth/session`);
         const session = await res.json();
         return session;
     } catch (err) {
         return {
-            user: "Unknown"
+            user: "Unknown",
+            backend_t: undefined
         }
     }
 }

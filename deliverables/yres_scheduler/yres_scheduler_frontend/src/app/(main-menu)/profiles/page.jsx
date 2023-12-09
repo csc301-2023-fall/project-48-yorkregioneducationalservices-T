@@ -1,15 +1,17 @@
 import ProfilesSwitcher from "@/app/components/profilesSwitcher";
 import Alert from "@/app/components/alert";
 import { fetchDataGET } from '@/app/helper';
+import options from '@/app/api/auth/[...nextauth]/options';
+import { getServerSession } from 'next-auth';
 /**
  * The Profiles page that allows for viewing, adding and editing student and counselor profiles
 **/
 async function Profiles() {
-
+    const session = await getServerSession(options);
     let errorDisplay = <></>;
     let err_message = ""
-    const students = await fetchDataGET("/student/all/");
-    const counselors = await fetchDataGET("/counselor/all/");
+    const students = await fetchDataGET("/student/all/", session.backend_t);
+    const counselors = await fetchDataGET("/counselor/all/", session.backend_t);
     if (students.error){
         err_message = "Students Error: " + students.err_message + "\n"
     }
