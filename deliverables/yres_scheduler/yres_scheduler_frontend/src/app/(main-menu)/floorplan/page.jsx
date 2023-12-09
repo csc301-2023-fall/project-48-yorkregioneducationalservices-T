@@ -117,8 +117,8 @@ async function Floorplan() {
                     <h3 className='header-title'>Activities</h3>
                     
                 </div>
-                <ActivityCreate currCampus={curr_campus}/>
-                <ActivitiesTable currCampus={curr_campus} activityData={activities}/>
+                <ActivityCreate currCampus={curr_campus} rooms={rooms}/>
+                <ActivitiesTable currCampus={curr_campus} activityData={activities} rooms={rooms}/>
             </div>
         </div>
     )

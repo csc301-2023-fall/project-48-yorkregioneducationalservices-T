@@ -24,7 +24,7 @@ const morganMiddleware = morgan(
 app.use(morganMiddleware);
 
 app.use(morgan('dev'));
-app.use('/demo', express.static('./api/res/d2_public'));
+app.use('/res', express.static('./api/res/public'));
 const { connectDB } = require('./api/db/db');
 
 app.use((req, res, next) => {

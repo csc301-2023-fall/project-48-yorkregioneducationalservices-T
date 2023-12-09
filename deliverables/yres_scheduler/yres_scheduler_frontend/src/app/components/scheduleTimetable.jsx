@@ -71,7 +71,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     const event = {
       group: DisplaySched,
       activity: row.activity.name,
-      location: room ? room.name : "unknown",
+      location: "Room ".concat(room ? room.name : "unknown"),
       startTime: new Date(`2018-02-23T${start_time}:00:00`),
       endTime: new Date(`2018-02-23T${end_time}:00:00`)
     }
@@ -177,7 +177,7 @@ function ScheduleTimetable ({ schedule, rooms, groups }) {
     <div id="schedule-pane">
       <div style={{ display: 'flex' }}>
         <Button className={"btn btn-primary"} onClick={handleDownloadPDF}> Download as PDF</Button>
-        <div style={{ marginTop: '20px' }}> 
+        <div style={{ marginTop: '0.3rem', marginLeft: '0.5rem' }}> 
           <RefinedDropdown 
             handleSelect={handleSelect}
             displayText={DisplaySched}
