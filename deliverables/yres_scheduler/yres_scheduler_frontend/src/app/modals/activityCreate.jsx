@@ -20,7 +20,7 @@ import Alert from '@/app/components/alert';
         show - boolean value determines if modal should be displayed
         setShow - function that toggles show
  * */
-function ActivityCreate({ currCampus }) {
+function ActivityCreate({ currCampus, rooms}) {
     const router = useRouter();
     let errorDisplay = <></>;
     const [errorMessage, setErrorMessage] = useState("");
@@ -30,8 +30,15 @@ function ActivityCreate({ currCampus }) {
         setErrorMessage("");
     }
     const handleSubmit = async (event) => {
+        let all_rooms = [];
+        if(Array.isArray(rooms)){
+            all_rooms = rooms.map((room)=>{
+                return room.name;
+            })
+        }
         event.preventDefault();
         try {
+            rooms
             console.log(currCampus)
             await fetchDataPOST(
                 "/activity/create/",
@@ -41,7 +48,7 @@ function ActivityCreate({ currCampus }) {
                     type: event.target[3].checked ? "filler" : "common",
                     num_occurences: event.target[4].value,
                     camp_id: currCampus[0].camp_ids[0],
-                    room_ids: "" //process_comma_separated_text(event.target[2].value);
+                    room_ids: (event.target[2].value !== "") ? process_comma_separated_text(event.target[2].value): all_rooms.join(",")
                 }
             )
             router.refresh();
@@ -90,11 +97,9 @@ function ActivityCreate({ currCampus }) {
                         className="mb-3"
                         controlId="activityForm.ControlRoomIDs"
                         >
-                        <Form.Label>(Optional) Possible Rooms (comma seperated)</Form.Label>
+                        <Form.Label>(Optional)Names of Possible Rooms (comma seperated)</Form.Label>
                         <Form.Control
                             type="text"
-                            disabled
-                            placeholder={'Disabled'}
                         />
                         </Form.Group>
 

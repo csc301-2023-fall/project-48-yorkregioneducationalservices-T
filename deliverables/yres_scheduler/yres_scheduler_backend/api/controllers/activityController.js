@@ -74,7 +74,7 @@ async function editActivityById(req, res) {
     const room_ids = req.body.room_ids;
     const camp_id = req.body.camp_id;
 
-    if (!activity_id || !name || !duration || !type || !num_occurences || !camp_id) {
+    if (!activity_id || !name || !duration || !type || !num_occurences || !camp_id || !room_ids) {
         throw new ActivityServiceError(
             `Invalid paramaters provided for request`,
             STATUS_CODES.INVALID
