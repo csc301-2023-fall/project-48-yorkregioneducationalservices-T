@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
 import { fetchDataPOST, process_comma_separated_text } from '../helper';
-import { useRouter } from 'next/navigation';
 
 /** 
  * Function that allows the mass import of students or counselor from a CSV:
@@ -43,21 +42,6 @@ async function AddStudents(profiles, type){
     } catch (err) {
       console.log(err)
     } 
-  } else {
-    const counselors = profiles;
-    counselors.forEach((counselor) => {
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/counselor/create/`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            firstname: counselor.firstname,
-            lastname: counselor.lastname
-        })
-      })
-      .catch(err => {
-          console.log(err);
-      });
-    });
   }
 }
 /**
@@ -66,13 +50,7 @@ async function AddStudents(profiles, type){
         type - either student or counselor, the type of object being csv imported
 **/
 function StudentCSV({type, handleClose, setLoading}) {
-  const router = useRouter();
   const [file, setFile] = useState();
-  // useEffect(() => {
-  //   const fileReader = new FileReader();
-  //   // ...
-  // }, [file]);
-  // const fileReader = new FileReader();
   const handleOnChange = (e) => {
       setFile(e.target.files[0]);
   };

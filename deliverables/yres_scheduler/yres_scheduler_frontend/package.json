@@ -15,7 +15,6 @@
     "FileReader": "^0.10.2",
     "fs": "^0.0.1-security",
     "html2pdf.js": "^0.10.1",
-    "konva": "^9.2.2",
     "next": "^14.0.3-canary.3",
     "next-auth": "^4.24.5",
     "prop-types": "^15.8.1",
@@ -24,10 +23,8 @@
     "react-csv": "^2.2.2",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
-    "react-konva": "^18.2.10",
     "react-table": "^7.8.0",
     "react-timetable-events": "^2.0.0",
-    "use-image": "^1.1.1",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {
