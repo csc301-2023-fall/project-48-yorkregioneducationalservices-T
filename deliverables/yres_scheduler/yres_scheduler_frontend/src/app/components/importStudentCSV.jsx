@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import * as XLSX from "xlsx";
 import { Form } from 'react-bootstrap';
-import { fetchDataPOST, process_comma_separated_text } from '../helper';
+import { fetchDataPOST } from '../helper';
 
 /** 
  * Function that allows the mass import of students or counselor from a CSV:
@@ -25,31 +25,24 @@ import { fetchDataPOST, process_comma_separated_text } from '../helper';
         profiles - a list of student or counselor objects depending on type attribute below
         type - either "Student" or "Counselor"
 **/
-async function AddStudents(profiles, type){
-  if (type === "Student"){
-    const mappedStudents = profiles.map(student => ({
-      student_ui_id: student.student_id,
-      firstname: student.firstname,
-      lastname: student.lastname,
-      age: student.age,
-      sex: student.sex,
-      friend_ids: "", 
-      enemy_ids: ""
-    }));
-
-    try {
-      await fetchDataPOST('/student/create/fromlist/', mappedStudents);
-    } catch (err) {
-      console.log(err)
-    } 
-  }
+async function AddStudents(students){
+  const mappedStudents = students.map(student => ({
+    student_ui_id: student.student_id,
+    firstname: student.firstname,
+    lastname: student.lastname,
+    age: student.age,
+    sex: student.sex,
+    friend_ids: "", 
+    enemy_ids: ""
+  }));
+  await fetchDataPOST('/student/create/fromlist/', mappedStudents);
 }
 /**
  * Generates a CSV of students
 * Props: 
         type - either student or counselor, the type of object being csv imported
 **/
-function StudentCSV({type, handleClose, setLoading}) {
+function StudentCSV({handleClose, setLoading, setError}) {
   const [file, setFile] = useState();
   const handleOnChange = (e) => {
       setFile(e.target.files[0]);
@@ -79,12 +72,16 @@ function StudentCSV({type, handleClose, setLoading}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (file) {
-      const fileData = await readExcel(file);
-      await AddStudents(fileData, type)
+    try {
+      if (file) {
+        const fileData = await readExcel(file);
+        await AddStudents(fileData)
+      }
+      setLoading(false);
+      handleClose();
+    } catch (err) {
+      setError(err.message);
     }
-    setLoading(false);
-    handleClose();
   }
 
   return (
@@ -99,7 +96,7 @@ function StudentCSV({type, handleClose, setLoading}) {
           />
         </Form.Group> 
         <div className='inline-div'>
-        <Button type='submit'>Import {type}</Button>
+        <Button type='submit'>Import Students</Button>
         </div>
       </Form>
     </div>

@@ -117,6 +117,18 @@ export async function fetchDataGET(route){
     }
 }
 
+export async function fetchSession() {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URI}/api/auth/session`);
+        const session = await res.json();
+        return session;
+    } catch (err) {
+        return {
+            user: "Unknown"
+        }
+    }
+}
+
 export function sort_table_data(search, keyCol, data){
     var data_display = data;
     var search = search.toLowerCase();

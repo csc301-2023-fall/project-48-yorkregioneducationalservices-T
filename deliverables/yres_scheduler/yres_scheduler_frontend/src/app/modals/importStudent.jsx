@@ -41,7 +41,7 @@ function StudentImport({show, setShow, type}) {
                 <p>
                     This operation may take a while. You may need to refresh to view some added students.
                 </p>
-                <StudentCSV type={type} handleClose={handleClose} setLoading={setLoading}></StudentCSV>
+                <StudentCSV handleClose={handleClose} setLoading={setLoading} setError={setError} ></StudentCSV>
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>

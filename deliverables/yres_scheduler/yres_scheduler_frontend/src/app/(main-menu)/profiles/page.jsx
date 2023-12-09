@@ -1,7 +1,6 @@
 import ProfilesSwitcher from "@/app/components/profilesSwitcher";
 import Alert from "@/app/components/alert";
 import { fetchDataGET } from '@/app/helper';
-const URI = process.env.NEXT_PUBLIC_BACKEND_URI;
 /**
  * The Profiles page that allows for viewing, adding and editing student and counselor profiles
 **/
