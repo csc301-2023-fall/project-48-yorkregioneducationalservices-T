@@ -65,16 +65,31 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[scheduleController](./api/controllers/scheduleController.js)**
         - **[studentController](./api/controllers/studentController.js)**
     - **[db](./api/db)**
-        - **[accountDbPlugin](./api/controllers/accountDbPlugin.js)**
-        - **[activityDbPlugin](./api/controllers/activityDbPlugin.js)**
-        - **[blockDbPlugin](./api/controllers/blockDbPlugin.js)**
-        - **[campDbPlugin](./api/controllers/campDbPlugin.js)**
-        - **[campusDbPlugin](./api/controllers/campusDbPlugin.js)**
-        - **[counselorDbPlugin](./api/controllers/counselorDbPlugin.js)**
-        - **[groupDbPlugin](./api/controllers/groupDbPlugin.js)**
-        - **[roomDbPlugin](./api/controllers/roomDbPlugin.js)**
-        - **[scheduleDbPlugin](./api/controllers/scheduleDbPlugin.js)**
-        - **[studentDbPlugin](./api/controllers/studentDbPlugin.js)**
+        - **[accountDbPlugin](./api/db/accountDbPlugin.js)**
+        - **[activityDbPlugin](./api/db/activityDbPlugin.js)**
+        - **[blockDbPlugin](./api/db/blockDbPlugin.js)**
+        - **[campDbPlugin](./api/db/campDbPlugin.js)**
+        - **[campusDbPlugin](./api/db/campusDbPlugin.js)**
+        - **[counselorDbPlugin](./api/db/counselorDbPlugin.js)**
+        - **[groupDbPlugin](./api/db/groupDbPlugin.js)**
+        - **[roomDbPlugin](./api/db/roomDbPlugin.js)**
+        - **[scheduleDbPlugin](./api/db/scheduleDbPlugin.js)**
+        - **[studentDbPlugin](./api/db/studentDbPlugin.js)**
+    - **[entities](./api/entities)**
+        - **[Activity](./api/entities/Activity.js)**
+        - **[AdminUser](./api/entities/AdminUser.js)**
+        - **[Block](./api/entities/Block.js)**
+        - **[Camp](./api/entities/Camp.js)**
+        - **[Campus](./api/entities/Campus.js)**
+        - **[Counselor](./api/entities/Counselor.js)**
+        - **[Group](./api/entities/Group.js)**
+        - **[Room](./api/entities/Room.js)**
+        - **[Schedule](./api/entities/Schedule.js)**
+        - **[ServiceErrors](./api/entities/ServiceErrors.js)**
+        - **[Student](./api/entities/ServiceErrors.js)**
+    - **[middleware](./api/middleware)**
+        - **[authHandler](./api/entities/authHandler.js)**
+        - **[errorHandler](./api/entities/errorHandler.js)**
 
 ### Testing
 Types of tests. How to run them etc.
