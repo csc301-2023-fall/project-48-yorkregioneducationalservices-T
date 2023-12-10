@@ -12,6 +12,7 @@ The **YRES Scheduler Backend API** implements the core logic and functionality o
     - [Package Structure](#package-structure)
     - [Testing](#testing)
     - [Error Handling](#error-handling)
+    - [Authentication](#authentication)
 4. [Coding Practices](#coding-practices)
 5. [Documentation and Resources](#documentation-and-resources)
 
@@ -188,6 +189,19 @@ The YRES Scheduler Backend API implements an informative and flexible error-hand
 
 ![Graceful Error Handling](./assets/error_handling.png "Graceful Error Handling")
 *Graceful Error Handling*
+
+### Authentication
+Protected requests are authenticated using [JWTs](https://jwt.io/introduction). All authentication-related requests are handled in the [Account Service](./api/routes/accountRoutes.js), including login, signup and for checking login status. A valid JWT is only granted if a login request is successful after passing valid login credentials. 
+
+```
+{
+    "username": "admin",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDIxNzk1NDgsImV4cCI6MTcwMjI2NTk0OH0.YyaCO9xF7pysuKb7ZDz9hcBaCRwk3e3C5_97oYe8j9Y"
+}
+```
+*Successful Login Response Example*
+
+The returned JWT (i.e. the token) must be added to the authorization header of all protected requests. If a token is not provided, or if the token is invalid or has expired, the request-response flow of control will be blocked by the custom [Authentication Handler](./api/middleware/authHandler.js) middleware. This ensures that sensitive user data is protected such that no information can be accessed or manipulated without authentication. If a request is blocked due to failed authentication, a `403` status code will be returned in the response.
 
 ## Coding Practices
 The team followed JSDoc practices for documenting the code, which can be read [here](https://jsdoc.app/).
