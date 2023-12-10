@@ -176,65 +176,10 @@ The YRES Scheduler API utilises three means of testing:
 3. **Postman Flows Request-Chaining Tests:** Used to test chaining multiple requests in a [postman flow](https://learning.postman.com/docs/writing-scripts/test-scripts/), verifying end-to-end functionality for specific services. These tests can be run manually and accessed from the [Backend API Postman Collection](https://www.postman.com/csc301-group-48/workspace/scheduler-api/request/30499092-3f1b5bba-bca3-46c8-8b68-b194d4812e3a).
 
 ### Error Handling
-The YRES Scheduler Backend API implements an informative and flexible error-handling system. The application defines a custom Express middleware for [error handling]
+The YRES Scheduler Backend API implements an informative and flexible error-handling system. The application defines a custom Express middleware for [error handling](./api/middleware/errorHandler.js). This ensures consistent formatting of error responses, setting custom status codes as appropriate and including relevant information about the error (e.g. the related service, a descriptive message etc). Each service has a corresponding custom error object which is contained within the [Service Errors](./api/entities/ServiceErrors.js) entity. Service errors should be thrown within service files by convention, although the error handling middleware will gracefully handle errors regardless of where they are thrown in the request-response flow of control.
 
-### Authentication
-How to use the API authentication.
-
-## API Endpoints
-
-Table with api endpoints:
-Written for someone who wants to use the API (e.g. frontend dev), not someone who will be contributing to backend API.
-
-### Account Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Activity Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Block Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Camp Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Campus Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Counselor Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Group Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Room Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Schedule Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
-
-### Student Service
-Brief description of what the service is.
-
-Table: Request Name | Route | Ex Req Body | Ex Response
+![Graceful Error Handling](./assets/error_handling.png "Graceful Error Handling")
+*Graceful Error Handling*
 
 ## Coding Practices
 Ensure JSDoc is written correctly (link to jsdoc). Ensure architecture is adhered to. Ensure changes are always checked for refactoring with frontend (link to frontend repo/readme). Anything else?
