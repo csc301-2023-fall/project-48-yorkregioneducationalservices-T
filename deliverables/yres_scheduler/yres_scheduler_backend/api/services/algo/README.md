@@ -98,9 +98,9 @@
   - Input lists must be non-empty.
   - Preconditions of the grouping algorithm must be satisfied, so that grouping algorithm can return normally.
   - If no filler activity is present, the total hours of common activities must add up to the length of the schedule. That is, for a list of common activities with length $N$,
-  
-    $\sum_{i=0}^{N-1} \text{activities[i].num\_occurrences} \times \text{activities[i].duration} = day \times \textit{hours per day}$
-    
+    ```math
+    \sum_{i=0}^{N-1} \text{activities[i].num\_occurrences} \times \text{activities[i].duration} = day \times \textit{hours per day}
+    ```
   - Similarly, the sum of total hours of all common activities and "minimum hours" of all filler activities must not exceed the length of the schedule. Note that the filler activities have minimum hours because their number of occurrences indicate the minimum number of times they should be scheduled. It is helpful to simply set that field 0 for the filler activities.
   - Filler activities must have duration of 1 hour.
   - Enough rooms must be provided, and activities should have proper lists of rooms. These requirements are hard to define rigorously, and depends a lot on "common sense". Some obvious points include:
