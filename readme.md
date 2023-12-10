@@ -47,18 +47,6 @@ Users can filter and view the generated schedule for each group. They can then e
  *** Note that a schedule can only be created after all necessary information has been inputted.
 
 ## Development Requirements
- 1. Ensure the latest version of [Node.JS](https://nodejs.org/en) with NPM is installed.
- 2. Clone the team repository: `https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git`
- 3. Navigate to the './deliverables/yres_scheduler/yres_scheduler_backend' directory and install dependencies: `npm install`.
- 4. Start the backend API `node server.js`.
- 5. To run the backend tests run: `npm test`.
- 6. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm install`.
- 7. Then build the frontend application: `npm run build`.
- 8. Finally, start the frontend server: `npm start`.
-
-We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-3-19-73-191.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
-
- ### Key Documentation for Development
  * Documentation regarding DevOps can be found in the following [ReadMe](./.github/workflows/readme.md).
  * Documentation regarding the database can be found in the following [ReadMe](./deliverables/yres_scheduler/yres_scheduler_database/README.md).
  * Documentation regarding the backend API can be found in the following [ReadMe](./deliverables/yres_scheduler/yres_scheduler_backend/README.md).
