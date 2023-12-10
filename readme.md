@@ -1,7 +1,7 @@
 # YRES Scheduler 
 
 ![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/83c81b5e-102f-48ff-9749-a3f7869d62d9)
-[Link to Deployed Product](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/login) The username is `admin`, the password is `admin`.
+[Link to Deployed Product](http://ec2-3-19-73-191.us-east-2.compute.amazonaws.com:3000/login) The username is `admin`, the password is `admin`.
 ## Partner Intro
 Partner Contact Information:
 Hugo Quan: Web Developer co-op, primary point of contact
@@ -51,7 +51,7 @@ Users can filter and view the generated schedule for each group and schedule. Th
  7. Then build the frontend application: `npm run build`.
  8. Finally, start the frontend server: `npm start`.
 
-We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
+We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-3-19-73-191.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
 
  ### Key Documentation for Development
  (add readme links here)
