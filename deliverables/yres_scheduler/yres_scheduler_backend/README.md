@@ -52,12 +52,12 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 
 ### Directory Structure
 
-.**[api](./api)**\
-.    |-> **[controllers](./api/controllers)**:\
-.       |-> **[accountController](./api/controllers/accountController.js)**
-		|-> **[activityController](./api/controllers/activityController.js)**
-        |-> [blockController](./api/controllers/blockController.js)
-        |-> [campController](./api/controllers/campController.js)
+|-> **[api](./api)**
+- |->**[controllers](./api/controllers)**:\
+    - |-> **[accountController](./api/controllers/accountController.js)**
+    - |-> **[activityController](./api/controllers/activityController.js)**
+    - |-> [blockController](./api/controllers/blockController.js)
+    - |-> [campController](./api/controllers/campController.js)
 
 ### Testing
 Types of tests. How to run them etc.
