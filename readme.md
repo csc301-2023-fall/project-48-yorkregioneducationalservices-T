@@ -51,6 +51,7 @@ Users can filter and view the generated schedule for each group. They can then e
  * Documentation regarding the database can be found in the following [ReadMe](./deliverables/yres_scheduler/yres_scheduler_database/README.md).
  * Documentation regarding the backend API can be found in the following [ReadMe](./deliverables/yres_scheduler/yres_scheduler_backend/README.md).
  * Documentation regarding the frontend design can be found in the following [ReadMe](./deliverables/yres_scheduler/yres_scheduler_frontend/README.md).
+ * Documentation regarding the algorithms can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/tree/main/deliverables/yres_scheduler/yres_scheduler_backend/api/services/algo).
   
  ## Deployment and Github Workflow
 
