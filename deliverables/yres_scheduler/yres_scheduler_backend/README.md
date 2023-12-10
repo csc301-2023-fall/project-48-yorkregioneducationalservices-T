@@ -57,7 +57,7 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 - **[api](./api)**
 
 
-    <details open>
+    <details>
     <summary>Controllers:</summary>
 
     - **[controllers](./api/controllers)**
@@ -74,8 +74,9 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 
     </details>
 
-    <details open>
+    <details>
     <summary>DB Gateway Plugins:</summary>
+
     - **[db](./api/db)**
         - **[accountDbPlugin](./api/db/accountDbPlugin.js)**
         - **[activityDbPlugin](./api/db/activityDbPlugin.js)**
@@ -89,8 +90,9 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[studentDbPlugin](./api/db/studentDbPlugin.js)**
     </details>
     
-    <details open>
+    <details >
     <summary>Entities:</summary>
+
     - **[entities](./api/entities)**
         - **[Activity](./api/entities/Activity.js)**
         - **[AdminUser](./api/entities/AdminUser.js)**
@@ -105,15 +107,17 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[Student](./api/entities/ServiceErrors.js)**
     </details>
 
-    <details open>
+    <details>
     <summary>Middleware:</summary>
+    
     - **[middleware](./api/middleware)**
         - **[authHandler](./api/middleware/authHandler.js)**
         - **[errorHandler](./api/middleware/errorHandler.js)**
     </details>
 
-    <details open>
+    <details>
     <summary>Routers:</summary>
+
     - **[routes](./api/routes)**
         - **[accountRoutes](./api/routes/accountRoutes.js)**
         - **[activityRoutes](./api/routes/activityRoutes.js)**
