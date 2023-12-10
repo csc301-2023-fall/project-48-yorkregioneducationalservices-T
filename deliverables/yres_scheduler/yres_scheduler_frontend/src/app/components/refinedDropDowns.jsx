@@ -17,7 +17,7 @@ function RefinedDropdown({handleSelect, displayText, groups}) {
       <Dropdown onSelect={handleSelect}>
         
           <Dropdown.Toggle split variant="secondary" className="black-border" id="dropdown-arrow">
-          <span className='big-padded'>{displayText}</span>
+          <span className='dropBar'>{displayText}</span>
           </Dropdown.Toggle>
           
           <Dropdown.Menu>

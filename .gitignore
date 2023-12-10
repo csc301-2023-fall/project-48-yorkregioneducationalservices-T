@@ -2,9 +2,9 @@
 node_modules/
 
 # Dependency lock files
-package-lock.json
+**/package-lock.json
 npm-shrinkwrap.json
-
+**/next.config.js
 # macOS
 .DS_Store
 

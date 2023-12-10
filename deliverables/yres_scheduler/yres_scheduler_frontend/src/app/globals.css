@@ -59,7 +59,7 @@ body, html{
 
 .black-border {
   border-radius: 0; 
-  border: 1px solid #000000; 
+  border: 2px solid #000000; 
 }
 
 .right-btn {
@@ -364,6 +364,14 @@ body, html{
 }
 .big-padded{
   padding: 20px;
+}
+.dropBar{
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: #fff;
+  color: black;
 }
 .inline{
   display: inline
