@@ -217,4 +217,4 @@ Additionally, any changes made to the back end of the project are checked for re
 -	[JSDoc Documentation](https://jsdoc.app/)
 -	[PostgreSQL Official Website](https://www.postgresql.org/)
 -	[Project Postman testing workspace](https://www.postman.com/csc301-group-48/workspace/scheduler-api)
-- [Project Database README](../yres_scheduler_database/database.md)
+- [Project Database README](../yres_scheduler_database/README.md)
