@@ -41,7 +41,7 @@ In the config JSON file(s), we store information about the server (the port numb
 
 ### Running Tests
 We have a series of automated tests for entity creation stored in the project, which can be run while in the same directory as defined in the above setup section (./deliverables/yres_scheduler/yres_scheduler_backend), using the command `npm test`. 
-Additionally, we have setup a public testing workspace using Postman to test the various services our backend API should support. The workspace can be found at: (https://www.postman.com/csc301-group-48/workspace/scheduler-api), where a window such as the one show below should be seen:
+Additionally, we have setup a public testing workspace using Postman to test the various services our backend API should support. The workspace can be found [here](https://www.postman.com/csc301-group-48/workspace/scheduler-api), where a window such as the one show below should be seen:
  
 To be able to run the tests, you must be in the “CSC301-group-48” Postman team (accessible in the top right), and have the environment set to “Local” (in the above screenshot, this is changed where it says “No Environment”).
 On the left sidebar, there are several tabs. 
