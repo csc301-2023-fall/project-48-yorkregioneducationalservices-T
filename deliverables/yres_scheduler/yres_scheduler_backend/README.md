@@ -52,13 +52,13 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 
 ### Packlage Structure
 <details open>
-<summary>API:</summary>
+<summary>API</summary>
 
 - **[api](./api)**
 
 
     <details>
-    <summary>Controllers:</summary>
+    <summary>Controllers</summary>
 
     - **[controllers](./api/controllers)**
         - **[accountController](./api/controllers/accountController.js)**
@@ -75,7 +75,7 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
     </details>
 
     <details>
-    <summary>DB Gateway Plugins:</summary>
+    <summary>DB Gateway Plugins</summary>
 
     - **[db](./api/db)**
         - **[accountDbPlugin](./api/db/accountDbPlugin.js)**
@@ -91,7 +91,7 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
     </details>
     
     <details >
-    <summary>Entities:</summary>
+    <summary>Entities</summary>
 
     - **[entities](./api/entities)**
         - **[Activity](./api/entities/Activity.js)**
@@ -108,8 +108,8 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
     </details>
 
     <details>
-    <summary>Middleware:</summary>
-    
+    <summary>Middleware</summary>
+
     - **[middleware](./api/middleware)**
         - **[authHandler](./api/middleware/authHandler.js)**
         - **[errorHandler](./api/middleware/errorHandler.js)**
@@ -129,6 +129,22 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[roomRoutes](./api/routes/roomRoutes.js)**
         - **[scheduleRoutes](./api/routes/scheduleRoutes.js)**
         - **[studentRoutes](./api/routes/studentRoutes.js)**
+    </details>
+
+    <details>
+    <summary>Services:</summary>
+
+    - **[services](./api/services)**
+        - **[accountService](./api/routes/accountService.js)**
+        - **[activityService](./api/routes/activityService.js)**
+        - **[blockService](./api/routes/blockService.js)**
+        - **[campService](./api/routes/campService.js)**
+        - **[campusService](./api/routes/campusService.js)**
+        - **[counselorService](./api/routes/counselorService.js)**
+        - **[groupService](./api/routes/groupService.js)**
+        - **[roomService](./api/routes/roomService.js)**
+        - **[scheduleService](./api/routes/scheduleService.js)**
+        - **[studentService](./api/routes/studentService.js)**
     </details>
 
 </details>
