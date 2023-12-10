@@ -169,8 +169,6 @@ Greater detail for each component can be found in comments within the file.
 | activitiesTable.jsx         | Manages and displays activities in a table.             |
 | alert.jsx                   | Displays alert messages, for easy use in other components|
 | counselorProfilesTable.jsx  | Manages counselor profiles in a table.                  |
-| floorPlanCanvas.jsx         | Renders a floor plan canvas.                             |
-| floorPlanCanvasWrapper.jsx  | Wrapper for the floor plan canvas.                       |
 | footer.jsx                  | Website's footer component.                             |
 | friendSearchTable.jsx       | Manages and displays friend search results in a table. |
 | groupsTable.jsx             | Manages and displays groups in a table.            |
