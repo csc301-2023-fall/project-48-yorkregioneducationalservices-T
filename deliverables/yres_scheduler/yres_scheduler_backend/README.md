@@ -12,6 +12,7 @@ The **YRES Scheduler Backend API** implements the core logic and functionality o
     - [Package Structure](#package-structure)
     - [Testing](#testing)
     - [Error Handling](#error-handling)
+    - [Authentication](#authentication)
 4. [Coding Practices](#coding-practices)
 5. [Documentation and Resources](#documentation-and-resources)
 
