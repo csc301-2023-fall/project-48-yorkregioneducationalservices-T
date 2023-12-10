@@ -147,4 +147,5 @@ Listed are several links relevant to the back end of the project, including the 
 -	[JSDoc Documentation](https://jsdoc.app/)
 -	[PostgreSQL Official Website](https://www.postgresql.org/)
 -	[Project Postman testing workspace](https://www.postman.com/csc301-group-48/workspace/scheduler-api)
+-   [Project Database README](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_database/database.md)
 
