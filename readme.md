@@ -1,7 +1,6 @@
 # YRES Scheduler 
 
 ![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/109639262/83c81b5e-102f-48ff-9749-a3f7869d62d9)
-[Link to Deployed Product](http://ec2-18-218-217-198.us-east-2.compute.amazonaws.com:3000/login) The username is `admin`, and the password is `adminpw`.
 ## Partner Intro
 Partner Contact Information:
 Hugo Quan: Web Developer co-op, primary point of contact
@@ -57,7 +56,7 @@ Users can filter and view the generated schedule for each group. They can then e
  7. Then build the frontend application: `npm run build`.
  8. Finally, start the frontend server: `npm start`.
 
-We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
+We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-3-19-73-191.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
 
  ### Key Documentation for Development
  * Documentation regarding DevOps can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/.github/workflows/DevOps.md).
@@ -66,6 +65,7 @@ We leverage GitHub automation to employ CI/CD and Docker for our development pip
  * Documentation regarding the frontend design can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_frontend/README.md).
   
  ## Deployment and Github Workflow
+
  * Within the frontend codebase, since we are working with Next.js, we have been using file-based routing, meaning routes are named by their folder, rather than the actual filename. Thus, each high-level page file is simply named `page.jsx`, but stored within a folder with proper names such as, `profiles`, `schedules` etc.
  * Our group is divided into two subteams, one team for the frontend and another for the backend. Our GitHub workflow consists primarily of pull requests from personal branches (usually labelled by name and subteam). Each pull request is reviewed by at least two members of the subteam the PR belonged to (in the case of frontend this would be the entire team). Anyone can merge a pull request, as long as it has been reviewed by a sufficient number of people and has had all requested changes made. This workflow leads to great collaboration, without the need for any specific authoritative figures dictating what can and cannot be merged, as well as an overall feeling of unity within the group.
 
@@ -75,6 +75,7 @@ We leverage GitHub automation to employ CI/CD and Docker for our development pip
  * We have three separate folders: frontend, backend, and database. This is to ensure each process is modular and doesn't conflict with the other two. The backend process is started within the backend folder and the same is true for the frontend and database folders.
  * This streamlined approach ensures effortless and automated deployment, maintaining a continuously operational main version while validating every build before integration into the main branch. This not only simplifies deployment but also guarantees a stable and reliable codebase at all times.
  
+
 ![Screenshot 2023-11-16 at 12 19 19 AM](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/assets/65968691/cc3f71ee-a7b2-4b1a-b38f-0b997a550ff7)
 
  ## Coding Standards and Guidelines

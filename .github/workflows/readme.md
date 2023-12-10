@@ -24,7 +24,7 @@ First, familiarize yourself with [GitHub Actions](https://github.com/features/ac
 You need to add the following Secrets:
 - `EC2_HOST` 
   - This is the server host name ([DNS](https://www.cloudflare.com/learning/dns/what-is-dns/)) to SSH.
-  - For example ec2-18-218-217-198.us-east-2.compute.amazonaws.com
+  - For example ec2-3-19-73-191.us-east-2.compute.amazonaws.com
 - `EC2_PRIVATE_KEY`
   - This is the private key for GitHub Actions to SSH.
   - If you are using EC2, this [link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) will be helpful for you to create one. 

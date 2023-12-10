@@ -8,7 +8,7 @@
  */
 
 const schedb = require('../db/scheduleDbPlugin');
-const scheduleAlgo = require('../services/scheduleAlgo');
+const scheduleAlgo = require('../services/algo/scheduleAlgo');
 const { saveJsonToFile, getJsonFromFile } = require('../utils/jsonToFile.js');
 const FILE_PATH = './api/res/private/saved_scheduled.json';
 const {ScheduleServiceError, STATUS_CODES} = require('../entities/ServiceErrors');

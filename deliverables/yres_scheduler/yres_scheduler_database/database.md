@@ -20,8 +20,8 @@ For this project, we have both a production database and a testing database. It 
 -	Testing: `psql -h localhost -U yres -d testing_db -p 5500`
 
 (If the server is hosted on ec2)
--	Production: `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -U yres -d yres_db -p 5432`
--	Testing: `psql -h ec2-18-218-217-198.us-east-2.compute.amazonaws.com -U yres -d testing_db -p 5500`
+-	Production: `psql -h ec2-3-19-73-191.us-east-2.compute.amazonaws.com -U yres -d yres_db -p 5432`
+-	Testing: `psql -h ec2-3-19-73-191.us-east-2.compute.amazonaws.com -U yres -d testing_db -p 5500`
 
 ## Layout
 The database for this project contains 12 relations:
