@@ -6,10 +6,10 @@
  * 
  * @requires api/services/campService
  * @requires api/entities/ServiceErrors
+ * 
  */
 const campService = require('../services/campService');
 const {CampServiceError, STATUS_CODES} = require('../entities/ServiceErrors');
-
 
 /**
  * Retrieves a camp by ID.
@@ -85,8 +85,28 @@ async function createCamp(req, res) {
     };
 }
 
+/**
+ * Set a new floorplan for a camp.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Object} - An object containing a status message.
+ */
+async function setFloorplan(req, res) {
+
+    const status = await campService.setFloorplan();
+
+    res.status(STATUS_CODES.SUCCESS);
+
+    return {
+        status: status ? 'Success' : 'failure',
+        path: req.file.path
+    };
+}
+
 module.exports = {
     getCamp,
     getAllCamps,
-    createCamp
+    createCamp,
+    setFloorplan
 }

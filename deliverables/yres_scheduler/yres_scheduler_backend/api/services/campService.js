@@ -74,8 +74,26 @@ async function createCamp(name, campus_id) {
     }
 }
 
+/**
+ * Set a new floorplan for a camp.
+ *
+ * @returns {boolean} - Whether operation was successful.
+ */
+async function setFloorplan() {
+
+    // This logic will only execute if the image has been 
+    // successfully uploaded in controller.
+
+    // Service function is here for architecture consistency & in case
+    // future development requires DB operations alongside setting
+    // a new floorplan image.
+
+    return true;
+}
+
 module.exports = {
     getCamp,
     getAllCamps,
-    createCamp
+    createCamp,
+    setFloorplan
 }
