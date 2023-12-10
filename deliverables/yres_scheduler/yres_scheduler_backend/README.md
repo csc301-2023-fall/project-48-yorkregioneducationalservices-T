@@ -135,17 +135,32 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
     <summary>Services:</summary>
 
     - **[services](./api/services)**
-        - **[accountService](./api/routes/accountService.js)**
-        - **[activityService](./api/routes/activityService.js)**
-        - **[blockService](./api/routes/blockService.js)**
-        - **[campService](./api/routes/campService.js)**
-        - **[campusService](./api/routes/campusService.js)**
-        - **[counselorService](./api/routes/counselorService.js)**
-        - **[groupService](./api/routes/groupService.js)**
-        - **[roomService](./api/routes/roomService.js)**
-        - **[scheduleService](./api/routes/scheduleService.js)**
-        - **[studentService](./api/routes/studentService.js)**
+        - **[accountService](./api/services/accountService.js)**
+        - **[activityService](./api/services/activityService.js)**
+        - **[blockService](./api/services/blockService.js)**
+        - **[campService](./api/services/campService.js)**
+        - **[campusService](./api/services/campusService.js)**
+        - **[counselorService](./api/services/counselorService.js)**
+        - **[groupService](./api/services/groupService.js)**
+        - **[roomService](./api/services/roomService.js)**
+        - **[scheduleService](./api/services/scheduleService.js)**
+        - **[studentService](./api/services/studentService.js)**
+
+            <details>
+            <summary>Algorithms:</summary>
+
+            - **[algo](./api/services/algo)**
+                - **[accountService](./api/services/algo/scheduleAlgo.js)**
+                - **[activityService](./api/services/algo/groupAlgo.js)**
+            </details>
+
     </details>
+
+- **[config](./config)**
+- **[logging](./logging)**
+- **[app.js](./app.js)**
+- **[logger.js](./logger.js)**
+- **[server.js](./server.js)**
 
 </details>
 
