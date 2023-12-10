@@ -53,6 +53,8 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 ### Packlage Structure
 <details open>
 
+<summary>---</summary>
+
 - **[api](./api)**
 
     <details open>
