@@ -1,6 +1,6 @@
 # YRES Scheduler: Backend API
 
-Short intro paragraph about the purpose of the backend API, what is its purpose in the overall software, linking to frontend etc..
+The **YRES Scheduler Backend API** implements the core logic and functionality of the [YRES Scheduler](../../..) application. It serves as a [RESTful API](https://aws.amazon.com/what-is/restful-api/#:~:text=RESTful%20API%20is%20an%20interface,applications%20to%20perform%20various%20tasks.) with which the [YRES Frontend](../yres_scheduler_frontend/) can communicate via HTTP requests in order to support the operation of the YRES scheduler.
 
 ## Table of Contents
 1. [Getting Started](#getting-started)
@@ -12,18 +12,6 @@ Short intro paragraph about the purpose of the backend API, what is its purpose 
     - [Package Structure](#package-structure)
     - [Testing](#testing)
     - [Error Handling](#error-handling)
-    - [Authentication](#authentication)
-3. [API Endpoints](#api-endpoints)
-    - [Account Service](#account-service)
-    - [Activity Service](#activity-service)
-    - [Block Service](#block-service)
-    - [Camp Service](#camp-service)
-    - [Campus Service](#campus-service)
-    - [Counselor Service](#counselor-service)
-    - [Group Service](#group-service)
-    - [Room Service](#room-service)
-    - [Schedule Service](#schedule-service)
-    - [Student Service](#schedule-service)
 4. [Coding Practices](#coding-practices)
 5. [Documentation and Resources](#documentation-and-resources)
 
