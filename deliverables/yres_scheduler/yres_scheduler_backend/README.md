@@ -51,8 +51,12 @@ The innermost layer, _Enterprise Business Rules_, defines attributes and  behavi
 The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. request body and query parameters) and preparation of response objects is handled. [Controllers](./api/controllers/), which also act as presenters, call the corresponding service module function. [Routers](./api/routes/) specify the routes, request contracts, and any custom middleware for each API endpoint and are responsible for calling the corresponding controller. [Middleware](./api/middleware/), such as the [Error Handler](./api/middleware/errorHandler.js) and [Authentication Handler](./api/middleware/authHandler.js) are inserted like intermediate layers between the routers and controllers.
 
 ### Packlage Structure
+<details open>
 
 - **[api](./api)**
+
+    <details open>
+
     - **[controllers](./api/controllers)**
         - **[accountController](./api/controllers/accountController.js)**
         - **[activityController](./api/controllers/activityController.js)**
@@ -64,6 +68,9 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[roomController](./api/controllers/roomController.js)**
         - **[scheduleController](./api/controllers/scheduleController.js)**
         - **[studentController](./api/controllers/studentController.js)**
+
+    </details>
+
     - **[db](./api/db)**
         - **[accountDbPlugin](./api/db/accountDbPlugin.js)**
         - **[activityDbPlugin](./api/db/activityDbPlugin.js)**
@@ -101,6 +108,9 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[roomRoutes](./api/routes/roomRoutes.js)**
         - **[scheduleRoutes](./api/routes/scheduleRoutes.js)**
         - **[studentRoutes](./api/routes/studentRoutes.js)**
+
+
+</details>
 
 ### Testing
 Types of tests. How to run them etc.
