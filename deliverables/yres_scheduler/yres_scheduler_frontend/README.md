@@ -28,8 +28,22 @@ This README provides set-up instructions along with an overview of the architect
 
 ### Setup
  1. Navigate to the './deliverables/yres_scheduler/yres_scheduler_frontend' directory and install dependencies: `npm i --legacy-peer-deps`.
- 2. Then build the frontend application: `npm run build`.
- 3. Finally, start the frontend server: `npm start`.
+ 2. If developing locally, create a file called `.env.local` in the `yres_scheduler_frontend` directory. Ensure your file contains the following content:
+    ```
+    NEXT_PUBLIC_BACKEND_URI='http://localhost:1234'
+    NEXT_PUBLIC_FRONTEND_URI='http://localhost:3000'
+    NEXTAUTH_URL='http://localhost:3000'
+    NEXTAUTH_SECRET=<Run the command 'openssl rand -base64 32' and copy the output here>
+    ```
+    If setting up for production, ensure the `.env.production` file is configured as:
+    ```
+    NEXT_PUBLIC_BACKEND_URI='http://<backend_uri>:1234'
+    NEXT_PUBLIC_FRONTEND_URI='http://<frontend_uri>:3000'
+    NEXTAUTH_URL='http://<frontend_uri>:3000'
+    NEXTAUTH_SECRET=<Run the command 'openssl rand -base64 32' and copy/replace the output here>
+    ```
+ 3. Build the frontend application: `npm run build`.
+ 4. Finally, start the frontend server: `npm start`.
 
 ### Running Tests
 1. Complete all the necessary frontend setup steps
@@ -38,7 +52,7 @@ This README provides set-up instructions along with an overview of the architect
 ## Architecture and Design
 
 ### Architecture
-This web application project has a directory structure that follows a modular and component-based architecture, using React.js for frontend development. The "src/app" directory is the primary folder that encompasses various modules and components.
+This web application project has a directory structure that follows a modular and component-based architecture, using Next.js 13 for frontend development. Next.js is a framework for React that mixes react code with server side rendering. The "src/app" directory is the primary folder that encompasses various modules and components.
 
 The "main-menu" module is the pages folder that contains sub-modules like "floorplan," "profiles," and "schedules." Each sub-module contains a "pages.jsx" file, defining React components for specific functionalities related to floorplans, user profiles, and schedules. The "layout.jsx" file in the "main-menu" module serves as the primary layout component for this section of the application. The three submodules here are the three pages the user can access upon logging in.
 
@@ -134,10 +148,10 @@ On the front end, our code parses backend responses with fetch requests, extract
 When users input information they are also prompted with errors if they input information that is inaccurate (i.e. trying to add a friend that doesn't exist)
 
 ### Authentication
-How to use the API authentication.
+The Frontend uses NextAuth to protect the frontend routes. If the user is not logged in, they are redirected to the login page. Login information is managed via Javascript Web Tokens. These tokens are set to expire after 24 hours meaning the user will be automatically logged out after one day. NextAuth handles most of the work with regard to protecting routes and managing the session. The session contains the current username of the user and the token needed for authenticating with the backend. It can be retrieved by making a GET request to `<frontend_uri>/api/auth/session`.
 
 ## Pages
-These are the three pages that the user can access when logged in. They are found in the React.js src/app/(main-menu) folder. Each page is tied to a key feature.
+These are the three pages that the user can access when logged in. They are found in the Next.js src/app/(main-menu) folder. Each page is tied to a key feature.
 
 ### floorplan
 ##### (Floorplan Management)
@@ -224,9 +238,13 @@ Defines styles for the schedule-related elements (#schedules, #schedule-pane, #s
 Contains styles for the profiles section (#profiles-header, #profiles-table, #profiles-page, .action-button, .table-actions, .table-container).
 
 ## Coding Practices
-Our coding practices ensure distinct categorization throughout our files. All components are kept in the components folder, all helper functions are kept within helper.jsx and all modals are kept within the modals folder.
+Our coding practices ensure distinct categorization throughout our files. All components are kept in the components folder, all helper functions are kept within helper.jsx and all modals are kept within the modals folder. The main page to display (which should be rendered server side) are kept in the (main-menu) folder.
 We utilized modals for all user input when the user wanted to change or create an object. Our coding practices ensured that everything was modular and neatly organized.
  
 ## Documentation & Resources
 List of links for extra docs and resources:
-- 
+- [Project repository page](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git)
+- [York Region Educational Services Home Page](https://yorkeducation.org/)
+- [Next.js 13 Documentation](https://nextjs.org/docs)
+- [React 18 Documentation](https://react.dev/learn)
+- [NextAuth Documentation](https://next-auth.js.org/getting-started/introduction)
