@@ -1,6 +1,6 @@
 # YRES Scheduler: Backend API
 
-Short intro paragraph about the purpose of the backend API, what is its purpose in the overall software, linking to frontend etc.
+Short intro paragraph about the purpose of the backend API, what is its purpose in the overall software, linking to frontend etc..
 
 ## Table of Contents
 1. [Getting Started](#getting-started)
