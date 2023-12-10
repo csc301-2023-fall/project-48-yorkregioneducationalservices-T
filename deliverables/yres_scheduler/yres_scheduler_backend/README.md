@@ -29,29 +29,31 @@ Short intro paragraph about the purpose of the backend API, what is its purpose 
 
 ## Getting started
 ### Setup
-1.	Ensure the latest version of Node.JS with NPM is installed. Site can be found [here](https://nodejs.org/en)
+1.	Ensure the latest version of Node.JS with NPM is installed. The site can be found [here](https://nodejs.org/en)
 2.	Clone the project repository with the following URL: (https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git)
 3.	Navigate to the directory following directory in the project and install the dependencies using the command `npm install`: (./deliverables/yres_scheduler/yres_scheduler_backend)
-4.	Finally, the start the backend API, use the command `node server.js` while in the same directory as above.
+4.	Finally, to start the backend API, use the command `node server.js` while in the same directory as above.
 
 ### Configuration
 We store a config file (./deliverables/yres_scheduler/yres_scheduler_backend/config), which contains particular information for running the application.
 In the config JSON file(s), we store information about the server (the port number it is hosted on), the database (including host address. If running the server locally, change “HOST” to “localhost”), authentication information, and additional constants (such as the singular campus id, and the number of students/counselors in a group).
 
-
 ### Running Tests
 We have a series of automated tests for entity creation stored in the project, which can be run while in the same directory as defined in the above setup section (./deliverables/yres_scheduler/yres_scheduler_backend), using the command `npm test`. 
-Additionally, we have setup a public testing workspace using Postman to test the various services our backend API should support. The workspace can be found [here](https://www.postman.com/csc301-group-48/workspace/scheduler-api), where a window such as the one show below should be seen:
+
+Additionally, we have set up a public testing workspace using Postman to test the various services our backend API should support. The workspace can be found [here](https://www.postman.com/csc301-group-48/workspace/scheduler-api), where a window such as the one shown below should be seen:
  
 ![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_backend/assets/PostmanWorkspace.png)
 
-To be able to run the tests, you must be in the “CSC301-group-48” Postman team (accessible in the top right), and have the environment set to “Local” (in the above screenshot, this is changed where it says “No Environment”).
+To be able to run the tests, you must be in the “CSC301-group-48” Postman team (accessible in the top right) and have the environment set to “Local” (in the above screenshot, this is changed where it says “No Environment”).
 On the left sidebar, there are several tabs. 
 -	The Collections tab contains tests for each service we have defined (these are folders of individual tests that perform one specific function).
 -	The Environments tab contains specific environment variables which we have defined to be used in our tests. 
--	The Flos tab contains several flowcharts corresponding to each of the services used by the application on a regular basis, which run the tests defined in the Collections tab in the desired order to replicate the correct behavior of the application.
+-	The Flows tab contains several flowcharts corresponding to each of the services used by the application regularly, which run the tests defined in the Collections tab in the desired order to replicate the correct behaviour of the application.
 To run the tests, the user must be logged in with a Postman account, and they should have the backend API running [locally] as described in the Setup section (i.e. using the command `node server.js`).
-NOTE: Tests cannot be ran on the browser version of Postman without the Postman Desktop Agent Installed.
+
+NOTE: Tests cannot be run on the browser version of Postman without the Postman Desktop Agent Installed.
+
 The services are meant to be tested using the flows. An image is provided below with an example of how the flow test: 
 
 ![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_backend/assets/PostmanFlow.png)
@@ -135,11 +137,11 @@ Brief description of what the service is.
 Table: Request Name | Route | Ex Req Body | Ex Response
 
 ## Coding Practices
-The team followed JSDoc practices for documenting the code, which can be read about [here](https://jsdoc.app/).
+The team followed JSDoc practices for documenting the code, which can be read [here](https://jsdoc.app/).
 
-The team’s approach to designing the backend API employed a variation of clean architecture design (explained more in detail in the Architecture and Design section of this document), where each service begins its use case with receiving a request at its corresponding router file, sending the data down to the controller, which calls a function defined in the service file containing use case logic and may additionally calls a database plugin to access/modify stored data. A response from the plugin is then passed all the way back up along the chain and sent back to the front end of the project to be shown to the user.
+The team’s approach to designing the backend API employed a variation of clean architecture design (explained more in detail in the Architecture and Design section of this document), where each service begins its use case by receiving a request at its corresponding router file, sending the data down to the controller, which calls a function defined in the service file containing use case logic and may additionally call a database plugin to access/modify stored data. A response from the plugin is then passed back up along the chain and sent back to the front end of the project to be shown to the user.
 
-Every type of request being handled follows the same architectural format with an entry in the router, controller, service and possibly database plugin files corresponding to the entities involved with the request. If a new type of request is to be supported, it would come with a new, parallel entry in the existing files for the entity being accessed, or with in new files following the same design if the request does not fit in any of the existing paths.
+Every type of request being handled follows the same architectural format with an entry in the router, controller, service and possibly database plugin files corresponding to the entities involved with the request. If a new type of request is to be supported, it would come with a new, parallel entry in the existing files for the entity being accessed, or within new files following the same design if the request does not fit in any of the existing paths.
 Additionally, any changes made to the back end of the project are checked for refactoring with the front end. A document detailing the front end of the project can be found here: ___
 
 
