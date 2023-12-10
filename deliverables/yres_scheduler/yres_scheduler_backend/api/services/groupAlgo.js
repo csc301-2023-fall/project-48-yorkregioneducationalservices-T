@@ -323,8 +323,6 @@ function generateGroups(counselors, students) {
 		return groups;
 	} catch (err) {
 		logger.debug(err);
-		// save an empty schedule so that nothing crashes.
-		saveJson.saveJsonToFile("[[]]", './saved_scheduled.json');
 		throw err;
 	}
 }

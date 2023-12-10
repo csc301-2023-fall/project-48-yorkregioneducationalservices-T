@@ -202,6 +202,10 @@ body, html{
   border-radius: 5px;
 }
 
+#schedule-timetable .styles-module_time_table_wrapper__TT-cf,
+#schedule-timetable .styles-module_time_table_wrapper__TT-cf .styles-module_day__aQ2Tt {
+  flex-wrap: nowrap !important;
+}
 .timetable-header {
   background-color: #3D96AB !important;
 }
@@ -270,7 +274,6 @@ body, html{
   border-bottom: 1px solid #3D96AB;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 /* Profiles Specific Styles */
