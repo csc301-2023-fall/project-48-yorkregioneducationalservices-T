@@ -1,28 +1,64 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
+import { fetchSession } from '../helper';
 
+/**
+ * Helper function to send a POST request to the backend to update the floorplan image. 
+ * 
+ * Props:
+ *      img - The image to update
+ */
+async function updateImage(img) {
+    const session = await fetchSession();
+    const form = new FormData();
+    form.append("floorplan", img)
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URI}/camp/floorplan`;
+    const settings = {
+        method: 'POST',
+        body: form,
+        headers: { authorization: session.backend_t }
+    }
+    const response = await fetch(url, settings);
+    if ((!(199 < response.status && response.status < 300))) {
+        const promiseRes = await response.text()
+        const jsonErrMsg = JSON.parse(promiseRes);
+        throw new Error(`${response.status} ${response.statusText}, Error: ${jsonErrMsg.message}`)
+    }
+    return response;
+}
+
+/*
+ * Modal to update the floorplan image
+ */
 function ImageAdd() {
     const [show, setShow] = useState(false);
     const handleShow = () => {
         setShow(true);
     };
     const handleClose = () => {
+        window.location.reload()
         setShow(false);
     };
-    const [errorDisplay, setErrorDisplay] = useState(<></>);
+    const [errorDisplay, setErrorDisplay] = useState(null);
     const [floorImage, setFloorImage] = useState(null);
     const handleImageChange = (event) => {
         const imageFile = event.target.files[0];
         setFloorImage(imageFile);
-        console.log(imageFile)
     };
     
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        //fetch request here
+        if (floorImage) {
+            try {
+                await updateImage(floorImage);
+            } catch (err) {
+                setErrorDisplay(err.message);
+            }
+        }
         handleClose()
     }
   
@@ -34,7 +70,9 @@ function ImageAdd() {
                 <Modal.Header closeButton>
                 <Modal.Title>{"Add a Floorplan Image"}</Modal.Title>
                 </Modal.Header>
-                {errorDisplay}
+                <Alert show={errorDisplay !== null} variant="danger" onClose={() => setErrorDisplay(null)} dismissible>
+                    {errorDisplay}
+                </Alert>
                 <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3">

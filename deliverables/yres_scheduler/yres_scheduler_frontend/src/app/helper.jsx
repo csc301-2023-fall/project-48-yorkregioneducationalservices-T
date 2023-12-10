@@ -132,7 +132,7 @@ export async function fetchDataGET(route, token){
 }
 
 // Helper to fetch the current session in the frontend (both client and server components)
-async function fetchSession() {
+export async function fetchSession() {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URI}/api/auth/session`);
         const session = await res.json();
