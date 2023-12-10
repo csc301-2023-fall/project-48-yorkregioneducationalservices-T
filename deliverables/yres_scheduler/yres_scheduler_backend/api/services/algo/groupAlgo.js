@@ -1,7 +1,7 @@
 const uuid = require('uuid');
-const saveJson = require('../utils/jsonToFile.js');
+const saveJson = require('../../utils/jsonToFile.js');
 const config = require('config');
-const logger = require('../../logger');
+const logger = require('../../../logger.js');
 
 
 const MAX_STUDENT = config.get('grouping.MAX_STUDENTS');
@@ -44,11 +44,12 @@ function convertFromStudents(students) {
 		throw Error("groupAlgo - Undefined: list of students is undefined.");
 	}
 	for (var s = 0; s < students.length; s++) {
+		const friend_ids_arr = [...students[s].friend_ids];
 		if (students[s].student_id === undefined || students[s].sex === undefined || students[s].friend_ids === undefined || students[s].campus_id === undefined) {
 			logger.debug("groupAlgo - Incomplete data: required attributes is missing in a student object.");
 			throw Error("groupAlgo - Incomplete data: required attributes is missing in a student object.");
 		}
-		studentLs.push(new StudentForGrouping(students[s].student_ui_id, students[s].sex, students[s].friend_ids, students[s].campus_id)); // TODO: TODO: to be replaced by camp_type
+		studentLs.push(new StudentForGrouping(students[s].student_ui_id, students[s].sex, friend_ids_arr, students[s].campus_id)); // TODO: TODO: to be replaced by camp_type
 	}
 	return studentLs;
 }

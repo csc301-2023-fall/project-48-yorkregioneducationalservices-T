@@ -20,6 +20,9 @@ import Alert from 'react-bootstrap/Alert';
     type (string) 		// <UI> The type of the activity (filler / common)
     num_occurences (int) 	// <UI> The number of times this activity should be scheduled for each group. It is fixed for a common activity, or the minimum number of times for a filler activity.
 }
+* Props:
+*    activityData - the list of activities to display
+*    rooms - the list of all rooms
 */
 function ActivitiesTable({ activityData, rooms}) {
     const router = useRouter();

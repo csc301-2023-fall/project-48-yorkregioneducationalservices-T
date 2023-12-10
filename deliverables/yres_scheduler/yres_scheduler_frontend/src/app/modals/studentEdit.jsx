@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from '@/app/components/alert';
-import { validRelationship, process_comma_separated_text, fetchDataPOST  } from '@/app/helper';
+import { fetchDataPOST  } from '@/app/helper';
 import { FaMinus } from 'react-icons/fa';
 import { OverlayTrigger } from 'react-bootstrap';
 import { Tooltip } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
 import YresTable from '../components/table';
-import { hydrate } from 'react-dom';
 
 /**
  * Editing Modal for Students
@@ -18,6 +17,7 @@ import { hydrate } from 'react-dom';
         setShow - function that toggles show
         item - student object to be edited
         students - a list of all student objects with attributes described above
+        setHydrated - setter for boolean to determine if student table is hydrated
  * */
 function StudentEdit({item, show, setShow, students, setHydrated}) {
     let errorDisplay = <></>;
@@ -127,7 +127,6 @@ function StudentEdit({item, show, setShow, students, setHydrated}) {
             handleClose();
             window.location.reload();
         } catch (err) {
-            console.log(err);
             setHydrated(true);
             setErrorMessage(err.message);
         }
