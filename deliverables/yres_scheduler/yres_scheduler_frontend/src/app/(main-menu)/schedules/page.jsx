@@ -2,14 +2,17 @@ import Schedule from '../../components/scheduleTable'
 import Alert from '@/app/components/alert';
 import { fetchDataGET } from '@/app/helper';
 import ScheduleTimetable from '@/app/components/scheduleTimetable';
+import options from '@/app/api/auth/[...nextauth]/options';
+import { getServerSession } from 'next-auth';
 
 /** 
  * Schedules page that generates and displays schedule and groups
 **/
 export default async function Schedules() {
-    const schedule_object = await fetchDataGET("/schedule/getCurrent/");
-    const room_object = await fetchDataGET("/room/all/");
-    const students_object = await fetchDataGET("/student/all/");
+    const session = await getServerSession(options);
+    const schedule_object = await fetchDataGET("/schedule/getCurrent/", session.backend_t);
+    const room_object = await fetchDataGET("/room/all/", session.backend_t);
+    const students_object = await fetchDataGET("/student/all/", session.backend_t);
     let errorDisplay = <></>;
     let err_message = ""
     if (room_object.error){

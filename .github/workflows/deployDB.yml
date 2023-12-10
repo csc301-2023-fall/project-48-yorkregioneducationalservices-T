@@ -6,7 +6,6 @@ on:
   push:
     # Trigger the workflow on push to the specified files.
     paths:
-      - '.github/workflows/deployDB.yml'
       - 'deliverables/yres_scheduler/yres_scheduler_database/yres_schema.sql'
 
 jobs:
