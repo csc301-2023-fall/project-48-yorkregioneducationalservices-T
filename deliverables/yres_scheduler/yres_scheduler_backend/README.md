@@ -43,14 +43,14 @@ How to run tests.
 ### Architecture
 The design of the YRES Scheduler Backend API aims to follow a hybrid [CLEAN](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) and [service-oriented](https://aws.amazon.com/what-is/service-oriented-architecture/#:~:text=you%20implement%20microservices%3F-,What%20is%20service%2Doriented%20architecture%3F,other%20across%20platforms%20and%20languages.) architecture, whereby guidelines are borrowed from both approaches. Use cases are placed into relevant groupings called _services_, typically corresponding to operations relating to an entity (e.g. the student service manages most operations directly related to the student entity). The platform is also divided into hierarchical layers of abstraction, each with specific responsibilities.
 
-![Backend API Higher-level Design Diagram](./docs/backend_api_1.jpg "Backend API Higher-level Design Diagram")
+![Backend API Higher-level Design Diagram](./assets/backend_api_1.jpg "Backend API Higher-level Design Diagram")
 *Backend API Higher-level Design Diagram*
 
 The innermost layer, _Enterprise Business Rules_, defines attributes and  behaviour for all entities that are relevant to the scheduler application (e.g. activity, student etc). [Entities](./api/entities/) are data structures that provide a common language for data to be manipulated across services and use cases. The _Application Business Rules_ layer is where use case logic is implemented for corresponding API requests. [Service modules](./api/services/) export a functions for each API endpoint in their corresponding service. These modules throw informative service-specific errors and may call corresponding DB gateway plugins. Each service also has a corresponding [DB gateway plugin](./api/db/), which implements operations related to querying and manipulating persistant storage.
 
 The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. request body and query parameters) and preparation of response objects is handled. [Controllers](./api/controllers/), which also act as presenters, call the corresponding service module function. [Routers](./api/routes/) specify the routes, request contracts, and any custom middleware for each API endpoint and are responsible for calling the corresponding controller. [Middleware](./api/middleware/), such as the [Error Handler](./api/middleware/errorHandler.js) and [Authentication Handler](./api/middleware/authHandler.js) are inserted like intermediate layers between the routers and controllers.
 
-### Directory Structure
+### Packlage Structure
 
 - **[api](./api)**
     - **[controllers](./api/controllers)**
@@ -88,8 +88,19 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[ServiceErrors](./api/entities/ServiceErrors.js)**
         - **[Student](./api/entities/ServiceErrors.js)**
     - **[middleware](./api/middleware)**
-        - **[authHandler](./api/entities/authHandler.js)**
-        - **[errorHandler](./api/entities/errorHandler.js)**
+        - **[authHandler](./api/middleware/authHandler.js)**
+        - **[errorHandler](./api/middleware/errorHandler.js)**
+    - **[routes](./api/routes)**
+        - **[accountRoutes](./api/routes/accountRoutes.js)**
+        - **[activityRoutes](./api/routes/activityRoutes.js)**
+        - **[blockRoutes](./api/routes/blockRoutes.js)**
+        - **[campRoutes](./api/routes/campRoutes.js)**
+        - **[campusRoutes](./api/routes/campusRoutes.js)**
+        - **[counselorRoutes](./api/routes/counselorRoutes.js)**
+        - **[groupRoutes](./api/routes/groupRoutes.js)**
+        - **[roomRoutes](./api/routes/roomRoutes.js)**
+        - **[scheduleRoutes](./api/routes/scheduleRoutes.js)**
+        - **[studentRoutes](./api/routes/studentRoutes.js)**
 
 ### Testing
 Types of tests. How to run them etc.
