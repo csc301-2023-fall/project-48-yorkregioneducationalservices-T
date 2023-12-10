@@ -52,12 +52,29 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 
 ### Directory Structure
 
-**[api](./api)**
-- **[controllers](./api/controllers)**
-    - **[accountController](./api/controllers/accountController.js)**
-    - **[activityController](./api/controllers/activityController.js)**
-    - **[blockController](./api/controllers/blockController.js)**
-    - **[campController](./api/controllers/campController.js)**
+-**[api](./api)**
+    - **[controllers](./api/controllers)**
+        - **[accountController](./api/controllers/accountController.js)**
+        - **[activityController](./api/controllers/activityController.js)**
+        - **[blockController](./api/controllers/blockController.js)**
+        - **[campController](./api/controllers/campController.js)**
+        - **[campusController](./api/controllers/campusController.js)**
+        - **[counselorController](./api/controllers/counselorController.js)**
+        - **[groupController](./api/controllers/groupController.js)**
+        - **[roomController](./api/controllers/roomController.js)**
+        - **[scheduleController](./api/controllers/scheduleController.js)**
+        - **[studentController](./api/controllers/studentController.js)**
+    - **[db](./api/db)**
+        - **[accountDbPlugin](./api/controllers/accountDbPlugin.js)**
+        - **[activityDbPlugin](./api/controllers/activityDbPlugin.js)**
+        - **[blockDbPlugin](./api/controllers/blockDbPlugin.js)**
+        - **[campDbPlugin](./api/controllers/campDbPlugin.js)**
+        - **[campusDbPlugin](./api/controllers/campusDbPlugin.js)**
+        - **[counselorDbPlugin](./api/controllers/counselorDbPlugin.js)**
+        - **[groupDbPlugin](./api/controllers/groupDbPlugin.js)**
+        - **[roomDbPlugin](./api/controllers/roomDbPlugin.js)**
+        - **[scheduleDbPlugin](./api/controllers/scheduleDbPlugin.js)**
+        - **[studentDbPlugin](./api/controllers/studentDbPlugin.js)**
 
 ### Testing
 Types of tests. How to run them etc.
