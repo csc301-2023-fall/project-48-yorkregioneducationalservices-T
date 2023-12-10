@@ -24,7 +24,7 @@
   5. `groupCall` returns the list of all groups.
 - **Algorithm:** see function `generateGroups` for detail. The following graph, as well as a short description, illustrate the basic idea.
 
-    ![Grouping Algorithm Procedure](./groupAlgo.png "Grouping Algorithm Procedure")
+    ![Grouping Algorithm Procedure](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/tree/main/deliverables/yres_scheduler/yres_scheduler_backend/api/services/algo/groupAlgo.png "Grouping Algorithm Procedure")
 
     1. Separate counselors and students belonging to different camp type:
        1. Generate a 2D-list of students, where each row contains students for a camp type;
@@ -73,7 +73,7 @@
 
 - **Algorithm:** see function `scheduleAlgorithm` for detail. The following graph, as well as a short description, illustrate the basic idea.
 
-    ![Scheduling Algorithm Procedure](./scheduleAlgo.png "Scheduling Algorithm Procedure")
+    ![Scheduling Algorithm Procedure](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/tree/main/deliverables/yres_scheduler/yres_scheduler_backend/api/services/algo/scheduleAlgo.png "Scheduling Algorithm Procedure")
 
     1. Initialization and preparation:
        1. Separate activities based on camp type of the groups;
@@ -98,9 +98,7 @@
   - Input lists must be non-empty.
   - Preconditions of the grouping algorithm must be satisfied, so that grouping algorithm can return normally.
   - If no filler activity is present, the total hours of common activities must add up to the length of the schedule. That is, for a list of common activities with length $N$,
-    ```math
-    \sum_{i=0}^{N-1} \text{activities[i].num\_occurrences} \times \text{activities[i].duration} = day \times \textit{hours per day}
-    ```
+    $$\sum_{i=0}^{N-1} \text{activities[i].num\_occurrences} \times \text{activities[i].duration} = day \times \textit{hours per day}$$
   - Similarly, the sum of total hours of all common activities and "minimum hours" of all filler activities must not exceed the length of the schedule. Note that the filler activities have minimum hours because their number of occurrences indicate the minimum number of times they should be scheduled. It is helpful to simply set that field 0 for the filler activities.
   - Filler activities must have duration of 1 hour.
   - Enough rooms must be provided, and activities should have proper lists of rooms. These requirements are hard to define rigorously, and depends a lot on "common sense". Some obvious points include:
