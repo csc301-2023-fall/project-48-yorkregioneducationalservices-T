@@ -1,7 +1,7 @@
 const uuid = require('uuid');
-const saveJson = require('../utils/jsonToFile.js');
+const saveJson = require('../../utils/jsonToFile.js');
 const config = require('config');
-const logger = require('../../logger');
+const logger = require('../../../logger.js');
 
 
 const MAX_STUDENT = config.get('grouping.MAX_STUDENTS');
