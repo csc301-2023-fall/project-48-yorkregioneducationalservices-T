@@ -59,7 +59,7 @@ Users can filter and view the generated schedule for each group. They can then e
 We leverage GitHub automation to employ CI/CD and Docker for our development pipeline. Our PostgreSQL database is consistently hosted on an EC2 instance, ensuring its availability. As a result, the database is automatically deployed and seamlessly connected to the backend whenever it's run locally. To connect to the database, ensure you have [psql](https://www.postgresql.org/download/) installed, then  `psql -h ec2-3-19-73-191.us-east-2.compute.amazonaws.com -p 5432 -U yres -d yres_db` password: `csc301`.
 
  ### Key Documentation for Development
- * Documentation regarding DevOps can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/.github/workflows/DevOps.md).
+ * Documentation regarding DevOps can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/.github/workflows/readme.md).
  * Documentation regarding the database can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_database/database.md).
  * Documentation regarding the backend API can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_backend/README.md).
  * Documentation regarding the frontend design can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_frontend/README.md).
