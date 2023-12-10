@@ -43,7 +43,7 @@ We have a series of automated tests for entity creation stored in the project, w
 
 Additionally, we have set up a public testing workspace using Postman to test the various services our backend API should support. The workspace can be found [here](https://www.postman.com/csc301-group-48/workspace/scheduler-api), where a window such as the one shown below should be seen:
  
-![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_backend/assets/PostmanWorkspace.png)
+![image](./assets/PostmanWorkspace.png)
 
 To be able to run the tests, you must be in the “CSC301-group-48” Postman team (accessible in the top right) and have the environment set to “Local” (in the above screenshot, this is changed where it says “No Environment”).
 On the left sidebar, there are several tabs. 
@@ -56,7 +56,7 @@ NOTE: Tests cannot be run on the browser version of Postman without the Postman 
 
 The services are meant to be tested using the flows. An image is provided below with an example of how the flow test: 
 
-![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_backend/assets/PostmanFlow.png)
+![image](./assets/PostmanFlow.png)
 
 ## Architecture and Design
 
@@ -217,4 +217,4 @@ Additionally, any changes made to the back end of the project are checked for re
 -	[JSDoc Documentation](https://jsdoc.app/)
 -	[PostgreSQL Official Website](https://www.postgresql.org/)
 -	[Project Postman testing workspace](https://www.postman.com/csc301-group-48/workspace/scheduler-api)
-- [Project Database README](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_database/database.md)
+- [Project Database README](../yres_scheduler_database/database.md)
