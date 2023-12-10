@@ -40,7 +40,6 @@ function CounselorEdit({item, show, setShow}) {
             handleClose()
         } catch (err) {
             setErrorMessage(err.message);
-            console.log(err);
         }
     }
     if (errorMessage != ""){

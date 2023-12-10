@@ -25,7 +25,6 @@ async function generateSchedule() {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URI}/schedule/generate/`, { cache: 'no-store' });
         const promiseRes = await res.text()
         if ((!(199 < res.status && res.status < 300))) {
-            console.log("Error")
             const jsonErrMsg = JSON.parse(promiseRes);
             return {
                 error: true,
@@ -185,7 +184,6 @@ export default function Schedule({schedule, rooms, groups}) {
 
    
     const updateCSV = () => {
-        console.log("update csv");
         let tempSchedArray;
         if (schedule[0][DisplaySched.split(" ")[1]]?.schedule === undefined) {
             tempSchedArray = [];

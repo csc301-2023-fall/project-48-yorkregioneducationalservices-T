@@ -20,6 +20,7 @@ import { useState } from 'react';
         show - boolean value determines if modal should be displayed
         setShow - function that toggles show
         item - activity object to be edited
+        rooms - a list of all rooms in this campus
  **/
 function ActivityEdit({item, show, setShow, rooms }) {
     const router = useRouter();
