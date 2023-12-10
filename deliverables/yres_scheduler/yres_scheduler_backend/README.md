@@ -52,13 +52,13 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 
 ### Packlage Structure
 <details open>
+<summary>API:</summary>
 
-<summary>|-> </summary> 
-
-**[api](./api)**
+- **[api](./api)**
 
 
     <details open>
+    <summary>Controllers:</summary>
 
     - **[controllers](./api/controllers)**
         - **[accountController](./api/controllers/accountController.js)**
@@ -74,6 +74,8 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 
     </details>
 
+    <details open>
+    <summary>DB Gateway Plugins:</summary>
     - **[db](./api/db)**
         - **[accountDbPlugin](./api/db/accountDbPlugin.js)**
         - **[activityDbPlugin](./api/db/activityDbPlugin.js)**
@@ -85,6 +87,10 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[roomDbPlugin](./api/db/roomDbPlugin.js)**
         - **[scheduleDbPlugin](./api/db/scheduleDbPlugin.js)**
         - **[studentDbPlugin](./api/db/studentDbPlugin.js)**
+    </details>
+    
+    <details open>
+    <summary>Entities:</summary>
     - **[entities](./api/entities)**
         - **[Activity](./api/entities/Activity.js)**
         - **[AdminUser](./api/entities/AdminUser.js)**
@@ -97,9 +103,17 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[Schedule](./api/entities/Schedule.js)**
         - **[ServiceErrors](./api/entities/ServiceErrors.js)**
         - **[Student](./api/entities/ServiceErrors.js)**
+    </details>
+
+    <details open>
+    <summary>Middleware:</summary>
     - **[middleware](./api/middleware)**
         - **[authHandler](./api/middleware/authHandler.js)**
         - **[errorHandler](./api/middleware/errorHandler.js)**
+    </details>
+
+    <details open>
+    <summary>Routers:</summary>
     - **[routes](./api/routes)**
         - **[accountRoutes](./api/routes/accountRoutes.js)**
         - **[activityRoutes](./api/routes/activityRoutes.js)**
@@ -111,7 +125,7 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
         - **[roomRoutes](./api/routes/roomRoutes.js)**
         - **[scheduleRoutes](./api/routes/scheduleRoutes.js)**
         - **[studentRoutes](./api/routes/studentRoutes.js)**
-
+    </details>
 
 </details>
 
