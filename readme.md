@@ -60,7 +60,7 @@ We leverage GitHub automation to employ CI/CD and Docker for our development pip
 
  ### Key Documentation for Development
  * Documentation regarding DevOps can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/.github/workflows/readme.md).
- * Documentation regarding the database can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_database/database.md).
+ * Documentation regarding the database can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_database/README.md).
  * Documentation regarding the backend API can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_backend/README.md).
  * Documentation regarding the frontend design can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_frontend/README.md).
   
