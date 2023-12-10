@@ -10,14 +10,13 @@ import { signOut } from 'next-auth/react';
 /** 
  * Header with navigation to all three pages
 **/
-function Header() {
+function Header({ user }) {
   const pathname = usePathname();
-  const user_name = "Admin"
 
   return (
     <Navbar expand="lg" className="nav-header">
       <Container>
-        <Navbar.Brand href="profiles" id="welcome">Welcome, {user_name}</Navbar.Brand>
+        <Navbar.Brand href="profiles" id="welcome">Welcome, {user}</Navbar.Brand>
         <Nav fill variant="tabs" activeKey={pathname.slice(1)} className='nav-tabs'>
           <Button variant="primary" onClick={() => signOut()}>
               Logout

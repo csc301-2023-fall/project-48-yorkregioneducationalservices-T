@@ -59,7 +59,7 @@ body, html{
 
 .black-border {
   border-radius: 0; 
-  border: 1px solid #000000; 
+  border: 2px solid #000000; 
 }
 
 .right-btn {
@@ -202,6 +202,10 @@ body, html{
   border-radius: 5px;
 }
 
+#schedule-timetable .styles-module_time_table_wrapper__TT-cf,
+#schedule-timetable .styles-module_time_table_wrapper__TT-cf .styles-module_day__aQ2Tt {
+  flex-wrap: nowrap !important;
+}
 .timetable-header {
   background-color: #3D96AB !important;
 }
@@ -270,7 +274,6 @@ body, html{
   border-bottom: 1px solid #3D96AB;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 /* Profiles Specific Styles */
@@ -364,6 +367,14 @@ body, html{
 }
 .big-padded{
   padding: 20px;
+}
+.dropBar{
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: #fff;
+  color: black;
 }
 .inline{
   display: inline

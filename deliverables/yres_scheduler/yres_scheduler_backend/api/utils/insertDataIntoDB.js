@@ -24,7 +24,7 @@ async function prepration() {
     var c1 = uuid.v1();
     var c2 = uuid.v1();
     for (let c = 1; c < 25; c++) {
-        await counselorDB.createCounselor(`first ${c}`, `last${c}`);
+        await counselorDB.createCounselor(`First ${c}`, `Last`);
     }
 
     var lst = [];
@@ -32,7 +32,7 @@ async function prepration() {
         await lst.push(r);
     }
     for (let r = 0; r < 20; r++) {
-        await roomDB.createRoom(lst[r], '');
+        await roomDB.createRoom('BA'.concat(lst[r]+100), '');
     }
 
 

@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 import React from 'react';
 import Loading from './loading';
 import { sort_table_data } from '../helper';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 /** 
  * Primary table we used to display everything
  * Props: 

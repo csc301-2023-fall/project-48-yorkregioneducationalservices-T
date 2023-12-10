@@ -1,8 +1,5 @@
 import * as React from 'react';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import DropdownButton from 'react-bootstrap/Dropdown';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Button from 'react-bootstrap/Button';
 
 /**
  * Better looking dropdown component that matches the prototype
@@ -17,7 +14,7 @@ function RefinedDropdown({handleSelect, displayText, groups}) {
       <Dropdown onSelect={handleSelect}>
         
           <Dropdown.Toggle split variant="secondary" className="black-border" id="dropdown-arrow">
-          <span className='big-padded'>{displayText}</span>
+          <span className='dropBar'>{displayText}</span>
           </Dropdown.Toggle>
           
           <Dropdown.Menu>

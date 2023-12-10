@@ -25,10 +25,9 @@ const AUTH_IS_ON = config.get('auth.IS_ON');
 const authHandler = (req, res, next) => {
 
     if (AUTH_IS_ON) {
-        const header = req.headers["authorization"];
+        const token = req.headers.authorization;
         
-        if (typeof header !== "undefined") {
-            const token = header.split(" ")[1];
+        if (typeof token !== "undefined") {
             req.token = token;
 
             jwt.verify(req.token, AUTH_TOKEN_SECRET, (err, data) => {

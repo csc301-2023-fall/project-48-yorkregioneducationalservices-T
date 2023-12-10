@@ -7,7 +7,7 @@ import { FaPlus } from 'react-icons/fa';
 import { FaMinus } from 'react-icons/fa';
 import FormLabel from 'react-bootstrap/FormLabel'
 /** 
- * Student Table that displays:
+ * Table component to add groups of friends/enemies
  * class Student {
    *student_id (string) 	// The auto generated unique ID
     firstname (string) 		// <UI>
@@ -18,7 +18,9 @@ import FormLabel from 'react-bootstrap/FormLabel'
     enemy_ids (set<string>) 	// The set of student_ids of students that this student doesn't want to work with
  * Props: 
         studentData - a list of student objects with above attributes
-}
+        friends - a list of students to make friends
+        setFriends - setter function for friends
+        enemy - boolean to switch the functionality to enemies as opposed to friends
 **/
 function FriendSearchTable({friends, setFriends, studentData, enemy}) {
     const router = useRouter();
