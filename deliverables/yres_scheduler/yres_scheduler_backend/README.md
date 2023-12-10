@@ -50,14 +50,14 @@ The innermost layer, _Enterprise Business Rules_, defines attributes and  behavi
 
 The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. request body and query parameters) and preparation of response objects is handled. [Controllers](./api/controllers/), which also act as presenters, call the corresponding service module function. [Routers](./api/routes/) specify the routes, request contracts, and any custom middleware for each API endpoint and are responsible for calling the corresponding controller. [Middleware](./api/middleware/), such as the [Error Handler](./api/middleware/errorHandler.js) and [Authentication Handler](./api/middleware/authHandler.js) are inserted like intermediate layers between the routers and controllers.
 
-### Packlage Structure
+### Package Structure
 <details open>
 <summary>API</summary>
 
 - **[api](./api)**
 
 
-    <details>
+    <details open>
     <summary>Controllers</summary>
 
     - **[controllers](./api/controllers)**
