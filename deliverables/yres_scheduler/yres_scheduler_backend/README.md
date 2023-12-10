@@ -52,7 +52,7 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 
 ### Directory Structure
 
--**[api](./api)**
+- **[api](./api)**
     - **[controllers](./api/controllers)**
         - **[accountController](./api/controllers/accountController.js)**
         - **[activityController](./api/controllers/activityController.js)**
