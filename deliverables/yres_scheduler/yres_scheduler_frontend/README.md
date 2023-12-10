@@ -56,11 +56,9 @@ This web application project has a directory structure that follows a modular an
 
 The "main-menu" module is the pages folder that contains sub-modules like "floorplan," "profiles," and "schedules." Each sub-module contains a "pages.jsx" file, defining React components for specific functionalities related to floorplans, user profiles, and schedules. The "layout.jsx" file in the "main-menu" module serves as the primary layout component for this section of the application. The three submodules here are the three pages the user can access upon logging in.
 
-To handle authentication, there's an "api/auth/[nextauth]" directory, which includes a "route.js" file defining an API route for authentication using NextAuth.
+To handle authentication, there's an "api/auth/[nextauth]" directory, which includes a "route.js" file defining an API route for authentication using NextAuth. The settings to configure the NextAuth authentication is found in the "options.js" file.
 
 The "components" directory is a key part of the architecture, with various React components for different purposes. These components include tables (e.g., "activitiesTable.jsx," "counselorProfilesTable.jsx"), UI elements (e.g., "alert.jsx," "loading.jsx"), and functionality-specific components (e.g., "activityCreate.jsx," "counselorAdd.jsx").
-
-The "data" directory stores data-related files, such as "example.json" and "school_floorplan_example.jpg," providing resources for frontend development independent of backend.
 
 The "login" directory handles the login functionality, with "layout.jsx" defining the layout component for the login page, and "page.jsx" specifying the React component for the login page.
 
@@ -90,14 +88,13 @@ src/app/
 |   |-- layout.jsx
 |
 |-- api/auth/[nextauth]
+|   |-- options.js
 |   |-- route.js
 |   
 |-- components/
 |   |-- activitiesTable.jsx
 |   |-- alert.jsx
 |   |-- counselorProfilesTable.jsx
-|   |-- floorPlanCanvas.jsx
-|   |-- floorPlanCanvasWrapper.jsx
 |   |-- footer.jsx
 |   |-- friendSearchTable.jsx
 |   |-- groupsTable.jsx
@@ -112,10 +109,6 @@ src/app/
 |   |-- sidebar.jsx
 |   |-- studentProfilesTable.jsx
 |   |-- table.jsx
-|
-|-- data/
-|   |-- example.json
-|   |-- school_floorplan_example.jpg
 |
 |-- login/
 |   |-- layout.jsx
