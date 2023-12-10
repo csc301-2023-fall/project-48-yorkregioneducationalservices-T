@@ -63,7 +63,7 @@ We leverage GitHub automation to employ CI/CD and Docker for our development pip
  * Documentation regarding DevOps can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/.github/workflows/DevOps.md).
  * Documentation regarding the database can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_database/database.md).
  * Documentation regarding the backend API can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_backend/README.md).
- * Documentation regarding the frontend design can be found in the following [ReadMe](#).
+ * Documentation regarding the frontend design can be found in the following [ReadMe](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/feature/entities_marc/deliverables/yres_scheduler/yres_scheduler_frontend/README.md).
   
  ## Deployment and Github Workflow
  * Within the frontend codebase, since we are working with Next.js, we have been using file-based routing, meaning routes are named by their folder, rather than the actual filename. Thus, each high-level page file is simply named `page.jsx`, but stored within a folder with proper names such as, `profiles`, `schedules` etc.
