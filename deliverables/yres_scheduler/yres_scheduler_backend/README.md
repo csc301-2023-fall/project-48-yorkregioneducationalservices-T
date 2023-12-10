@@ -195,7 +195,7 @@ The team followed JSDoc practices for documenting the code, which can be read [h
 The team’s approach to designing the backend API employed a variation of clean architecture design (explained more in detail in the Architecture and Design section of this document), where each service begins its use case by receiving a request at its corresponding router file, sending the data down to the controller, which calls a function defined in the service file containing use case logic and may additionally call a database plugin to access/modify stored data. A response from the plugin is then passed back up along the chain and sent back to the front end of the project to be shown to the user.
 
 Every type of request being handled follows the same architectural format with an entry in the router, controller, service and possibly database plugin files corresponding to the entities involved with the request. If a new type of request is to be supported, it would come with a new, parallel entry in the existing files for the entity being accessed, or within new files following the same design if the request does not fit in any of the existing paths.
-Additionally, any changes made to the back end of the project are checked for refactoring with the front end. A document detailing the front end of the project can be found here: ___
+Additionally, any changes made to the back end of the project are checked for refactoring with the front end. A document detailing the front end of the project can be found [here](../yres_scheduler_frontend/README.md).
 
 
 ## Documentation and Resources
