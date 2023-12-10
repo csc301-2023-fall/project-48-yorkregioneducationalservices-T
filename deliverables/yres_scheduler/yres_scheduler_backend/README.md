@@ -198,7 +198,7 @@ Every type of request being handled follows the same architectural format with a
 Additionally, any changes made to the back end of the project are checked for refactoring with the front end. A document detailing the front end of the project can be found here: ___
 
 
-## Documentation & Resources
+## Documentation and Resources
 -	[Project repository page](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T.git)
 -	[York Region Educational Services Home Page](https://yorkeducation.org/)
 -	[Node.JS Official Website](https://nodejs.org/en)
