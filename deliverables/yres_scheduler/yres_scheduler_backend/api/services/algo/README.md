@@ -24,7 +24,7 @@
   5. `groupCall` returns the list of all groups.
 - **Algorithm:** see function `generateGroups` for detail. The following graph, as well as a short description, illustrate the basic idea.
 
-    ![Grouping Algorithm Procedure](groupAlgo.png "Grouping Algorithm Procedure")
+    ![Grouping Algorithm Procedure](./groupAlgo.png "Grouping Algorithm Procedure")
 
     1. Separate counselors and students belonging to different camp type:
        1. Generate a 2D-list of students, where each row contains students for a camp type;
@@ -73,7 +73,7 @@
 
 - **Algorithm:** see function `scheduleAlgorithm` for detail. The following graph, as well as a short description, illustrate the basic idea.
 
-    ![Scheduling Algorithm Procedure](scheduleAlgo.png "Scheduling Algorithm Procedure")
+    ![Scheduling Algorithm Procedure](./scheduleAlgo.png "Scheduling Algorithm Procedure")
 
     1. Initialization and preparation:
        1. Separate activities based on camp type of the groups;
