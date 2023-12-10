@@ -1,5 +1,5 @@
 # Database Design
-![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_database/assets/dockerPSQL.png)
+![image](./assets/dockerPSQL.png)
 ## Deployment
 The database(s) for this project were designed using [PostgreSQL](https://www.postgresql.org/). The database can be deployed either locally or automatically to the ec2 server via DevOps. To deploy, it is necessary to have both Docker and Docker Compose installed locally. Below are two links to visit to accomplish this:
 -	[How to install Docker Compose (three different methods)](https://docs.docker.com/compose/install/)
@@ -40,6 +40,6 @@ The database for this project contains 12 relations:
 
 Included below is a pseudo-ER diagram designed to describe the entities and the relationships between them in a visual manner:  
 
-![image](https://github.com/csc301-2023-fall/project-48-yorkregioneducationalservices-T/blob/main/deliverables/yres_scheduler/yres_scheduler_database/assets/CSC301%20Database.jpg)
+![image](./assets/CSC301%20Database.jpg)
 
 For most of the entities, there are designated database plugins which contain queries for the database to be accessed/modified. Functions in the plugins are called by the corresponding service in reaction to receiving a request from the front end. Campus and Camp are entities which are not currently meant to be created, edited, deleted; and the Block, Group, and Schedule entities are disconnected from user interaction as they are involved purely with the scheduling algorithm.
