@@ -46,7 +46,7 @@ The design of the YRES Scheduler Backend API aims to follow a hybrid [CLEAN](htt
 ![Backend API Higher-level Design Diagram](./assets/backend_api_1.jpg "Backend API Higher-level Design Diagram")
 *Backend API Higher-level Design Diagram*
 
-The innermost layer, _Enterprise Business Rules_, defines attributes and  behaviour for all entities that are relevant to the scheduler application (e.g. activity, student etc). [Entities](./api/entities/) are data structures that provide a common language for data to be manipulated across services and use cases. The _Application Business Rules_ layer is where use case logic is implemented for corresponding API requests. [Service modules](./api/services/) export a functions for each API endpoint in their corresponding service. These modules throw informative service-specific errors and may call corresponding DB gateway plugins. Each service also has a corresponding [DB gateway plugin](./api/db/), which implements operations related to querying and manipulating persistant storage.
+The innermost layer, _Enterprise Business Rules_, defines attributes and  behaviour for all entities that are relevant to the scheduler application (e.g. activity, student etc). [Entities](./api/entities/) are data structures that provide a common language for data to be manipulated across services and use cases. The _Application Business Rules_ layer is where use case logic is implemented for corresponding API requests. [Service modules](./api/services/) export a functions for each API endpoint in their corresponding service. These modules throw informative service-specific errors and may call corresponding DB gateway plugins. Each service also has a corresponding [DB gateway plugin](./api/db/), which implements operations related to querying and manipulating persistant storage, formatting the raw data into the relevant entities.
 
 The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. request body and query parameters) and preparation of response objects is handled. [Controllers](./api/controllers/), which also act as presenters, call the corresponding service module function. [Routers](./api/routes/) specify the routes, request contracts, and any custom middleware for each API endpoint and are responsible for calling the corresponding controller. [Middleware](./api/middleware/), such as the [Error Handler](./api/middleware/errorHandler.js) and [Authentication Handler](./api/middleware/authHandler.js) are inserted like intermediate layers between the routers and controllers.
 
@@ -169,14 +169,14 @@ The main components and structure of the YRES Scheduler Backend API package is m
 ### Testing
 The YRES Scheduler API utilises three means of testing:
 
-1. **Automated [Mocha](https://mochajs.org) Tests:** Used to test the core logic of the entities. These can be found in the [tests](./api/tests/entities/) directory.
+1. **Automated Unit Tests:** Used to test the core logic of the entities using the [Mocha testing framework](https://mochajs.org). These can be found in the [tests](./api/tests/entities/) directory.
 
-2. **[Postman](https://learning.postman.com/docs/writing-scripts/test-scripts/) Per-request Test Scripts:** Used to test properties of request and response objects, validating the request body and status codes. These tests can be accessed from the [Backend API Postman Collection](https://www.postman.com/csc301-group-48/workspace/scheduler-api/request/30499092-3f1b5bba-bca3-46c8-8b68-b194d4812e3a).
+2. **Postman Per-request Test Scripts:** Used to test properties of request and response objects, validating the request body and status codes. These are implemented using [Postman](https://learning.postman.com/docs/writing-scripts/test-scripts/) test scripts in our bespoke postman collection. These tests can be accessed from the [Backend API Postman Collection](https://www.postman.com/csc301-group-48/workspace/scheduler-api/request/30499092-3f1b5bba-bca3-46c8-8b68-b194d4812e3a).
 
-3. **[Postman Flows](https://learning.postman.com/docs/writing-scripts/test-scripts/) Request-Chaining Tests:** Used to test chaining multiple requests in a flow, verifying end-to-end functionality for specific services. These tests can be accessed from the [Backend API Postman Collection](https://www.postman.com/csc301-group-48/workspace/scheduler-api/request/30499092-3f1b5bba-bca3-46c8-8b68-b194d4812e3a).
+3. **[Postman Flows](https://learning.postman.com/docs/writing-scripts/test-scripts/) Request-Chaining Tests:** Used to test chaining multiple requests in a flow, verifying end-to-end functionality for specific services. These tests can be run manually and accessed from the [Backend API Postman Collection](https://www.postman.com/csc301-group-48/workspace/scheduler-api/request/30499092-3f1b5bba-bca3-46c8-8b68-b194d4812e3a).
 
 ### Error Handling
-Briefly how error handling works, interpreting error responses etc.
+The YRES Scheduler Backend API implements an informative and flexible error-handling system. The application defines a custom Express middleware for error handling
 
 ### Authentication
 How to use the API authentication.
