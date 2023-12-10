@@ -51,6 +51,8 @@ The innermost layer, _Enterprise Business Rules_, defines attributes and  behavi
 The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. request body and query parameters) and preparation of response objects is handled. [Controllers](./api/controllers/), which also act as presenters, call the corresponding service module function. [Routers](./api/routes/) specify the routes, request contracts, and any custom middleware for each API endpoint and are responsible for calling the corresponding controller. [Middleware](./api/middleware/), such as the [Error Handler](./api/middleware/errorHandler.js) and [Authentication Handler](./api/middleware/authHandler.js) are inserted like intermediate layers between the routers and controllers.
 
 ### Package Structure
+The main components and structure of the YRES Scheduler Backend API package is mapped below:
+
 <details open>
 <summary>API</summary>
 
@@ -165,7 +167,13 @@ The _Interface Adapters_ layer is where the unpacking of raw inputs (i.e. reques
 </details>
 
 ### Testing
-Types of tests. How to run them etc.
+The YRES Scheduler API utilises three means of testing:
+
+1. **Automated [Mocha](https://mochajs.org) Tests:** Used to test the core logic of the entities. These can be found in the [tests](./api/tests/entities/) directory.
+
+2. **[Postman](https://learning.postman.com/docs/writing-scripts/test-scripts/) Per-request Test Scripts:** Used to test properties of request and response objects, validating the request body and status codes. These tests can be accessed from the [Backend API Postman Collection](https://www.postman.com/csc301-group-48/workspace/scheduler-api/request/30499092-3f1b5bba-bca3-46c8-8b68-b194d4812e3a).
+
+3. **[Postman Flows](https://learning.postman.com/docs/writing-scripts/test-scripts/) Request-Chaining Tests:** Used to test chaining multiple requests in a flow, verifying end-to-end functionality for specific services. These tests can be accessed from the [Backend API Postman Collection](https://www.postman.com/csc301-group-48/workspace/scheduler-api/request/30499092-3f1b5bba-bca3-46c8-8b68-b194d4812e3a).
 
 ### Error Handling
 Briefly how error handling works, interpreting error responses etc.
